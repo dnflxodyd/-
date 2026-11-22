@@ -3222,16 +3222,19 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         const d = res.body || {};
         const other = (r.side === "p1") ? d.p2 : d.p1;
         const oid = (other && other.id) ? String(other.id) : null;
+        r.discoverAt = Date.now();
         if(oid && oid !== r.partnerId){
           r.partnerId = oid;
           r.partnerNick = other.nick || "";
-          rawSave();
         }
+        rawSave();
         return oid;
       });
     }
 
-    const chain = r.partnerId ? Promise.resolve(r.partnerId) : discover();
+    /* 다른 기기에서 같은 자리로 다시 연결(재접속·이어하기)했을 수 있으니 1분마다 방을 다시 읽는다 */
+    const freshId = r.partnerId && (Date.now() - (r.discoverAt || 0) < 60000);
+    const chain = freshId ? Promise.resolve(r.partnerId) : discover();
 
     return chain.then(function(pid){
       if(!pid){
