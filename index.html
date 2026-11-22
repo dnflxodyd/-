@@ -1314,6 +1314,295 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 
+/* v8.0 gold / shop / skin styles */
+/* ==========================================================
+   v8.0 — 🪙 골드 보상 · 🛒 헌터 상점 · 🎒 인벤토리 / 스킨
+   ========================================================== */
+
+/* ---------- 골드 칩 (히어로 · 미니바 · 상점) ---------- */
+.hero-top{gap:6px;flex-wrap:wrap;row-gap:5px}
+.hero-top .rank{flex:0 0 auto;white-space:nowrap}
+.hero-top .streak{flex:0 0 auto;white-space:nowrap}
+.ht-chips{
+  margin-left:auto;display:flex;align-items:center;justify-content:flex-end;
+  gap:5px;min-width:0;flex:0 1 auto;flex-wrap:wrap;
+}
+.gold-chip{
+  display:inline-flex;align-items:center;gap:3px;
+  font-family:var(--mono);font-size:10px;font-weight:900;letter-spacing:-.02em;
+  color:#8A5A12;background:linear-gradient(135deg,#FFF8DE,#FFE7A6);
+  border:1.5px solid #FFD97A;border-radius:999px;padding:4px 9px;white-space:nowrap;
+  box-shadow:0 5px 12px -9px rgba(150,110,20,.95);
+}
+.gold-chip.pop{animation:v12GoldPop .55s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes v12GoldPop{
+  0%{transform:scale(1)}
+  35%{transform:scale(1.16) rotate(-2deg);box-shadow:0 0 0 5px rgba(255,210,110,.45)}
+  100%{transform:scale(1)}
+}
+.exp2-chip{
+  display:inline-flex;align-items:center;gap:2px;
+  font-family:var(--mono);font-size:9.5px;font-weight:900;
+  color:#6B3FB8;background:linear-gradient(135deg,#F3EAFF,#E2D2FF);
+  border:1.5px solid #D2BCFF;border-radius:999px;padding:4px 8px;white-space:nowrap;
+}
+.exp2-chip[hidden]{display:none}
+.ms-gold{
+  flex:0 0 auto;font-family:var(--mono);font-size:9px;font-weight:900;letter-spacing:-.03em;
+  color:#8A5A12;background:#FFF3D0;border:1px solid #FFE0A0;border-radius:99px;
+  padding:2px 6px;white-space:nowrap;
+}
+.ms-gold.pop{animation:v12GoldPop .55s cubic-bezier(.2,.9,.3,1.4)}
+@media (max-width:340px){
+  .gold-chip{font-size:9px;padding:3px 7px}
+  .exp2-chip{font-size:8.5px;padding:3px 6px}
+  .ms-gold{font-size:8.5px;padding:2px 5px}
+  .hero-top .rank{font-size:9.5px;padding:4px 9px;gap:4px}
+  .hero-top .streak{font-size:9.5px;padding:4px 8px;gap:3px}
+}
+
+/* 퀘스트 카드 — EXP 칩 아래 골드 보상 */
+.exp-chip{
+  display:inline-flex;flex-direction:column;align-items:flex-end;gap:1px;line-height:1.15;
+}
+.exp-chip small{
+  font-family:var(--mono);font-size:8px;font-weight:900;letter-spacing:-.03em;
+  color:#A9791F;
+}
+.quest.done .exp-chip small{color:#8C74C9;opacity:.85}
+
+/* ---------- 🛒 헌터 상점 ---------- */
+.card.shop{background:linear-gradient(160deg,#FFFCF2 0%,#FFF6DF 54%,#F4F0FF 100%)}
+.card.shop .card-head h3{flex:1 1 auto;min-width:0}
+.shop-desc{
+  margin:2px 0 10px;font-size:10.5px;line-height:1.6;
+  color:var(--muted);font-weight:600;word-break:keep-all;
+}
+.shop-desc b{color:#8A5A12}
+.shop-grid{display:grid;gap:7px}
+.shop-item{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 10px;border-radius:15px;
+  background:rgba(255,255,255,.82);border:1.5px solid #F1E4CE;
+  transition:border-color .2s ease,background .2s ease,transform .12s ease;
+}
+.shop-item.owned{
+  background:linear-gradient(160deg,#FBF7FF 0%,#FFFBF2 100%);
+  border-color:#E6D8FF;
+}
+.shop-item.wear{
+  border-color:#C9A6FF;
+  box-shadow:inset 0 0 0 1.5px rgba(170,120,255,.22),0 8px 18px -16px rgba(120,70,190,.8);
+}
+.shop-item.shake{animation:shake .4s ease}
+.si-emoji{
+  flex:0 0 30px;width:30px;height:30px;display:grid;place-items:center;
+  font-size:19px;border-radius:11px;background:linear-gradient(160deg,#FFFDF5,#FFF1DA);
+  border:1px solid #FFF3DE;
+}
+.shop-item.owned .si-emoji{background:linear-gradient(160deg,#FBF6FF,#F0E6FF);border-color:#EDE2FF}
+.si-body{flex:1 1 auto;min-width:0}
+.si-body b{display:block;font-size:11.5px;font-weight:850;color:#5A4A5F;letter-spacing:-.01em}
+.si-body small{display:block;margin-top:1px;font-size:9px;line-height:1.45;color:#9A8AA6;font-weight:600;word-break:keep-all}
+.si-tags{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
+.si-tags .tag.g{background:#FFF3D0;color:#A9791F}
+.si-tags .tag.on{background:#EFE3FF;color:#6B4BC0}
+.si-buy{
+  flex:0 0 auto;min-width:58px;text-align:center;
+  font-family:var(--mono);font-size:10px;font-weight:900;letter-spacing:-.02em;
+  color:#7A4A10;background:linear-gradient(135deg,#FFEDB4,#FFD27A);
+  border:1.5px solid #F3C667;border-radius:12px;padding:9px 8px;cursor:pointer;
+  white-space:nowrap;box-shadow:0 8px 16px -14px rgba(150,110,20,.95);
+  transition:transform .14s ease,filter .2s ease;
+}
+.si-buy:active{transform:scale(.95)}
+.si-buy.no{
+  background:#F5F0EA;color:#BCAEA4;border-color:#EADFD4;box-shadow:none;
+}
+.si-buy.equip{
+  background:linear-gradient(135deg,#EFE4FF,#D8C2FF);color:#5B3FA8;border-color:#C9AEF6;
+}
+.si-buy.on{
+  background:linear-gradient(135deg,#7C5BD6,#B06BE0);color:#fff;border-color:transparent;
+  box-shadow:0 8px 16px -12px rgba(110,60,180,.9);
+}
+.shop-foot{
+  margin:9px 0 0;font-size:9px;line-height:1.55;font-weight:700;color:#A8977F;
+  word-break:keep-all;
+}
+
+/* ---------- 🎒 내 아이템 / 스킨 ---------- */
+.card.bag{background:linear-gradient(160deg,#FBF8FF 0%,#FFF9F3 54%,#F2F7FF 100%)}
+.bag-list{display:grid;gap:6px}
+.bag-row{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 10px;border-radius:13px;
+  background:#fff;border:1.5px solid #EFE6F6;
+}
+.bag-row.empty{opacity:.55;background:rgba(255,255,255,.6)}
+.bag-em{flex:0 0 24px;width:24px;text-align:center;font-size:15px}
+.bag-body{flex:1 1 auto;min-width:0}
+.bag-body b{display:block;font-size:11px;font-weight:850;color:#5A4A66}
+.bag-body small{display:block;margin-top:1px;font-size:8.5px;font-weight:700;color:#A091AC;word-break:keep-all}
+.bag-n{
+  flex:0 0 auto;font-family:var(--mono);font-size:10px;font-weight:900;color:#7A5BC4;
+  background:#F4ECFF;border:1px solid #E5D8FF;border-radius:8px;padding:3px 7px;
+}
+.bag-use{
+  flex:0 0 auto;font-family:inherit;font-size:9.5px;font-weight:850;
+  color:#7A4A10;background:linear-gradient(135deg,#FFEDB4,#FFD27A);
+  border:1.5px solid #F3C667;border-radius:10px;padding:7px 9px;cursor:pointer;
+}
+.bag-use:active{transform:scale(.95)}
+.bag-sec{
+  display:flex;align-items:center;gap:6px;margin:11px 0 6px;
+  font-family:var(--mono);font-size:8px;font-weight:800;letter-spacing:.12em;color:#A98BDF;
+}
+.bag-sec::after{content:"";flex:1;height:1px;background:#EDE2F7}
+.bag-skins{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.skin-card{
+  display:flex;flex-direction:column;gap:0;overflow:hidden;
+  border-radius:14px;background:#fff;border:1.5px solid #ECE2F5;
+}
+.skin-card.on{border-color:#C9A6FF;box-shadow:inset 0 0 0 1.5px rgba(170,120,255,.22)}
+.skin-prev{
+  position:relative;height:56px;overflow:hidden;
+  display:grid;place-items:center;font-size:20px;color:#fff;
+}
+.skin-prev.flame{
+  background:radial-gradient(circle at 50% 100%,#FFE08A 0%,#FF8A3D 42%,#7C2A46 100%);
+}
+.skin-prev.rainbow{
+  background:conic-gradient(from 200deg,#FF9BC0,#FFD27A,#A6FFB8,#8AD8FF,#C79BFF,#FF9BC0);
+}
+.skin-prev .orb{display:block;width:22px;height:22px;border-radius:50%}
+.skin-prev.flame .orb{
+  width:23px;height:29px;border-radius:50% 50% 46% 46%;
+  background:radial-gradient(circle at 50% 72%,#FFF6CE 0%,#FFC65C 46%,#FF6A00 100%);
+  box-shadow:0 0 16px 5px rgba(255,150,50,.75),0 0 3px rgba(255,240,180,.9);
+  animation:v12Orb 1.9s ease-in-out infinite;
+}
+.skin-prev.rainbow .orb{
+  width:29px;height:29px;
+  background:conic-gradient(from 0deg,#FF9BC0,#FFD27A,#A6FFB8,#8AD8FF,#C79BFF,#FF9BC0);
+  box-shadow:0 0 16px 5px rgba(255,255,255,.7),0 0 7px rgba(200,160,255,.85);
+  animation:v12Spin 7s linear infinite;
+}
+@keyframes v12Orb{0%,100%{transform:scale(1)}50%{transform:scale(1.08,.93)}}
+.skin-card.locked .skin-prev{filter:grayscale(1) opacity(.4)}
+.skin-body{padding:7px 8px 8px;display:flex;flex-direction:column;gap:5px}
+.skin-body b{font-size:10.5px;font-weight:850;color:#5A4A66;letter-spacing:-.02em}
+.skin-body small{font-size:8.5px;font-weight:700;color:#A091AC}
+.skin-btn{
+  width:100%;font-family:inherit;font-size:9.5px;font-weight:850;
+  color:#5B3FA8;background:#F3EAFF;border:1.5px solid #DFCFFB;border-radius:9px;
+  padding:6px 4px;cursor:pointer;
+}
+.skin-btn.on{color:#fff;background:linear-gradient(135deg,#7C5BD6,#B06BE0);border-color:transparent}
+.skin-btn.no{color:#B2A2BE;background:#F7F3FA;border-color:#EDE6F2}
+.skin-btn:active{transform:scale(.96)}
+.bag-note{
+  margin:9px 0 0;font-size:9px;line-height:1.5;font-weight:700;color:#A08CB0;word-break:keep-all;
+}
+
+/* ---------- 스킨 오라 — 히어로 카드 ---------- */
+.skin-fx{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  opacity:0;transition:opacity .5s ease;
+}
+.hero.skin-flame .skin-fx{
+  opacity:1;
+  background:radial-gradient(95% 62% at 50% 104%,rgba(255,150,40,.5) 0%,rgba(255,90,10,.18) 46%,rgba(255,90,10,0) 74%);
+}
+.hero.skin-flame .skin-fx::before{
+  content:"";position:absolute;left:50%;bottom:-46px;width:220px;height:190px;
+  transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(circle at 50% 68%,rgba(255,244,190,.95) 0%,rgba(255,160,50,.6) 38%,rgba(255,70,0,0) 72%);
+  filter:blur(5px);animation:v12Flame 2.4s ease-in-out infinite;
+}
+.hero.skin-flame .stage .ring{
+  border-color:rgba(255,198,132,.95);
+  box-shadow:0 0 0 12px rgba(255,160,70,.14),0 0 28px 8px rgba(255,110,30,.5);
+}
+.hero.skin-flame .char{
+  filter:drop-shadow(0 0 14px rgba(255,140,40,.85)) drop-shadow(0 14px 16px rgba(150,105,90,.22));
+}
+.hero.skin-flame .skin-fx::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 26% 84%, rgba(255,214,120,.95) 0 2px, transparent 3px),
+    radial-gradient(circle at 68% 89%, rgba(255,170,60,.9) 0 2.5px, transparent 3.6px),
+    radial-gradient(circle at 46% 92%, rgba(255,232,150,.95) 0 1.6px, transparent 2.6px),
+    radial-gradient(circle at 79% 76%, rgba(255,150,40,.8) 0 2px, transparent 3px),
+    radial-gradient(circle at 14% 70%, rgba(255,190,90,.7) 0 1.6px, transparent 2.6px);
+  animation:v12Ember 2.8s ease-in-out infinite;
+}
+@keyframes v12Ember{
+  0%{opacity:.3;transform:translateY(10px)}
+  55%{opacity:1}
+  100%{opacity:.25;transform:translateY(-18px)}
+}
+@keyframes v12Flame{
+  0%,100%{transform:translateX(-50%) scale(1);opacity:.85}
+  50%{transform:translateX(-50%) scale(1.08,.93);opacity:1}
+}
+.hero.skin-rainbow .skin-fx{
+  inset:-46%;opacity:.52;
+  background:conic-gradient(from 0deg,#FF9BC0,#FFD27A,#A6FFB8,#8AD8FF,#C79BFF,#FF9BC0);
+  filter:blur(32px) saturate(1.3);
+  animation:v12Spin 15s linear infinite;
+}
+.hero.skin-rainbow .stage .ring{
+  border-color:rgba(255,255,255,.98);
+  box-shadow:0 0 0 12px rgba(255,255,255,.2),0 0 30px 9px rgba(190,140,255,.6);
+}
+.hero.skin-rainbow .char{
+  filter:drop-shadow(0 0 12px rgba(255,255,255,.92)) drop-shadow(0 0 22px rgba(180,130,255,.8));
+}
+@keyframes v12Spin{to{transform:rotate(360deg)}}
+
+/* ---------- 🎟️ 쿠폰 · 🛡️ 면제권 팝업 ---------- */
+.v12-pop{
+  position:relative;width:100%;max-width:322px;overflow:hidden;text-align:center;
+  background:linear-gradient(180deg,#FFFCF0 0%,#FFF3F8 52%,#F2ECFF 100%);
+  border:2px solid #fff;border-radius:28px;padding:20px 18px 16px;
+  box-shadow:0 30px 60px -22px rgba(70,40,90,.6);
+  transform:scale(.92) translateY(10px);transition:transform .3s cubic-bezier(.2,.9,.3,1.25);
+}
+.overlay.on .v12-pop{transform:none}
+.v12-pop h2{margin:2px 0 4px;font-size:21px;font-weight:400;letter-spacing:-.02em;color:#5C4870}
+.v12-pop .v12-desc{margin:0 0 12px;font-size:10.5px;line-height:1.6;color:#8C7A96;font-weight:600;word-break:keep-all}
+.v12-ticket{
+  position:relative;margin:4px auto 12px;max-width:236px;padding:14px 10px 12px;
+  border-radius:16px;color:#6B4412;
+  background:repeating-linear-gradient(135deg,#FFF3C8 0 10px,#FFE9AC 10px 20px);
+  border:2px dashed #E9B44C;
+  box-shadow:0 12px 24px -18px rgba(150,110,30,.95);
+}
+.v12-ticket .tk-em{display:block;font-size:30px;line-height:1}
+.v12-ticket b{display:block;margin-top:5px;font-size:12.5px;font-weight:900;letter-spacing:-.02em}
+.v12-ticket em{display:block;margin-top:3px;font-style:normal;font-family:var(--mono);font-size:8.5px;font-weight:800;letter-spacing:.14em;color:#A9791F}
+.v12-figures{display:flex;gap:6px;justify-content:center;margin:0 0 12px;flex-wrap:wrap}
+.v12-fig{
+  flex:1 1 0;min-width:78px;padding:8px 6px;border-radius:12px;
+  background:rgba(255,255,255,.86);border:1.5px solid #F0E2F4;
+}
+.v12-fig span{display:block;font-size:8px;font-weight:800;letter-spacing:.06em;color:#A091AC}
+.v12-fig b{display:block;margin-top:2px;font-family:var(--mono);font-size:13px;font-weight:900;color:#5C4870}
+.v12-fig b.good{color:#2E8763}
+.v12-fig b.gold{color:#A9791F}
+.v12-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.v12-confetti span{
+  position:absolute;top:-12%;font-size:15px;opacity:0;
+  animation:v12Fall 2.6s linear forwards;
+}
+@keyframes v12Fall{
+  0%{opacity:0;transform:translateY(0) rotate(0)}
+  12%{opacity:1}
+  100%{opacity:0;transform:translateY(430px) rotate(300deg)}
+}
+.v12-pop .btn-primary{width:100%}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -1343,14 +1632,20 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         <span class="ms-b hp"><em>HP</em><span class="bar"><i id="msHpFill"></i></span><b id="msHpNum">100</b></span>
         <span class="ms-b exp"><em>EXP</em><span class="bar"><i id="msExpFill"></i></span><b id="msExpNum">0%</b></span>
       </span>
+      <span class="ms-gold" id="msGold">🪙 0</span>
       <span class="ms-go" aria-hidden="true">›</span>
     </button>
   </div>
 
   <section class="hero pane on" data-pane="quest">
+    <div class="skin-fx" id="skinFx" aria-hidden="true"></div>
     <div class="hero-top">
       <span class="rank"><i>✦</i><span id="rankKey">E급</span> 헌터</span>
-      <span class="streak">🔥 <span id="streakText">오늘부터 시작</span></span>
+      <span class="ht-chips">
+        <span class="exp2-chip" id="heroExp2" hidden>⚡ 2× EXP 3</span>
+        <span class="gold-chip" id="heroGold">🪙 0 G</span>
+        <span class="streak">🔥 <span id="streakText">오늘부터 시작</span></span>
+      </span>
     </div>
 
     <div class="speech" id="speech">…일어났다. 그것만으로 오늘은 성공이다.</div>
@@ -1470,6 +1765,29 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     </div>
   </section>
 
+
+  <section class="card shop pane" data-pane="cash" id="shopCard">
+    <div class="card-head">
+      <span class="sys">[ SHOP ]</span>
+      <h3>🛒 헌터 상점</h3>
+      <span class="hint gold-hint" id="shopGold">🪙 0 G</span>
+    </div>
+    <p class="shop-desc">퀘스트로 모은 <b>골드(G)</b>로 사는 헌터 물약·부적·스킨. 사면 바로 내 캐릭터에 적용돼요.</p>
+    <div class="shop-grid" id="shopGrid"></div>
+    <p class="shop-foot" id="shopFoot">골드 버는 법 — 일일 퀘스트 · 보너스 퀘스트 · 오늘의 올클리어 · 다마고치 미니게임</p>
+  </section>
+
+  <section class="card bag pane" data-pane="cash" id="bagCard">
+    <div class="card-head">
+      <span class="sys">[ BAG ]</span>
+      <h3>🎒 내 아이템 / 스킨</h3>
+      <span class="hint" id="bagHint">소모품 0</span>
+    </div>
+    <div class="bag-list" id="bagList"></div>
+    <div class="bag-sec">SKIN · 오라</div>
+    <div class="bag-skins" id="bagSkins"></div>
+    <p class="bag-note" id="bagNote">스킨은 한 번 사면 영구 보유 · 언제든 장착/해제할 수 있어요.</p>
+  </section>
   <section class="card rich pane" data-pane="cash" id="richCard">
     <div class="card-head">
       <span class="sys">[ TIER ]</span>
@@ -1622,6 +1940,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
             <span class="p-chip fire" id="pStreakChip">🔥 0일</span>
             <span class="p-chip game" id="pGameChip">🎮 0점</span>
             <span class="p-chip money" id="pMoneyChip">💰 🌱 소박한 헌터</span>
+            <span class="p-chip gold" id="pGoldChip">🪙 0 G</span>
+            <span class="p-chip coupon" id="pCouponChip" hidden>🎟️ 쿠폰 사용!</span>
             <span class="p-chip clear" id="pClearChip" hidden>🏆 오늘 올클리어!</span>
           </div>
         </div>
@@ -1680,7 +2000,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         <span class="ti">🐣</span><span class="tl">돌봄·HP</span>
       </button>
       <button class="tab" type="button" data-tab="cash" role="tab" aria-selected="false">
-        <span class="ti">💰</span><span class="tl">자산</span>
+        <span class="ti">💰</span><span class="tl">자산·상점</span>
       </button>
       <button class="tab" type="button" data-tab="stats" role="tab" aria-selected="false">
         <span class="ti">📊</span><span class="tl">스탯·도감</span>
@@ -1691,7 +2011,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v7.0 (5탭 내비 · 다마고치 · 2인 공유 · 난이도·페널티 · HP·유혹 · 기기 이어하기)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v8.0 (5탭 내비 · 다마고치 · 2인 공유 · HP·유혹 · 🪙골드·상점·스킨)</p>
 </div>
 
 <div id="toasts"></div>
@@ -1837,6 +2157,35 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <div class="pick-actions">
       <button class="btn-ghost" id="rejoinCancel" type="button">나중에</button>
     </div>
+  </div>
+</div>
+
+<div class="overlay" id="couponOverlay">
+  <div class="v12-pop" role="dialog" aria-modal="true" aria-labelledby="couponTitle">
+    <div class="v12-confetti" id="couponConfetti" aria-hidden="true"></div>
+    <p class="lu-sys">[ COUPON ]</p>
+    <h2 id="couponTitle">🎟️ 쿠폰 사용!</h2>
+    <p class="v12-desc" id="couponDesc">오늘은 내가 원하는 대로! 파트너 카드에도 사용 알림을 보냈어요.</p>
+    <div class="v12-ticket">
+      <span class="tk-em">🎟️</span>
+      <b>치팅데이 / 소원 쿠폰</b>
+      <em>1회 사용권 · 사용 완료</em>
+    </div>
+    <button class="btn-primary" id="couponClose" type="button">좋아요!</button>
+  </div>
+</div>
+
+<div class="overlay" id="shieldOverlay">
+  <div class="v12-pop" role="dialog" aria-modal="true" aria-labelledby="shieldTitle">
+    <p class="lu-sys">[ DEFENSE ]</p>
+    <h2 id="shieldTitle">🛡️ 나태 면제권 발동!</h2>
+    <p class="v12-desc" id="shieldDesc">퀘스트를 못 깬 날이 있었지만 면제권이 자동으로 막아 줬어요.</p>
+    <div class="v12-figures">
+      <div class="v12-fig"><span>EXP 차감</span><b class="good" id="shAvoid">0</b></div>
+      <div class="v12-fig"><span>방어한 날</span><b id="shDays">1일</b></div>
+      <div class="v12-fig"><span>남은 면제권</span><b class="gold" id="shLeft">0장</b></div>
+    </div>
+    <button class="btn-primary" id="shieldClose" type="button">확인</button>
   </div>
 </div>
 <div class="overlay" id="luOverlay">
@@ -2233,6 +2582,19 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       hpPenaltyAt: 0,
       haz: {date:"", n:0, dmg:0},
       hazCustom: [],
+      gold: 0,
+      shop: {
+        bag: {potion:0, elixir:0, snack:0, shield:0, coupon:0},
+        skin: {flame:false, rainbow:false},
+        wear: "",
+        exp2: 0,
+        shieldAt: 0,
+        shieldLog: {date:"", at:0},
+        couponSeq: 0,
+        couponAt: 0,
+        mg: {date:"", n:0, gold:0}
+      },
+      partnerCouponSeen: 0,
       born: today()
     };
   }
@@ -2279,6 +2641,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v7Normalize(s); } catch(e){}
     try { v9Normalize(s); } catch(e){}
     try { v10Normalize(s); } catch(e){}
+    try { v12Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
@@ -2426,7 +2789,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         +     (q.done ? '' : diffTag())
         +   '</span>'
         + '</span>'
-        + '<span class="exp-chip">+'+q.exp+'</span>'
+        + '<span class="exp-chip">+'+q.exp+' EXP<small>+'+v12GoldForQuest()+' G</small></span>'
         + (q.custom ? '<span class="del" data-del="'+esc(q.id)+'" title="퀘스트 삭제">✕</span>' : '')
         + '</button>';
     }).join("");
@@ -2466,6 +2829,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { renderHp(); renderHaz(); } catch(e){}
     try { v11RenderMini(); } catch(e){}
     try { v11RenderCash(); } catch(e){}
+    try { renderV12(); } catch(e){}
     renderParty();
   }
 
@@ -2653,7 +3017,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     const beforeInt = state.stats.int || 0;
 
     q.done = true;
-    const gainedExp = Math.min(q.exp, CAP - state.totalExp);
+    let gainedExp = Math.min(q.exp, CAP - state.totalExp);
+    try {
+      const v12x = (typeof v12ExtraExp === "function") ? v12ExtraExp(gainedExp) : 0;
+      if(v12x > 0){ gainedExp += v12x; q.v12buf = 1; }
+    } catch(e){}
     state.totalExp += gainedExp;
     Object.keys(q.gain || {}).forEach(k => {
       state.stats[k] = (state.stats[k] || 0) + q.gain[k];
@@ -2661,6 +3029,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     state.totalQuests += 1;
     try { questHooks(q); } catch(e){}
     try { v9OnQuestDone(q); } catch(e){}
+    try { v12OnDailyDone(q); } catch(e){}
 
     const t = today();
     if(state.lastActive !== t){
@@ -2684,9 +3053,10 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       setTimeout(() => { if(f.parentNode) f.parentNode.removeChild(f); }, 1000);
     }
 
+    const v12g = Math.max(0, Math.round(q.v12gold || 0));
     toast(
-      gainedExp > 0 ? "퀘스트 완료! +"+gainedExp+" EXP" : "퀘스트 완료! (EXP MAX)",
-      "'"+esc(q.title)+"' · "+statGainText(q.gain),
+      gainedExp > 0 ? "퀘스트 완료! +"+gainedExp+" EXP · 🪙 +"+v12g+" G" : "퀘스트 완료! 🪙 +"+v12g+" G",
+      "'"+esc(q.title)+"' · "+statGainText(q.gain)+(q.v12buf ? " · ⚡ EXP 2배!" : ""),
       leveled ? null : function(){ undoQuest(id, gainedExp); }
     );
 
@@ -2715,9 +3085,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       state.stats[k] = Math.max(10, (state.stats[k] || 0) - q.gain[k]);
     });
     state.totalQuests = Math.max(0, state.totalQuests - 1);
+    let v12back = 0;
+    try { v12back = v12OnDailyUndo(q); } catch(e){}
     save();
     render();
-    toast("되돌렸습니다. -"+exp+" EXP", "'"+esc(q.title)+"' 을(를) 다시 도전할 수 있어요.");
+    toast("되돌렸습니다. -"+exp+" EXP"+(v12back > 0 ? " · 🪙 -"+v12back+" G" : ""), "'"+esc(q.title)+"' 을(를) 다시 도전할 수 있어요.");
     bodyAfterChange(beforeStr, "now");
     intAfterChange(beforeInt, "now");
   }
@@ -3122,6 +3494,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       luck: luckOn() ? 1 : 0,
       luckN: (state.luck && state.luck.n) || 0,
       allclear: state.allclear === today() ? 1 : 0,
+      /* v8.0 — 골드 · 스킨 · 쿠폰 */
+      gold: (typeof goldVal === "function") ? goldVal() : 0,
+      skin: (state.shop && state.shop.wear) || "",
+      couponSeq: (state.shop && state.shop.couponSeq) || 0,
+      couponAt: (state.shop && state.shop.couponAt) || 0,
       at: Date.now()
     };
   }
@@ -3283,6 +3660,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       state.cheerSeen = d.cheerSeq;
       cheerToast(d.nick || "파트너", d.line || "");
     }
+    try { v12PartnerNotice(d); } catch(e){}
     rawSave();
     markSynced();
     setPartyState("synced");
@@ -3504,6 +3882,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         parts.push("Lv." + (P.lv || 1));
         if(P.strKey === "slim") parts.push("✨ 살 빠짐");
         if(P.luck) parts.push("🍀 재물운");
+        if(P.skin === "flame") parts.push("🔥 불꽃 오라");
+        else if(P.skin === "rainbow") parts.push("🌈 무지개 오라");
         $("pRank").textContent = parts.join(" · ");
       } else {
         $("pRank").textContent = "기록을 불러오는 중…";
@@ -3530,6 +3910,14 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       $("pMoneyChip").textContent = showAmount
         ? "💰 " + fmtWon(P.money)
         : (em + " " + nm + " 🔒");
+    }
+    if($("pGoldChip")){
+      var pg = (typeof P.gold === "number" && isFinite(P.gold)) ? Math.max(0, Math.round(P.gold)) : 0;
+      $("pGoldChip").textContent = "🪙 " + pg + " G";
+    }
+    if($("pCouponChip")){
+      var cpFresh = (P.couponSeq || 0) > 0 && P.couponAt && (Date.now() - P.couponAt) < 6 * 3600 * 1000;
+      $("pCouponChip").hidden = !cpFresh;
     }
     if($("pClearChip")) $("pClearChip").hidden = !P.allclear;
     if($("pLine")) $("pLine").textContent = P.line || "한마디를 기다리는 중…";
@@ -4032,7 +4420,12 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     const beforeInt = state.stats.int || 0;
 
     q.done = true;
-    const gainedExp = v7AddExp(q.exp);
+    let gainedExp = v7AddExp(q.exp);
+    /* v8.0 — ⚡ EXP 2배 부적: 이번 완료에 1회 소모하고 같은 양을 더 준다 */
+    try {
+      const v12x = (typeof v12ExtraExp === "function") ? v12ExtraExp(gainedExp) : 0;
+      if(v12x > 0){ state.totalExp = Math.min(CAP, state.totalExp + v12x); gainedExp += v12x; q.v12buf = 1; }
+    } catch(e){}
     Object.keys(q.gain || {}).forEach(function(k){
       state.stats[k] = (state.stats[k] || 0) + q.gain[k];
     });
@@ -4048,6 +4441,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       state.luck.until = Date.now() + 3600000;
     }
     try { v9OnQuestDone(q); } catch(e){}
+    try { v12OnBonusDone(q); } catch(e){}
     checkAllClear();
     save();
     render();
@@ -4060,8 +4454,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       card.appendChild(f);
       setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, 1000);
     }
-    toast(gainedExp > 0 ? "보너스 퀘스트 완료! +" + gainedExp + " EXP" : "보너스 퀘스트 완료! (EXP MAX)",
-      "'" + esc(q.title) + "' · " + statGainText(q.gain) + (q.luck ? " · 🍀 재물운" : ""));
+    toast(gainedExp > 0 ? "보너스 퀘스트 완료! +" + gainedExp + " EXP · 🪙 +" + V12_BONUS_GOLD + " G" : "보너스 퀘스트 완료! 🪙 +" + V12_BONUS_GOLD + " G",
+      "'" + esc(q.title) + "' · " + statGainText(q.gain) + (q.luck ? " · 🍀 재물운" : "") + (q.v12buf ? " · ⚡ EXP 2배!" : ""));
     if(navigator.vibrate) navigator.vibrate(14);
 
     if(q.luck){
@@ -4109,10 +4503,12 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     if(state.bonus) state.bonus.cleared = true;
     const before = levelInfo(state.totalExp);
     const add = v7AddExp(40);
+    let v12acGold = 0;
+    try { v12acGold = v12OnAllClear(); } catch(e){}
     save();
     setTimeout(function(){
       render();
-      toast("🏆 오늘의 올클리어!", "기본 " + state.quests.length + "개 + 보너스 " + list.length + "개 전부 완료 · +" + add + " EXP 보너스", null, 6200);
+      toast("🏆 오늘의 올클리어!", "기본 " + state.quests.length + "개 + 보너스 " + list.length + "개 전부 완료 · +" + add + " EXP · 🪙 +" + v12acGold + " G 보너스", null, 6200);
       acCelebrate();
       const after = levelInfo(state.totalExp);
       if(after.level > before.level) setTimeout(function(){ showLevelUp(before.level, after.level); }, 900);
@@ -4339,7 +4735,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         +     (q.done ? '' : diffTag())
         +   '</span>'
         + '</span>'
-        + '<span class="exp-chip">+' + q.exp + '</span>'
+        + '<span class="exp-chip">+' + q.exp + ' EXP<small>+' + V12_BONUS_GOLD + ' G</small></span>'
         + (q.custom ? '<span class="del" data-bdel="' + esc(q.id) + '" title="보너스 퀘스트 삭제">✕</span>' : '')
         + '</button>';
     }).join("");
@@ -4352,10 +4748,10 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     if($("acState")) $("acState").textContent = achieved ? "달성!" : (done + "/" + list.length + " 보너스");
     if($("acDesc")){
       $("acDesc").textContent = achieved
-        ? "오늘 +40 EXP 지급 완료 · 파트너 카드에도 자랑 배지가 떠요"
+        ? "오늘 +40 EXP · 🪙 +100 G 지급 완료 · 파트너 카드에도 자랑 배지가 떠요"
         : (baseAll && done === list.length
           ? "보너스 지급 중…"
-          : "기본 " + base.length + "개 + 보너스 " + list.length + "개를 모두 깨면 +40 EXP");
+          : "기본 " + base.length + "개 + 보너스 " + list.length + "개를 모두 깨면 +40 EXP · 🪙 +100 G");
     }
   }
 
@@ -4635,21 +5031,23 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 
     const before = levelInfo(state.totalExp);
     const gained = v7AddExp(exp);
+    let mgGold = 0;
+    try { mgGold = v12MinigameGold(score); } catch(e){}
     save();
     render();
 
     $("mgResultTitle").textContent = best > bestBefore ? "🏆 최고 기록!" : "끝!";
     $("mgResultScore").textContent = score + "점";
     $("mgResultBest").textContent = "최고 " + best + "점 · " + (p.games || 1) + "번째 도전";
-    $("mgResultReward").textContent = gained > 0
-      ? "+" + gained + " EXP · 행복도 +" + Math.round(happyAdd)
-      : "+0 EXP (오늘 보상은 여기까지) · 행복도 +" + Math.round(happyAdd);
+    $("mgResultReward").textContent = (gained > 0 ? "+" + gained + " EXP · " : "+0 EXP (오늘 보상은 여기까지) · ")
+      + (mgGold > 0 ? "🪙 +" + mgGold + " G · " : "")
+      + "행복도 +" + Math.round(happyAdd);
     $("mgResult").hidden = false;
     $("mgAgain").hidden = false;
     $("mgClose").textContent = "닫기";
 
     if(navigator.vibrate) navigator.vibrate(score > 0 ? [10, 30, 14] : 8);
-    toast("미니게임 종료! " + score + "점", (gained > 0 ? "+" + gained + " EXP · " : "") + "행복도 +" + Math.round(happyAdd) + " · 최고 " + best + "점");
+    toast("미니게임 종료! " + score + "점", (gained > 0 ? "+" + gained + " EXP · " : "") + (mgGold > 0 ? "🪙 +" + mgGold + " G · " : "") + "행복도 +" + Math.round(happyAdd) + " · 최고 " + best + "점");
     if(score >= 12) speak("이 정도면 …나도 꽤 하는 " + curChar().nick + "다. 🎮", 6500);
     else if(score > 0) speak("나쁘지 않다. 한 번 더? 🎮", 5200);
     else speak("…바구니가 비었다. 다시 하자. 🧺", 5200);
@@ -4988,6 +5386,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       const dstr = v9DayStr(n);
       s.pen.upto = dstr;
       if(s.doneDays.indexOf(dstr) >= 0) continue;   // 그날 1개 이상 완료 → 방어
+      /* v8.0 — 🛡️ 나태 면제권: 방어 1일분을 자동 소모하고 페널티 없이 넘어간다 */
+      if(typeof v12ShieldUse === "function" && v12ShieldUse(s, dstr)){ streak = 0; continue; }
       streak += 1;
       const amt = Math.min(PEN_CAP, penAmount(streak));
       total += amt;
@@ -5240,6 +5640,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   /* ---------- 💀 방치 -1일 테스트 ---------- */
   function v9SimulateNeglect(){
     if(!state.pen) state.pen = {streak:0, upto:"", lastAmt:0, lastAt:0};
+    /* v8.0 — 🛡️ 면제권이 있으면 방치 1일을 방어하고 페널티를 적용하지 않는다 */
+    if(typeof v12ShieldDefend === "function" && v12ShieldDefend(state, "test")) return;
     const before = levelInfo(state.totalExp);
     state.pen.streak = (state.pen.streak || 0) + 1;
     const amt = Math.min(PEN_CAP, penAmount(state.pen.streak));
@@ -6366,6 +6768,626 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   function wireV11(){
     try { v11Wire(); } catch(e){}
   }
+  /* ===================================================================
+     v8.0 — 🪙 골드 보상 · 🛒 헌터 상점 · 🎒 인벤토리 / 스킨
+     · 퀘스트·올클리어·미니게임으로 골드(G)를 모으고, 상점에서 물약·부적·스킨·쿠폰을 산다
+     · 골드·인벤토리는 localStorage(state)에 저장되고 파트너와 조용히 공유된다
+     =================================================================== */
+  var V12_BAG_KEYS = ["potion", "elixir", "snack", "shield", "coupon"];
+
+  var V12_ITEMS = [
+    {id:"potion",  emoji:"🧪", name:"빨간 포션",            price:30,  kind:"instant",
+     desc:"구매 즉시 HP +35 회복 (최대 100)", tag:"즉시 사용"},
+    {id:"elixir",  emoji:"✨", name:"황금 엘릭서",          price:70,  kind:"instant",
+     desc:"HP 100% 풀회복 + 행복도 +20", tag:"즉시 사용"},
+    {id:"snack",   emoji:"🍖", name:"특급 대파/간식 세트",  price:25,  kind:"instant",
+     desc:"배고픔 +50 · 행복도 +30 · HP +10", tag:"즉시 사용"},
+    {id:"shield",  emoji:"🛡️", name:"나태 면제권",          price:80,  kind:"bag",
+     desc:"퀘스트를 못 깬 날 나태 페널티를 1회 자동 방어", tag:"보관 · 자동"},
+    {id:"amulet",  emoji:"⚡", name:"EXP 2배 부적",         price:60,  kind:"buff",
+     desc:"다음 완료하는 퀘스트 3회 동안 EXP 2배", tag:"즉시 발동"},
+    {id:"flame",   emoji:"🔥", name:"불꽃 오라 스킨",       price:120, kind:"skin",
+     desc:"영구 보유 · 장착하면 히어로 카드에 강렬한 불꽃 오라", tag:"영구 · 장착"},
+    {id:"rainbow", emoji:"🌈", name:"무지개 킹 오라",       price:200, kind:"skin",
+     desc:"영구 보유 · 장착하면 무지개 프리즘 오라", tag:"영구 · 장착"},
+    {id:"coupon",  emoji:"🎟️", name:"치팅데이/소원 쿠폰",   price:150, kind:"bag",
+     desc:"현실에서 파트너에게 쓰는 쿠폰 · 사용하면 파트너 카드에 알림", tag:"보관 · 사용"}
+  ];
+
+  var V12_SKINS = [
+    {id:"flame",   emoji:"🔥", name:"불꽃 오라",     desc:"강렬한 불꽃 글로우", price:120},
+    {id:"rainbow", emoji:"🌈", name:"무지개 킹 오라", desc:"무지개 프리즘 오라", price:200}
+  ];
+
+  var V12_BONUS_GOLD = 25;
+  var V12_ALLCLEAR_GOLD = 100;
+  var V12_MG_GOLD_DAY_CAP = 60;
+  var V12_MG_GOLD_TIMES = 3;
+
+  /* ---------- 상태 ---------- */
+  function v12BlankShop(){
+    return {
+      bag: {potion:0, elixir:0, snack:0, shield:0, coupon:0},
+      skin: {flame:false, rainbow:false},
+      wear: "",
+      exp2: 0,
+      shieldAt: 0,
+      shieldLog: {date:"", at:0},
+      couponSeq: 0,
+      couponAt: 0,
+      mg: {date:"", n:0, gold:0}
+    };
+  }
+
+  function v12Normalize(s){
+    var v = Number(s.gold);
+    s.gold = isFinite(v) ? Math.max(0, Math.min(999999, Math.round(v))) : 0;
+
+    if(!s.shop || typeof s.shop !== "object") s.shop = v12BlankShop();
+    var sh = s.shop;
+    if(!sh.bag || typeof sh.bag !== "object") sh.bag = {};
+    V12_BAG_KEYS.forEach(function(k){
+      sh.bag[k] = Math.max(0, Math.min(999, Math.round(Number(sh.bag[k]) || 0)));
+    });
+    if(!sh.skin || typeof sh.skin !== "object") sh.skin = {};
+    sh.skin.flame = !!sh.skin.flame;
+    sh.skin.rainbow = !!sh.skin.rainbow;
+    sh.wear = (sh.wear === "flame" || sh.wear === "rainbow") ? sh.wear : "";
+    if(sh.wear && !sh.skin[sh.wear]) sh.wear = "";
+    sh.exp2 = Math.max(0, Math.min(99, Math.round(Number(sh.exp2) || 0)));
+    sh.shieldAt = Number(sh.shieldAt) || 0;
+    if(!sh.shieldLog || typeof sh.shieldLog !== "object") sh.shieldLog = {date:"", at:0};
+    sh.shieldLog.date = (typeof sh.shieldLog.date === "string") ? sh.shieldLog.date : "";
+    sh.shieldLog.at = Number(sh.shieldLog.at) || 0;
+    sh.couponSeq = Math.max(0, Math.round(Number(sh.couponSeq) || 0));
+    sh.couponAt = Number(sh.couponAt) || 0;
+    if(!sh.mg || typeof sh.mg !== "object") sh.mg = {date:"", n:0, gold:0};
+    sh.mg.date = (typeof sh.mg.date === "string") ? sh.mg.date : "";
+    sh.mg.n = Math.max(0, Math.round(Number(sh.mg.n) || 0));
+    sh.mg.gold = Math.max(0, Math.round(Number(sh.mg.gold) || 0));
+
+    s.partnerCouponSeen = Math.max(0, Math.round(Number(s.partnerCouponSeen) || 0));
+  }
+
+  function shopNow(){
+    if(!state.shop || typeof state.shop !== "object") state.shop = v12BlankShop();
+    var sh = state.shop;
+    if(!sh.bag || typeof sh.bag !== "object") sh.bag = {};
+    if(!sh.skin || typeof sh.skin !== "object") sh.skin = {};
+    if(!sh.mg || typeof sh.mg !== "object") sh.mg = {date:"", n:0, gold:0};
+    if(!sh.shieldLog || typeof sh.shieldLog !== "object") sh.shieldLog = {date:"", at:0};
+    return sh;
+  }
+
+  /* ---------- 골드 ---------- */
+  function goldVal(){
+    if(!state) return 0;
+    var v = Number(state.gold);
+    return isFinite(v) ? Math.max(0, Math.round(v)) : 0;
+  }
+  function v12AddGold(n){
+    if(!state) return 0;
+    var add = Math.round(Number(n) || 0);
+    if(!add) return 0;
+    var before = goldVal();
+    state.gold = Math.max(0, Math.min(999999, before + add));
+    return state.gold - before;
+  }
+  function v12TierGold(){
+    var lv = 1;
+    try { lv = levelInfo(state.totalExp).level; } catch(e){ lv = 1; }
+    if(lv <= 3) return 15;
+    if(lv <= 8) return 22;
+    if(lv <= 12) return 30;
+    return 40;
+  }
+  function v12GoldForQuest(){
+    try { return v12TierGold(); } catch(e){ return 15; }
+  }
+
+  function v12GoldPop(){
+    ["heroGold", "msGold", "shopGold"].forEach(function(id){
+      var n = $(id);
+      if(!n) return;
+      n.classList.remove("pop");
+      void n.offsetWidth;
+      n.classList.add("pop");
+      setTimeout(function(){ n.classList.remove("pop"); }, 620);
+    });
+  }
+
+  /* 일일 퀘스트 완료 — 티어 골드 */
+  function v12OnDailyDone(q){
+    if(!q) return 0;
+    var g = v12TierGold();
+    q.v12gold = g;
+    v12AddGold(g);
+    v12GoldPop();
+    return g;
+  }
+  /* 되돌리기 — 골드 회수(최소 0) + 소모한 2배 부적 1회 복구 */
+  function v12OnDailyUndo(q){
+    if(!q) return 0;
+    var g = Math.max(0, Math.round(Number(q.v12gold) || 0));
+    q.v12gold = 0;
+    if(g) v12AddGold(-g);
+    if(q.v12buf){
+      q.v12buf = 0;
+      var sh = shopNow();
+      sh.exp2 = Math.min(99, sh.exp2 + 1);
+    }
+    v12GoldPop();
+    return g;
+  }
+  /* 보너스 퀘스트 완료 — +25 G */
+  function v12OnBonusDone(q){
+    if(!q) return 0;
+    q.v12gold = V12_BONUS_GOLD;
+    v12AddGold(V12_BONUS_GOLD);
+    v12GoldPop();
+    return V12_BONUS_GOLD;
+  }
+  /* 오늘의 올클리어 — +100 G */
+  function v12OnAllClear(){
+    v12AddGold(V12_ALLCLEAR_GOLD);
+    v12GoldPop();
+    return V12_ALLCLEAR_GOLD;
+  }
+  /* 다마고치 미니게임 — 하루 3회 · 60G 상한 */
+  function v12MinigameGold(score){
+    var sh = shopNow();
+    var t = today();
+    if(sh.mg.date !== t) sh.mg = {date:t, n:0, gold:0};
+    if(sh.mg.n >= V12_MG_GOLD_TIMES) return 0;
+    if(sh.mg.gold >= V12_MG_GOLD_DAY_CAP) return 0;
+    var g = Math.max(5, Math.min(20, Math.floor((Number(score) || 0) / 2)));
+    g = Math.min(g, V12_MG_GOLD_DAY_CAP - sh.mg.gold);
+    if(g <= 0) return 0;
+    sh.mg.n += 1;
+    sh.mg.gold += g;
+    v12AddGold(g);
+    v12GoldPop();
+    return g;
+  }
+
+  /* ---------- ⚡ EXP 2배 부적 ---------- */
+  /* base 만큼의 EXP 를 더 받을 때, 부적이 켜져 있으면 1회 소모하고 '추가로' 줄 EXP 를 돌려준다 */
+  function v12ExtraExp(base){
+    var sh = shopNow();
+    if(!(sh.exp2 > 0) || !(base > 0)) return 0;
+    var room = Math.max(0, CAP - state.totalExp);
+    var extra = Math.min(base, room);
+    if(extra <= 0) return 0;
+    sh.exp2 -= 1;
+    return extra;
+  }
+
+  /* ---------- 🛡️ 나태 면제권 ---------- */
+  var v12ShieldPending = [];
+
+  /* load() 안에서 호출 — s 는 아직 state 로 승격되기 전 객체. 화면은 v12Boot 에서 알린다 */
+  function v12ShieldUse(s, date){
+    if(!s || !s.shop || !s.shop.bag) return false;
+    var n = Math.max(0, Math.round(Number(s.shop.bag.shield) || 0));
+    if(n <= 0) return false;
+    s.shop.bag.shield = n - 1;
+    s.shop.shieldAt = Date.now();
+    if(!s.shop.shieldLog || typeof s.shop.shieldLog !== "object") s.shop.shieldLog = {date:"", at:0};
+    s.shop.shieldLog.date = String(date || "");
+    s.shop.shieldLog.at = Date.now();
+    v12ShieldPending.push({date: String(date || ""), left: s.shop.bag.shield});
+    return true;
+  }
+
+  /* 💀 방치 -1일 테스트 — 면제권이 있으면 페널티 대신 방어 */
+  function v12ShieldDefend(s, label){
+    if(!v12ShieldUse(s, today())) return false;
+    if(s.pen){
+      s.pen.streak = 0;
+      s.pen.lastAmt = 0;
+      s.pen.lastAt = 0;
+    }
+    var last = v12ShieldPending[v12ShieldPending.length - 1] || {left:0, date:today()};
+    v12ShieldPending.length = 0;
+    try { save(); } catch(e){}
+    try { render(); } catch(e){}
+    setTimeout(function(){
+      showShieldPopup({left: last.left, days: 1, date: last.date, test: label === "test"});
+    }, 220);
+    return true;
+  }
+
+  function v12Boot(){
+    var pend = v12ShieldPending.slice();
+    v12ShieldPending.length = 0;
+    if(!pend.length) return;
+    var last = pend[pend.length - 1];
+    /* 같은 날 다른 페널티 창도 뜨는 경우엔 모달을 겹치지 않고 토스트로 알린다 */
+    if(typeof penaltyReport !== "undefined" && penaltyReport){
+      setTimeout(function(){
+        toast("🛡️ 나태 면제권 발동!", "퀘스트를 못 깬 " + pend.length + "일을 면제권이 막았어요 · 남은 면제권 " + last.left + "장", null, 5600);
+      }, 900);
+      return;
+    }
+    setTimeout(function(){
+      showShieldPopup({left: last.left, days: pend.length, date: last.date, test: false});
+    }, 720);
+  }
+
+  function showShieldPopup(o){
+    o = o || {};
+    var ov = $("shieldOverlay");
+    if(!ov) return;
+    if($("shAvoid")) $("shAvoid").textContent = "0 EXP";
+    if($("shDays")) $("shDays").textContent = (o.days || 1) + "일";
+    if($("shLeft")) $("shLeft").textContent = (o.left || 0) + "장";
+    if($("shieldDesc")){
+      $("shieldDesc").textContent = (o.test ? "방치 테스트 1일을 " : "퀘스트를 못 깬 날을 ")
+        + "면제권이 자동으로 막아 줬어요. 차감될 EXP 는 0, 면제권은 1장 소모됐습니다.";
+    }
+    ov.classList.add("on");
+    if(navigator.vibrate) navigator.vibrate([10, 40, 16]);
+    $("shieldClose") && $("shieldClose").focus();
+  }
+  function closeShieldPopup(){ var o = $("shieldOverlay"); if(o) o.classList.remove("on"); }
+
+  /* ---------- 🛒 구매 · 🎒 인벤토리 ---------- */
+  function v12Item(id){
+    for(var i=0;i<V12_ITEMS.length;i++){ if(V12_ITEMS[i].id === id) return V12_ITEMS[i]; }
+    return null;
+  }
+
+  function v12InstantEffects(it){
+    var out = {hp:0, hunger:0, happy:0, lines:[]};
+    var hp = 0;
+    try { hp = hpVal(); } catch(e){ hp = 100; }
+    var p = null;
+    try { p = petNow(); } catch(e){ p = null; }
+    if(it.id === "potion"){
+      out.hp = Math.min(100, hp + 35) - hp;
+      out.lines.push("HP " + hp + " → " + Math.min(100, hp + 35));
+    } else if(it.id === "elixir"){
+      out.hp = 100 - hp;
+      out.happy = 20;
+      out.lines.push("HP " + hp + " → 100");
+      out.lines.push("행복도 +20");
+    } else if(it.id === "snack"){
+      out.hunger = 50;
+      out.happy = 30;
+      out.hp = Math.min(100, hp + 10) - hp;
+      out.lines.push("배고픔 +50");
+      out.lines.push("행복도 +30");
+      if(out.hp > 0) out.lines.push("HP +" + out.hp);
+    }
+    return out;
+  }
+
+  function v12ApplyInstant(it){
+    var eff = v12InstantEffects(it);
+    try {
+      if(it.id === "potion" || it.id === "elixir"){
+        state.hp = Math.min(100, hpVal() + 35);
+        if(it.id === "elixir") state.hp = 100;
+        state.hpDate = today();
+        if(it.id === "elixir"){
+          var p = petNow();
+          p.happy = Math.min(100, p.happy + 20);
+          p.at = Date.now();
+        }
+      } else if(it.id === "snack"){
+        var q = petNow();
+        q.hunger = Math.min(100, q.hunger + 50);
+        q.happy = Math.min(100, q.happy + 30);
+        q.at = Date.now();
+        state.hp = Math.min(100, hpVal() + 10);
+        state.hpDate = today();
+      }
+    } catch(e){}
+    return eff;
+  }
+
+  function v12Buy(id, btn){
+    var it = v12Item(id);
+    if(!it) return;
+    var sh = shopNow();
+
+    /* 이미 보유한 스킨은 구매 대신 장착 토글 */
+    if(it.kind === "skin" && sh.skin[it.id]){ v12Equip(it.id); return; }
+
+    if(goldVal() < it.price){
+      toast("🪙 골드가 부족해요", it.emoji + " " + esc(it.name) + " · " + it.price + " G 필요 · 지금 " + goldVal() + " G", null, 4200);
+      if(btn && btn.parentNode){
+        var row = btn.parentNode;
+        row.classList.remove("shake");
+        void row.offsetWidth;
+        row.classList.add("shake");
+        setTimeout(function(){ row.classList.remove("shake"); }, 460);
+      }
+      return;
+    }
+
+    /* 즉시 사용 아이템이 지금 필요 없는 상태면 골드를 쓰지 않는다 */
+    if(it.kind === "instant"){
+      var pre = v12InstantEffects(it);
+      var useless = false;
+      if(it.id === "potion") useless = (pre.hp <= 0);
+      else if(it.id === "snack") useless = (pre.hp <= 0 && (state.pet.hunger || 0) >= 100 && (state.pet.happy || 0) >= 100);
+      if(useless){
+        toast("지금은 필요 없어요", it.emoji + " " + esc(it.name) + " · HP가 이미 가득해요. 골드는 그대로 " + goldVal() + " G", null, 4200);
+        return;
+      }
+    }
+
+    v12AddGold(-it.price);
+    var sub = "-" + it.price + " G → 남은 " + goldVal() + " G";
+
+    if(it.kind === "bag"){
+      sh.bag[it.id] = Math.min(999, (sh.bag[it.id] || 0) + 1);
+      if(it.id === "shield") sub += " · 면제권 " + sh.bag.shield + "장 보관";
+      else sub += " · 쿠폰 " + sh.bag.coupon + "장 보관 · 인벤토리에서 사용하기";
+    } else if(it.kind === "buff"){
+      sh.exp2 = Math.min(99, sh.exp2 + 3);
+      sub += " · 다음 퀘스트 " + sh.exp2 + "회 동안 EXP 2배";
+    } else if(it.kind === "skin"){
+      sh.skin[it.id] = true;
+      sh.wear = it.id;
+      sub += " · 바로 장착! 히어로 카드에 " + (it.id === "flame" ? "불꽃 오라" : "무지개 오라") + " 발동";
+    } else {
+      var eff = v12ApplyInstant(it);
+      sub += " · " + eff.lines.join(" · ");
+    }
+
+    save();
+    render();
+    v12GoldPop();
+    if(navigator.vibrate) navigator.vibrate(14);
+    toast("🛒 구매 완료 · " + it.emoji + " " + esc(it.name), sub, null, 5200);
+
+    if(it.kind === "instant"){
+      var lines = (it.id === "potion" ? ["❤️ HP 회복!"] : it.id === "elixir" ? ["✨ 전부 회복!"] : ["🍖 냠냠!"]);
+      speak(lines[0], 5200);
+    }
+    if(it.kind === "skin"){
+      setTimeout(function(){
+        speak(it.id === "flame" ? "몸에서 불꽃이 타오른다. 🔥" : "무지개 오라… 이게 왕의 품격인가. 🌈", 6000);
+      }, 420);
+    }
+  }
+
+  function v12Equip(id){
+    var sh = shopNow();
+    if(!sh.skin[id]) return;
+    var was = sh.wear;
+    sh.wear = (was === id) ? "" : id;
+    save();
+    render();
+    if(navigator.vibrate) navigator.vibrate(10);
+    if(sh.wear){
+      toast("🔥 스킨 장착!", (id === "flame" ? "🔥 불꽃 오라" : "🌈 무지개 킹 오라") + " · 히어로 카드에 오라가 켜졌어요", null, 4200);
+    } else {
+      toast("스킨을 벗었어요", "오라는 그대로 보관돼요 · 인벤토리에서 다시 장착할 수 있어요", null, 3600);
+    }
+  }
+
+  function v12UseCoupon(){
+    var sh = shopNow();
+    if(!(sh.bag.coupon > 0)){
+      toast("🎟️ 쿠폰이 없어요", "상점에서 치팅데이/소원 쿠폰을 먼저 구매해 주세요 · 150 G", null, 4200);
+      return;
+    }
+    sh.bag.coupon -= 1;
+    sh.couponSeq = (sh.couponSeq || 0) + 1;
+    sh.couponAt = Date.now();
+    save();
+    render();
+    showCouponPopup();
+    if(navigator.vibrate) navigator.vibrate([12, 40, 12, 40, 20]);
+  }
+
+  function showCouponPopup(){
+    var ov = $("couponOverlay");
+    if(!ov) return;
+    var who = "";
+    try {
+      if(state.partner && state.partner.nick) who = state.partner.nick;
+      else if(cRoom() && cRoom().partnerNick) who = cRoom().partnerNick;
+    } catch(e){ who = ""; }
+    if($("couponDesc")){
+      $("couponDesc").textContent = who
+        ? "오늘은 내가 원하는 대로! " + who + "님 파트너 카드에도 사용 알림을 보냈어요."
+        : "오늘은 내가 원하는 대로! 파트너 카드에도 사용 알림을 보냈어요.";
+    }
+    var box = $("couponConfetti");
+    if(box){
+      box.innerHTML = "";
+      var pool = ["🎉", "🎟️", "✨", "💛", "💜", "🌈", "🎊"];
+      for(var i=0;i<16;i++){
+        var s = document.createElement("span");
+        s.textContent = pool[i % pool.length];
+        s.style.left = (4 + Math.random() * 90).toFixed(1) + "%";
+        s.style.animationDelay = (Math.random() * 0.9).toFixed(2) + "s";
+        s.style.fontSize = (12 + Math.round(Math.random() * 8)) + "px";
+        box.appendChild(s);
+      }
+    }
+    ov.classList.add("on");
+    var b = $("couponClose");
+    if(b) b.focus();
+    setTimeout(function(){
+      toast("🎟️ 쿠폰 사용!", who ? who + "님에게 쿠폰 사용 알림을 보냈어요" : "파트너 카드에 쿠폰 사용 알림을 보냈어요", null, 5200);
+    }, 260);
+  }
+  function closeCouponPopup(){ var ov = $("couponOverlay"); if(ov) ov.classList.remove("on"); }
+
+  /* ---------- 파트너 쿠폰 알림 ---------- */
+  function v12PartnerNotice(d){
+    if(!d || !state) return;
+    var seq = Math.max(0, Math.round(Number(d.couponSeq) || 0));
+    if(!seq) return;
+    var seen = Math.max(0, Math.round(Number(state.partnerCouponSeen) || 0));
+    if(seq <= seen) return;
+    state.partnerCouponSeen = seq;
+    var fresh = d.couponAt && (Date.now() - d.couponAt) < 30 * 60 * 1000;
+    if(!fresh) return;
+    setTimeout(function(){
+      toast("🎟️ " + esc(d.nick || "파트너") + "님이 쿠폰을 사용했어요!", "치팅데이/소원 쿠폰 1장 사용 · 오늘은 부탁을 들어줄 시간!", null, 6200);
+      if(navigator.vibrate) navigator.vibrate([12, 40, 12]);
+    }, 420);
+  }
+
+  /* ---------- 렌더 ---------- */
+  function renderV12(){
+    if(!state) return;
+    var sh = shopNow();
+    var g = goldVal();
+
+    if($("heroGold")) $("heroGold").textContent = "🪙 " + g + " G";
+    if($("msGold")) $("msGold").textContent = "🪙 " + g + " G";
+    if($("shopGold")) $("shopGold").textContent = "🪙 " + g + " G";
+    if($("heroExp2")){
+      var on = sh.exp2 > 0;
+      $("heroExp2").hidden = !on;
+      if(on) $("heroExp2").textContent = "⚡ 2× EXP " + sh.exp2;
+    }
+
+    renderShop();
+    renderBag();
+
+    var hero = document.querySelector(".hero");
+    if(hero){
+      hero.classList.toggle("skin-flame", sh.wear === "flame");
+      hero.classList.toggle("skin-rainbow", sh.wear === "rainbow");
+    }
+  }
+
+  function renderShop(){
+    var box = $("shopGrid");
+    if(!box || !state) return;
+    var sh = shopNow();
+    var g = goldVal();
+    box.innerHTML = V12_ITEMS.map(function(it){
+      var owned = (it.kind === "skin" && sh.skin[it.id]);
+      var wearing = (sh.wear === it.id);
+      var extraTags = "";
+      if(it.kind === "bag" && sh.bag[it.id] > 0) extraTags += '<span class="tag g">보유 ' + sh.bag[it.id] + '</span>';
+      if(it.kind === "buff" && sh.exp2 > 0) extraTags += '<span class="tag on">발동 중 ' + sh.exp2 + '회</span>';
+      if(wearing) extraTags += '<span class="tag on">장착 중</span>';
+
+      var btn;
+      if(owned){
+        btn = wearing
+          ? '<button class="si-buy on" type="button" data-v12equip="' + it.id + '">장착 중</button>'
+          : '<button class="si-buy equip" type="button" data-v12equip="' + it.id + '">장착</button>';
+      } else {
+        var cls = "si-buy" + (g >= it.price ? "" : " no");
+        btn = '<button class="' + cls + '" type="button" data-v12buy="' + it.id + '">🪙 ' + it.price + '</button>';
+      }
+      return '<div class="shop-item' + (owned ? " owned" : "") + (wearing ? " wear" : "") + '" data-item="' + it.id + '">'
+        + '<span class="si-emoji">' + it.emoji + '</span>'
+        + '<span class="si-body"><b>' + esc(it.name) + '</b><small>' + esc(it.desc) + '</small>'
+        +   '<span class="si-tags"><span class="tag">' + esc(it.tag) + '</span>' + extraTags + '</span>'
+        + '</span>' + btn + '</div>';
+    }).join("");
+  }
+
+  function renderBag(){
+    var list = $("bagList");
+    if(!list || !state) return;
+    var sh = shopNow();
+    var rows = [];
+
+    rows.push({
+      emoji: "🛡️", name: "나태 면제권", n: sh.bag.shield,
+      desc: sh.bag.shield > 0 ? "다음 방치 1일을 자동으로 방어해요" : "상점에서 80 G 로 구매 · 자동 방어"
+    });
+    if(sh.exp2 > 0){
+      rows.push({
+        emoji: "⚡", name: "EXP 2배 부적", n: sh.exp2,
+        desc: "다음 퀘스트 완료 " + sh.exp2 + "회 동안 EXP 2배"
+      });
+    }
+    rows.push({
+      emoji: "🎟️", name: "치팅데이/소원 쿠폰", n: sh.bag.coupon,
+      desc: "사용하면 축하 팝업 + 파트너 카드에 알림", use: "coupon"
+    });
+
+    list.innerHTML = rows.map(function(r){
+      var btn = "";
+      if(r.use === "coupon"){
+        btn = sh.bag.coupon > 0
+          ? '<button class="bag-use" type="button" data-v12use="coupon">사용하기</button>'
+          : '<button class="bag-use" type="button" data-v12use="coupon" style="background:#F5F0EA;border-color:#E8DED4;color:#BCAEA4">없음</button>';
+      }
+      return '<div class="bag-row' + (r.n > 0 ? "" : " empty") + '">'
+        + '<span class="bag-em">' + r.emoji + '</span>'
+        + '<span class="bag-body"><b>' + esc(r.name) + '</b><small>' + esc(r.desc) + '</small></span>'
+        + '<span class="bag-n">' + r.n + '개</span>'
+        + btn + '</div>';
+    }).join("");
+
+    if($("bagHint")){
+      var cnt = sh.bag.shield + sh.bag.coupon;
+      $("bagHint").textContent = "소모품 " + cnt + (sh.exp2 > 0 ? " · 부적 " + sh.exp2 : "");
+    }
+
+    var skins = $("bagSkins");
+    if(skins){
+      skins.innerHTML = V12_SKINS.map(function(sk){
+        var owned = !!sh.skin[sk.id];
+        var on = sh.wear === sk.id;
+        var btn = owned
+          ? '<button class="skin-btn' + (on ? " on" : "") + '" type="button" data-v12equip="' + sk.id + '">' + (on ? "장착 중" : "장착") + '</button>'
+          : '<button class="skin-btn no" type="button" disabled>🔒 ' + sk.price + ' G</button>';
+        return '<div class="skin-card' + (owned ? "" : " locked") + (on ? " on" : "") + '">'
+          + '<div class="skin-prev ' + sk.id + '"><i class="orb"></i></div>'
+          + '<div class="skin-body"><b>' + esc(sk.name) + '</b><small>' + esc(owned ? (on ? "지금 장착 중" : "보유 중 · 장착 가능") : "상점에서 구매") + '</small>' + btn + '</div>'
+          + '</div>';
+      }).join("");
+    }
+
+    if($("bagNote")){
+      $("bagNote").textContent = sh.wear
+        ? "지금 " + (sh.wear === "flame" ? "🔥 불꽃 오라" : "🌈 무지개 킹 오라") + " 장착 중 · 퀘스트 탭 히어로 카드에서 확인하세요."
+        : "스킨은 한 번 사면 영구 보유 · 언제든 장착/해제할 수 있어요.";
+    }
+  }
+
+  /* ---------- wiring ---------- */
+  function wireV12(){
+    var shop = $("shopCard");
+    if(shop) shop.addEventListener("click", function(e){
+      var t = e.target;
+      var b = (t && t.closest) ? t.closest("[data-v12buy],[data-v12equip]") : null;
+      if(!b) return;
+      var buy = b.getAttribute("data-v12buy");
+      var eq = b.getAttribute("data-v12equip");
+      if(buy) v12Buy(buy, b);
+      else if(eq) v12Equip(eq);
+    });
+
+    var bag = $("bagCard");
+    if(bag) bag.addEventListener("click", function(e){
+      var t = e.target;
+      var u = (t && t.closest) ? t.closest("[data-v12use]") : null;
+      if(u){
+        var what = u.getAttribute("data-v12use");
+        if(what === "coupon") v12UseCoupon();
+        return;
+      }
+      var eq = (t && t.closest) ? t.closest("[data-v12equip]") : null;
+      if(eq) v12Equip(eq.getAttribute("data-v12equip"));
+    });
+
+    var cc = $("couponClose");
+    if(cc) cc.addEventListener("click", closeCouponPopup);
+    var co = $("couponOverlay");
+    if(co) co.addEventListener("click", function(e){ if(e.target === co) closeCouponPopup(); });
+
+    var sc = $("shieldClose");
+    if(sc) sc.addEventListener("click", closeShieldPopup);
+    var so = $("shieldOverlay");
+    if(so) so.addEventListener("click", function(e){ if(e.target === so) closeShieldPopup(); });
+  }
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -6376,6 +7398,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   wireV10();
   wireV11();
   renderParty();
+  try { wireV12(); v12Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
