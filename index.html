@@ -1007,6 +1007,305 @@ body::before{
   .haz-pill .hz-name{font-size:11px}
 }
 
+/* v7.0 tabs / mini status / move styles */
+/* ==========================================================
+   v7.0 — 하단 고정 5탭 내비게이션 · 상단 미니 상태바
+   v7.1 — 다른 브라우저(사파리·홈 화면 앱)로 데이터 이어하기 · 재접속
+   ========================================================== */
+:root{
+  --v11-tab-h: 60px;
+  --v11-ms-h: 48px;
+  --v11-safe-b: env(safe-area-inset-bottom, 0px);
+  --v11-safe-t: env(safe-area-inset-top, 0px);
+}
+
+/* 마지막 카드가 탭바에 가리지 않도록 */
+body{ padding-bottom: calc(84px + var(--v11-safe-b)); }
+
+/* ---------- 탭 패널 ---------- */
+.pane{ display:none; }
+.pane.on{ display:block; animation: v11paneIn .26s ease-out both; }
+header.pane.on{ display:flex; }
+div.pane.on{ display:flex; }
+@media (prefers-reduced-motion: reduce){
+  .pane.on{ animation:none; }
+}
+@keyframes v11paneIn{
+  from{ opacity:0; transform: translateY(7px); }
+  to{ opacity:1; transform:none; }
+}
+
+/* 퀘스트 탭이 아닐 때: 큰 헤더 대신 미니 상태바 */
+html:not([data-tab="quest"]) header.top{ display:none; }
+html:not([data-tab="quest"]) .app{ padding-top: calc(var(--v11-ms-h) + var(--v11-safe-t) + 14px); }
+html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe-t) + 12px); }
+
+/* ---------- 상단 미니 상태바 ---------- */
+.ministat{
+  position:fixed; top:0; left:0; right:0; z-index:80;
+  display:flex; justify-content:center;
+  pointer-events:none;
+}
+.ministat[hidden]{ display:none; }
+.ms-in{
+  pointer-events:auto;
+  box-sizing:border-box;
+  width:100%; max-width:430px;
+  height:calc(var(--v11-ms-h) + var(--v11-safe-t));
+  padding:var(--v11-safe-t) 12px 0;
+  display:flex; align-items:center; gap:9px;
+  font-family:inherit; text-align:left; cursor:pointer;
+  color:#4A3B58;
+  background:rgba(255,251,245,.95);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+  backdrop-filter:blur(16px) saturate(150%);
+  border:0; border-bottom:1.5px solid rgba(238,226,238,.9);
+  border-radius:0 0 18px 18px;
+  box-shadow:0 12px 26px -24px rgba(120,80,110,.75);
+  -webkit-tap-highlight-color:transparent;
+}
+.ms-in:active{ transform:scale(.995); }
+.ms-char{
+  flex:0 0 26px; width:26px; height:26px; border-radius:50%;
+  object-fit:cover; object-position:50% 16%;
+  background:linear-gradient(160deg,#FFF1F6,#EFE7FF);
+  border:1.5px solid #fff;
+  box-shadow:0 3px 9px -4px rgba(150,100,140,.65);
+}
+.ms-id{ display:flex; flex-direction:column; gap:1px; min-width:0; max-width:98px; }
+.ms-id b{ font-size:11.5px; font-weight:900; letter-spacing:-.02em; line-height:1.15; }
+.ms-id span{
+  font-size:8.5px; font-weight:700; color:#A08CB0; line-height:1.15;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.ms-bars{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:3px; }
+.ms-b{ display:flex; align-items:center; gap:4px; min-width:0; }
+.ms-b em{
+  font-style:normal; font-family:var(--mono); font-size:7.5px; font-weight:800;
+  color:#B29CC0; flex:0 0 15px; letter-spacing:-.04em;
+}
+.ms-b .bar{
+  flex:1 1 auto; min-width:18px; height:5px; border-radius:99px;
+  background:#F1E7EE; overflow:hidden; display:block;
+}
+.ms-b .bar > i{
+  display:block; height:100%; width:0; border-radius:99px;
+  transition: width .45s cubic-bezier(.2,.9,.3,1);
+}
+.ms-b.hp .bar > i{ background:linear-gradient(90deg,#FFA3B7,#EF4A6C); }
+.ms-b.exp .bar > i{ background:linear-gradient(90deg,#AE93FF,#6B49D9); }
+.ms-b b{
+  font-family:var(--mono); font-size:8px; font-weight:800; color:#8A7A9A;
+  flex:0 0 auto; min-width:22px; text-align:right;
+}
+.ms-go{ flex:0 0 auto; font-size:13px; line-height:1; color:#C9B7D6; font-weight:800; padding-left:1px; }
+.ministat.hp-low .ms-b.hp .bar > i{ background:linear-gradient(90deg,#FFC2A0,#E8352B); animation:v11pulse 1.3s ease-in-out infinite; }
+@keyframes v11pulse{ 0%,100%{ opacity:1 } 50%{ opacity:.55 } }
+
+/* ---------- 하단 고정 5탭 ---------- */
+.tabbar{
+  position:fixed; left:0; right:0; bottom:0; z-index:85;
+  display:flex; justify-content:center;
+  padding-bottom:var(--v11-safe-b);
+  pointer-events:none;
+}
+.tabbar-in{
+  pointer-events:auto;
+  box-sizing:border-box;
+  width:100%; max-width:430px;
+  display:grid; grid-template-columns:repeat(5, 1fr); gap:2px;
+  padding:8px 8px 7px;
+  background:rgba(255,252,245,.94);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  backdrop-filter:blur(18px) saturate(160%);
+  border-top:1.5px solid rgba(255,255,255,.95);
+  border-radius:22px 22px 0 0;
+  box-shadow:0 -14px 34px -22px rgba(120,80,90,.55), 0 0 0 1px rgba(236,224,232,.75);
+}
+.tab{
+  position:relative; min-width:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  padding:6px 1px 5px;
+  background:transparent; border:0; border-radius:15px;
+  font-family:inherit; color:#A691A9; cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .2s ease, color .2s ease, transform .14s ease;
+}
+.tab:active{ transform:scale(.94); }
+.tab .ti{
+  font-size:17px; line-height:1; filter:grayscale(.5) opacity(.72);
+  transition:filter .2s ease, transform .2s ease;
+}
+.tab .tl{
+  font-size:9.5px; font-weight:800; letter-spacing:-.03em; line-height:1.1;
+  white-space:nowrap;
+}
+.tab.on{
+  color:#6B4BC0;
+  background:linear-gradient(180deg,#FFF6FC 0%,#F0E6FF 100%);
+  box-shadow:inset 0 0 0 1.5px #fff, 0 8px 16px -12px rgba(105,70,180,.65);
+}
+.tab.on .ti{ filter:none; transform:translateY(-1px) scale(1.05); }
+.tab .dot{
+  position:absolute; top:5px; right:calc(50% - 19px);
+  width:7px; height:7px; border-radius:50%;
+  background:#F0456B; border:1.5px solid #FFFCF5;
+  box-shadow:0 0 0 1px rgba(240,69,107,.25);
+}
+@media (max-width:340px){
+  .tab .tl{ font-size:9px; letter-spacing:-.05em; }
+  .tab .ti{ font-size:16px; }
+}
+/* 아주 좁은 화면에서도 한 줄 유지 */
+@media (max-width:300px){
+  .tab .tl{ font-size:8.5px; }
+}
+
+/* ---------- 다른 브라우저로 내 데이터 옮기기 ---------- */
+.card.move{ background:linear-gradient(160deg,#F6FBFF 0%,#FBF4FF 56%,#FFF8F2 100%); }
+.move-desc{
+  margin:2px 0 10px; font-size:10.5px; line-height:1.6;
+  color:var(--muted); font-weight:600; word-break:keep-all;
+}
+.move-desc b{ color:#6B4BC0; }
+.move-btns{ display:flex; flex-direction:column; gap:7px; }
+.move-btn{
+  width:100%; font-family:inherit; font-size:12px; font-weight:850;
+  box-sizing:border-box;
+}
+.card.move .btn-primary.move-btn{
+  background:linear-gradient(135deg,#8B5CF6 0%,#C86BD8 100%);
+  box-shadow:0 12px 22px -14px rgba(120,60,180,.9);
+}
+.card.move .btn-ghost.move-btn{
+  background:rgba(255,255,255,.85); border:1.5px solid #E7DBF3; color:#6B4BC0;
+}
+.move-out{ margin-top:11px; border-top:1.5px dashed #EADFF3; padding-top:10px; }
+.move-out[hidden]{ display:none; }
+.move-lbl{
+  margin:0 0 3px; font-family:var(--mono); font-size:8px; font-weight:800;
+  letter-spacing:.14em; color:#A98BDF;
+}
+.move-url{
+  margin:0 0 9px; font-size:9.5px; line-height:1.45; font-weight:600; color:#7C6A8E;
+  background:#fff; border:1px solid #EEE3F6; border-radius:10px; padding:7px 9px;
+  word-break:break-all; cursor:pointer;
+}
+.move-code{
+  margin:0 0 9px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+}
+.move-code b{
+  font-family:var(--mono); font-size:13px; font-weight:800; letter-spacing:.06em;
+  color:#4A3B58; background:#fff; border:1.5px solid #E5D8F4; border-radius:10px;
+  padding:5px 9px; word-break:break-all;
+}
+.move-copy{
+  font-family:inherit; font-size:9.5px; font-weight:800; color:#6B4BC0;
+  background:#F5EEFF; border:1px solid #E2D3F6; border-radius:8px;
+  padding:5px 9px; cursor:pointer;
+}
+.move-note{
+  margin:0; font-size:9px; line-height:1.55; color:#A091AC; font-weight:600; word-break:keep-all;
+}
+.move-lbl .move-copy{ margin-left:4px; }
+
+/* ---------- 이어하기 · 재접속 모달 ---------- */
+.pick-card .restore-input{
+  width:100%; box-sizing:border-box; min-height:66px; resize:none;
+  font-family:var(--mono); font-size:10.5px; line-height:1.5;
+  color:#4A3B58; background:#fff; border:1.5px solid #E7DCF3; border-radius:12px;
+  padding:9px 11px;
+}
+.pick-card .restore-input:focus{ outline:none; border-color:#B79BF2; box-shadow:0 0 0 3px rgba(150,110,235,.14); }
+.restore-err{
+  margin:8px 0 0; font-size:10px; font-weight:700; color:#C24A63;
+  background:#FFF0F3; border:1px solid #F8D3DB; border-radius:10px; padding:7px 9px;
+}
+.restore-err[hidden]{ display:none; }
+.restore-diff{ display:grid; gap:6px; margin:11px 0 4px; }
+.restore-row{
+  display:flex; align-items:center; gap:8px; font-size:10.5px; font-weight:700; color:#6A5878;
+  background:#FBF6FF; border:1px solid #EFE6F8; border-radius:11px; padding:7px 10px;
+}
+.restore-row em{ font-style:normal; font-family:var(--mono); font-size:8px; letter-spacing:.1em; color:#A98BDF; min-width:52px; }
+.restore-row b{ margin-left:auto; color:#4A3B58; font-weight:850; }
+.restore-warn{
+  margin:10px 0 0; font-size:9.5px; line-height:1.55; font-weight:700; color:#B4632F;
+  background:#FFF6EC; border:1px solid #F6DFC6; border-radius:10px; padding:7px 9px;
+}
+.rejoin-list{ display:grid; gap:7px; margin:11px 0 2px; }
+.rejoin-item{
+  display:flex; align-items:center; gap:9px; width:100%; box-sizing:border-box;
+  font-family:inherit; text-align:left; cursor:pointer;
+  background:#fff; border:1.5px solid #EADFF5; border-radius:13px; padding:9px 11px;
+  color:#4A3B58; transition:border-color .18s ease, background .18s ease;
+}
+.rejoin-item:active{ background:#FAF5FF; border-color:#C4A9F0; }
+.rejoin-item .rj-av{
+  flex:0 0 26px; width:26px; height:26px; border-radius:50%;
+  display:grid; place-items:center; font-size:13px;
+  background:linear-gradient(160deg,#FFF0F7,#EEE4FF);
+}
+.rejoin-item b{ font-size:12px; font-weight:850; }
+.rejoin-item small{ display:block; font-size:9px; font-weight:700; color:#A091AC; margin-top:1px; }
+.rejoin-item .rj-go{ margin-left:auto; font-size:11px; font-weight:800; color:#8B6ED8; }
+.rejoin-chars{ display:flex; gap:6px; margin:8px 0 0; flex-wrap:wrap; }
+.rejoin-chars[hidden]{ display:none; }
+.rejoin-char{
+  flex:1 1 0; min-width:0; font-family:inherit; font-size:9.5px; font-weight:800;
+  color:#6A5878; background:#fff; border:1.5px solid #EADFF5; border-radius:10px;
+  padding:7px 4px; cursor:pointer;
+}
+.rejoin-char.on{ color:#6B4BC0; border-color:#B79BF2; background:#F6EFFF; }
+.rejoin-hint{
+  margin:7px 0 0; font-size:9.5px; line-height:1.55; font-weight:700; color:#8A6E9E;
+}
+.rejoin-warn{
+  margin:10px 0 0; font-size:9.5px; line-height:1.55; font-weight:700; color:#A2622A;
+  background:#FFF6EC; border:1px solid #F6DFC6; border-radius:10px; padding:7px 9px;
+}
+
+/* ---------- 자산 탭 · 부자 변신 등급 ---------- */
+.card.rich{ background:linear-gradient(160deg,#FFFCF2 0%,#FFF4EC 56%,#F4F0FF 100%); }
+.rich-desc{
+  margin:2px 0 9px; font-size:10.5px; line-height:1.6;
+  color:var(--muted); font-weight:600; word-break:keep-all;
+}
+.rich-list{ display:grid; gap:6px; }
+.rich-row{
+  display:flex; align-items:center; gap:8px;
+  padding:8px 10px; border-radius:13px;
+  background:rgba(255,255,255,.72); border:1.5px solid #F3E8DC;
+}
+.rich-row.on{
+  background:linear-gradient(160deg,#FFF9EA 0%,#F4ECFF 100%);
+  border-color:#E4D3FF;
+  box-shadow:0 8px 18px -16px rgba(140,110,60,.8);
+}
+.rich-em{ flex:0 0 22px; width:22px; text-align:center; font-size:15px; filter:grayscale(.45) opacity(.72); }
+.rich-row.on .rich-em{ filter:none; }
+.rich-body{ flex:1 1 auto; min-width:0; }
+.rich-body b{ display:block; font-size:11.5px; font-weight:850; color:#5A4A66; letter-spacing:-.01em; }
+.rich-body small{ display:block; margin-top:1px; font-size:9px; font-weight:700; color:#A091AC; }
+.rich-bar{ display:block; height:4px; margin-top:5px; border-radius:99px; background:#F1E7DE; overflow:hidden; }
+.rich-bar > i{ display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#FFD27A,#C79BFF); transition:width .5s ease; }
+.rich-pill{
+  flex:0 0 auto; font-family:var(--mono); font-size:8px; font-weight:800;
+  color:#9A8AA6; background:#F5EFEA; border-radius:7px; padding:3px 6px;
+}
+.rich-row.on .rich-pill{ color:#6B4BC0; background:#EFE3FF; }
+.rich-tip{
+  margin:9px 0 0; font-size:9.5px; line-height:1.5; font-weight:700; color:#A08CB0;
+}
+
+/* ---------- 시작 피커 — 이미 기록이 있을 때 이어하기 진입 ---------- */
+.pick-card .pick-move{
+  width:100%; margin-top:8px; font-family:inherit; font-size:10.5px; font-weight:800;
+  color:#7B5BC0; background:rgba(255,255,255,.92); border:1.5px dashed #DCC9F5;
+  border-radius:12px; padding:9px 10px; cursor:pointer; letter-spacing:-.02em;
+}
+.pick-card .pick-move:active{ background:#F7F1FF; }
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -1015,7 +1314,7 @@ body::before{
 <body>
 <div class="app">
 
-  <header class="top">
+  <header class="top pane on" data-pane="quest">
     <div class="brand">
       <div class="logo" id="logoEmoji">😼</div>
       <div>
@@ -1028,8 +1327,19 @@ body::before{
       <button class="char-change" id="charChange">🔄 캐릭터 변경</button>
     </div>
   </header>
+  <div class="ministat" id="miniStat" hidden>
+    <button class="ms-in" id="msJump" type="button" aria-label="퀘스트 탭으로 이동 — 레벨·HP·EXP 요약">
+      <img class="ms-char" id="msChar" alt="">
+      <span class="ms-id"><b id="msLv">Lv.1</b><span id="msRank">E급 · 하찮은 냥이</span></span>
+      <span class="ms-bars">
+        <span class="ms-b hp"><em>HP</em><span class="bar"><i id="msHpFill"></i></span><b id="msHpNum">100</b></span>
+        <span class="ms-b exp"><em>EXP</em><span class="bar"><i id="msExpFill"></i></span><b id="msExpNum">0%</b></span>
+      </span>
+      <span class="ms-go" aria-hidden="true">›</span>
+    </button>
+  </div>
 
-  <section class="hero">
+  <section class="hero pane on" data-pane="quest">
     <div class="hero-top">
       <span class="rank"><i>✦</i><span id="rankKey">E급</span> 헌터</span>
       <span class="streak">🔥 <span id="streakText">오늘부터 시작</span></span>
@@ -1085,7 +1395,7 @@ body::before{
     <div class="cleared" id="cleared" hidden>✓ 오늘의 퀘스트 클리어! 내일도 만나요</div>
   </section>
 
-  <section class="card pet" id="petCard">
+  <section class="card pet pane" data-pane="care" id="petCard">
     <div class="pet-head">
       <span class="sys">[ CARE ]</span>
       <h3>🐣 나의 다마고치</h3>
@@ -1114,7 +1424,7 @@ body::before{
     </div>
   </section>
 
-  <section class="card money" id="moneyCard">
+  <section class="card money pane" data-pane="cash" id="moneyCard">
     <div class="card-head">
       <span class="sys">[ CASH ]</span>
       <h3>💰 내 현물 자산</h3>
@@ -1152,7 +1462,19 @@ body::before{
     </div>
   </section>
 
-  <section class="card">
+  <section class="card rich pane" data-pane="cash" id="richCard">
+    <div class="card-head">
+      <span class="sys">[ TIER ]</span>
+      <h3>👑 부자 변신 등급</h3>
+      <span class="hint" id="richNow">🌱 소박한 헌터</span>
+    </div>
+    <p class="rich-desc">현물 자산이 쌓이면 캐릭터의 부자 변신이 한 단계씩 올라가요. 파트너에게는 숨겨도 등급은 함께 보여요.</p>
+    <div class="rich-list" id="richList"></div>
+    <p class="rich-tip" id="richTip"></p>
+  </section>
+
+
+  <section class="card pane on" data-pane="quest">
     <div class="q-head">
       <div>
         <span class="sys">[ ! DAILY QUEST ]</span>
@@ -1194,7 +1516,7 @@ body::before{
 
   </section>
 
-  <section class="card hazard" id="hazardCard">
+  <section class="card hazard pane" data-pane="care" id="hazardCard">
     <div class="card-head">
       <span class="sys hazard">[ HAZARD ]</span>
       <h3>🍔 건강 깎아먹는 유혹</h3>
@@ -1205,7 +1527,7 @@ body::before{
     <button class="add-btn hazard" id="hazAdd" type="button">＋ 나쁜 습관 추가</button>
   </section>
 
-  <section class="card">
+  <section class="card pane" data-pane="stats">
     <div class="card-head">
       <span class="sys">[ STATUS ]</span>
       <h3>스탯 창</h3>
@@ -1214,7 +1536,7 @@ body::before{
     <div id="statList"></div>
   </section>
 
-  <section class="card">
+  <section class="card pane" data-pane="stats">
     <div class="card-head">
       <span class="sys">[ COLLECTION ]</span>
       <h3>진화 도감</h3>
@@ -1252,9 +1574,9 @@ body::before{
     </div>
   </section>
 
-  <p class="quote" id="quote">"오늘의 나는 어제의 나보다 1레벨 높다."</p>
+  <p class="quote pane" data-pane="stats" id="quote">"오늘의 나는 어제의 나보다 1레벨 높다."</p>
 
-  <div class="tools">
+  <div class="tools pane" data-pane="stats">
     <button class="tool" id="resetDay">⟳ 오늘 퀘스트 초기화</button>
     <button class="tool" id="cheatExp">🧪 테스트 EXP +150</button>
     <button class="tool" id="cheatStr">🏃 테스트 STR +5</button>
@@ -1262,7 +1584,7 @@ body::before{
     <button class="tool danger" id="penTest">💀 방치 -1일 테스트</button>
   </div>
 
-  <section class="card party" id="coupleCard">
+  <section class="card party pane" data-pane="party" id="coupleCard">
     <div class="card-head">
       <span class="sys">[ PARTY ]</span>
       <h3>👫 함께하는 파트너</h3>
@@ -1308,7 +1630,7 @@ body::before{
     </div>
   </section>
 
-  <section class="card invite" id="inviteCard">
+  <section class="card invite pane" data-pane="party" id="inviteCard">
     <div class="card-head">
       <span class="sys">[ INVITE ]</span>
       <h3>🔗 파트너 초대 링크 보내기</h3>
@@ -1319,7 +1641,49 @@ body::before{
     <p class="invite-url" id="inviteUrl" title="눌러서 복사">버튼을 누르면 초대 링크가 생겨요.</p>
   </section>
 
-  <p class="tiny">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v6.0 (7단계 전직 · 다마고치 · 2인 공유 · 난이도·페널티 · HP·유혹)</p>
+  <section class="card move pane" data-pane="party" id="moveCard">
+    <div class="card-head">
+      <span class="sys">[ MOVE ]</span>
+      <h3>📲 다른 브라우저로 내 데이터 옮기기</h3>
+      <span class="hint" id="moveState">대기</span>
+    </div>
+    <p class="move-desc">아이폰 <b>사파리</b>나 <b>홈 화면 앱</b>으로 열어도 캐릭터·레벨·EXP·HP·현물자산은 물론 <b>파트너 방 연결</b>까지 그대로 이어져요. 카톡 안에서 열었던 기록도 잃지 않아요.</p>
+    <div class="move-btns">
+      <button class="btn-primary move-btn" id="moveLinkBtn" type="button">📤 내 이어하기 링크 복사</button>
+      <button class="btn-ghost move-btn" id="moveCodeBtn" type="button">📥 이어하기 코드 붙여넣기</button>
+    </div>
+    <div class="move-out" id="moveOut" hidden>
+      <p class="move-lbl">이어하기 링크</p>
+      <p class="move-url" id="moveUrl" title="눌러서 복사">—</p>
+      <p class="move-lbl">짧은 이어하기 코드 <button class="move-copy" id="moveCodeCopy" type="button">복사</button></p>
+      <p class="move-code"><b id="moveCode">만드는 중…</b></p>
+      <p class="move-note">※ 코드는 만 30일 동안 유효하고, 나만 쓰는 코드예요. 다른 사람에게 보내지 마세요.<br>링크·코드를 쓰면 내 캐릭터·레벨·EXP와 파트너 방 연결까지 100% 그대로 복원됩니다.</p>
+    </div>
+  </section>
+
+
+  <nav class="tabbar" id="tabbar" aria-label="화면 이동">
+    <div class="tabbar-in" role="tablist">
+      <button class="tab on" type="button" data-tab="quest" role="tab" aria-selected="true">
+        <span class="ti">⚔️</span><span class="tl">퀘스트</span>
+      </button>
+      <button class="tab" type="button" data-tab="care" role="tab" aria-selected="false">
+        <span class="dot" id="tabDotCare" hidden></span>
+        <span class="ti">🐣</span><span class="tl">돌봄·HP</span>
+      </button>
+      <button class="tab" type="button" data-tab="cash" role="tab" aria-selected="false">
+        <span class="ti">💰</span><span class="tl">자산</span>
+      </button>
+      <button class="tab" type="button" data-tab="stats" role="tab" aria-selected="false">
+        <span class="ti">📊</span><span class="tl">스탯·도감</span>
+      </button>
+      <button class="tab" type="button" data-tab="party" role="tab" aria-selected="false">
+        <span class="dot" id="tabDotParty" hidden></span>
+        <span class="ti">👫</span><span class="tl">파트너</span>
+      </button>
+    </div>
+  </nav>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v7.0 (5탭 내비 · 다마고치 · 2인 공유 · 난이도·페널티 · HP·유혹 · 기기 이어하기)</p>
 </div>
 
 <div id="toasts"></div>
@@ -1338,6 +1702,7 @@ body::before{
       <button class="btn-ghost" id="pickCancel" hidden>취소</button>
       <button class="btn-primary pick-start" id="pickStart" disabled>이 친구로 시작하기</button>
     </div>
+    <button class="pick-move" id="pickMove" type="button">📥 이미 기록이 있어요 — 이어하기 코드 붙여넣기</button>
   </div>
 </div>
 
@@ -1420,6 +1785,52 @@ body::before{
     </div>
   </div>
 
+
+<div class="picker" id="restoreWrap" hidden>
+  <div class="pick-card" role="dialog" aria-modal="true" aria-labelledby="restoreTitle">
+    <p class="pick-sys">[ SYSTEM ] 이어하기</p>
+    <h2 id="restoreTitle">이어하기 코드 붙여넣기</h2>
+    <p class="pick-desc" id="restoreDesc">원래 쓰던 브라우저에서 만든 <b>이어하기 코드</b>나 <b>?restore= 링크</b>를 붙여넣어 주세요.</p>
+    <div class="nick-wrap">
+      <label class="lbl" for="restoreInput">이어하기 코드 또는 링크</label>
+      <textarea class="restore-input" id="restoreInput" rows="3" placeholder="예) TaPkHd88UaMG5r   또는   https://…/?restore=…" autocomplete="off" spellcheck="false"></textarea>
+    </div>
+    <p class="restore-err" id="restoreErr" hidden></p>
+    <div class="pick-actions">
+      <button class="btn-ghost" id="restoreCancel" type="button">취소</button>
+      <button class="btn-primary" id="restoreLoad" type="button">불러오기</button>
+    </div>
+  </div>
+</div>
+
+<div class="picker" id="restoreOkWrap" hidden>
+  <div class="pick-card" role="dialog" aria-modal="true" aria-labelledby="restoreOkTitle">
+    <p class="pick-sys">[ SYSTEM ] 이어하기 확인</p>
+    <h2 id="restoreOkTitle">이 기록으로 이어갈까요?</h2>
+    <p class="pick-desc" id="restoreOkDesc">불러온 기록으로 이 기기를 채웁니다.</p>
+    <div class="restore-diff" id="restoreDiff"></div>
+    <p class="restore-warn" id="restoreOkWarn">이 기기에 지금 있는 기록은 불러온 기록으로 바뀝니다. 되돌릴 수 없어요.</p>
+    <div class="pick-actions">
+      <button class="btn-ghost" id="restoreOkCancel" type="button">취소</button>
+      <button class="btn-primary" id="restoreOkGo" type="button">이 기기로 이어받기</button>
+    </div>
+  </div>
+</div>
+
+<div class="picker" id="rejoinWrap" hidden>
+  <div class="pick-card" role="dialog" aria-modal="true" aria-labelledby="rejoinTitle">
+    <p class="pick-sys">[ SYSTEM ] 파티 재접속</p>
+    <h2 id="rejoinTitle">이미 참여 중인 방이에요</h2>
+    <p class="pick-desc" id="rejoinDesc">누구의 기기에서 이어서 할까요? 고른 멤버 자리로 이 기기가 연결됩니다.</p>
+    <div class="rejoin-list" id="rejoinList"></div>
+    <div class="rejoin-chars" id="rejoinChars" hidden></div>
+    <p class="rejoin-hint" id="rejoinHint"></p>
+    <p class="rejoin-warn">기록까지 그대로 옮기려면, 원래 쓰던 브라우저 <b>👫 파트너 탭 → ‘📤 내 이어하기 링크 복사’</b>를 이 기기에서 붙여넣어 주세요. 그러면 캐릭터·레벨·EXP와 방 연결이 100% 그대로 이어져요.</p>
+    <div class="pick-actions">
+      <button class="btn-ghost" id="rejoinCancel" type="button">나중에</button>
+    </div>
+  </div>
+</div>
 <div class="overlay" id="luOverlay">
   <div class="levelup" role="dialog" aria-modal="true" aria-labelledby="luTitle">
     <div class="confetti" id="luConfetti"></div>
@@ -2045,6 +2456,8 @@ body::before{
     renderV7();
     try { renderV9(); } catch(e){}
     try { renderHp(); renderHaz(); } catch(e){}
+    try { v11RenderMini(); } catch(e){}
+    try { v11RenderCash(); } catch(e){}
     renderParty();
   }
 
@@ -3229,6 +3642,7 @@ body::before{
         startPartyPolling();
         pullParty(false);
         toast(t.ownerNick + "님과 연결됐어요! 👫", "이제 서로의 오늘 기록이 보여요.");
+        try { if(window.__v11Tab) window.__v11Tab("party"); } catch(e){}
         return true;
       });
     }).catch(function(err){
@@ -3254,9 +3668,20 @@ body::before{
       if(!res.ok) throw new Error("room " + res.status);
       const d = res.body || {};
       if(!d.v) throw new Error("room-empty");
-      if(d.p2 && d.p2.id) throw new Error("full");
       if(!d.p1 || !d.p1.id) throw new Error("no-owner");
       if(!roomKey) throw new Error("no-key");
+      /* 이미 두 명이 찬 방 — 새 브라우저(사파리·홈 화면 앱)에서 멤버 자리로 재접속 */
+      if(d.p2 && d.p2.id){
+        return {
+          mode: "reconnect",
+          roomId: String(roomId),
+          roomKey: String(roomKey),
+          members: [
+            { side: "p1", id: String(d.p1.id), nick: d.p1.nick || "방장" },
+            { side: "p2", id: String(d.p2.id), nick: d.p2.nick || "파트너" }
+          ]
+        };
+      }
       return {
         roomId: String(roomId),
         roomKey: String(roomKey),
@@ -3264,6 +3689,10 @@ body::before{
         ownerNick: d.p1.nick || "파트너"
       };
     }).then(function(info){
+      if(info && info.mode === "reconnect"){
+        v11OpenRejoin(info);
+        return true;
+      }
       openJoinModal(info);
       return true;
     }).catch(function(err){
@@ -4962,6 +5391,7 @@ body::before{
       hero.classList.toggle("hp-low", v < 30);
       hero.classList.toggle("hp-zero", v <= 0);
     }
+    try { if(typeof v11RenderMini === "function") v11RenderMini(); } catch(e){}
   }
 
   function hazAll(){
@@ -5360,6 +5790,571 @@ body::before{
       if(!document.hidden && state){ renderHp(); }
     });
   }
+  /* ===================================================================
+     v7.0 — 하단 5탭 내비게이션 · 상단 미니 상태바
+     v7.1 — 다른 브라우저(사파리·홈 화면 앱)로 내 데이터 옮기기 · 방 재접속
+     =================================================================== */
+  var V11_TABS = ["quest", "care", "cash", "stats", "party"];
+  var v11Tab = "quest";
+  var v11ReconInfo = null;   /* 멤버 자리로 재접속 대기 중인 방 정보 */
+  var v11Pending = null;     /* 이어하기 확인을 기다리는 state */
+  var v11LastCode = "";
+
+  function v11Panes(){
+    return Array.prototype.slice.call(document.querySelectorAll("[data-pane]"));
+  }
+
+  function v11SetTab(id, opts){
+    if(V11_TABS.indexOf(id) < 0) id = "quest";
+    v11Tab = id;
+    try { document.documentElement.setAttribute("data-tab", id); } catch(e){}
+    v11Panes().forEach(function(n){
+      n.classList.toggle("on", n.getAttribute("data-pane") === id);
+    });
+    var bar = $("tabbar");
+    if(bar){
+      Array.prototype.forEach.call(bar.querySelectorAll(".tab"), function(b){
+        var on = b.getAttribute("data-tab") === id;
+        b.classList.toggle("on", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+      });
+    }
+    var ms = $("miniStat");
+    if(ms) ms.hidden = (id === "quest");
+    v11RenderMini();
+    try { v11RenderCash(); } catch(e){}
+    if(!opts || opts.scroll !== false){
+      try { window.scrollTo({ top: 0, behavior: "smooth" }); }
+      catch(e){ try { window.scrollTo(0, 0); } catch(e2){} }
+    }
+  }
+  window.__v11Tab = function(id, opts){ v11SetTab(id, opts); };
+
+  /* ---------- 미니 상태바 (탭 2~5) ---------- */
+  function v11RenderMini(){
+    var ms = $("miniStat");
+    if(!ms || !state || !state.stats) return;
+    var li, rank, bd, C;
+    try {
+      li = levelInfo(state.totalExp || 0);
+      rank = rankFor(li.level);
+      bd = bodyInfo(state.stats.str);
+      C = curChar();
+    } catch(e){ return; }
+    var idx = C.imgOffset + rank.stage + (bd.key === "slim" ? 7 : 0);
+    var im = $("msChar");
+    if(im && im.getAttribute("data-i") !== String(idx)){
+      im.src = window.IMAGES[idx];
+      im.setAttribute("data-i", String(idx));
+      im.alt = rank.name + " 캐릭터";
+    }
+    if($("msLv")) $("msLv").textContent = "Lv." + li.level;
+    if($("msRank")) $("msRank").textContent = rank.name;
+    var hp = 100;
+    try { hp = Math.max(0, Math.min(100, Math.round(hpVal()))); } catch(e){ hp = 100; }
+    if($("msHpFill")) $("msHpFill").style.width = hp + "%";
+    if($("msHpNum")) $("msHpNum").textContent = String(hp);
+    var pct = li.maxed ? 100 : Math.round(li.into / li.need * 100);
+    if($("msExpFill")) $("msExpFill").style.width = pct + "%";
+    if($("msExpNum")) $("msExpNum").textContent = li.maxed ? "MAX" : pct + "%";
+    ms.classList.toggle("hp-low", hp <= 30);
+    var dc = $("tabDotCare");
+    if(dc) dc.hidden = !(hp <= 30);
+    var dp = $("tabDotParty");
+    if(dp){
+      var r = cRoom();
+      var cheer = (state.cheerSeq || 0) > (state.cheerSeen || 0);
+      var fresh = !!(r && r.partnerId && !state.partner);
+      dp.hidden = !(cheer || fresh);
+    }
+  }
+
+  /* ---------- 탭 이동 ---------- */
+  function v11Wire(){
+    var bar = $("tabbar");
+    if(bar) bar.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest(".tab") : null;
+      if(!b) return;
+      var id = b.getAttribute("data-tab");
+      if(id === v11Tab){
+        try { window.scrollTo({ top:0, behavior:"smooth" }); } catch(err){}
+        return;
+      }
+      v11SetTab(id);
+      try { if(navigator.vibrate) navigator.vibrate(6); } catch(err){}
+    });
+    var jump = $("msJump");
+    if(jump) jump.addEventListener("click", function(){ v11SetTab("quest"); });
+
+    var lb = $("moveLinkBtn");
+    if(lb) lb.addEventListener("click", v11ExportLink);
+    var pm = $("pickMove");
+    if(pm) pm.addEventListener("click", v11OpenRestore);
+    var cb = $("moveCodeBtn");
+    if(cb) cb.addEventListener("click", v11OpenRestore);
+    var mu = $("moveUrl");
+    if(mu) mu.addEventListener("click", function(){
+      var t = String(mu.textContent || "");
+      if(t && t !== "—") v11Copy(t, "이어하기 링크를 복사했어요 📤", "사파리·홈 화면 앱에서 이 링크를 열어 보세요.");
+    });
+    var mc = $("moveCodeCopy");
+    if(mc) mc.addEventListener("click", function(){
+      if(v11LastCode) v11Copy(v11LastCode, "이어하기 코드를 복사했어요 📥", "새 브라우저에서 ‘📥 이어하기 코드 붙여넣기’에 넣어 주세요.");
+      else toast("코드가 아직 없어요.", "‘📤 내 이어하기 링크 복사’를 누르면 코드도 함께 만들어져요.");
+    });
+
+    var rl = $("restoreLoad");
+    if(rl) rl.addEventListener("click", v11LoadFromInput);
+    var rc = $("restoreCancel");
+    if(rc) rc.addEventListener("click", function(){ v11CloseRestore(); v11Lock(false); });
+    var ri = $("restoreInput");
+    if(ri) ri.addEventListener("keydown", function(e){
+      if(e.key === "Enter" && (e.metaKey || e.ctrlKey)){ e.preventDefault(); v11LoadFromInput(); }
+      if(e.key === "Enter" && !e.shiftKey && !e.metaKey && !e.ctrlKey){ e.preventDefault(); v11LoadFromInput(); }
+    });
+    var rw = $("restoreWrap");
+    if(rw) rw.addEventListener("click", function(e){ if(e.target === rw){ v11CloseRestore(); v11Lock(false); } });
+
+    var okc = $("restoreOkCancel");
+    if(okc) okc.addEventListener("click", function(){ v11Pending = null; v11CloseOk(); v11Lock(false); });
+    var okg = $("restoreOkGo");
+    if(okg) okg.addEventListener("click", v11ApplyRestore);
+
+    var jl = $("rejoinList");
+    if(jl) jl.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest(".rejoin-item") : null;
+      if(!b) return;
+      v11StartRejoin(b.getAttribute("data-side"));
+    });
+    var jc = $("rejoinChars");
+    if(jc) jc.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest(".rejoin-char") : null;
+      if(!b) return;
+      var k = b.getAttribute("data-char");
+      if(!CHARS[k]) return;
+      state.character = k;
+      if(!state.nick) state.nick = CHARS[k].nick;
+      save();
+      lastChar = -1;
+      render();
+      Array.prototype.forEach.call(jc.querySelectorAll(".rejoin-char"), function(x){
+        x.classList.toggle("on", x === b);
+      });
+      if($("rejoinHint")) $("rejoinHint").textContent = CHARS[k].emoji + " " + CHARS[k].card + "로 이어갈게요.";
+    });
+    var jx = $("rejoinCancel");
+    if(jx) jx.addEventListener("click", function(){
+      v11ReconInfo = null;
+      v11CloseRejoin();
+      v11Lock(false);
+      try { cleanupRoomParam(); } catch(e){}
+      if(state && !state.character) openPicker("start");
+    });
+
+    v11SetTab("quest", { scroll:false });
+  }
+
+  /* ---------- 클립보드 ---------- */
+  function v11Copy(text, t1, t2){
+    function done(){ toast(t1 || "복사했어요.", t2 || ""); }
+    function fallback(){
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "-1000px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        done();
+      } catch(e){
+        toast("길게 눌러 복사해 주세요.", String(text).slice(0, 120));
+      }
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  function v11Lock(on){
+    try { document.body.style.overflow = on ? "hidden" : ""; } catch(e){}
+  }
+
+  /* ---------- base64url (UTF-8) ---------- */
+  function v11B64e(str){
+    var bytes = new TextEncoder().encode(str);
+    var bin = "";
+    for(var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  function v11B64d(s){
+    var t = String(s).replace(/-/g, "+").replace(/_/g, "/");
+    while(t.length % 4) t += "=";
+    var bin = atob(t);
+    var bytes = new Uint8Array(bin.length);
+    for(var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+  function v11DecodePayload(b64){
+    var obj = null;
+    try { obj = JSON.parse(v11B64d(b64)); }
+    catch(e){ throw new Error("payload"); }
+    return obj;
+  }
+
+  /* ---------- 내 데이터 내보내기 ---------- */
+  function v11ExportLink(){
+    if(!state || !state.character){
+      toast("캐릭터를 먼저 골라 주세요.", "캐릭터를 정하면 이어하기 링크가 만들어져요.");
+      return;
+    }
+    var link = "";
+    try {
+      link = location.origin + location.pathname + "?restore=" + v11B64e(JSON.stringify(state));
+    } catch(e){
+      toast("이어하기 링크를 만들지 못했어요.", "잠시 뒤 다시 시도해 주세요.");
+      return;
+    }
+    var out = $("moveOut");
+    if(out) out.hidden = false;
+    var u = $("moveUrl");
+    if(u) u.textContent = link;
+    if($("moveState")) $("moveState").innerHTML = '<i class="p-dot ok"></i>링크 준비됨';
+    v11Copy(link, "이어하기 링크를 복사했어요 📤", "사파리·홈 화면 앱에서 이 링크를 열면 내 기록이 그대로 이어져요.");
+    v11MakeCode();
+  }
+
+  function v11MakeCode(){
+    var box = $("moveCode");
+    if(!box) return;
+    box.textContent = "만드는 중…";
+    v11LastCode = "";
+    var payload = "";
+    try { payload = JSON.stringify(state); } catch(e){ payload = ""; }
+    if(!payload){ box.textContent = "링크를 쓰세요"; return; }
+    cCreate({ v: 1, t: "restore", at: Date.now(), payload: payload }).then(function(res){
+      if(res.status === 429) throw new Error("limited");
+      if(!res.ok || !res.body || !res.body.id) throw new Error("create");
+      v11LastCode = String(res.body.id);
+      box.textContent = v11LastCode;
+      return true;
+    }).catch(function(){
+      box.textContent = "지금은 만들 수 없어요 · 링크를 쓰세요";
+    });
+  }
+
+  /* ---------- 이어하기 입력 ---------- */
+  function v11OpenRestore(){
+    var w = $("restoreWrap");
+    if(!w) return;
+    var i = $("restoreInput");
+    if(i) i.value = "";
+    var e = $("restoreErr");
+    if(e){ e.hidden = true; e.textContent = ""; }
+    w.hidden = false;
+    requestAnimationFrame(function(){ w.classList.add("on"); });
+    v11Lock(true);
+    setTimeout(function(){ try { if(i) i.focus(); } catch(err){} }, 260);
+  }
+  function v11CloseRestore(){
+    var w = $("restoreWrap");
+    if(!w) return;
+    w.classList.remove("on");
+    setTimeout(function(){ if(!w.classList.contains("on")) w.hidden = true; }, 240);
+  }
+  function v11CloseOk(){
+    var w = $("restoreOkWrap");
+    if(!w) return;
+    w.classList.remove("on");
+    setTimeout(function(){ if(!w.classList.contains("on")) w.hidden = true; }, 240);
+  }
+  function v11CloseRejoin(){
+    var w = $("rejoinWrap");
+    if(!w) return;
+    w.classList.remove("on");
+    setTimeout(function(){ if(!w.classList.contains("on")) w.hidden = true; }, 240);
+  }
+
+  function v11ReadInput(txt){
+    var s = String(txt || "").trim();
+    if(!s) return Promise.reject(new Error("empty"));
+    var m = s.match(/[?&]restore=([A-Za-z0-9_\-]+)/);
+    if(m) return Promise.resolve(v11DecodePayload(m[1]));
+    if(/^[A-Za-z0-9_\-]{40,}$/.test(s)) return Promise.resolve(v11DecodePayload(s));
+    var code = s.replace(/\s+/g, "");
+    if(!/^[A-Za-z0-9_\-]{6,64}$/.test(code)) return Promise.reject(new Error("format"));
+    return cGet(code).then(function(res){
+      if(!res.ok) throw new Error("code");
+      var d = res.body || {};
+      if(typeof d.payload !== "string" || !d.payload) throw new Error("code-empty");
+      var obj = null;
+      try { obj = JSON.parse(d.payload); } catch(e){ throw new Error("code-empty"); }
+      return obj;
+    });
+  }
+
+  function v11LoadFromInput(){
+    var errBox = $("restoreErr");
+    function fail(msg){
+      if(errBox){ errBox.hidden = false; errBox.textContent = msg; }
+    }
+    if(errBox){ errBox.hidden = true; errBox.textContent = ""; }
+    var btn = $("restoreLoad");
+    if(btn){ btn.disabled = true; btn.textContent = "불러오는 중…"; }
+    v11ReadInput($("restoreInput") ? $("restoreInput").value : "").then(function(obj){
+      if(btn){ btn.disabled = false; btn.textContent = "불러오기"; }
+      if(!obj || typeof obj !== "object" || !obj.v || !obj.character){
+        fail("이어하기 데이터를 읽지 못했어요. 코드나 링크를 다시 확인해 주세요.");
+        return;
+      }
+      v11AskApply(obj);
+    }, function(err){
+      if(btn){ btn.disabled = false; btn.textContent = "불러오기"; }
+      var m = String((err && err.message) || "");
+      if(m === "empty") fail("이어하기 코드나 링크를 붙여넣어 주세요.");
+      else if(m === "format") fail("코드 형식이 맞지 않아요. 코드 전체를 복사했는지 확인해 주세요.");
+      else if(m === "code") fail("그 코드를 찾지 못했어요. 만료됐거나 잘못 복사됐어요. 링크로 다시 시도해 보세요.");
+      else if(m === "code-empty") fail("그 코드에는 이어하기 데이터가 없어요.");
+      else fail("불러오지 못했어요. 연결을 확인하고 다시 시도해 주세요.");
+    });
+  }
+
+  function v11Stat(obj){
+    var out = { nick: "이름 없음", char: "—", lv: "—", hp: "—", room: "없음" };
+    out.nick = String(obj.nick || "이름 없음").slice(0, 12);
+    try {
+      var C = CHARS[obj.character];
+      if(C) out.char = C.emoji + " " + C.card;
+    } catch(e){}
+    try { out.lv = "Lv." + levelInfo(obj.totalExp || 0).level; } catch(e){}
+    try {
+      var h = (typeof obj.hp === "number" && isFinite(obj.hp)) ? Math.round(obj.hp) : 100;
+      out.hp = Math.max(0, Math.min(100, h)) + " / 100";
+    } catch(e){}
+    try { if(obj.room && obj.room.id && obj.room.myId) out.room = "연결됨"; } catch(e){}
+    return out;
+  }
+
+  function v11AskApply(obj){
+    v11Pending = obj;
+    var s = v11Stat(obj);
+    var diff = $("restoreDiff");
+    if(diff){
+      var rows = [
+        ["닉네임", s.nick],
+        ["캐릭터", s.char],
+        ["레벨", s.lv],
+        ["HP", s.hp],
+        ["파트너 방", s.room]
+      ];
+      diff.innerHTML = rows.map(function(r){
+        return '<div class="restore-row"><em>' + r[0] + '</em><b>' + esc(String(r[1])) + '</b></div>';
+      }).join("");
+    }
+    if($("restoreOkTitle")) $("restoreOkTitle").textContent = s.nick + " 기록으로 이어갈까요?";
+    if($("restoreOkWarn")){
+      $("restoreOkWarn").innerHTML = (s.room === "연결됨")
+        ? "이 기기에 지금 있는 기록은 불러온 기록으로 바뀝니다. <b>파트너 방 연결도 함께 넘어와요.</b> 되돌릴 수 없어요."
+        : "이 기기에 지금 있는 기록은 불러온 기록으로 바뀝니다. 되돌릴 수 없어요.";
+    }
+    v11CloseRestore();
+    var w = $("restoreOkWrap");
+    if(w){
+      w.hidden = false;
+      requestAnimationFrame(function(){ w.classList.add("on"); });
+    }
+    v11Lock(true);
+  }
+
+  function v11ApplyRestore(){
+    var incoming = v11Pending;
+    v11Pending = null;
+    v11CloseOk();
+    v11Lock(false);
+    if(!incoming) return;
+    try {
+      localStorage.setItem(KEY, JSON.stringify(incoming));
+    } catch(e){
+      toast("이 기기에 저장하지 못했어요.", "브라우저 저장 공간을 확인해 주세요.");
+      return;
+    }
+    try { state = load(); } catch(e){ state = incoming; }
+    try { if($("pickWrap") && $("pickWrap").classList.contains("on")) closePicker(); } catch(e){}
+    try { save(); } catch(e){}
+    lastChar = -1;
+    render();
+    renderParty();
+    try { cleanupRoomParam(); } catch(e){}
+    if(cRoom()){
+      try { startPartyPolling(); pullParty(false); touchRoom(); } catch(e){}
+    }
+    toast("이어서 시작할게요 📲", cRoom() ? "파트너 방 연결까지 그대로 불러왔어요." : "캐릭터·레벨·기록을 그대로 불러왔어요.");
+    v11SetTab(cRoom() ? "party" : "quest", { scroll:true });
+  }
+
+  /* ---------- ?restore= 링크로 들어왔을 때 ---------- */
+  function v11RestoreParam(){
+    var v = null;
+    try { v = new URLSearchParams(location.search).get("restore"); } catch(e){ v = null; }
+    return v || "";
+  }
+  function v11RestoreOnLoad(payload){
+    var obj = null;
+    try { obj = v11DecodePayload(payload); } catch(e){ obj = null; }
+    if(!obj || !obj.character){
+      toast("이어하기 링크를 읽지 못했어요.", "링크가 잘리지 않았는지 확인하고 다시 열어 주세요.");
+      try { cleanupRoomParam(); } catch(e){}
+      if(state && !state.character) openPicker("start");
+      return;
+    }
+    setTimeout(function(){ v11AskApply(obj); }, 320);
+  }
+
+  /* ---------- 이미 2명이 찬 방: 멤버 자리로 재접속 ---------- */
+  function v11OpenRejoin(info){
+    v11ReconInfo = info || null;
+    var box = $("rejoinList");
+    if(!box) return;
+    var members = (info && info.members) || [];
+    box.innerHTML = members.map(function(m){
+      var isOwner = m.side === "p1";
+      var nm = String(m.nick || (isOwner ? "방장" : "파트너"));
+      return '<button class="rejoin-item" type="button" data-side="' + m.side + '">'
+        + '<span class="rj-av">' + (isOwner ? "👑" : "🙋") + '</span>'
+        + '<span><b>' + esc(nm) + '</b>'
+        + '<small>' + (isOwner ? "방을 만든 기기" : "초대받아 들어온 기기") + '</small></span>'
+        + '<span class="rj-go">이 기기로 ›</span></button>';
+    }).join("");
+    var chars = $("rejoinChars");
+    if(chars){
+      var need = !state.character;
+      chars.hidden = !need;
+      if(need){
+        chars.innerHTML = Object.keys(CHARS).map(function(k){
+          return '<button class="rejoin-char" type="button" data-char="' + k + '">'
+            + CHARS[k].emoji + " " + esc(CHARS[k].card) + '</button>';
+        }).join("");
+      }
+    }
+    if($("rejoinHint")) $("rejoinHint").textContent = state.character
+      ? "내 기록까지 그대로 옮기려면 ‘📤 내 이어하기 링크’를 쓰는 게 가장 확실해요."
+      : "캐릭터를 먼저 골라 주세요.";
+    var w = $("rejoinWrap");
+    if(!w) return;
+    w.hidden = false;
+    requestAnimationFrame(function(){ w.classList.add("on"); });
+    v11Lock(true);
+  }
+
+  function v11StartRejoin(side){
+    var info = v11ReconInfo;
+    if(!info) return;
+    if(!state.character){
+      if($("rejoinHint")) $("rejoinHint").textContent = "캐릭터를 먼저 골라 주세요.";
+      var cc = $("rejoinChars");
+      if(cc) cc.hidden = false;
+      return;
+    }
+    var members = info.members || [];
+    var me = members.filter(function(m){ return m.side === side; })[0];
+    var other = members.filter(function(m){ return m.side !== side; })[0] || null;
+    if(!me) return;
+    if(!info.roomKey){
+      toast("초대 링크에 키가 없어요.", "파트너에게 링크를 다시 받아 주세요.");
+      return;
+    }
+    v11ReconInfo = null;
+    v11CloseRejoin();
+    v11Lock(false);
+    if(me.nick) state.nick = String(me.nick).slice(0, 10);
+    try { save(); render(); } catch(e){}
+
+    var myId = null, myKey = null;
+    var snap = snapshot();
+    cCreate(snap).then(function(res){
+      if(res.status === 429) throw new Error("limited");
+      if(!res.ok || !res.body || !res.body.id) throw new Error("create");
+      myId = String(res.body.id);
+      myKey = String(res.body.key || "");
+      return cGet(info.roomId);
+    }).then(function(res){
+      if(!res.ok) throw new Error("room");
+      var d = res.body;
+      if(!d || !d.v) throw new Error("room-empty");
+      var mine = { id: myId, nick: state.nick || me.nick || "나" };
+      if(side === "p1") d.p1 = mine; else d.p2 = mine;
+      d.v = 1;
+      d.updatedAt = Date.now();
+      return cPut(info.roomId, info.roomKey, d);
+    }).then(function(ur){
+      if(!ur.ok) throw new Error("put");
+      state.room = {
+        id: String(info.roomId),
+        key: String(info.roomKey),
+        myId: myId,
+        myKey: myKey,
+        side: side,
+        partnerId: other ? String(other.id) : null,
+        partnerNick: other ? String(other.nick || "") : "",
+        touchedAt: Date.now()
+      };
+      state.partner = null;
+      state.cheerSeen = 0;
+      state.lastSyncT = Date.now();
+      rawSave();
+      try { cleanupRoomParam(); } catch(e){}
+      try { setPartyState("synced"); } catch(e){}
+      try { render(); renderParty(); } catch(e){}
+      try { startPartyPolling(); pullParty(false); } catch(e){}
+      toast((me.nick || "내") + " 자리로 이어붙였어요 📲",
+        other ? ((other.nick || "파트너") + "님과 다시 연결됐어요.") : "파트너를 기다리는 중이에요.");
+      v11SetTab("party", { scroll:true });
+      return true;
+    }).catch(function(err){
+      var m = String((err && err.message) || "");
+      try { setPartyState("error"); } catch(e){}
+      if(m === "limited") toast("지금은 이어붙일 수 없어요.", "1분쯤 뒤에 다시 시도해 주세요.");
+      else if(m === "put") toast("방에 이어붙이지 못했어요.", "초대 링크 키가 만료됐을 수 있어요. 파트너에게 새 링크를 받아 주세요.");
+      else toast("이어붙이지 못했어요.", "연결을 확인하고 다시 시도해 주세요. 내 기록은 안전해요.");
+    });
+  }
+
+  /* ---------- 자산 탭 · 부자 변신 등급 ---------- */
+  function v11RenderCash(){
+    var list = $("richList");
+    if(!list || typeof MONEY_TIERS === "undefined") return;
+    var v = 0;
+    try { v = moneyVal(); } catch(e){ v = 0; }
+    var cur = moneyTier(v);
+    if($("richNow")) $("richNow").textContent = cur.emoji + " " + cur.name;
+    list.innerHTML = MONEY_TIERS.map(function(t){
+      var on = t.idx === cur.idx;
+      var range = t.next ? (fmtWon(t.min) + " ~ " + fmtWon(t.next)) : (fmtWon(t.min) + " ~");
+      var pct = 0;
+      if(on) pct = t.next ? Math.min(100, Math.max(0, (v - t.min) / (t.next - t.min) * 100)) : 100;
+      else if(t.next && v >= t.next) pct = 100;
+      var pill = on ? "현재" : (v >= t.min ? "달성" : fmtWon(t.min));
+      return '<div class="rich-row' + (on ? ' on' : '') + '">'
+        + '<span class="rich-em">' + t.emoji + '</span>'
+        + '<span class="rich-body"><b>' + esc(t.name) + '</b><small>' + range + '</small>'
+        + (on ? '<span class="rich-bar"><i style="width:' + Math.round(pct) + '%"></i></span>' : '')
+        + '</span>'
+        + '<span class="rich-pill">' + pill + '</span>'
+        + '</div>';
+    }).join("");
+    if($("richTip")) $("richTip").textContent = cur.next
+      ? "다음 등급까지 " + fmtWon(cur.next - v) + " · " + cur.tip
+      : "최고 등급 현물 재벌 👑 · " + cur.tip;
+  }
+
+  /* ---------- wireV11 ---------- */
+  function wireV11(){
+    try { v11Wire(); } catch(e){}
+  }
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -5368,6 +6363,7 @@ body::before{
   wireV7();
   wireV9();
   wireV10();
+  wireV11();
   renderParty();
 
   let inviteParam = null, inviteKey = null;
@@ -5377,7 +6373,9 @@ body::before{
     inviteKey = qs.get("k");
   } catch(e){ inviteParam = null; inviteKey = null; }
 
-  if(inviteParam && (!cRoom() || cRoom().id !== inviteParam)){
+  if(v11RestoreParam()){
+    v11RestoreOnLoad(v11RestoreParam());
+  } else if(inviteParam && (!cRoom() || cRoom().id !== inviteParam)){
     joinByLink(inviteParam, inviteKey);
   } else {
     if(cRoom()){ startPartyPolling(); pullParty(false); touchRoom(); }
