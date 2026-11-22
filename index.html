@@ -505,11 +505,8 @@ body::before{
 .nick-input::placeholder{color:#C7B7C6}
 .nick-input:focus{border-color:#C3AAF5;box-shadow:0 0 0 3px rgba(195,170,245,.22)}
 .nick-input.shake{animation:shake .35s}
-/* 파티 카드 안내 — 초대 보내기는 페이지 맨 아래 카드로 이동 */
-.invite-jump{width:100%;margin-top:2px;padding:11px;border-radius:14px;border:1.5px dashed #E6D6F0;background:rgba(255,255,255,.72);color:#8A6E9E;font-family:inherit;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;letter-spacing:-.01em}
-.invite-jump:active{transform:scale(.99)}
-
-/* 페이지 맨 아래 — 파트너 초대 링크 보내기 */
+/* 파티 카드 → 바로 아래 초대 카드로 자연스럽게 이어짐 (점프 버튼 없음) */
+/* 페이지 맨 아래 — 함께하는 파트너 카드 바로 아래 */
 .card.invite{background:linear-gradient(160deg,#F7FBFF 0%,#FFF8F4 54%,#F6F1FF 100%)}
 .invite-desc{margin:0 0 10px;font-size:10.5px;line-height:1.6;color:var(--muted);font-weight:600;word-break:keep-all}
 .invite-url{cursor:pointer;transition:border-color .15s,background .15s}
@@ -921,52 +918,6 @@ body::before{
     </div>
   </section>
 
-  <section class="card party" id="coupleCard">
-    <div class="card-head">
-      <span class="sys">[ PARTY ]</span>
-      <h3>👫 함께하는 파트너</h3>
-      <span class="hint" id="partyState">대기</span>
-    </div>
-
-    <div class="me-row">
-      <span class="me-label">나</span>
-      <b id="myNickTag">이름 없음</b>
-      <span class="me-meta" id="myMeta"></span>
-      <button class="me-edit" id="nameBtn" type="button">이름</button>
-    </div>
-
-    <div id="waitingBox">
-      <p class="party-desc" id="waitingDesc">방을 준비하고 있어요. 초대 링크는 맨 아래에서 보낼 수 있어요.</p>
-      <button class="invite-jump" id="inviteJump" type="button">🔗 파트너 초대 링크 보내기 <span aria-hidden="true">↓</span></button>
-    </div>
-
-    <div id="partnerBox" hidden>
-      <div class="p-top">
-        <div class="p-avatar"><img id="pImg" alt="파트너 캐릭터"></div>
-        <div class="p-id">
-          <b id="pNick">파트너</b>
-          <span class="p-rank" id="pRank">불러오는 중…</span>
-          <div class="p-chips">
-            <span class="p-chip" id="pQuestChip">✅ 0/4</span>
-            <span class="p-chip fire" id="pStreakChip">🔥 0일</span>
-            <span class="p-chip game" id="pGameChip">🎮 0점</span>
-            <span class="p-chip money" id="pMoneyChip">💰 🌱 소박한 헌터</span>
-            <span class="p-chip clear" id="pClearChip" hidden>🏆 오늘 올클리어!</span>
-          </div>
-        </div>
-      </div>
-      <p class="p-line" id="pLine">한마디를 기다리는 중…</p>
-      <div class="p-actions">
-        <button class="p-btn" id="syncBtn" type="button">🔄 지금 동기화</button>
-        <button class="p-btn poke" id="pokeBtn" type="button">💌 응원 콕 찌르기</button>
-      </div>
-      <div class="p-foot">
-        <span id="pSyncTime">아직 동기화 전</span>
-        <span id="pFootHint">초대 링크는 맨 아래</span>
-      </div>
-    </div>
-  </section>
-
   <section class="card">
     <div class="q-head">
       <div>
@@ -1038,6 +989,52 @@ body::before{
     <button class="tool" id="cheatStr">🏃 테스트 STR +5</button>
     <button class="tool" id="cheatInt">📚 테스트 INT +5</button>
   </div>
+
+  <section class="card party" id="coupleCard">
+    <div class="card-head">
+      <span class="sys">[ PARTY ]</span>
+      <h3>👫 함께하는 파트너</h3>
+      <span class="hint" id="partyState">대기</span>
+    </div>
+
+    <div class="me-row">
+      <span class="me-label">나</span>
+      <b id="myNickTag">이름 없음</b>
+      <span class="me-meta" id="myMeta"></span>
+      <button class="me-edit" id="nameBtn" type="button">이름</button>
+    </div>
+
+    <div id="waitingBox">
+      <p class="party-desc" id="waitingDesc">방을 준비하고 있어요. 바로 아래 초대 카드에서 링크를 보낼 수 있어요.</p>
+    </div>
+
+    <div id="partnerBox" hidden>
+      <div class="p-top">
+        <div class="p-avatar"><img id="pImg" alt="파트너 캐릭터"></div>
+        <div class="p-id">
+          <b id="pNick">파트너</b>
+          <span class="p-rank" id="pRank">불러오는 중…</span>
+          <div class="p-chips">
+            <span class="p-chip" id="pQuestChip">✅ 0/4</span>
+            <span class="p-chip fire" id="pStreakChip">🔥 0일</span>
+            <span class="p-chip game" id="pGameChip">🎮 0점</span>
+            <span class="p-chip money" id="pMoneyChip">💰 🌱 소박한 헌터</span>
+            <span class="p-chip clear" id="pClearChip" hidden>🏆 오늘 올클리어!</span>
+          </div>
+        </div>
+      </div>
+      <p class="p-line" id="pLine">한마디를 기다리는 중…</p>
+      <div class="p-actions">
+        <button class="p-btn" id="syncBtn" type="button">🔄 지금 동기화</button>
+        <button class="p-btn poke" id="pokeBtn" type="button">💌 응원 콕 찌르기</button>
+      </div>
+      <div class="p-foot">
+        <span id="pSyncTime">아직 동기화 전</span>
+        <span id="pFootHint">초대 링크는 바로 아래 카드</span>
+      </div>
+    </div>
+  </section>
+
   <section class="card invite" id="inviteCard">
     <div class="card-head">
       <span class="sys">[ INVITE ]</span>
@@ -2513,7 +2510,7 @@ body::before{
       setPartyState("waiting");
       renderParty();
       startPartyPolling();
-      toast("초대 링크가 준비됐어요! 💌", "맨 아래 ‘파트너 초대 링크 보내기’에서 복사해 보내 주세요.");
+      toast("초대 링크가 준비됐어요! 💌", "바로 아래 ‘파트너 초대 링크 보내기’ 카드에서 복사해 보내 주세요.");
       return true;
     }).catch(function(err){
       const msg = String((err && err.message) || "");
@@ -2620,7 +2617,7 @@ body::before{
     }, 8000);
   }
 
-  /* ---------- 초대 카드 (페이지 맨 아래) ---------- */
+  /* ---------- 초대 카드 (파트너 카드 바로 아래) ---------- */
   function renderInviteCard(){
     const r = cRoom();
     const hasPartner = !!(r && r.partnerId);
@@ -2672,8 +2669,8 @@ body::before{
       const desc = $("waitingDesc");
       if(desc){
         desc.innerHTML = r
-          ? "파트너가 아직 들어오지 않았어요. 초대 링크는 <b>맨 아래</b> ‘파트너 초대 링크 보내기’에서 보낼 수 있어요."
-          : "방을 준비하고 있어요. 초대 링크는 <b>맨 아래</b>에서 보낼 수 있어요.";
+          ? "파트너가 아직 들어오지 않았어요. 초대 링크는 <b>바로 아래</b> ‘파트너 초대 링크 보내기’ 카드에서 보낼 수 있어요."
+          : "방을 준비하고 있어요. 초대 링크는 <b>바로 아래</b> 초대 카드에서 보낼 수 있어요.";
       }
       const t = $("pSyncTime");
       if(t) t.textContent = syncTimeText();
@@ -2915,16 +2912,6 @@ body::before{
     if(iu) iu.addEventListener("click", function(){
       if(cRoom()) copyInvite();
       else onInviteClick();
-    });
-    const ij = $("inviteJump");
-    if(ij) ij.addEventListener("click", function(){
-      const ic = $("inviteCard");
-      if(!ic){ onInviteClick(); return; }
-      try { ic.scrollIntoView({ behavior: "smooth", block: "center" }); }
-      catch(e){ ic.scrollIntoView(); }
-      ic.classList.remove("flash");
-      void ic.offsetWidth;
-      ic.classList.add("flash");
     });
     const sb = $("syncBtn");
     if(sb) sb.addEventListener("click", function(){
