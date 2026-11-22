@@ -4305,6 +4305,12 @@ body::before{
   }
 
   /* ---------- 나태 페널티 ---------- */
+  function v9ClampNote(applied, amt){
+    if(applied >= amt) return "";
+    if(applied <= 0) return " · EXP가 이미 0이라 더 내려가지 않았어요";
+    return " · EXP가 " + applied + " 남아 그만큼만 차감";
+  }
+
   function penAmount(n){
     if(n <= 0) return 0;
     if(n === 1) return 25;
@@ -4581,7 +4587,7 @@ body::before{
     const line = $("penLine");
     if(line){
       line.textContent = "어제 퀘스트를 안 깨서 -" + (rep.nominal || rep.total) + " EXP 하락! (연속 " + rep.streak + "일째)"
-        + (rep.total < (rep.nominal || rep.total) ? " · 남은 EXP " + rep.total + "만 차감(최소 0)" : "");
+        + v9ClampNote(rep.total, (rep.nominal || rep.total));
     }
     const figs = $("penFigures");
     if(figs){
@@ -4608,9 +4614,9 @@ body::before{
     save();
     render();
     const after = levelInfo(state.totalExp);
-    const note = applied < amt ? " · 남은 EXP " + applied + "만 차감(최소 0)" : "";
     toast("⚠️ 나태 페널티 발동",
-      "어제 퀘스트를 안 깨서 -" + amt + " EXP 하락! (연속 " + state.pen.streak + "일째)" + note, null, 5200);
+      "어제 퀘스트를 안 깨서 -" + amt + " EXP 하락! (연속 " + state.pen.streak + "일째)"
+        + v9ClampNote(applied, amt), null, 5200);
     if(after.level < before.level){
       setTimeout(function(){
         toast("💀 레벨 강등", "Lv." + before.level + " → Lv." + after.level + " · 진화 단계도 내려갔습니다.", null, 5200);
