@@ -505,6 +505,21 @@ body::before{
 .nick-input::placeholder{color:#C7B7C6}
 .nick-input:focus{border-color:#C3AAF5;box-shadow:0 0 0 3px rgba(195,170,245,.22)}
 .nick-input.shake{animation:shake .35s}
+/* 파티 카드 안내 — 초대 보내기는 페이지 맨 아래 카드로 이동 */
+.invite-jump{width:100%;margin-top:2px;padding:11px;border-radius:14px;border:1.5px dashed #E6D6F0;background:rgba(255,255,255,.72);color:#8A6E9E;font-family:inherit;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;letter-spacing:-.01em}
+.invite-jump:active{transform:scale(.99)}
+
+/* 페이지 맨 아래 — 파트너 초대 링크 보내기 */
+.card.invite{background:linear-gradient(160deg,#F7FBFF 0%,#FFF8F4 54%,#F6F1FF 100%)}
+.invite-desc{margin:0 0 10px;font-size:10.5px;line-height:1.6;color:var(--muted);font-weight:600;word-break:keep-all}
+.invite-url{cursor:pointer;transition:border-color .15s,background .15s}
+.invite-url:active{border-color:#C9B4F0;background:#FBF7FF}
+#inviteCard.flash{animation:inviteGlow 1.4s ease-out}
+@keyframes inviteGlow{
+  0%,100%{box-shadow:0 16px 32px -26px rgba(140,100,80,.75),0 0 0 1px rgba(232,218,200,.5)}
+  22%{box-shadow:0 0 0 4px rgba(195,170,245,.45),0 18px 34px -20px rgba(150,110,200,.7)}
+}
+
 .toast.cheer{background:linear-gradient(135deg,#48213F 0%,#7C2E5E 100%);border-color:#C97AA6;box-shadow:0 18px 34px -16px rgba(90,25,70,.9)}
 .toast.cheer .l1{color:#FFD9E8}
 .toast.cheer .l1 b{color:#FFF0B8;font-weight:800}
@@ -921,9 +936,8 @@ body::before{
     </div>
 
     <div id="waitingBox">
-      <p class="party-desc" id="waitingDesc">초대 링크를 보내면 파트너가 같은 방으로 들어와요. 둘의 오늘 기록이 서로에게 보여요.</p>
-      <button class="btn-primary invite-btn" id="inviteBtn" type="button">🔗 와이프/파트너 초대 링크 만들기</button>
-      <p class="invite-url" id="inviteUrl">버튼을 누르면 방이 만들어지고 초대 링크가 생겨요.</p>
+      <p class="party-desc" id="waitingDesc">방을 준비하고 있어요. 초대 링크는 맨 아래에서 보낼 수 있어요.</p>
+      <button class="invite-jump" id="inviteJump" type="button">🔗 파트너 초대 링크 보내기 <span aria-hidden="true">↓</span></button>
     </div>
 
     <div id="partnerBox" hidden>
@@ -948,7 +962,7 @@ body::before{
       </div>
       <div class="p-foot">
         <span id="pSyncTime">아직 동기화 전</span>
-        <button class="p-mini" id="inviteAgain" type="button">초대 링크 복사</button>
+        <span id="pFootHint">초대 링크는 맨 아래</span>
       </div>
     </div>
   </section>
@@ -1024,6 +1038,17 @@ body::before{
     <button class="tool" id="cheatStr">🏃 테스트 STR +5</button>
     <button class="tool" id="cheatInt">📚 테스트 INT +5</button>
   </div>
+  <section class="card invite" id="inviteCard">
+    <div class="card-head">
+      <span class="sys">[ INVITE ]</span>
+      <h3>🔗 파트너 초대 링크 보내기</h3>
+      <span class="hint" id="inviteState">대기</span>
+    </div>
+    <p class="invite-desc" id="inviteDesc">링크 하나만 보내면 파트너가 같은 방으로 들어와요. 가입 없이, 링크만 누르면 바로 시작돼요.</p>
+    <button class="btn-primary invite-btn" id="inviteBtn" type="button">🔗 파트너 초대 링크 만들기</button>
+    <p class="invite-url" id="inviteUrl" title="눌러서 복사">버튼을 누르면 초대 링크가 생겨요.</p>
+  </section>
+
   <p class="tiny">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v3.0 (다마고치 · 2인 공유)</p>
 </div>
 
@@ -2488,7 +2513,7 @@ body::before{
       setPartyState("waiting");
       renderParty();
       startPartyPolling();
-      toast("초대 링크가 준비됐어요! 💌", "아래 버튼으로 복사해서 와이프에게 보내 주세요.");
+      toast("초대 링크가 준비됐어요! 💌", "맨 아래 ‘파트너 초대 링크 보내기’에서 복사해 보내 주세요.");
       return true;
     }).catch(function(err){
       const msg = String((err && err.message) || "");
@@ -2595,12 +2620,38 @@ body::before{
     }, 8000);
   }
 
+  /* ---------- 초대 카드 (페이지 맨 아래) ---------- */
+  function renderInviteCard(){
+    const r = cRoom();
+    const hasPartner = !!(r && r.partnerId);
+    const st = $("inviteState"), desc = $("inviteDesc"), btn = $("inviteBtn"), url = $("inviteUrl");
+    if(st){
+      st.innerHTML = hasPartner
+        ? '<i class="p-dot ok"></i>연결됨'
+        : (r ? '<i class="p-dot wait"></i>링크 준비됨' : '<i class="p-dot"></i>대기');
+    }
+    if(btn) btn.textContent = r ? "🔗 파트너 초대 링크 복사" : "🔗 파트너 초대 링크 만들기";
+    if(desc){
+      if(hasPartner) desc.innerHTML = "이미 파트너와 연결돼 있어요. 링크를 복사해 다시 보낼 수 있어요.";
+      else if(r) desc.innerHTML = "링크를 복사해서 카톡으로 보내 주세요. 파트너가 링크를 누르면 이 방으로 바로 들어와요.";
+      else if(!state.character) desc.innerHTML = "이름과 캐릭터를 먼저 골라 주세요. 고르고 나면 초대 링크가 만들어져요.";
+      else desc.innerHTML = "버튼을 누르면 방이 만들어지고 초대 링크가 생겨요.";
+    }
+    if(url){
+      if(r) url.textContent = inviteLink();
+      else if(!state.character) url.textContent = "이름과 캐릭터를 먼저 골라 주세요.";
+      else url.textContent = "버튼을 누르면 방이 만들어지고 초대 링크가 생겨요.";
+    }
+  }
+
   /* ---------- 파트너 카드 ---------- */
   function renderParty(){
-    if(!$("coupleCard")) return;
+    if(!$("coupleCard") && !$("inviteCard")) return;
     const r = cRoom();
     const p = state.partner;
     const hasPartner = !!(r && r.partnerId);
+
+    renderInviteCard();
 
     if($("myNickTag")) $("myNickTag").textContent = state.nick || "이름 없음";
     if($("myMeta")){
@@ -2618,13 +2669,11 @@ body::before{
     if(box) box.hidden = !hasPartner;
 
     if(!hasPartner){
-      const btn = $("inviteBtn"), url = $("inviteUrl"), desc = $("waitingDesc");
-      if(btn) btn.textContent = r ? "🔗 와이프/파트너 초대 링크 복사" : "🔗 와이프/파트너 초대 링크 만들기";
-      if(desc) desc.innerHTML = "초대 링크를 보내면 파트너가 같은 방으로 들어와요. 둘의 오늘 기록이 서로에게 보여요.";
-      if(url){
-        if(r){ url.textContent = inviteLink(); }
-        else if(!state.character){ url.textContent = "이름과 캐릭터를 먼저 골라 주세요."; }
-        else { url.textContent = "버튼을 누르면 방이 만들어지고 초대 링크가 생겨요."; }
+      const desc = $("waitingDesc");
+      if(desc){
+        desc.innerHTML = r
+          ? "파트너가 아직 들어오지 않았어요. 초대 링크는 <b>맨 아래</b> ‘파트너 초대 링크 보내기’에서 보낼 수 있어요."
+          : "방을 준비하고 있어요. 초대 링크는 <b>맨 아래</b>에서 보낼 수 있어요.";
       }
       const t = $("pSyncTime");
       if(t) t.textContent = syncTimeText();
@@ -2862,8 +2911,21 @@ body::before{
   function wireParty(){
     const ib = $("inviteBtn");
     if(ib) ib.addEventListener("click", onInviteClick);
-    const ia = $("inviteAgain");
-    if(ia) ia.addEventListener("click", copyInvite);
+    const iu = $("inviteUrl");
+    if(iu) iu.addEventListener("click", function(){
+      if(cRoom()) copyInvite();
+      else onInviteClick();
+    });
+    const ij = $("inviteJump");
+    if(ij) ij.addEventListener("click", function(){
+      const ic = $("inviteCard");
+      if(!ic){ onInviteClick(); return; }
+      try { ic.scrollIntoView({ behavior: "smooth", block: "center" }); }
+      catch(e){ ic.scrollIntoView(); }
+      ic.classList.remove("flash");
+      void ic.offsetWidth;
+      ic.classList.add("flash");
+    });
     const sb = $("syncBtn");
     if(sb) sb.addEventListener("click", function(){
       if(!cRoom()){ onInviteClick(); return; }
