@@ -802,6 +802,91 @@ body::before{
   .money-amt b{font-size:22px}
 }
 
+/* v5.0 difficulty/penalty styles */
+/* ---------- v5.0 레벨별 퀘스트 난이도 · 나태 페널티 ---------- */
+.diff-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 9px}
+.diff-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:var(--mono);font-size:9px;font-weight:800;letter-spacing:.02em;
+  padding:5px 9px;border-radius:99px;border:1px solid transparent;white-space:nowrap;
+  transition:.25s;
+}
+.diff-badge.t1{color:#8A6A2E;background:#FFF4D6;border-color:#F3DFA6}
+.diff-badge.t2{color:#A65425;background:#FFEBDD;border-color:#F7CDAF}
+.diff-badge.t3{color:#8C3B6B;background:#FBE3F1;border-color:#F0C3DE}
+.diff-badge.t4{
+  color:#5F4193;background:#EBE2FF;border-color:#D5C2FA;
+  box-shadow:0 0 0 3px rgba(155,123,255,.12);
+}
+.diff-defense{font-size:8.5px;font-weight:700;color:#B08EA8;line-height:1.45;letter-spacing:-.01em}
+.diff-defense b{color:#7B5ED6}
+
+.pen-banner{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  background:linear-gradient(120deg,#2E2338,#3D2442);color:#FFD9E4;
+  border:1px solid #7A4A6B;border-radius:13px;padding:8px 10px;margin:0 0 9px;
+  box-shadow:0 10px 22px -16px rgba(40,20,60,.9);
+  animation:penIn .35s cubic-bezier(.2,.9,.3,1.2);
+}
+.pen-banner .pb-sys{font-family:var(--mono);font-size:7.5px;letter-spacing:.18em;color:#C6B2FF}
+.pen-banner b{font-size:11px;font-weight:800;color:#FFD9E4}
+.pen-banner span:last-child{font-size:8.5px;color:#C9A9C6;font-weight:600;line-height:1.4;flex:1 1 100%}
+@keyframes penIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* 꾹 누르기 게이지 (Lv.9+) */
+.quest{--hold:0%}
+.quest::before{
+  content:"";position:absolute;left:0;bottom:0;height:3px;width:var(--hold);
+  background:linear-gradient(90deg,#FF9BC0,#9B7BFF);
+  opacity:0;transition:opacity .18s;border-radius:0 3px 3px 0;
+}
+.quest.holding::before{opacity:1}
+.quest.holding{
+  border-color:#C7AAFA;background:#FFFBF3;
+  box-shadow:0 0 0 3px rgba(155,123,255,.16);
+}
+.quest.holding .check{border-color:#B79BF2;background:#F7F1FF}
+/* 두 번 탭 확인 (Lv.4~8) */
+.quest.armed{
+  border-color:#F3C069;background:#FFF9E8;
+  box-shadow:0 0 0 3px rgba(243,192,105,.2);
+  animation:armPulse 1.1s ease-in-out infinite;
+}
+.quest.armed .check{border-color:#F0B84E;background:#FFF4D4;color:transparent;box-shadow:0 0 0 3px rgba(240,184,78,.16)}
+.quest.armed::after{
+  content:"한 번 더 탭!";position:absolute;right:10px;top:4px;
+  font-family:var(--mono);font-size:7.5px;font-weight:800;color:#B98A2E;letter-spacing:.02em;
+}
+@keyframes armPulse{0%,100%{box-shadow:0 0 0 3px rgba(243,192,105,.18)}50%{box-shadow:0 0 0 5px rgba(243,192,105,.3)}}
+
+.tag.hold{background:#F3E9FF;color:#8465D6}
+.tag.confirm{background:#FFF3DC;color:#B07C27}
+.tool.danger{color:#B4516F;border-color:#F3C9D6;background:#FFF6F9}
+
+/* 나태 페널티 [ SYSTEM ] 창 */
+.penalty{
+  position:relative;width:100%;max-width:326px;overflow:hidden;text-align:center;
+  background:linear-gradient(180deg,#2B2033 0%,#3A2440 100%);
+  border:1.5px solid #86527E;border-radius:26px;padding:20px 18px 16px;
+  box-shadow:0 30px 60px -22px rgba(20,10,30,.85);
+  transform:scale(.92) translateY(8px);transition:transform .3s cubic-bezier(.2,.9,.3,1.25);
+  color:#F4E6F2;
+}
+.overlay.on .penalty{transform:none}
+.penalty .lu-sys{color:#E38FB4;letter-spacing:.3em}
+.penalty h2{
+  margin:2px 0 7px;font-size:22px;font-weight:400;letter-spacing:-.02em;color:#FFE3EC;
+  font-family:'Jua','Pretendard','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;
+}
+.pen-line{margin:0 0 12px;font-size:11.5px;font-weight:700;color:#FFC7D9;line-height:1.5;word-break:keep-all}
+.pen-figures{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 12px}
+.pen-figures .pf{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:7px 4px}
+.pf span{display:block;font-family:var(--mono);font-size:7.5px;letter-spacing:.06em;color:#B79EBE;font-weight:700}
+.pf b{display:block;margin-top:3px;font-size:13px;font-weight:800;color:#F6E7FF;font-family:var(--mono)}
+.pf b.down{color:#FF9BB6}
+.pen-tip{margin:0 0 14px;font-size:9.5px;color:#C0A6C8;font-weight:600;line-height:1.55;word-break:keep-all}
+.penalty .btn-primary{width:100%;background:linear-gradient(135deg,#E4699B,#8B5CF6);box-shadow:0 12px 22px -12px rgba(160,90,180,.9)}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -947,6 +1032,16 @@ body::before{
       <div class="q-count"><b id="doneCount">0</b>/<span id="totalCount">4</span></div>
     </div>
     <p class="q-desc">전부 깨면 오늘의 생존 신고 완료. 보상은 즉시 지급된다.</p>
+  <div class="diff-row">
+    <span class="diff-badge t1" id="diffBadge">⚔️ 난이도 Lv.1 입문</span>
+    <span class="diff-defense" id="diffDefense">오늘 1개 이상 깨면 EXP 하락 방어!</span>
+  </div>
+  <div class="pen-banner" id="penBanner" hidden>
+    <span class="pb-sys">[ SYSTEM ]</span>
+    <b id="penBannerText">⚠️ 나태 페널티</b>
+    <span id="penBannerSub">오늘 1개 이상 깨면 EXP 하락 방어!</span>
+  </div>
+
     <div id="questList"></div>
     <button class="add-btn" id="addBtn">＋ 일일 퀘스트 추가</button>
 
@@ -1024,6 +1119,7 @@ body::before{
     <button class="tool" id="cheatExp">🧪 테스트 EXP +150</button>
     <button class="tool" id="cheatStr">🏃 테스트 STR +5</button>
     <button class="tool" id="cheatInt">📚 테스트 INT +5</button>
+    <button class="tool danger" id="penTest">💀 방치 -1일 테스트</button>
   </div>
 
   <section class="card party" id="coupleCard">
@@ -1082,7 +1178,7 @@ body::before{
     <p class="invite-url" id="inviteUrl" title="눌러서 복사">버튼을 누르면 초대 링크가 생겨요.</p>
   </section>
 
-  <p class="tiny">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v4.0 (7단계 전직 · 다마고치 · 2인 공유)</p>
+  <p class="tiny">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v5.0 (7단계 전직 · 다마고치 · 2인 공유 · 난이도·페널티)</p>
 </div>
 
 <div id="toasts"></div>
@@ -1162,6 +1258,17 @@ body::before{
     <p class="lu-rank" id="luRank"></p>
     <p class="lu-desc" id="luDesc"></p>
     <button class="btn-primary" id="luClose">확인</button>
+  </div>
+</div>
+
+<div class="overlay" id="penOverlay">
+  <div class="penalty" role="dialog" aria-modal="true" aria-labelledby="penTitle">
+    <p class="lu-sys">[ SYSTEM ]</p>
+    <h2 id="penTitle">⚠️ 나태 페널티 발동</h2>
+    <p class="pen-line" id="penLine">어제 퀘스트를 안 깨서 -25 EXP 하락! (연속 1일째)</p>
+    <div class="pen-figures" id="penFigures"></div>
+    <p class="pen-tip">오늘 기본이든 보너스든 1개 이상 완료하면 연속 페널티가 초기화됩니다. 방치가 길어질수록 차감이 커집니다.</p>
+    <button class="btn-primary" id="penClose">확인</button>
   </div>
 </div>
 
@@ -1526,6 +1633,8 @@ body::before{
       bonus: {date: "", list: [], cleared: false},
       bonusCustom: [],
       allclear: null,
+      doneDays: [],
+      pen: {streak:0, upto:"", lastAmt:0, lastAt:0},
       born: today()
     };
   }
@@ -1570,6 +1679,10 @@ body::before{
 
     // v3.0 필드
     try { v7Normalize(s); } catch(e){}
+    try { v9Normalize(s); } catch(e){}
+
+    // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
+    try { v9PenaltyAtLoad(s); } catch(e){}
 
     // daily rollover
     const t = today();
@@ -1695,6 +1808,7 @@ body::before{
     }).join("");
 
     // quests
+    try { syncQuestTitles(); } catch(e){}
     const done = state.quests.filter(q => q.done).length;
     el.doneCount.textContent = done;
     el.totalCount.textContent = state.quests.length;
@@ -1709,6 +1823,7 @@ body::before{
         +   '<span class="q-sub">'
         +     '<span class="tag">'+gains+'</span>'
         +     (q.custom ? '<span class="tag custom">내 퀘스트</span>' : '')
+        +     (q.done ? '' : diffTag())
         +   '</span>'
         + '</span>'
         + '<span class="exp-chip">+'+q.exp+'</span>'
@@ -1747,6 +1862,7 @@ body::before{
     el.quote.textContent = tx(QUOTES[doy % QUOTES.length]);
 
     renderV7();
+    try { renderV9(); } catch(e){}
     renderParty();
   }
 
@@ -1941,6 +2057,7 @@ body::before{
     });
     state.totalQuests += 1;
     try { questHooks(q); } catch(e){}
+    try { v9OnQuestDone(q); } catch(e){}
 
     const t = today();
     if(state.lastActive !== t){
@@ -2182,10 +2299,11 @@ body::before{
     const q = state.quests.find(x => x.id === id);
     if(!q) return;
     if(q.done){
+      if(v9SkipDoneToast()) return;
       toast("이미 완료한 퀘스트입니다.", "초기화하면 다시 도전할 수 있어요. (아래 ⟳ 버튼)");
       return;
     }
-    completeQuest(id);
+    questGate(card, function(){ completeQuest(id); });
   });
 
   el.addBtn.addEventListener("click", function(){ openSheet("daily"); });
@@ -3293,6 +3411,7 @@ body::before{
       state.luck.n = (state.luck.n || 0) + 1;
       state.luck.until = Date.now() + 3600000;
     }
+    try { v9OnQuestDone(q); } catch(e){}
     checkAllClear();
     save();
     render();
@@ -3581,6 +3700,7 @@ body::before{
         +   '<span class="q-sub"><span class="tag">' + (gains || "보너스") + '</span>'
         +     (q.luck ? '<span class="tag">🍀 LUCK</span>' : '')
         +     (q.custom ? '<span class="tag custom">내 퀘스트</span>' : '')
+        +     (q.done ? '' : diffTag())
         +   '</span>'
         + '</span>'
         + '<span class="exp-chip">+' + q.exp + '</span>'
@@ -4072,10 +4192,11 @@ body::before{
       const q = (state.bonus.list || []).find(function(x){ return x.id === id; });
       if(!q) return;
       if(q.done){
+        if(v9SkipDoneToast()) return;
         toast("이미 완료한 보너스 퀘스트입니다.", "되돌리기는 완료 직후 토스트에서 누를 수 있어요.");
         return;
       }
-      completeBonus(id);
+      questGate(card, function(){ completeBonus(id); });
     });
 
     setInterval(v7Tick, 20000);
@@ -4099,12 +4220,429 @@ body::before{
     if(hero) hero.classList.toggle("luck-on", luckOn());
   }
 
+  /* ---------- v5.0 레벨별 퀘스트 난이도 · 나태 페널티 ----------
+     · 기본 퀘스트 4개(q-water/q-stretch/q-read/q-goal)의 목표량을 레벨 티어에 맞춰 자동 상향
+     · 티어별 완료 조작: Lv.1~3 한 번 탭 / Lv.4~8 두 번 탭 / Lv.9~18 1.2초 꾹 누르기
+     · 하루 이상 퀘스트를 하나도 완료하지 않으면 연속 일수만큼 EXP 차감(누적), 1개라도 깨면 방어 */
+  const DIFF_TIERS = [
+    {key:"novice", min:1, max:3, emoji:"⚔️", name:"입문", cls:"t1", mode:"tap",
+     titles:{
+       "q-water":"기상 후 물 한 잔 마시기",
+       "q-stretch":"스트레칭·가벼운 운동 15분",
+       "q-read":"영어 한 줄 외우기 / 독서 10분",
+       "q-goal":"오늘의 목표 3줄 적기"
+     }},
+    {key:"mid", min:4, max:8, emoji:"🔥", name:"중급", cls:"t2", mode:"confirm",
+     titles:{
+       "q-water":"기상 후 물 500ml 마시기",
+       "q-stretch":"근력·유산소 운동 25분",
+       "q-read":"영어 3줄·독서 20분",
+       "q-goal":"오늘의 목표 3줄 + 우선순위 정하기"
+     }},
+    {key:"high", min:9, max:12, emoji:"💀", name:"고급", cls:"t3", mode:"hold",
+     titles:{
+       "q-water":"기상 후 물 1L 마시기",
+       "q-stretch":"고강도 운동 35분",
+       "q-read":"영어 5줄·독서 30분",
+       "q-goal":"목표 + 시간대별 실행 계획 적기"
+     }},
+    {key:"max", min:13, max:18, emoji:"👑", name:"최상급", cls:"t4", mode:"hold",
+     titles:{
+       "q-water":"기상 후 물 1.5L 마시기",
+       "q-stretch":"하드코어 운동 45분",
+       "q-read":"영어 10줄·독서 40분",
+       "q-goal":"목표 + 실행 계획 + 저녁 회고 적기"
+     }}
+  ];
+  const HOLD_MS = 1200;
+  const PEN_CAP = 200;
+
+  function v9Tier(lv){
+    const n = Math.max(1, Math.min(MAXLV, Math.round(lv || 1)));
+    for(let i=0;i<DIFF_TIERS.length;i++){
+      if(n >= DIFF_TIERS[i].min && n <= DIFF_TIERS[i].max) return DIFF_TIERS[i];
+    }
+    return DIFF_TIERS[DIFF_TIERS.length-1];
+  }
+  function v9CurTier(){ return v9Tier(levelInfo(state.totalExp).level); }
+
+  function v9IsBaseQuest(q){
+    if(!q || q.custom) return false;
+    for(let i=0;i<BASE_QUESTS.length;i++){ if(BASE_QUESTS[i].id === q.id) return true; }
+    return false;
+  }
+  function v9TitleFor(q){
+    const t = v9CurTier();
+    if(v9IsBaseQuest(q) && t.titles[q.id]) return t.titles[q.id];
+    return q.title;
+  }
+  function syncQuestTitles(){
+    const t = v9CurTier();
+    (state.quests || []).forEach(function(q){
+      if(v9IsBaseQuest(q) && t.titles[q.id]) q.title = t.titles[q.id];
+    });
+  }
+
+  /* 난이도 태그 — 퀘스트 카드 안내용 */
+  function diffTag(){
+    const t = v9CurTier();
+    if(t.mode === "hold") return '<span class="tag hold">꾹 1.2초</span>';
+    if(t.mode === "confirm") return '<span class="tag confirm">2번 탭</span>';
+    return "";
+  }
+
+  /* ---------- 날짜 계산 ---------- */
+  function v9DayNum(s){
+    if(!s || typeof s !== "string") return null;
+    const p = s.split("-");
+    if(p.length !== 3) return null;
+    const n = Date.UTC(parseInt(p[0],10), parseInt(p[1],10)-1, parseInt(p[2],10));
+    return isNaN(n) ? null : Math.round(n / 86400000);
+  }
+  function v9DayStr(n){
+    const d = new Date(n * 86400000);
+    return d.getUTCFullYear()+"-"+pad(d.getUTCMonth()+1)+"-"+pad(d.getUTCDate());
+  }
+
+  /* ---------- 나태 페널티 ---------- */
+  function penAmount(n){
+    if(n <= 0) return 0;
+    if(n === 1) return 25;
+    if(n === 2) return 50;
+    if(n === 3) return 80;
+    return Math.min(PEN_CAP, 20*n + 5*n*n);
+  }
+
+  let penaltyReport = null;
+
+  function v9Normalize(s){
+    if(!Array.isArray(s.doneDays)) s.doneDays = [];
+    s.doneDays = s.doneDays.filter(function(d){ return typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d); });
+    if(s.doneDays.length > 180) s.doneDays = s.doneDays.slice(-180);
+    if(!s.pen || typeof s.pen !== "object") s.pen = {};
+    s.pen.streak = Math.max(0, Math.min(999, Math.round(s.pen.streak || 0)));
+    s.pen.upto = typeof s.pen.upto === "string" ? s.pen.upto : "";
+    s.pen.lastAmt = Math.max(0, Math.round(s.pen.lastAmt || 0));
+    s.pen.lastAt = s.pen.lastAt || 0;
+  }
+
+  /* load() 안에서 daily rollover 직전에 호출 — 어제까지 비어 있던 날들을 일수별로 합산 차감 */
+  function v9PenaltyAtLoad(s){
+    const y = yesterday();
+    if(!s.pen.upto){
+      /* 기능 첫 가동일: 과거 소급 차감 없이 어제까지를 기준선으로 잡는다 */
+      s.pen.upto = y;
+      s.pen.streak = 0;
+      return null;
+    }
+    const upto = v9DayNum(s.pen.upto);
+    const yn = v9DayNum(y);
+    if(upto === null || yn === null || upto >= yn) return null;
+
+    let streak = s.pen.streak || 0;
+    let total = 0;
+    const days = [];
+    for(let n = upto + 1; n <= yn; n++){
+      const dstr = v9DayStr(n);
+      s.pen.upto = dstr;
+      if(s.doneDays.indexOf(dstr) >= 0) continue;   // 그날 1개 이상 완료 → 방어
+      streak += 1;
+      const amt = Math.min(PEN_CAP, penAmount(streak));
+      total += amt;
+      days.push({date:dstr, streak:streak, amt:amt});
+    }
+    s.pen.streak = streak;
+    if(!days.length || total <= 0) return null;
+
+    const before = levelInfo(s.totalExp);
+    const applied = Math.min(total, s.totalExp);
+    s.totalExp = Math.max(0, s.totalExp - total);
+    const after = levelInfo(s.totalExp);
+    s.pen.lastAmt = applied;
+    s.pen.lastAt = Date.now();
+    penaltyReport = {
+      total: applied, nominal: total, streak: streak, days: days.length,
+      from: before.level, to: after.level, detail: days
+    };
+    return penaltyReport;
+  }
+
+  /* 퀘스트 1개 완료 = 그날 방어. 연속 미완료 초기화 */
+  function v9OnQuestDone(q){
+    if(!state) return;
+    const t = today();
+    if(!Array.isArray(state.doneDays)) state.doneDays = [];
+    if(state.doneDays.indexOf(t) < 0){
+      state.doneDays.push(t);
+      if(state.doneDays.length > 180) state.doneDays = state.doneDays.slice(-180);
+    }
+    if(!state.pen) state.pen = {streak:0, upto:"", lastAmt:0, lastAt:0};
+    const was = state.pen.streak || 0;
+    state.pen.streak = 0;
+    state.pen.lastAmt = 0;
+    if(state.pen.upto && t > state.pen.upto) state.pen.upto = t;
+    if(!state.pen.upto) state.pen.upto = t;
+    if(was > 0){
+      setTimeout(function(){
+        toast("🛡️ 나태 페널티 방어!", "오늘 퀘스트를 깼으니 "+was+"일 연속 페널티가 초기화됐어요. 내일도 1개만 깨면 지켜집니다.", null, 4600);
+      }, 340);
+    }
+  }
+
+  /* ---------- 렌더 ---------- */
+  function renderPenalty(){
+    const b = $("penBanner");
+    if(!b) return;
+    const pen = state.pen || {};
+    const st = pen.streak || 0;
+    if(st > 0){
+      b.hidden = false;
+      const bt = $("penBannerText"), bs = $("penBannerSub");
+      if(bt) bt.textContent = "⚠️ 나태 페널티 " + st + "일째 진행 중";
+      if(bs) bs.textContent = "오늘 1개 이상 완료하면 방어 · 다음 방치 시 -" + Math.min(PEN_CAP, penAmount(st+1)) + " EXP";
+    } else if(pen.lastAmt > 0 && pen.lastAt && (Date.now() - pen.lastAt) < 86400000){
+      b.hidden = false;
+      const bt = $("penBannerText"), bs = $("penBannerSub");
+      if(bt) bt.textContent = "⚠️ 나태 페널티 발동 · -" + pen.lastAmt + " EXP";
+      if(bs) bs.textContent = "오늘 1개 이상 깨면 EXP 하락 방어!";
+    } else {
+      b.hidden = true;
+    }
+  }
+
+  function renderV9(){
+    if(!$("diffBadge")) return;
+    const lv = levelInfo(state.totalExp).level;
+    const t = v9Tier(lv);
+    const b = $("diffBadge");
+    b.className = "diff-badge " + t.cls;
+    b.textContent = t.emoji + " 난이도 Lv." + t.min + " " + t.name;
+    b.setAttribute("title", "현재 Lv." + lv + " · " + (t.mode === "hold" ? "1.2초 꾹 눌러 완료" : t.mode === "confirm" ? "2번 탭으로 완료" : "한 번 탭으로 완료"));
+    const df = $("diffDefense");
+    if(df){
+      df.innerHTML = "현재 <b>Lv." + lv + "</b> · "
+        + (t.mode === "hold" ? "1.2초 꾹 눌러 완료" : t.mode === "confirm" ? "2번 탭으로 완료" : "한 번 탭으로 완료")
+        + " · <b>오늘 1개 이상 깨면 EXP 하락 방어!</b>";
+    }
+    renderPenalty();
+  }
+
+  /* ---------- 완료 게이트 ---------- */
+  function v9Disarm(card){
+    if(!card) return;
+    if(card._armTimer){ clearTimeout(card._armTimer); card._armTimer = null; }
+    card.removeAttribute("data-armed");
+    card.classList.remove("armed");
+  }
+  function v9Arm(card){
+    card.setAttribute("data-armed", "1");
+    card.classList.add("armed");
+    if(card._armTimer) clearTimeout(card._armTimer);
+    card._armTimer = setTimeout(function(){ v9Disarm(card); }, 3000);
+  }
+
+  /* click 핸들러에서 호출: 완료했으면 true, 확인 대기/꾹 누르기 모드면 false */
+  function questGate(card, run){
+    const t = v9CurTier();
+    if(t.mode === "hold") return false;              // pointerdown 홀드가 담당
+    if(t.mode === "tap"){ run(); return true; }
+    if(card.getAttribute("data-armed") === "1"){
+      v9Disarm(card);
+      run();
+      return true;
+    }
+    v9Arm(card);
+    toast("오늘 정말 완료했나요?", "한 번 더 탭하면 완료됩니다. (난이도 " + t.name + " · 3초 안에)", null, 3200);
+    return false;
+  }
+
+  /* 홀드 완료 직후 클릭이 '이미 완료' 토스트를 띄우지 않게 */
+  let v9HoldDoneAt = 0;
+  function v9SkipDoneToast(){
+    if(v9CurTier().mode === "hold") return true;
+    return (Date.now() - v9HoldDoneAt) < 900;
+  }
+
+  /* ---------- 1.2초 꾹 누르기 ---------- */
+  let holdState = null;
+  function holdCancel(silent){
+    const h = holdState;
+    if(!h || h.done) return;
+    if(h.raf) cancelAnimationFrame(h.raf);
+    if(h.card){
+      h.card.classList.remove("holding");
+      h.card.style.setProperty("--hold", "0%");
+    }
+    holdState = null;
+    if(!silent){
+      toast("꾹 눌러서 완료", "버튼을 1.2초 동안 누르고 있어야 완료됩니다. (난이도 " + v9CurTier().name + ")", null, 2600);
+    }
+  }
+  function holdFinish(){
+    const h = holdState;
+    if(!h || h.done) return;
+    h.done = true;
+    if(h.raf) cancelAnimationFrame(h.raf);
+    if(h.card){
+      h.card.classList.remove("holding");
+      h.card.style.setProperty("--hold", "100%");
+    }
+    v9HoldDoneAt = Date.now();
+    holdState = null;
+    if(navigator.vibrate) navigator.vibrate([12, 26, 16]);
+    const run = h.run;
+    setTimeout(function(){ try { run(); } catch(e){} }, 60);
+  }
+  function holdStart(card, run){
+    if(v9CurTier().mode !== "hold") return false;
+    if(holdState) holdCancel(true);
+    const h = {card:card, run:run, done:false, start:performance.now(), raf:0};
+    holdState = h;
+    card.classList.add("holding");
+    card.style.setProperty("--hold", "0%");
+    const tick = function(now){
+      if(holdState !== h || h.done) return;
+      const p = Math.min(1, (now - h.start) / HOLD_MS);
+      card.style.setProperty("--hold", (p * 100).toFixed(1) + "%");
+      if(p >= 1){ holdFinish(); return; }
+      h.raf = requestAnimationFrame(tick);
+    };
+    h.raf = requestAnimationFrame(tick);
+    return true;
+  }
+
+  function v9CardTarget(e){
+    const t = e.target;
+    if(!t || !t.closest) return null;
+    if(t.closest("[data-del],[data-bdel],.del")) return null;
+    const card = t.closest("[data-id],[data-bid]");
+    if(!card) return null;
+    if(card.classList.contains("done")) return null;
+    return card;
+  }
+  function v9Start(card){
+    const bid = card.getAttribute("data-bid");
+    if(bid){
+      return holdStart(card, function(){ completeBonus(bid); });
+    }
+    const id = card.getAttribute("data-id");
+    if(!id) return false;
+    return holdStart(card, function(){ completeQuest(id); });
+  }
+
+  function wireHold(){
+    let downCard = null;
+    document.addEventListener("pointerdown", function(e){
+      if(e.button !== undefined && e.button !== 0) return;
+      const card = v9CardTarget(e);
+      if(!card) return;
+      downCard = card;
+      v9Start(card);
+    }, {passive:true});
+    document.addEventListener("pointerup", function(){
+      if(holdState) holdCancel(false);
+      downCard = null;
+    });
+    document.addEventListener("pointercancel", function(){
+      if(holdState) holdCancel(true);
+      downCard = null;
+    });
+    document.addEventListener("pointermove", function(e){
+      if(!holdState || !holdState.card) return;
+      const r = holdState.card.getBoundingClientRect();
+      if(e.clientX < r.left - 10 || e.clientX > r.right + 10 || e.clientY < r.top - 10 || e.clientY > r.bottom + 10){
+        holdCancel(true);
+      }
+    }, {passive:true});
+
+    /* PointerEvent 미지원 브라우저용 터치/마우스 폴백 */
+    if(!window.PointerEvent){
+      document.addEventListener("touchstart", function(e){
+        const card = v9CardTarget(e);
+        if(!card) return;
+        v9Start(card);
+      }, {passive:true});
+      document.addEventListener("touchend", function(){ if(holdState) holdCancel(false); }, {passive:true});
+      document.addEventListener("touchcancel", function(){ if(holdState) holdCancel(true); }, {passive:true});
+      document.addEventListener("mousedown", function(e){
+        if(e.button !== 0) return;
+        const card = v9CardTarget(e);
+        if(!card) return;
+        v9Start(card);
+      });
+      document.addEventListener("mouseup", function(){ if(holdState) holdCancel(false); });
+    }
+  }
+
+  /* ---------- 페널티 [ SYSTEM ] 창 ---------- */
+  function showPenaltyModal(rep){
+    if(!rep || !$("penOverlay")) return;
+    const o = $("penOverlay");
+    const line = $("penLine");
+    if(line){
+      line.textContent = "어제 퀘스트를 안 깨서 -" + rep.total + " EXP 하락! (연속 " + rep.streak + "일째)";
+    }
+    const figs = $("penFigures");
+    if(figs){
+      const lvNow = levelInfo(state.totalExp).level;
+      figs.innerHTML =
+        '<div class="pf"><span>차감 EXP</span><b class="down">-' + rep.total + '</b></div>'
+        + '<div class="pf"><span>남은 EXP</span><b>' + Math.round(state.totalExp).toLocaleString("ko-KR") + '</b></div>'
+        + '<div class="pf"><span>레벨</span><b>' + (rep.to < rep.from ? "Lv."+rep.from+"→"+rep.to : "Lv."+lvNow) + '</b></div>';
+    }
+    o.classList.add("on");
+  }
+  function closePenalty(){ const o = $("penOverlay"); if(o) o.classList.remove("on"); }
+
+  /* ---------- 💀 방치 -1일 테스트 ---------- */
+  function v9SimulateNeglect(){
+    if(!state.pen) state.pen = {streak:0, upto:"", lastAmt:0, lastAt:0};
+    const before = levelInfo(state.totalExp);
+    state.pen.streak = (state.pen.streak || 0) + 1;
+    const amt = Math.min(PEN_CAP, penAmount(state.pen.streak));
+    const applied = Math.min(amt, state.totalExp);
+    state.totalExp = Math.max(0, state.totalExp - amt);
+    state.pen.lastAmt = applied;
+    state.pen.lastAt = Date.now();
+    save();
+    render();
+    const after = levelInfo(state.totalExp);
+    toast("⚠️ 나태 페널티 발동",
+      "어제 퀘스트를 안 깨서 -" + applied + " EXP 하락! (연속 " + state.pen.streak + "일째)", null, 5200);
+    if(after.level < before.level){
+      setTimeout(function(){
+        toast("💀 레벨 강등", "Lv." + before.level + " → Lv." + after.level + " · 진화 단계도 내려갔습니다.", null, 5200);
+      }, 520);
+    }
+    setTimeout(function(){
+      showPenaltyModal({total: applied, nominal: amt, streak: state.pen.streak, from: before.level, to: after.level, days: 1});
+    }, 260);
+  }
+
+  /* ---------- wiring ---------- */
+  function wireV9(){
+    wireHold();
+    const penClose = $("penClose");
+    if(penClose) penClose.addEventListener("click", closePenalty);
+    const penOv = $("penOverlay");
+    if(penOv) penOv.addEventListener("click", function(e){ if(e.target === penOv) closePenalty(); });
+    const penBtn = $("penTest");
+    if(penBtn) penBtn.addEventListener("click", function(){ v9SimulateNeglect(); });
+    if(penaltyReport){
+      setTimeout(function(){
+        const pick = $("pickWrap");
+        if(pick && pick.classList.contains("on")) return;
+        showPenaltyModal(penaltyReport);
+      }, 1000);
+    }
+  }
   /* ---------- boot ---------- */
   state = load();
   save();
   render();
   wireParty();
   wireV7();
+  wireV9();
   renderParty();
 
   let inviteParam = null, inviteKey = null;
