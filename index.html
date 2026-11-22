@@ -887,6 +887,126 @@ body::before{
 .pen-tip{margin:0 0 14px;font-size:9.5px;color:#C0A6C8;font-weight:600;line-height:1.55;word-break:keep-all}
 .penalty .btn-primary{width:100%;background:linear-gradient(135deg,#E4699B,#8B5CF6);box-shadow:0 12px 22px -12px rgba(160,90,180,.9)}
 
+/* v6.0 HP/hazard styles */
+/* ---------- v6.0 ❤️ HP 바 · 🍔 건강 깎아먹는 유혹 ---------- */
+/* HP 바 — 히어로 카드, EXP 바 바로 아래 */
+.hp-row{position:relative;z-index:3;display:flex;align-items:center;gap:6px;margin-top:9px}
+.hp-label{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;font-weight:800;color:#C4526E;white-space:nowrap}
+.hp-bar{
+  flex:1;height:10px;border-radius:99px;background:rgba(255,255,255,.8);overflow:hidden;
+  box-shadow:inset 0 1px 3px rgba(140,110,110,.2);
+}
+.hp-bar i{
+  display:block;height:100%;width:100%;border-radius:99px;
+  background:linear-gradient(90deg,#4FC79B,#8CE7BE);
+  transition:width .62s cubic-bezier(.2,.8,.2,1),background .35s;
+}
+.hp-bar.warn i{background:linear-gradient(90deg,#F2BB3F,#FFDA7E)}
+.hp-bar.danger i{background:linear-gradient(90deg,#F05B78,#FF9CB0);animation:hpPulse 1.05s ease-in-out infinite}
+.hp-bar.zero i{background:linear-gradient(90deg,#A93A55,#DE6383)}
+.hp-text{font-family:var(--mono);font-size:8.5px;font-weight:800;color:rgba(70,53,79,.68);white-space:nowrap;min-width:50px;text-align:right}
+.hp-state{
+  flex:0 0 auto;font-family:var(--mono);font-size:7px;font-weight:800;letter-spacing:.02em;
+  border-radius:99px;padding:3px 6px;white-space:nowrap;
+  background:#E4FAEF;color:#2C8C69;border:1px solid #C6EFDD;
+}
+.hp-state.warn{background:#FFF6DA;color:#A57812;border-color:#F4E0A4}
+.hp-state.danger{background:#FFEBEF;color:#BF3552;border-color:#F7C3D0}
+.hp-state.zero{background:#3A2230;color:#FFD7E1;border-color:#8A4A61}
+.hp-row.flash{animation:hpFlash .55s ease-out}
+@keyframes hpPulse{0%,100%{opacity:1}50%{opacity:.52}}
+@keyframes hpFlash{0%{filter:brightness(1)}22%{filter:brightness(1.4)}100%{filter:brightness(1)}}
+
+/* 탈진 배너 (HP 0 → 응급 회복한 날) */
+.hp-down{
+  position:relative;z-index:3;display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  margin-top:8px;border-radius:12px;padding:7px 10px;
+  background:linear-gradient(120deg,#3A2230,#55273C);color:#FFD7E1;
+  border:1px solid #8A4A61;font-size:9.5px;font-weight:750;line-height:1.4;
+  box-shadow:0 10px 20px -16px rgba(60,20,40,.9);
+  animation:hpDownIn .32s cubic-bezier(.2,.9,.3,1.2);
+}
+.hp-down b{font-family:var(--mono);font-size:7.5px;letter-spacing:.14em;color:#FF9DB4;font-weight:800}
+.hp-down span{flex:1 1 auto}
+@keyframes hpDownIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+
+/* 🍔 건강 깎아먹는 유혹 카드 */
+.card.hazard{background:linear-gradient(158deg,#FFFBF4 0%,#FFF2F3 54%,#FFF8EC 100%)}
+.sys.hazard{color:#C24A63;background:#FFEDF1;border-color:#F8D3DB}
+.haz-desc{margin:5px 0 9px;font-size:10.5px;line-height:1.55;color:var(--muted);font-weight:600;word-break:keep-all}
+.haz-badge{
+  display:inline-flex;align-items:center;gap:4px;margin:0 0 9px;
+  font-family:var(--mono);font-size:8.5px;font-weight:800;letter-spacing:.01em;
+  color:#AF4159;background:#FFEDF1;border:1px solid #F8D2DA;border-radius:99px;padding:4px 9px;
+  transition:.2s;
+}
+.haz-badge.hot{background:#3A2230;color:#FFD7E1;border-color:#8A4A61}
+.haz-list{display:flex;flex-direction:column;gap:5px}
+.haz-pill{
+  position:relative;display:flex;align-items:center;gap:8px;width:100%;
+  font-family:inherit;text-align:left;color:#573A46;background:#fff;
+  border:1.5px solid #F6E0E4;border-radius:13px;padding:8px 10px;cursor:pointer;
+  box-shadow:0 6px 14px -12px rgba(150,100,110,.55);
+  transition:transform .12s ease,border-color .18s ease,background .18s ease;
+}
+.haz-pill:active{transform:scale(.985);background:#FFF5F7}
+.haz-pill .hz-emoji{flex:0 0 auto;font-size:14px;line-height:1}
+.haz-pill .hz-name{flex:1 1 auto;min-width:0;font-size:11.5px;font-weight:750;letter-spacing:-.01em;line-height:1.3;word-break:keep-all;overflow-wrap:anywhere}
+.haz-pill .hz-dmg{
+  flex:0 0 auto;font-family:var(--mono);font-size:8px;font-weight:800;color:#C2455F;
+  background:#FFE9EE;border:1px solid #FBD3DD;border-radius:7px;padding:3px 5px;white-space:nowrap;
+}
+.haz-pill.custom{border-style:dashed;border-color:#EFC9D3;background:#FFFDFB}
+.haz-pill .hz-del{
+  flex:0 0 auto;font-size:10px;line-height:1;color:#C9A3AE;padding:2px 1px;cursor:pointer;
+}
+.haz-pill.hit{animation:hazHit .46s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes hazHit{0%{transform:scale(1)}28%{transform:scale(.955) rotate(-1.2deg)}58%{transform:scale(1.035) rotate(.9deg)}100%{transform:scale(1)}}
+.haz-pill .hz-float{
+  position:absolute;right:9px;top:-7px;pointer-events:none;
+  font-family:var(--mono);font-size:10px;font-weight:800;color:#D9486A;
+  animation:hzFloat .95s ease-out forwards;
+}
+@keyframes hzFloat{0%{opacity:0;transform:translateY(5px)}22%{opacity:1}100%{opacity:0;transform:translateY(-20px)}}
+.add-btn.hazard{color:#B4516F;border-color:#F3C9D6;background:#FFF7F9}
+
+/* 캐릭터 움찔 + 히어로 타격 */
+.char.hazard-hit{animation:hazardShake .5s cubic-bezier(.36,.07,.19,.97)}
+@keyframes hazardShake{
+  10%,90%{transform:translateX(-3px) rotate(-1deg)}
+  20%,80%{transform:translateX(5px) rotate(1.4deg)}
+  30%,50%,70%{transform:translateX(-7px) rotate(-1.7deg)}
+  40%,60%{transform:translateX(7px) rotate(1.7deg)}
+  100%{transform:none}
+}
+.hero.hp-hit{animation:heroHit .52s ease-out}
+@keyframes heroHit{
+  0%,100%{box-shadow:0 20px 42px -24px rgba(150,105,110,.6),inset 0 1px 0 rgba(255,255,255,.9)}
+  35%{box-shadow:0 0 0 4px rgba(240,91,120,.38),0 20px 42px -24px rgba(150,105,110,.6),inset 0 1px 0 rgba(255,255,255,.9)}
+}
+
+/* 🏥 탈진 [ SYSTEM ] 창 — 나태 페널티 창 스타일 재사용 */
+.penalty.hpex{background:linear-gradient(180deg,#2E1A23 0%,#47222F 100%);border-color:#8E4152}
+.penalty.hpex .lu-sys{color:#FF9DB4}
+.penalty.hpex h2{color:#FFE1E8}
+.penalty.hpex .pen-line{color:#FFC3CE}
+.penalty.hpex .pen-tip{color:#D2AEB9}
+.penalty.hpex .btn-primary{background:linear-gradient(135deg,#F0678B,#C4457A);box-shadow:0 12px 22px -12px rgba(190,70,110,.9)}
+.penalty.hpex .pf b{color:#FFE3EA}
+.penalty.hpex .pf b.down{color:#FFA6BC}
+
+/* 파트너 카드 — 상대 HP */
+.p-chip.hp{color:#B3455F;background:#FFEDF1;border-color:#F8D2DA}
+.p-chip.hp.crit{color:#fff;background:linear-gradient(135deg,#C74C6B,#8E3A55);border-color:#A6405C;animation:hpChipPulse 1.1s ease-in-out infinite}
+@keyframes hpChipPulse{0%,100%{opacity:1}50%{opacity:.62}}
+
+@media (max-width:340px){
+  .hp-text{min-width:44px;font-size:8px}
+  .hp-state{font-size:6.5px;padding:2px 5px}
+  .haz-pill{padding:7px 9px;gap:6px}
+  .haz-pill .hz-name{font-size:11px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -949,6 +1069,15 @@ body::before{
       <span class="exp-label">EXP</span>
       <div class="bar" id="expBar"><i id="expFill"></i></div>
       <span class="exp-text" id="expText">0 / 80</span>
+    </div>
+    <div class="hp-row" id="hpRow">
+      <span class="hp-label">❤️ HP</span>
+      <div class="hp-bar" id="hpBar" role="progressbar" aria-label="캐릭터 체력" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i id="hpFill"></i></div>
+      <span class="hp-text" id="hpText">100 / 100</span>
+      <span class="hp-state" id="hpState">건강</span>
+    </div>
+    <div class="hp-down" id="hpDown" hidden>
+      <b>[ SYSTEM ]</b><span id="hpDownText">🏥 탈진 상태 · 물·운동 퀘스트로 HP를 채우세요</span>
     </div>
     <div class="evo-hint" id="evoHint"></div>
     <div class="rich-fx" id="richFx" aria-hidden="true"></div>
@@ -1065,6 +1194,17 @@ body::before{
 
   </section>
 
+  <section class="card hazard" id="hazardCard">
+    <div class="card-head">
+      <span class="sys hazard">[ HAZARD ]</span>
+      <h3>🍔 건강 깎아먹는 유혹</h3>
+    </div>
+    <p class="haz-desc">솔직하게 누르면 HP가 바로 깎여요. 물·운동 퀘스트를 깨면 다시 채워집니다.</p>
+    <div class="haz-badge" id="hazBadge">오늘 유혹 0회 · -0 HP</div>
+    <div class="haz-list" id="hazList"></div>
+    <button class="add-btn hazard" id="hazAdd" type="button">＋ 나쁜 습관 추가</button>
+  </section>
+
   <section class="card">
     <div class="card-head">
       <span class="sys">[ STATUS ]</span>
@@ -1148,6 +1288,7 @@ body::before{
           <span class="p-rank" id="pRank">불러오는 중…</span>
           <div class="p-chips">
             <span class="p-chip" id="pQuestChip">✅ 0/4</span>
+            <span class="p-chip hp" id="pHpChip">❤️ HP 100/100</span>
             <span class="p-chip fire" id="pStreakChip">🔥 0일</span>
             <span class="p-chip game" id="pGameChip">🎮 0점</span>
             <span class="p-chip money" id="pMoneyChip">💰 🌱 소박한 헌터</span>
@@ -1178,7 +1319,7 @@ body::before{
     <p class="invite-url" id="inviteUrl" title="눌러서 복사">버튼을 누르면 초대 링크가 생겨요.</p>
   </section>
 
-  <p class="tiny">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v5.0 (7단계 전직 · 다마고치 · 2인 공유 · 난이도·페널티)</p>
+  <p class="tiny">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v6.0 (7단계 전직 · 다마고치 · 2인 공유 · 난이도·페널티 · HP·유혹)</p>
 </div>
 
 <div id="toasts"></div>
@@ -1247,6 +1388,37 @@ body::before{
     <p class="mg-tip">최고 점수는 파트너 카드에도 공유돼요 🎮</p>
   </div>
 </div>
+
+  <div class="sheet-wrap" id="hazSheetWrap">
+    <div class="sheet" role="dialog" aria-modal="true" aria-label="나쁜 습관 추가">
+      <div class="grab"></div>
+      <p class="sheet-sys">[ HAZARD ] 새 유혹</p>
+      <h3>나쁜 습관 추가</h3>
+      <label class="lbl" for="hazName">나쁜 습관 이름</label>
+      <input id="hazName" maxlength="20" placeholder="예) 🍗 치킨 한 마리" autocomplete="off">
+      <label class="lbl">HP 차감량</label>
+      <div class="chips" id="hazHpChips"></div>
+      <div class="sheet-actions">
+        <button class="btn-ghost" id="hazCancel" type="button">취소</button>
+        <button class="btn-primary" id="hazSave" type="button">추가하기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="hpOverlay">
+    <div class="penalty hpex" role="dialog" aria-modal="true" aria-label="체력 고갈 탈진 상태">
+      <p class="lu-sys">[ SYSTEM ]</p>
+      <h2>🏥 탈진 상태</h2>
+      <p class="pen-line" id="hpLine">⚠️ 체력 고갈! HP가 0이 되어 쓰러졌습니다.</p>
+      <div class="pen-figures">
+        <div class="pf"><span>차감 EXP</span><b class="down" id="hpxExp">-30</b></div>
+        <div class="pf"><span>남은 EXP</span><b id="hpxLeft">0</b></div>
+        <div class="pf"><span>응급 회복</span><b id="hpxHp">HP 30</b></div>
+      </div>
+      <p class="pen-tip">몸이 보내는 마지막 경고입니다. 물 한 잔, 가벼운 운동으로 HP를 다시 채워 주세요.</p>
+      <button class="btn-primary" id="hpClose" type="button">정신 차리기</button>
+    </div>
+  </div>
 
 <div class="overlay" id="luOverlay">
   <div class="levelup" role="dialog" aria-modal="true" aria-labelledby="luTitle">
@@ -1635,6 +1807,13 @@ body::before{
       allclear: null,
       doneDays: [],
       pen: {streak:0, upto:"", lastAmt:0, lastAt:0},
+      hp: 100,
+      hpDate: "",
+      hpExhaust: "",
+      hpPenaltyN: 0,
+      hpPenaltyAt: 0,
+      haz: {date:"", n:0, dmg:0},
+      hazCustom: [],
       born: today()
     };
   }
@@ -1680,9 +1859,11 @@ body::before{
     // v3.0 필드
     try { v7Normalize(s); } catch(e){}
     try { v9Normalize(s); } catch(e){}
+    try { v10Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
+    try { v10DayRollover(s); } catch(e){}
 
     // daily rollover
     const t = today();
@@ -1863,6 +2044,7 @@ body::before{
 
     renderV7();
     try { renderV9(); } catch(e){}
+    try { renderHp(); renderHaz(); } catch(e){}
     renderParty();
   }
 
@@ -2501,6 +2683,9 @@ body::before{
       strKey: body.key,
       qDone: state.quests.filter(function(q){ return q.done; }).length,
       qTotal: state.quests.length,
+      /* v6.0 — 캐릭터 HP */
+      hp: (typeof state.hp === "number" && isFinite(state.hp)) ? Math.max(0, Math.min(100, Math.round(state.hp))) : 100,
+      exhaust: (state.hpExhaust && state.hpExhaust === today()) ? 1 : 0,
       streak: state.streak || 0,
       line: String((el.speech && el.speech.textContent) || "").slice(0, 60),
       cheerSeq: state.cheerSeq || 0,
@@ -2901,6 +3086,17 @@ body::before{
       }
     }
     if($("pQuestChip")) $("pQuestChip").textContent = "✅ " + (P.qDone || 0) + "/" + (P.qTotal || 4);
+    if($("pHpChip")){
+      const chip = $("pHpChip");
+      if(typeof P.hp === "number" && isFinite(P.hp)){
+        const hv = Math.max(0, Math.min(100, Math.round(P.hp)));
+        chip.hidden = false;
+        chip.textContent = "❤️ HP " + hv + "/100" + (hv <= 30 ? " ⚠️ 빈사" : "");
+        chip.classList.toggle("crit", hv <= 30);
+      } else {
+        chip.hidden = true;
+      }
+    }
     if($("pStreakChip")) $("pStreakChip").textContent = "🔥 " + (P.streak || 0) + "일";
     if($("pGameChip")) $("pGameChip").textContent = "🎮 최고 " + (P.mg || 0) + "점";
     if($("pMoneyChip")){
@@ -4644,6 +4840,526 @@ body::before{
       }, 1000);
     }
   }
+  /* ===================================================================
+     v6.0 — ❤️ 캐릭터 HP 바 · 🍔 건강 깎아먹는 유혹 · 🩺 퀘스트 회복
+     · HP 0~100. 배달·야식·운동 패스 같은 나쁜 습관을 체크하면 즉시 차감
+     · 물(+10)·운동(+20)·보너스 건강 퀘스트·다마고치 밥(+5)으로 회복
+     · HP 0 → 탈진: EXP -30(최소 0) 후 HP 30 응급 회복 (한 번만 벌점, 무한 차감 없음)
+     · 자정이 지나면 수면 회복 +15 (최대 100)
+     =================================================================== */
+  const HP_MAX = 100;
+  const HP_WAKE = 15;
+  const HP_EXP_PENALTY = 30;
+  const HP_EXHAUST_HP = 30;
+  const HP_HEAL_WATER = 10;
+  const HP_HEAL_SPORT = 20;
+  const HP_HEAL_BONUS = 10;
+  const HP_HEAL_FEED = 5;
+
+  const HAZ_DEFAULT = [
+    {id:"h-delivery",  emoji:"🛵", name:"배달·기름진 음식",   hp:15},
+    {id:"h-instant",   emoji:"🍜", name:"인스턴트·라면",      hp:12},
+    {id:"h-latenight", emoji:"🌙", name:"야식·늦은 폭식",     hp:18},
+    {id:"h-nosport",   emoji:"🛋️", name:"오늘 운동 패스",     hp:20},
+    {id:"h-soda",      emoji:"🥤", name:"탄산·액상과당",      hp:10},
+    {id:"h-alcohol",   emoji:"🍺", name:"과음·음주",          hp:25},
+    {id:"h-sleep",     emoji:"📱", name:"새벽 늦잠·수면부족", hp:15}
+  ];
+  const HAZ_STEPS = [10, 15, 25];
+
+  const HAZ_LINES = {
+    "h-delivery": [
+      "배달음식은 배신이다. 배는 불렀는데 몸이 운다. 🛵",
+      "기름진 한 끼, 내장지방은 아주 좋아한다. 🍔",
+      "배달앱 삭제가 진짜 스킬이다. 지금 당장."
+    ],
+    "h-instant": [
+      "라면은 3분, 혈관은 3초. 🍜",
+      "나트륨이 네 혈압을 열렬히 응원하고 있다.",
+      "면발은 쫄깃한데 몸은 부어 오른다. 물 좀 마셔."
+    ],
+    "h-latenight": [
+      "밤 11시의 냉장고는 함정이다. 🌙",
+      "야식은 수면의 적. 내일의 널 배신하지 마.",
+      "먹고 자면 지방만 남는다. 정확히 말고."
+    ],
+    "h-nosport": [
+      "오늘 안 움직이면 근육이 먼저 사표 낸다. 🛋️",
+      "소파는 편하지만 성장은 없다.",
+      "10분만 걸어도 달라진다. 지금 일어나."
+    ],
+    "h-soda": [
+      "액상과당은 달콤한 함정이다. 🥤",
+      "탄산 한 캔에 각오가 같이 녹는다.",
+      "물을 마셔. 그게 제일 싼 회복 아이템이다."
+    ],
+    "h-alcohol": [
+      "술은 기분을 올리고 체력을 내린다. 🍺",
+      "간이 조용히 항의하고 있다.",
+      "다음 잔은 내일의 나에게 청구된다."
+    ],
+    "h-sleep": [
+      "새벽 3시의 폰은 수면 도둑이다. 📱",
+      "잠이 부족하면 의지력부터 도망간다.",
+      "폰 내려놓고 눈 감아. 그게 오늘 마지막 퀘스트다."
+    ]
+  };
+  const HAZ_GENERIC = [
+    "그거… 진짜 필요했나? 😑",
+    "몸이 기억한다. 오늘 것도.",
+    "한 번은 괜찮다. 오늘 세 번은 아니다.",
+    "HP가 아니라 평생이 깎이는 중이다."
+  ];
+  const HP_EXHAUST_LINES = [
+    "…쿨럭. 체력이 바닥이다. 물 마시고 다시 일어나자. 🏥",
+    "넘어졌다. 괜찮다. 일어나면 된다. 💪"
+  ];
+
+  /* ---------- 값 계산 ---------- */
+  function hpVal(){
+    const v = Number(state && state.hp);
+    if(!isFinite(v)) return HP_MAX;
+    return Math.max(0, Math.min(HP_MAX, Math.round(v)));
+  }
+  function hpTone(v){
+    const n = (typeof v === "number") ? v : hpVal();
+    if(n >= 60) return {key:"good", cls:"", text:"건강"};
+    if(n >= 30) return {key:"warn", cls:"warn", text:"주의"};
+    if(n >= 1) return {key:"danger", cls:"danger", text:"위험"};
+    return {key:"zero", cls:"zero", text:"🏥 탈진"};
+  }
+  function hpBarCls(v){ return hpTone(v).cls; }
+
+  /* ---------- 렌더 ---------- */
+  function renderHp(){
+    if(!$("hpFill")) return;
+    const v = hpVal();
+    const tone = hpTone(v);
+    const fill = $("hpFill");
+    fill.style.width = v + "%";
+    const bar = $("hpBar");
+    if(bar){
+      bar.className = "hp-bar" + (tone.cls ? " " + tone.cls : "");
+      bar.setAttribute("aria-valuenow", String(v));
+    }
+    if($("hpText")) $("hpText").textContent = v + " / " + HP_MAX;
+    if($("hpState")){
+      $("hpState").className = "hp-state" + (tone.cls ? " " + tone.cls : "");
+      $("hpState").textContent = tone.text;
+    }
+    const down = $("hpDown");
+    if(down){
+      const exhausted = v <= 0 || (state.hpExhaust && state.hpExhaust === today());
+      down.hidden = !exhausted;
+      if(exhausted && $("hpDownText")){
+        $("hpDownText").textContent = (v <= 0)
+          ? "🏥 탈진 상태 · 물·운동 퀘스트로 HP를 채우세요"
+          : "🏥 탈진에서 응급 회복 · HP " + v + " · 오늘은 회복에 집중";
+      }
+    }
+    const hero = document.querySelector(".hero");
+    if(hero){
+      hero.classList.toggle("hp-low", v < 30);
+      hero.classList.toggle("hp-zero", v <= 0);
+    }
+  }
+
+  function hazAll(){
+    const custom = Array.isArray(state.hazCustom) ? state.hazCustom : [];
+    const out = HAZ_DEFAULT.map(function(h){ return {id:h.id, emoji:h.emoji, name:h.name, hp:h.hp, custom:false}; });
+    custom.forEach(function(c){
+      out.push({id:c.id, emoji:c.emoji || "🙈", name:c.name, hp:Math.max(1, Math.round(c.hp || 15)), custom:true});
+    });
+    return out;
+  }
+
+  function hazToday(){
+    const t = today();
+    if(!state.haz || typeof state.haz !== "object") state.haz = {date:t, n:0, dmg:0};
+    if(state.haz.date !== t) state.haz = {date:t, n:0, dmg:0};
+    return state.haz;
+  }
+
+  function renderHaz(){
+    const list = $("hazList");
+    if(!list) return;
+    const day = hazToday();
+    const badge = $("hazBadge");
+    if(badge){
+      badge.textContent = "오늘 유혹 " + day.n + "회 · -" + day.dmg + " HP";
+      badge.classList.toggle("hot", day.n > 0);
+    }
+    list.innerHTML = hazAll().map(function(h){
+      return '<button class="haz-pill' + (h.custom ? " custom" : "") + '" type="button" data-hid="' + esc(h.id) + '" aria-label="' + esc(h.name) + " " + h.hp + ' HP 차감">'
+        + '<span class="hz-emoji">' + esc(h.emoji) + '</span>'
+        + '<span class="hz-name">' + esc(h.name) + '</span>'
+        + '<span class="hz-dmg">-' + h.hp + ' HP</span>'
+        + (h.custom ? '<span class="hz-del" data-hdel="' + esc(h.id) + '" title="나쁜 습관 삭제" role="button" aria-label="삭제">✕</span>' : '')
+        + '</button>';
+    }).join("");
+  }
+
+  /* ---------- 이펙트 ---------- */
+  function hpFx(){
+    const row = $("hpRow");
+    if(row){
+      row.classList.remove("flash");
+      void row.offsetWidth;
+      row.classList.add("flash");
+      setTimeout(function(){ row.classList.remove("flash"); }, 620);
+    }
+  }
+  function hpShake(){
+    const img = $("charImg");
+    if(img){
+      img.classList.remove("hazard-hit");
+      void img.offsetWidth;
+      img.classList.add("hazard-hit");
+      setTimeout(function(){ img.classList.remove("hazard-hit"); }, 560);
+    }
+    const hero = document.querySelector(".hero");
+    if(hero){
+      hero.classList.remove("hp-hit");
+      void hero.offsetWidth;
+      hero.classList.add("hp-hit");
+      setTimeout(function(){ hero.classList.remove("hp-hit"); }, 580);
+    }
+  }
+
+  /* ---------- 차감 ---------- */
+  function hazLine(h){
+    const pool = (h && HAZ_LINES[h.id]) ? HAZ_LINES[h.id] : null;
+    const arr = pool && pool.length ? pool : HAZ_GENERIC;
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function hpDamage(h){
+    if(!h || !$("hazList")) return;
+    const before = hpVal();
+    const amt = Math.max(1, Math.round(h.hp));
+    if(before <= 0){
+      toast("이미 탈진 상태입니다.", "퀘스트로 HP를 먼저 회복해 주세요. ❤️ " + before + " / " + HP_MAX);
+      return;
+    }
+    const after = Math.max(0, before - amt);
+    const lost = before - after;
+    const day = hazToday();
+    day.n += 1;
+    day.dmg += lost;
+    state.hp = after;
+    state.hpDate = today();
+    save();
+    renderHp();
+    renderHaz();
+    hpShake();
+    hpFx();
+
+    const pill = document.querySelector('.haz-pill[data-hid="' + h.id + '"]');
+    if(pill){
+      pill.classList.remove("hit");
+      void pill.offsetWidth;
+      pill.classList.add("hit");
+      const f = document.createElement("span");
+      f.className = "hz-float";
+      f.textContent = "-" + lost + " HP";
+      pill.appendChild(f);
+      setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, 960);
+      setTimeout(function(){ pill.classList.remove("hit"); }, 500);
+    }
+
+    toast("-" + lost + " HP", "❤️ " + h.emoji + " " + esc(h.name) + " · HP " + before + " → " + after
+      + (lost < amt ? " (남은 체력만큼만 차감)" : ""), null, 3600);
+    speak(hazLine(h), 8000);
+    if(navigator.vibrate) navigator.vibrate([14, 26, 20]);
+
+    if(after <= 0) setTimeout(function(){ hpExhaust(); }, 880);
+  }
+
+  /* ---------- 탈진 페널티 ---------- */
+  function hpExhaust(){
+    if(hpVal() > 0) return;              /* 이미 응급 회복됐다면 중복 발동 금지 */
+    const before = levelInfo(state.totalExp);
+    const applied = Math.min(HP_EXP_PENALTY, state.totalExp);
+    state.totalExp = Math.max(0, state.totalExp - HP_EXP_PENALTY);
+    state.hp = HP_EXHAUST_HP;
+    state.hpDate = today();
+    state.hpExhaust = today();
+    state.hpPenaltyN = (state.hpPenaltyN || 0) + 1;
+    state.hpPenaltyAt = Date.now();
+    save();
+    render();
+    const after = levelInfo(state.totalExp);
+
+    if($("hpLine")){
+      $("hpLine").textContent = "⚠️ 체력 고갈! HP가 0이 되어 쓰러졌습니다. EXP -" + applied + " 하락 · HP "
+        + HP_EXHAUST_HP + "으로 응급 회복"
+        + (applied < HP_EXP_PENALTY ? " (남은 EXP가 " + applied + "뿐이라 그만큼만 차감)" : "");
+    }
+    if($("hpxExp")) $("hpxExp").textContent = "-" + applied;
+    if($("hpxLeft")) $("hpxLeft").textContent = Math.round(state.totalExp).toLocaleString("ko-KR");
+    if($("hpxHp")) $("hpxHp").textContent = "HP " + HP_EXHAUST_HP;
+    openHpModal();
+
+    toast("⚠️ 체력 고갈! 탈진 상태", "EXP -" + applied + " 하락 · HP " + HP_EXHAUST_HP + "으로 응급 회복", null, 5600);
+    speak(HP_EXHAUST_LINES[Math.floor(Math.random() * HP_EXHAUST_LINES.length)], 9000);
+    if(navigator.vibrate) navigator.vibrate([18, 40, 18, 40, 26]);
+    if(after.level < before.level){
+      setTimeout(function(){
+        toast("💀 레벨 강등", "Lv." + before.level + " → Lv." + after.level + " · 진화 단계도 내려갔습니다.", null, 5200);
+      }, 760);
+    }
+  }
+
+  let hpModalOpen = false;
+  function openHpModal(){
+    const o = $("hpOverlay");
+    if(!o) return;
+    hpModalOpen = true;
+    o.classList.add("on");
+    document.body.style.overflow = "hidden";
+  }
+  function closeHpModal(){
+    const o = $("hpOverlay");
+    if(!o) return;
+    hpModalOpen = false;
+    o.classList.remove("on");
+    if(!document.querySelector(".overlay.on") && !document.querySelector(".sheet-wrap.on")){
+      document.body.style.overflow = "";
+    }
+  }
+
+  /* ---------- 회복 ---------- */
+  function hpHeal(amount, label){
+    const before = hpVal();
+    if(before >= HP_MAX) return 0;
+    const add = Math.max(0, Math.round(amount || 0));
+    if(!add) return 0;
+    const after = Math.min(HP_MAX, before + add);
+    state.hp = after;
+    state.hpDate = today();
+    save();
+    renderHp();
+    hpFx();
+    const gained = after - before;
+    setTimeout(function(){
+      toast("❤️ HP +" + gained, (label ? esc(label) + " · " : "") + "HP " + before + " → " + after, null, 3200);
+    }, 620);
+    if(before < 60 && after >= 60){
+      setTimeout(function(){ speak("몸이 다시 살아난다. 이 기세로 계속 가자. 💪", 7000); }, 1250);
+    }
+    return gained;
+  }
+
+  /* 어떤 퀘스트가 HP를 얼마나 채우는지 */
+  function hpHealForQuest(q){
+    if(!q) return 0;
+    let amt = 0;
+    if(q.id === "q-water") amt = HP_HEAL_WATER;
+    else if(q.id === "q-stretch") amt = HP_HEAL_SPORT;
+    else {
+      const g = q.gain || {};
+      if(g.str) amt = HP_HEAL_BONUS;        /* 보너스 건강 퀘스트 */
+      else if(g.agi) amt = Math.round(HP_HEAL_BONUS * 0.6);
+    }
+    if(!amt) return 0;
+    return hpHeal(amt, q.title);
+  }
+
+  /* ---------- 정규화 · 날짜 넘김 ---------- */
+  function v10Normalize(s){
+    const v = Number(s.hp);
+    s.hp = isFinite(v) ? Math.max(0, Math.min(HP_MAX, Math.round(v))) : HP_MAX;
+    s.hpDate = (typeof s.hpDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s.hpDate)) ? s.hpDate : "";
+    s.hpExhaust = (typeof s.hpExhaust === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s.hpExhaust)) ? s.hpExhaust : "";
+    s.hpPenaltyN = Math.max(0, Math.round(Number(s.hpPenaltyN) || 0));
+    s.hpPenaltyAt = Number(s.hpPenaltyAt) || 0;
+
+    if(!s.haz || typeof s.haz !== "object") s.haz = {date:"", n:0, dmg:0};
+    s.haz.date = (typeof s.haz.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s.haz.date)) ? s.haz.date : "";
+    s.haz.n = Math.max(0, Math.round(Number(s.haz.n) || 0));
+    s.haz.dmg = Math.max(0, Math.round(Number(s.haz.dmg) || 0));
+
+    s.hazCustom = Array.isArray(s.hazCustom) ? s.hazCustom.filter(function(c){
+      return c && c.id && c.name;
+    }).map(function(c){
+      return {
+        id: String(c.id),
+        emoji: String(c.emoji || "🙈").slice(0, 4),
+        name: String(c.name).slice(0, 20),
+        hp: Math.max(1, Math.min(50, Math.round(Number(c.hp) || 15)))
+      };
+    }) : [];
+    if(s.hazCustom.length > 30) s.hazCustom = s.hazCustom.slice(-30);
+  }
+
+  /* load() 안에서 daily rollover 직전에 호출 — 자정이 지나면 수면 회복 +15, 오늘 유혹 기록 리셋 */
+  function v10DayRollover(s){
+    const t = today();
+    if(!s.hpDate){
+      s.hpDate = t;
+      if(typeof s.hp !== "number") s.hp = HP_MAX;
+    } else if(s.hpDate !== t){
+      s.hp = Math.min(HP_MAX, Math.max(0, Math.round(Number(s.hp) || 0)) + HP_WAKE);
+      s.hpDate = t;
+    }
+    if(!s.haz || typeof s.haz !== "object") s.haz = {date:t, n:0, dmg:0};
+    if(s.haz.date !== t) s.haz = {date:t, n:0, dmg:0};
+    return s;
+  }
+
+  /* ---------- 나쁜 습관 추가/삭제 ---------- */
+  let hazHpPick = 15;
+  function renderHazChips(){
+    const box = $("hazHpChips");
+    if(!box) return;
+    box.innerHTML = HAZ_STEPS.map(function(v){
+      return '<button class="chip' + (hazHpPick === v ? " on" : "") + '" type="button" data-hp="' + v + '">-' + v + ' HP<small>' + (v <= 10 ? "가벼움" : v <= 15 ? "보통" : "치명적") + '</small></button>';
+    }).join("");
+  }
+  function openHazSheet(){
+    const w = $("hazSheetWrap");
+    if(!w) return;
+    hazHpPick = 15;
+    renderHazChips();
+    const inp = $("hazName");
+    if(inp){ inp.value = ""; inp.classList.remove("shake"); }
+    w.classList.add("on");
+    document.body.style.overflow = "hidden";
+    setTimeout(function(){ if(inp) inp.focus(); }, 220);
+  }
+  function closeHazSheet(){
+    const w = $("hazSheetWrap");
+    if(!w) return;
+    w.classList.remove("on");
+    if(!document.querySelector(".overlay.on")) document.body.style.overflow = "";
+    if($("hazName")) $("hazName").blur();
+  }
+  function saveHaz(){
+    const inp = $("hazName");
+    let name = String((inp && inp.value) || "").trim().replace(/\s+/g, " ");
+    if(!name){
+      if(inp){
+        inp.classList.add("shake");
+        setTimeout(function(){ inp.classList.remove("shake"); }, 380);
+        inp.focus();
+      }
+      toast("이름을 먼저 적어 주세요.", "예) 치킨 한 마리 · 야식 떡볶이");
+      return;
+    }
+    name = name.slice(0, 20);
+    state.hazCustom = Array.isArray(state.hazCustom) ? state.hazCustom : [];
+    state.hazCustom.push({
+      id: "hc" + Date.now().toString(36),
+      emoji: "🙈",
+      name: name,
+      hp: Math.max(1, Math.min(50, Math.round(hazHpPick || 15)))
+    });
+    save();
+    renderHaz();
+    closeHazSheet();
+    toast("나쁜 습관을 추가했어요.", "🙈 " + esc(name) + " · -" + hazHpPick + " HP · 누르면 바로 차감됩니다.");
+    if(navigator.vibrate) navigator.vibrate(8);
+  }
+  function deleteHaz(id){
+    const h = hazAll().find(function(x){ return x.id === id; });
+    if(!h || !h.custom) return;
+    if(!confirm("'" + h.name + "' 나쁜 습관을 삭제할까요?\n오늘 기록된 유혹 횟수와 깎인 HP는 그대로 남아요.")) return;
+    state.hazCustom = (state.hazCustom || []).filter(function(c){ return c.id !== id; });
+    save();
+    renderHaz();
+    toast("나쁜 습관을 삭제했습니다.", "'" + esc(h.name) + "'");
+  }
+
+  /* ---------- 기존 동작에 HP 연결 (완료/밥 주기) ---------- */
+  function wrapHp(){
+    if(typeof completeQuest === "function"){
+      const baseQuest = completeQuest;
+      completeQuest = function(id){
+        const q = (state && Array.isArray(state.quests)) ? state.quests.find(function(x){ return x.id === id; }) : null;
+        const was = !!(q && q.done);
+        const out = baseQuest(id);
+        if(q && !was && q.done){ try { hpHealForQuest(q); } catch(e){} }
+        return out;
+      };
+    }
+    if(typeof completeBonus === "function"){
+      const baseBonus = completeBonus;
+      completeBonus = function(id){
+        const q = (state && state.bonus && Array.isArray(state.bonus.list))
+          ? state.bonus.list.find(function(x){ return x.id === id; }) : null;
+        const was = !!(q && q.done);
+        const out = baseBonus(id);
+        if(q && !was && q.done){ try { hpHealForQuest(q); } catch(e){} }
+        return out;
+      };
+    }
+    if(typeof feedPet === "function"){
+      const baseFeed = feedPet;
+      feedPet = function(){
+        const p = state && state.pet;
+        const before = p ? Number(p.hunger) || 0 : 0;
+        const out = baseFeed();
+        if(p && (Number(p.hunger) || 0) > before){ try { hpHeal(HP_HEAL_FEED, "다마고치 밥 주기"); } catch(e){} }
+        return out;
+      };
+    }
+  }
+  try { wrapHp(); } catch(e){}
+
+  /* ---------- 이벤트 ---------- */
+  function wireV10(){
+    if(!$("hazardCard")) return;
+
+    const list = $("hazList");
+    if(list){
+      list.addEventListener("click", function(e){
+        const del = e.target.closest ? e.target.closest("[data-hdel]") : null;
+        if(del){
+          e.preventDefault();
+          e.stopPropagation();
+          deleteHaz(del.getAttribute("data-hdel"));
+          return;
+        }
+        const pill = e.target.closest ? e.target.closest("[data-hid]") : null;
+        if(!pill) return;
+        const id = pill.getAttribute("data-hid");
+        const h = hazAll().find(function(x){ return x.id === id; });
+        if(!h) return;
+        hpDamage(h);
+      });
+    }
+
+    if($("hazAdd")) $("hazAdd").addEventListener("click", openHazSheet);
+    if($("hazCancel")) $("hazCancel").addEventListener("click", closeHazSheet);
+    if($("hazSave")) $("hazSave").addEventListener("click", saveHaz);
+    const wrap = $("hazSheetWrap");
+    if(wrap) wrap.addEventListener("click", function(e){ if(e.target === wrap) closeHazSheet(); });
+    const chips = $("hazHpChips");
+    if(chips) chips.addEventListener("click", function(e){
+      const b = e.target.closest ? e.target.closest("[data-hp]") : null;
+      if(!b) return;
+      hazHpPick = parseInt(b.getAttribute("data-hp"), 10) || 15;
+      renderHazChips();
+    });
+    const inp = $("hazName");
+    if(inp) inp.addEventListener("keydown", function(e){
+      if(e.key === "Enter"){ e.preventDefault(); saveHaz(); }
+    });
+
+    if($("hpClose")) $("hpClose").addEventListener("click", closeHpModal);
+    const ov = $("hpOverlay");
+    if(ov) ov.addEventListener("click", function(e){ if(e.target === ov) closeHpModal(); });
+
+    document.addEventListener("keydown", function(e){
+      if(e.key !== "Escape") return;
+      if(hpModalOpen) closeHpModal();
+      else if($("hazSheetWrap") && $("hazSheetWrap").classList.contains("on")) closeHazSheet();
+    });
+
+    document.addEventListener("visibilitychange", function(){
+      if(!document.hidden && state){ renderHp(); }
+    });
+  }
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -4651,6 +5367,7 @@ body::before{
   wireParty();
   wireV7();
   wireV9();
+  wireV10();
   renderParty();
 
   let inviteParam = null, inviteKey = null;
