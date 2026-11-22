@@ -3487,7 +3487,7 @@ body::before{
     if(!silent){
       if(now.idx > was.idx){
         toast("💰 " + now.name + " 달성!", now.emoji + " " + fmtWon(v) + " · " + now.tip, null, 5600);
-        speak("자산 " + fmtWon(v) + " 달성! 이 정도면 …" + now.name + "다. 🍀", 8000);
+        speak("자산 " + fmtWon(v) + " 돌파. 이제 " + now.name + ". 🍀", 8000);
         if(navigator.vibrate) navigator.vibrate([12, 40, 12, 40, 18]);
       } else if(v !== before){
         toast("현물 자산 기록", fmtWon(v) + " · " + now.emoji + " " + now.name);
