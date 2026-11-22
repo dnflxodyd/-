@@ -22,6 +22,14 @@
   서로 다른 bin에 각자 쓰기 때문에 덮어쓰기 충돌이 없고, 15초마다 상대 bin을 읽어 옵니다.
 - 초대 링크에는 방 bin의 쓰기 키가 들어 있어, 링크를 받은 사람만 파티에 합류할 수 있습니다.
 
+## 홈 화면에 추가 / 앱 설치 (PWA)
+
+안드로이드 크롬·iOS 사파리에서 **홈 화면에 추가**로 설치하면 주소창 없는 `standalone` 앱처럼 열립니다.
+
+- `manifest.webmanifest` — 이름 `나혼렙 미라클 모닝` / 짧은 이름 `미라클모닝`, `start_url`·`scope` `./`, `display` `standalone`, 테마 `#8B5CF6`, 배경 `#FDF8F3`
+- 아이콘 — `icon-192.png` · `icon-512.png` (any), `icon-maskable-192.png` · `icon-maskable-512.png` (maskable, 안전 영역 확보), `apple-touch-icon.png` 180×180
+- `sw.js` — 서비스 워커. 앱 파일은 **network-first**(새 버전 배포 시 항상 최신판), `jsonstorage.com` 등 **외부 API는 캐시하지 않고 네트워크로 통과**, 오프라인일 때만 캐시본으로 실행
+
 ## 배포
 
 GitHub Pages (gh-pages · main 브랜치 동일 내용) → https://dnflxodyd.github.io/-/
