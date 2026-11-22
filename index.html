@@ -488,6 +488,9 @@ body::before{
 .p-chips{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
 .p-chip{font-family:var(--mono);font-size:9px;font-weight:800;color:#8A5A2B;background:#FFF3D4;border:1px solid #FFE4A6;border-radius:8px;padding:3px 7px;white-space:nowrap}
 .p-chip.fire{color:#B35C7A;background:#FFEDF3;border-color:#FFD6E4}
+.p-chip.game{color:#6E5AAE;background:#F4F0FF;border-color:#E4DBFF}
+.p-chip.money{color:#8A6420;background:#FFF8E0;border-color:#FFE9B4}
+.p-chip.clear{color:#8A5A14;background:linear-gradient(135deg,#FFF3C4,#FFE6F0);border-color:#FFE0A2;font-weight:850}
 .p-line{margin:10px 0 0;padding:9px 11px;border-radius:12px;background:#fff;border:1.5px solid #F6E9F3;font-size:11px;line-height:1.5;color:var(--ink2);font-weight:600;word-break:keep-all}
 .p-actions{display:flex;gap:7px;margin-top:10px}
 .p-btn{flex:1;font-family:inherit;font-size:11px;font-weight:800;color:#7C6790;background:#fff;border:1.5px solid #EBDBF2;border-radius:13px;padding:10px 6px;cursor:pointer;white-space:nowrap}
@@ -506,6 +509,266 @@ body::before{
 .toast.cheer .l1{color:#FFD9E8}
 .toast.cheer .l1 b{color:#FFF0B8;font-weight:800}
 .toast.cheer .l2{color:#EFC3D9}
+
+/* v3.0 care/money/bonus styles */
+/* ==========================================================
+   v3.0 — 다마고치 돌봄 · 미니게임 · 현물 자산 · 재물운 · 보너스 퀘스트
+   ========================================================== */
+
+/* ---------- 말풍선 탭 → 새 대사 ---------- */
+.speech{cursor:pointer;-webkit-user-select:none;user-select:none}
+.speech:active{transform:scale(.99)}
+.speech.tap{animation:speechTap .42s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes speechTap{0%{transform:scale(1)}35%{transform:scale(1.05) rotate(-.7deg)}70%{transform:scale(.985)}100%{transform:scale(1)}}
+.speech::before{
+  content:"👆";position:absolute;right:-3px;top:-7px;font-size:8px;opacity:.45;
+  animation:twinkle 3s ease-in-out infinite;pointer-events:none;
+}
+
+/* ---------- 다마고치 케어 바 ---------- */
+.card.pet{background:linear-gradient(160deg,#FFFCF2 0%,#FFF3F6 58%,#F1EEFF 100%)}
+.pet-head{display:flex;align-items:center;gap:7px}
+.pet-head h3{margin:0;font-size:14px;font-weight:850;letter-spacing:-.01em}
+.pet-head .hint{margin-left:auto;font-family:var(--mono);font-size:9px;font-weight:800;color:#9B86A6;background:rgba(255,255,255,.7);border:1px solid #fff;border-radius:8px;padding:3px 6px}
+.pet-gauges{display:grid;grid-template-columns:1fr;gap:6px;margin-top:10px}
+.pg{display:grid;grid-template-columns:62px 1fr 24px;align-items:center;gap:7px}
+.pg > span{font-size:9.5px;font-weight:800;color:#8B7A94;white-space:nowrap}
+.pg > b{font-family:var(--mono);font-size:9.5px;font-weight:800;color:#6E5B7C;text-align:right}
+.pg .bar{height:10px;background:rgba(255,255,255,.85);box-shadow:inset 0 1px 3px rgba(140,110,110,.14)}
+.pg .bar i{background:linear-gradient(90deg,#FFC48A,#FF9F6E);transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.pg.happy .bar i{background:linear-gradient(90deg,#FFA9C7,#C79BFF)}
+.pg .bar.low i{background:linear-gradient(90deg,#D8D2DE,#BFB6C8)}
+.pet-btns{display:flex;gap:6px;margin-top:11px}
+.pet-btn{
+  flex:1;font-family:inherit;font-size:11.5px;font-weight:800;color:#7C5F3C;background:#fff;
+  border:1.5px solid #FFE3BD;border-radius:14px;padding:10px 4px;cursor:pointer;white-space:nowrap;
+  box-shadow:0 8px 16px -13px rgba(150,110,70,.9);transition:transform .15s;
+}
+.pet-btn:active{transform:scale(.96)}
+.pet-btn.game{color:#7A5BC4;background:linear-gradient(135deg,#F7F0FF,#FFF0F7);border-color:#E3D3FF}
+.pet-btn.pop{animation:bodyPop .5s cubic-bezier(.2,.9,.3,1.35)}
+.pet-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px}
+.pet-foot span{font-family:var(--mono);font-size:8.5px;font-weight:700;color:#AC9CB4}
+.pet-foot span:first-child{color:#8A6FB0;font-weight:800}
+
+/* 캐릭터 리액션 */
+.char.wiggle{animation:petWiggle .72s cubic-bezier(.3,.6,.4,1)}
+@keyframes petWiggle{
+  0%{transform:rotate(0) scale(1)}
+  22%{transform:rotate(-5deg) scale(1.05,.94)}
+  46%{transform:rotate(4deg) scale(.95,1.06)}
+  70%{transform:rotate(-2deg) scale(1.03,.98)}
+  100%{transform:rotate(0) scale(1)}
+}
+.char.jump{animation:petJump .78s cubic-bezier(.3,.7,.4,1)}
+@keyframes petJump{
+  0%{transform:translateY(0) scale(1)}
+  24%{transform:translateY(2px) scale(1.07,.9)}
+  54%{transform:translateY(-26px) scale(.94,1.08)}
+  78%{transform:translateY(0) scale(1.04,.96)}
+  100%{transform:translateY(0) scale(1)}
+}
+.fx-layer{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+.fx-heart{
+  position:absolute;bottom:34%;font-size:15px;opacity:0;
+  animation:heartUp 1.25s ease-out forwards;
+  filter:drop-shadow(0 2px 4px rgba(190,110,140,.35));
+}
+@keyframes heartUp{
+  0%{opacity:0;transform:translate(0,6px) scale(.5)}
+  20%{opacity:1;transform:translate(var(--dx,0),-4px) scale(1.1)}
+  100%{opacity:0;transform:translate(calc(var(--dx,0px) * 2),-72px) scale(.8)}
+}
+.fx-spark{position:absolute;font-size:13px;opacity:0;animation:heartUp 1.4s ease-out forwards}
+
+/* ---------- 🔥 부자 변신 (현물 자산) ---------- */
+.hero{transition:border-color .5s,box-shadow .5s}
+.hero.rich-1{border-color:#FFE7B0;box-shadow:0 20px 42px -24px rgba(180,140,60,.65),inset 0 1px 0 rgba(255,255,255,.9)}
+.hero.rich-2{border-color:#FFD277;box-shadow:0 0 0 2px rgba(255,214,120,.55),0 22px 46px -24px rgba(180,130,40,.7),inset 0 1px 0 rgba(255,255,255,.9)}
+.hero.rich-3{
+  border-color:#FFC94D;
+  box-shadow:0 0 0 3px rgba(255,201,77,.5),0 0 34px rgba(255,196,64,.35),0 24px 50px -24px rgba(170,115,20,.8),inset 0 1px 0 rgba(255,255,255,.9);
+}
+.rich-fx{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.rf{position:absolute;font-size:15px;line-height:1;opacity:0;filter:drop-shadow(0 3px 5px rgba(150,110,40,.35))}
+.rich-fx.on .rf{animation:coinFloat var(--d,5s) ease-in-out var(--delay,0s) infinite}
+@keyframes coinFloat{
+  0%{opacity:0;transform:translateY(8px) rotate(-8deg) scale(.8)}
+  22%{opacity:.9;transform:translateY(-4px) rotate(4deg) scale(1)}
+  62%{opacity:.85;transform:translateY(-12px) rotate(-3deg) scale(1.04)}
+  100%{opacity:0;transform:translateY(-22px) rotate(6deg) scale(.9)}
+}
+.rich-fx .pig{top:50%;left:4%;font-size:18px}
+.rich-fx .coin1{top:31%;right:6%;font-size:16px}
+.rich-fx .coin2{top:44%;left:8%;font-size:13px}
+.rich-fx .bill1{top:38%;right:4%;font-size:17px}
+.rich-fx .gold1{top:30%;left:5%;font-size:16px}
+.rich-fx .gold2{top:53%;right:7%;font-size:14px}
+.rich-fx .crown{top:27%;right:7%;font-size:18px}
+.rich-fx .throne{top:47%;right:5%;font-size:19px}
+.rich-fx .shine{top:56%;left:50%;font-size:12px}
+.hero.rich-2 .stage::after{
+  content:"";position:absolute;width:206px;height:206px;border-radius:50%;
+  border:2px solid rgba(255,208,110,.55);box-shadow:0 0 26px rgba(255,200,90,.32);
+  animation:goldPulse 3.6s ease-in-out infinite;pointer-events:none;
+}
+.hero.rich-3 .stage::after{
+  content:"";position:absolute;width:214px;height:214px;border-radius:50%;
+  border:2.5px solid rgba(255,206,80,.75);box-shadow:0 0 44px rgba(255,196,60,.55),inset 0 0 30px rgba(255,210,110,.35);
+  animation:goldPulse 2.6s ease-in-out infinite;pointer-events:none;
+}
+@keyframes goldPulse{0%,100%{transform:scale(.97);opacity:.6}50%{transform:scale(1.03);opacity:1}}
+.money-fly{position:fixed;z-index:140;pointer-events:none;font-size:18px;animation:flyUp 1s ease-out forwards}
+@keyframes flyUp{0%{opacity:0;transform:translateY(10px) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translateY(-60px) scale(1.15)}}
+
+/* ---------- 재물운(LUCK) ---------- */
+.luck-fx{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .5s}
+.hero.luck-on .luck-fx{opacity:1}
+.luck-fx span{position:absolute;font-size:14px;opacity:.85;animation:cloverGlint 3.4s ease-in-out infinite}
+.luck-fx .c1{top:34%;left:7%}
+.luck-fx .c2{top:49%;right:8%;animation-delay:.8s;font-size:16px}
+.luck-fx .c3{top:57%;left:12%;animation-delay:1.6s;font-size:11px}
+.luck-fx .g1{top:40%;right:14%;animation-delay:.4s;font-size:12px}
+@keyframes cloverGlint{0%,100%{opacity:.2;transform:scale(.85) rotate(-6deg)}50%{opacity:1;transform:scale(1.12) rotate(6deg)}}
+.hero.luck-on::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(60% 40% at 50% 22%,rgba(150,230,160,.28) 0%,rgba(255,240,150,.18) 46%,rgba(255,255,255,0) 72%);
+  animation:luckGlow 4s ease-in-out infinite;
+}
+@keyframes luckGlow{0%,100%{opacity:.5}50%{opacity:1}}
+.luck-badge{
+  display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:850;line-height:1;
+  padding:5px 8px;border-radius:999px;border:1.5px solid #E3EAD8;background:#FBFDF7;color:#8E9C86;
+}
+.luck-badge.on{
+  color:#2E7D4B;background:linear-gradient(135deg,#E6FBEC,#FFF8CF);border-color:#B5E6C4;
+  box-shadow:0 0 0 3px rgba(140,220,170,.16);
+  animation:bodyPop .6s cubic-bezier(.2,.9,.3,1.4);
+}
+.luck-row{display:flex;align-items:center;gap:7px;margin-top:10px;flex-wrap:wrap}
+.luck-hint{font-size:8.5px;line-height:1.4;color:#A596AF;font-weight:700}
+.hero.luck-burst .spark{animation-duration:.9s}
+
+/* ---------- 💰 현물 자산 카드 ---------- */
+.card.money{background:linear-gradient(160deg,#FFFCF3 0%,#FFF7E3 48%,#F3F0FF 100%)}
+.money-top{display:flex;align-items:center;gap:10px;margin-top:2px}
+.money-amt{min-width:0;flex:1}
+.money-amt b{display:block;font-family:'Jua','Pretendard',sans-serif;font-size:25px;font-weight:400;letter-spacing:-.01em;color:#7A5A16;line-height:1.15}
+.money-amt small{display:block;margin-top:2px;font-family:var(--mono);font-size:8.5px;color:#A99A7E;font-weight:700;letter-spacing:.01em}
+.money-tier{
+  flex:0 0 46px;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:22px;
+  background:radial-gradient(circle at 50% 40%,#FFF8DC,#FFE9B8 70%,#F8DFFF);border:1.5px solid #fff;
+  box-shadow:0 8px 16px -12px rgba(160,120,40,.9);transition:transform .3s;
+}
+.money-tier.pop{animation:bodyPop .55s cubic-bezier(.2,.9,.3,1.4)}
+.tier-bar{position:relative;height:9px;border-radius:99px;background:rgba(255,255,255,.8);margin-top:11px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(140,110,70,.16)}
+.tier-bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#FFD98A,#FFB45C,#F79BC0);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.tier-bar .tick{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:rgba(120,85,40,.28)}
+.tier-next{margin:5px 0 0;font-family:var(--mono);font-size:8.5px;font-weight:700;color:#A38F6C;text-align:right}
+.money-add{display:flex;gap:6px;margin-top:10px}
+.mbtn{
+  flex:1;font-family:inherit;font-size:11px;font-weight:850;color:#8A6420;background:#fff;
+  border:1.5px solid #FFE0A8;border-radius:12px;padding:9px 4px;cursor:pointer;white-space:nowrap;
+  box-shadow:0 7px 14px -12px rgba(150,110,40,.9);
+}
+.mbtn:active{transform:scale(.96)}
+.mbtn.set{color:#fff;background:linear-gradient(135deg,#FFC46B,#FF9BBE);border:0;flex:0 0 62px}
+.mbtn.undo{flex:0 0 40px;color:#9B86A6;background:#fff;border-color:#ECE1D4;font-size:13px}
+.money-input{display:flex;gap:6px;margin-top:7px}
+#moneyInput{
+  flex:1;min-width:0;padding:10px 11px;border-radius:12px;border:1.5px solid #EFE0C9;background:#fff;
+  font-family:inherit;font-size:14px;color:var(--ink);outline:none;transition:.15s;
+}
+#moneyInput::placeholder{color:#C9BBA8;font-size:11px}
+#moneyInput:focus{border-color:#FFCF7E;box-shadow:0 0 0 3px rgba(255,207,126,.22)}
+#moneyInput::-webkit-outer-spin-button,#moneyInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#moneyInput{-moz-appearance:textfield;appearance:textfield}
+.money-foot{margin-top:11px}
+.switch{display:flex;align-items:flex-start;gap:7px;font-size:9.5px;line-height:1.45;color:#8F7C68;font-weight:700;cursor:pointer}
+.switch input{position:absolute;opacity:0;width:0;height:0}
+.switch span{
+  flex:0 0 32px;width:32px;height:18px;border-radius:99px;background:#E8DCCB;position:relative;transition:.22s;margin-top:1px;
+}
+.switch span::after{
+  content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 3px rgba(120,90,60,.3);transition:.22s;
+}
+.switch input:checked + span{background:linear-gradient(135deg,#FFC46B,#FF9BC0)}
+.switch input:checked + span::after{transform:translateX(14px)}
+.switch input:focus-visible + span{box-shadow:0 0 0 3px rgba(255,196,107,.35)}
+
+/* ---------- ⭐ 보너스 퀘스트 ---------- */
+.bonus-sec{margin-top:14px;padding-top:12px;border-top:1.5px dashed #EFE0CE}
+.bonus-head{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.sys.bonus{color:#C08A1E;background:#FFF6DC;border-color:#FFE6AF}
+.bonus-head b{font-family:'Jua','Pretendard',sans-serif;font-size:13px;font-weight:400;letter-spacing:-.01em}
+.bonus-count{margin-left:auto;font-family:var(--mono);font-size:9.5px;font-weight:800;color:#A77C2A;background:#FFF3D0;border:1px solid #FFE5AC;border-radius:8px;padding:3px 7px}
+.bonus-q{background:linear-gradient(120deg,#FFFDF4,#FFF8FA);border-color:#F3E7D9}
+.bonus-q .exp-chip{color:#B0722A;background:#FFF1CB}
+.bonus-q.lucky .q-title::after{content:"🍀";font-size:9px;margin-left:3px;vertical-align:1px}
+.bonus-q + .bonus-q{margin-top:8px}
+.add-btn.bonus{margin-top:9px;padding:10px;font-size:11px;border-color:#E7D8C4;color:#A08A6E}
+.allclear-box{
+  display:flex;align-items:center;gap:9px;margin-top:11px;padding:10px 11px;border-radius:16px;
+  background:linear-gradient(135deg,#FFF8E0,#FFF1F7);border:1.5px solid #fff;
+  box-shadow:0 10px 20px -18px rgba(160,120,60,.9);
+}
+.allclear-box .ac-badge{font-size:21px;flex:0 0 auto;filter:grayscale(.8) opacity(.55);transition:.3s}
+.allclear-box.done{background:linear-gradient(135deg,#FFF6C8,#FFE9F2 60%,#EEF8E8);border-color:#FFE9A8;box-shadow:0 0 0 3px rgba(255,214,120,.18),0 12px 22px -16px rgba(170,130,40,.9)}
+.allclear-box.done .ac-badge{filter:none;animation:bodyPop .6s cubic-bezier(.2,.9,.3,1.4)}
+.allclear-box > div{min-width:0;flex:1}
+.allclear-box b{display:block;font-size:11.5px;font-weight:850;color:#8A6A22;letter-spacing:-.01em}
+.allclear-box small{display:block;margin-top:2px;font-size:9px;line-height:1.4;color:#A2927E;font-weight:700;word-break:keep-all}
+.ac-state{font-family:var(--mono);font-size:8.5px;font-weight:800;color:#B09A78;background:#fff;border:1px solid #EFE3D2;border-radius:7px;padding:3px 6px;white-space:nowrap}
+.allclear-box.done .ac-state{color:#8A6A22;background:#FFF6D6;border-color:#FFE3A2}
+
+/* ---------- 🎮 미니게임 ---------- */
+.overlay.mg{background:rgba(46,30,62,.5)}
+.mg-card{
+  position:relative;width:100%;max-width:356px;overflow:hidden;
+  background:linear-gradient(180deg,#FFFCF0 0%,#FFF3F8 52%,#EFEBFF 100%);
+  border:2px solid #fff;border-radius:28px;padding:16px 14px 14px;
+  box-shadow:0 30px 60px -22px rgba(70,40,90,.6);
+  transform:scale(.92) translateY(12px);transition:transform .3s cubic-bezier(.2,.9,.3,1.25);
+}
+.overlay.on .mg-card{transform:none}
+.mg-card h2{margin:0;font-family:'Jua','Pretendard',sans-serif;font-size:21px;font-weight:400;letter-spacing:-.01em}
+.mg-sub{margin:4px 0 9px;font-size:9.5px;line-height:1.5;color:#8C7A96;font-weight:600;word-break:keep-all}
+.mg-hud{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px}
+.mg-hud span{font-family:var(--mono);font-size:10px;font-weight:800;color:#7C6790;background:#fff;border:1px solid #EFE3F4;border-radius:8px;padding:4px 8px}
+.mg-hud span:first-child{color:#B4507A;background:#FFF0F6;border-color:#FFD9E8}
+.mg-stage{
+  position:relative;width:100%;aspect-ratio:660/760;border-radius:18px;overflow:hidden;
+  background:radial-gradient(115% 80% at 50% -10%,#FFFDF2 0%,#FFF0D6 42%,#E9F6FF 100%);
+  border:1.5px solid #fff;box-shadow:inset 0 0 0 1px rgba(240,225,205,.7),0 10px 24px -18px rgba(140,100,90,.9);
+  touch-action:none;
+}
+#mgCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.mg-start,.mg-result{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:rgba(255,252,244,.86);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);text-align:center;padding:14px;
+}
+.mg-start p,.mg-result p{margin:0;font-size:10px;line-height:1.5;color:#8C7A96;font-weight:700;word-break:keep-all}
+.mg-start .big,.mg-result .big{font-family:'Jua','Pretendard',sans-serif;font-size:19px;color:#7C5BD8}
+.mg-result .score{font-family:'Jua','Pretendard',sans-serif;font-size:34px;line-height:1;color:#B4507A}
+.mg-result .rs-best{font-family:var(--mono);font-size:9px;font-weight:800;color:#9B7BDD}
+.mg-start .go{
+  font-family:inherit;font-size:13px;font-weight:850;color:#fff;border:0;border-radius:14px;padding:11px 22px;
+  background:linear-gradient(135deg,#FF9BC0,#9B7BFF);box-shadow:0 12px 22px -12px rgba(150,110,220,.9);cursor:pointer;
+}
+.mg-start .go:active{transform:scale(.97)}
+.mg-foot{display:flex;gap:7px;margin-top:10px}
+.mg-foot .btn-ghost{flex:0 0 auto;font-size:11.5px;padding:11px 14px}
+.mg-foot .btn-primary{font-size:12px;padding:11px}
+.mg-tip{margin:7px 0 0;text-align:center;font-size:8.5px;color:#B0A0BC;font-weight:700;line-height:1.5}
+.combo-pop{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);font-family:'Jua',sans-serif;font-size:22px;color:#FF7FA8;text-shadow:0 2px 0 #fff,0 6px 12px rgba(190,90,130,.3);animation:comboPop .6s ease-out forwards;pointer-events:none}
+@keyframes comboPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}30%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}100%{opacity:0;transform:translate(-50%,-70%) scale(1)}}
+
+@media (max-width:340px){
+  .pet-btn{font-size:10.5px;padding:9px 3px}
+  .mbtn{font-size:10px}
+  .money-amt b{font-size:22px}
+}
 
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
@@ -543,6 +806,7 @@ body::before{
       <span class="spark a">✦</span>
       <span class="spark b">✧</span>
       <span class="spark c">✦</span>
+      <div class="fx-layer" id="charFx" aria-hidden="true"></div>
       <img class="char" id="charImg" alt="냥이 헌터 캐릭터">
     </div>
 
@@ -570,7 +834,76 @@ body::before{
       <span class="exp-text" id="expText">0 / 80</span>
     </div>
     <div class="evo-hint" id="evoHint"></div>
+    <div class="rich-fx" id="richFx" aria-hidden="true"></div>
+    <div class="luck-fx" id="luckFx" aria-hidden="true"></div>
     <div class="cleared" id="cleared" hidden>✓ 오늘의 퀘스트 클리어! 내일도 만나요</div>
+  </section>
+
+  <section class="card pet" id="petCard">
+    <div class="pet-head">
+      <span class="sys">[ CARE ]</span>
+      <h3>🐣 나의 다마고치</h3>
+      <span class="hint" id="petMood">😊 최상 컨디션</span>
+    </div>
+    <div class="pet-gauges">
+      <div class="pg">
+        <span>🍙 배고픔</span>
+        <div class="bar sm" id="hungerBar"><i id="hungerFill"></i></div>
+        <b id="hungerText">60</b>
+      </div>
+      <div class="pg happy">
+        <span>💖 행복도</span>
+        <div class="bar sm" id="happyBar"><i id="happyFill"></i></div>
+        <b id="happyText">55</b>
+      </div>
+    </div>
+    <div class="pet-btns">
+      <button class="pet-btn" id="feedBtn" type="button">🍙 밥 주기</button>
+      <button class="pet-btn" id="patBtn" type="button">✋ 쓰다듬기</button>
+      <button class="pet-btn game" id="gameBtn" type="button">🎮 미니게임</button>
+    </div>
+    <div class="pet-foot">
+      <span id="mgBest">🎮 최고 0점</span>
+      <span id="careHint">밥과 쓰다듬기로 기분을 올려요</span>
+    </div>
+  </section>
+
+  <section class="card money" id="moneyCard">
+    <div class="card-head">
+      <span class="sys">[ CASH ]</span>
+      <h3>💰 내 현물 자산</h3>
+      <span class="hint" id="moneyTierName">🌱 소박한 헌터</span>
+    </div>
+    <div class="money-top">
+      <div class="money-amt">
+        <b id="moneyBig">0원</b>
+        <small id="moneyWon">저축·현금을 기록하면 부자 등급이 올라가요</small>
+      </div>
+      <div class="money-tier" id="moneyBadge">🌱</div>
+    </div>
+    <div class="tier-bar"><i id="tierFill"></i><span class="tick" style="left:33.3%"></span><span class="tick" style="left:66.6%"></span></div>
+    <p class="tier-next" id="tierNext">다음 등급까지 100만 원</p>
+    <div class="money-add">
+      <button class="mbtn" type="button" data-add="100000">+10만</button>
+      <button class="mbtn" type="button" data-add="500000">+50만</button>
+      <button class="mbtn" type="button" data-add="1000000">+100만</button>
+    </div>
+    <div class="money-input">
+      <input id="moneyInput" type="number" inputmode="numeric" min="0" step="1" placeholder="현재 금액 (만원 단위)" autocomplete="off">
+      <button class="mbtn set" id="moneySet" type="button">기록</button>
+      <button class="mbtn undo" id="moneyUndo" type="button" title="마지막 기록 되돌리기" aria-label="마지막 기록 되돌리기">↩︎</button>
+    </div>
+    <div class="money-foot">
+      <label class="switch">
+        <input type="checkbox" id="moneyPriv" checked>
+        <span></span>
+        <em style="font-style:normal">파트너에게 정확한 금액 숨기기 (부자 등급만 공유)</em>
+      </label>
+    </div>
+    <div class="luck-row">
+      <span class="luck-badge" id="luckBadge">🍀 재물운 LUCK</span>
+      <span class="luck-hint" id="luckHint">재테크 퀘스트를 깨면 재물운이 켜져요</span>
+    </div>
   </section>
 
   <section class="card party" id="coupleCard">
@@ -602,6 +935,9 @@ body::before{
           <div class="p-chips">
             <span class="p-chip" id="pQuestChip">✅ 0/4</span>
             <span class="p-chip fire" id="pStreakChip">🔥 0일</span>
+            <span class="p-chip game" id="pGameChip">🎮 0점</span>
+            <span class="p-chip money" id="pMoneyChip">💰 🌱 소박한 헌터</span>
+            <span class="p-chip clear" id="pClearChip" hidden>🏆 오늘 올클리어!</span>
           </div>
         </div>
       </div>
@@ -628,6 +964,25 @@ body::before{
     <p class="q-desc">전부 깨면 오늘의 생존 신고 완료. 보상은 즉시 지급된다.</p>
     <div id="questList"></div>
     <button class="add-btn" id="addBtn">＋ 일일 퀘스트 추가</button>
+
+    <div class="bonus-sec">
+      <div class="bonus-head">
+        <span class="sys bonus">[ ⭐ BONUS ]</span>
+        <b>보너스 일일 퀘스트</b>
+        <span class="bonus-count" id="bonusCount">0/2</span>
+      </div>
+      <div id="bonusList"></div>
+      <button class="add-btn bonus" id="bonusAdd" type="button">＋ 보너스 퀘스트 추가</button>
+      <div class="allclear-box" id="acBox">
+        <span class="ac-badge">🏆</span>
+        <div>
+          <b>오늘의 올클리어</b>
+          <small id="acDesc">기본 퀘스트 + 보너스 퀘스트를 모두 깨면 +40 EXP</small>
+        </div>
+        <span class="ac-state" id="acState">진행 중</span>
+      </div>
+    </div>
+
   </section>
 
   <section class="card">
@@ -669,7 +1024,7 @@ body::before{
     <button class="tool" id="cheatStr">🏃 테스트 STR +5</button>
     <button class="tool" id="cheatInt">📚 테스트 INT +5</button>
   </div>
-  <p class="tiny">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v2.0 (2인 공유)</p>
+  <p class="tiny">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v3.0 (다마고치 · 2인 공유)</p>
 </div>
 
 <div id="toasts"></div>
@@ -705,6 +1060,37 @@ body::before{
       <button class="btn-ghost" id="joinCancel" type="button">나중에</button>
       <button class="btn-primary pick-start" id="joinStart" type="button" disabled>합류하기</button>
     </div>
+  </div>
+</div>
+
+<div class="overlay mg" id="mgOverlay">
+  <div class="mg-card" role="dialog" aria-modal="true" aria-labelledby="mgTitle">
+    <p class="lu-sys">[ MINI GAME ]</p>
+    <h2 id="mgTitle">떨어지는 간식 받기</h2>
+    <p class="mg-sub" id="mgSub">12초 동안 바구니를 움직여 간식을 받아요. 별·보석은 더 높은 점수!</p>
+    <div class="mg-hud">
+      <span id="mgTime">12.0s</span>
+      <span id="mgScore">0점</span>
+    </div>
+    <div class="mg-stage" id="mgStage">
+      <canvas id="mgCanvas" width="660" height="760"></canvas>
+      <div class="mg-start" id="mgStartPane">
+        <span class="big">🧺 준비됐나요?</span>
+        <p>화면을 좌우로 문질러 바구니를 움직여요.<br>떨어지는 간식을 받으면 점수!</p>
+        <button class="go" id="mgStartBtn" type="button">시작!</button>
+      </div>
+      <div class="mg-result" id="mgResult" hidden>
+        <span class="big" id="mgResultTitle">끝!</span>
+        <span class="score" id="mgResultScore">0점</span>
+        <span class="rs-best" id="mgResultBest">최고 0점</span>
+        <p id="mgResultReward">+0 EXP · 행복도 +0</p>
+      </div>
+    </div>
+    <div class="mg-foot">
+      <button class="btn-ghost" id="mgClose" type="button">닫기</button>
+      <button class="btn-primary" id="mgAgain" type="button" hidden>한 번 더</button>
+    </div>
+    <p class="mg-tip">최고 점수는 파트너 카드에도 공유돼요 🎮</p>
   </div>
 </div>
 
@@ -1022,6 +1408,12 @@ body::before{
       cheerAt: 0,
       cheerSeen: 0,
       lastSyncT: 0,
+      pet: {hunger: 60, happy: 55, at: 0, best: 0, games: 0, expDate: "", expToday: 0},
+      money: {total: 0, hide: true, last: 0},
+      luck: {n: 0, until: 0},
+      bonus: {date: "", list: [], cleared: false},
+      bonusCustom: [],
+      allclear: null,
       born: today()
     };
   }
@@ -1063,6 +1455,9 @@ body::before{
     s.cheerAt = s.cheerAt || 0;
     s.cheerSeen = s.cheerSeen || 0;
     s.lastSyncT = s.lastSyncT || 0;
+
+    // v3.0 필드
+    try { v7Normalize(s); } catch(e){}
 
     // daily rollover
     const t = today();
@@ -1239,6 +1634,7 @@ body::before{
     const doy = Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate()) - new Date(now.getFullYear(),0,0)) / 864e5);
     el.quote.textContent = tx(QUOTES[doy % QUOTES.length]);
 
+    renderV7();
     renderParty();
   }
 
@@ -1357,10 +1753,10 @@ body::before{
           was.emoji+" "+was.label+" → "+now.emoji+" "+now.label+" · INT "+Math.round(state.stats.int),
           null, 5400);
         popIntBadge();
-        speak(pickSpeech());
+        speak(nextSpeechLine());
       } else {
         toast("어휘가 다시 소박해졌습니다.", now.emoji+" "+now.label+" · INT "+Math.round(state.stats.int), null, 3600);
-        speak(pickSpeech());
+        speak(nextSpeechLine());
       }
       if(navigator.vibrate) navigator.vibrate(up ? [10,40,14] : 8);
     };
@@ -1432,6 +1828,7 @@ body::before{
       state.stats[k] = (state.stats[k] || 0) + q.gain[k];
     });
     state.totalQuests += 1;
+    try { questHooks(q); } catch(e){}
 
     const t = today();
     if(state.lastActive !== t){
@@ -1512,8 +1909,12 @@ body::before{
     ).join("");
   }
 
-  function openSheet(){
+  let sheetKind = "daily";
+  function openSheet(kind){
+    sheetKind = (kind === "bonus") ? "bonus" : "daily";
     sheetStat = "str"; sheetExp = 25; sheetGain = 2;
+    const sheetH3 = document.querySelector(".sheet h3");
+    if(sheetH3) sheetH3.textContent = sheetKind === "bonus" ? "보너스 퀘스트 추가" : "나만의 미라클 모닝 추가";
     buildChips();
     el.newTitle.value = "";
     el.sheetWrap.classList.add("on");
@@ -1529,16 +1930,20 @@ body::before{
       el.newTitle.focus();
       return;
     }
-    state.quests.push({
-      id: "c"+Date.now().toString(36),
-      icon: "⭐",
-      title: title,
-      stat: sheetStat,
-      exp: sheetExp,
-      gain: {[sheetStat]: sheetGain},
-      done: false,
-      custom: true
-    });
+    if(sheetKind === "bonus"){
+      addBonusQuest(title, sheetStat, sheetExp, {[sheetStat]: sheetGain});
+    } else {
+      state.quests.push({
+        id: "c"+Date.now().toString(36),
+        icon: "⭐",
+        title: title,
+        stat: sheetStat,
+        exp: sheetExp,
+        gain: {[sheetStat]: sheetGain},
+        done: false,
+        custom: true
+      });
+    }
     save();
     render();
     closeSheet();
@@ -1646,7 +2051,7 @@ body::before{
     el.charImg.classList.add("hop");
     setTimeout(() => el.charImg.classList.remove("hop"), 700);
 
-    speak(pickSpeech(), 6000);
+    speak(nextSpeechLine(), 6000);
 
     if(navigator.vibrate) navigator.vibrate(8);
   });
@@ -1671,7 +2076,7 @@ body::before{
     completeQuest(id);
   });
 
-  el.addBtn.addEventListener("click", openSheet);
+  el.addBtn.addEventListener("click", function(){ openSheet("daily"); });
   $("sheetCancel").addEventListener("click", closeSheet);
   $("sheetSave").addEventListener("click", saveQuest);
 
@@ -1869,6 +2274,17 @@ body::before{
       line: String((el.speech && el.speech.textContent) || "").slice(0, 60),
       cheerSeq: state.cheerSeq || 0,
       cheerAt: state.cheerAt || 0,
+      /* v3.0 — 다마고치 · 현물 자산 · 재물운 · 올클리어 */
+      mg: (state.pet && state.pet.best) || 0,
+      petHappy: Math.round((state.pet && state.pet.happy) || 0),
+      moneyTier: moneyTier().idx,
+      moneyTierName: moneyTier().name,
+      moneyTierEmoji: moneyTier().emoji,
+      moneyHide: moneyHidden(),
+      money: moneyHidden() ? null : moneyVal(),
+      luck: luckOn() ? 1 : 0,
+      luckN: (state.luck && state.luck.n) || 0,
+      allclear: state.allclear === today() ? 1 : 0,
       at: Date.now()
     };
   }
@@ -2223,6 +2639,7 @@ body::before{
         if(P.rankName) parts.push(P.rankName);
         parts.push("Lv." + (P.lv || 1));
         if(P.strKey === "slim") parts.push("✨ 살 빠짐");
+        if(P.luck) parts.push("🍀 재물운");
         $("pRank").textContent = parts.join(" · ");
       } else {
         $("pRank").textContent = "기록을 불러오는 중…";
@@ -2230,6 +2647,16 @@ body::before{
     }
     if($("pQuestChip")) $("pQuestChip").textContent = "✅ " + (P.qDone || 0) + "/" + (P.qTotal || 4);
     if($("pStreakChip")) $("pStreakChip").textContent = "🔥 " + (P.streak || 0) + "일";
+    if($("pGameChip")) $("pGameChip").textContent = "🎮 최고 " + (P.mg || 0) + "점";
+    if($("pMoneyChip")){
+      const em = P.moneyTierEmoji || "🌱";
+      const nm = P.moneyTierName || "소박한 헌터";
+      const showAmount = (!P.moneyHide && typeof P.money === "number");
+      $("pMoneyChip").textContent = showAmount
+        ? "💰 " + fmtWon(P.money)
+        : (em + " " + nm + " 🔒");
+    }
+    if($("pClearChip")) $("pClearChip").hidden = !P.allclear;
     if($("pLine")) $("pLine").textContent = P.line || "한마디를 기다리는 중…";
     const img = $("pImg");
     const C = CHARS[P.char] || CHARS.cat;
@@ -2483,11 +2910,1060 @@ body::before{
     if($("pickNick")) $("pickNick").addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); confirmPick(); } });
   }
 
+  /* ===================================================================
+     v3.0 — 🐣 다마고치 돌봄 · 🎮 미니게임 · 💰 현물 자산 · 🍀 재물운 · ⭐ 보너스 퀘스트
+     · 모든 기록은 localStorage 에 먼저 저장되고, 파티 방이 있으면 조용히 공유된다
+     =================================================================== */
+
+  /* ---------- 현금 등급 ---------- */
+  const MONEY_TIERS = [
+    {idx:0, key:"starter", name:"소박한 헌터", emoji:"🌱", min:0,        next:1000000,  tip:"아직은 소박한 헌터"},
+    {idx:1, key:"saver",   name:"소소한 저축가", emoji:"🪙", min:1000000,  next:10000000, tip:"반짝이는 동전 + 저금통"},
+    {idx:2, key:"club",    name:"천만 클럽",     emoji:"💰", min:10000000, next:50000000, tip:"지폐·금괴 + 황금 테두리"},
+    {idx:3, key:"tycoon",  name:"현물 재벌",     emoji:"👑", min:50000000, next:null,     tip:"왕금괴·돈방석 + 재벌 오라"}
+  ];
+
+  function moneyVal(){ return Math.max(0, Math.round((state && state.money && state.money.total) || 0)); }
+  function moneyTier(v){
+    const n = (typeof v === "number") ? Math.max(0, Math.round(v)) : moneyVal();
+    let t = MONEY_TIERS[0];
+    for(let i=0;i<MONEY_TIERS.length;i++){ if(n >= MONEY_TIERS[i].min) t = MONEY_TIERS[i]; }
+    return t;
+  }
+  function moneyHidden(){ return !state.money || state.money.hide !== false; }
+  function fmtWon(n){
+    const v = Math.max(0, Math.round(n || 0));
+    if(v >= 100000000){
+      const eok = v / 100000000;
+      const s = eok >= 10 ? String(Math.round(eok)) : String(Math.round(eok*10)/10);
+      return s + "억 원";
+    }
+    if(v >= 10000) return Math.round(v/10000).toLocaleString("ko-KR") + "만 원";
+    return v.toLocaleString("ko-KR") + "원";
+  }
+
+  /* ---------- 재물운(LUCK) ---------- */
+  const LUCK_QUOTES = [
+    "쓰지 않은 돈이 곧 번 돈이다. 🍀",
+    "티끌 모아 태산. 오늘의 1만 원이 내일의 1억이 된다. 🪙",
+    "복리는 조용하다. 그래서 무섭다. 📈",
+    "현금은 거짓말하지 않는다. 💰",
+    "무지출 하루는 하루치 월급이다. 🍀",
+    "재물운은 준비된 지갑에 찾아온다. 👛",
+    "오늘 읽은 기사 한 줄이 내일의 수익률이 된다. 💹"
+  ];
+  function luckOn(){ return !!(state && state.luck && state.luck.until > Date.now()); }
+  function pickLuckQuote(){ return LUCK_QUOTES[Math.floor(Math.random()*LUCK_QUOTES.length)]; }
+
+  /* ---------- 다마고치 ---------- */
+  function petNow(){
+    const p = state.pet;
+    const now = Date.now();
+    if(!p.at) p.at = now;
+    const mins = Math.max(0, (now - p.at) / 60000);
+    if(mins >= 1){
+      p.hunger = Math.max(0, Math.round((p.hunger - mins/30) * 10) / 10);
+      p.happy  = Math.max(0, Math.round((p.happy  - mins/45) * 10) / 10);
+    }
+    p.at = now;
+    return p;
+  }
+  function petMood(p){
+    const m = Math.min(p.hunger || 0, p.happy || 0);
+    if(m >= 80) return {text:"😊 최상 컨디션"};
+    if(m >= 55) return {text:"🙂 기분 좋음"};
+    if(m >= 30) return {text:"😐 조금 심심함"};
+    return {text:"🥺 돌봄 필요"};
+  }
+  function careHintText(p){
+    if(p.hunger < 30) return "배고파해요 · 밥 주기!";
+    if(p.happy < 30) return "쓰다듬어 주세요";
+    if(p.hunger >= 95 && p.happy >= 95) return "오늘 최고로 행복해요";
+    return "함께 놀면 더 좋아해요";
+  }
+
+  function careFx(kind){
+    const img = $("charImg");
+    if(img){
+      const cls = kind === "feed" ? "wiggle" : "jump";
+      img.classList.remove("wiggle", "jump");
+      void img.offsetWidth;
+      img.classList.add(cls);
+      setTimeout(function(){ img.classList.remove(cls); }, 840);
+    }
+    const layer = $("charFx");
+    if(layer){
+      const pool = kind === "feed" ? ["🍙","😋","💗","✨"] : ["💗","💕","✨","🍀"];
+      for(let i=0;i<6;i++){
+        const s = document.createElement("span");
+        s.className = (i % 2 === 0) ? "fx-heart" : "fx-spark";
+        s.textContent = pool[i % pool.length];
+        s.style.left = (34 + Math.random()*32).toFixed(1) + "%";
+        s.style.setProperty("--dx", (Math.round(Math.random()*44)-22) + "px");
+        s.style.animationDelay = (i*0.06).toFixed(2) + "s";
+        layer.appendChild(s);
+        (function(node){ setTimeout(function(){ if(node.parentNode) node.parentNode.removeChild(node); }, 1800); })(s);
+      }
+    }
+    if(navigator.vibrate) navigator.vibrate(kind === "feed" ? 12 : [8, 30, 10]);
+  }
+
+  function feedPet(){
+    const p = petNow();
+    if(p.hunger >= 99.5){
+      p.happy = Math.min(100, p.happy + 2);
+      save(); render(); careFx("pat");
+      toast("이미 배불러요 🍙", "행복도만 살짝 올려 줬어요. 미니게임으로 소화시켜 볼까요?");
+      return;
+    }
+    p.hunger = Math.min(100, p.hunger + 30);
+    p.happy = Math.min(100, p.happy + 6);
+    save(); render(); careFx("feed");
+    const C = curChar();
+    speak(["냠냠! …좋다.", "밥은 사랑이다. 고마워.", "…한 입만 더. (이미 배부름)", "이 " + C.item + "는 내 거다. 🍙"][Math.floor(Math.random()*4)], 5200);
+    toast("밥을 줬어요 🍙", "배고픔 +30 · 행복도 +6 · " + petMood(petNow()).text);
+  }
+
+  function patPet(){
+    const p = petNow();
+    p.happy = Math.min(100, p.happy + 14);
+    p.hunger = Math.max(0, p.hunger - 1);
+    save(); render(); careFx("pat");
+    speak(["…좋아. 한 번만 더.", "쓰다듬기는 최고의 퀘스트다.", "더 해 줘. 그만두면 삐진다.", "…여기, 귀 뒤쪽."][Math.floor(Math.random()*4)], 5200);
+    toast("쓰다듬었어요 ✋", "행복도 +14 · " + petMood(petNow()).text);
+  }
+
+  /* ---------- 레벨/EXP 공용 ---------- */
+  function v7AddExp(amount){
+    const add = Math.max(0, Math.min(amount, CAP - state.totalExp));
+    if(add > 0) state.totalExp += add;
+    return add;
+  }
+
+  /* ---------- ⭐ 보너스 퀘스트 ---------- */
+  const BONUS_POOL = [
+    {id:"b-news",   icon:"💹", title:"경제 뉴스 1개 읽기",          exp:20, gain:{int:2},          luck:true},
+    {id:"b-nospend",icon:"🧾", title:"무지출 도전 (오늘 지출 0원)",  exp:20, gain:{wil:2},          luck:true},
+    {id:"b-ledger", icon:"📈", title:"가계부 한 줄 쓰기",            exp:15, gain:{int:1},          luck:true},
+    {id:"b-save",   icon:"🪙", title:"저축에 1만 원 넣기",           exp:20, gain:{wil:2},          luck:true},
+    {id:"b-water",  icon:"💧", title:"물 2L 마시기",                 exp:15, gain:{str:1}},
+    {id:"b-walk",   icon:"🚶", title:"햇빛 쬐며 10분 걷기",          exp:15, gain:{str:1, agi:1}},
+    {id:"b-desk",   icon:"🧹", title:"책상 위 5분 정리",             exp:15, gain:{agi:1, wil:1}},
+    {id:"b-thanks", icon:"💌", title:"고마운 사람에게 한마디",        exp:15, gain:{wil:1}}
+  ];
+
+  function bonusSeed(){
+    const s = today().replace(/-/g, "");
+    let h = 2166136261;
+    for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return (h >>> 0) || 1;
+  }
+  function rollBonus(){
+    const pool = BONUS_POOL.slice();
+    let seed = bonusSeed();
+    const rnd = function(){
+      seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+      return seed / 4294967296;
+    };
+    const out = [];
+    /* 1) 매일 재테크 퀘스트 1개는 반드시 포함 (재물운 버프 보장) */
+    const luckPool = pool.filter(function(b){ return b.luck; });
+    const first = luckPool[Math.floor(rnd() * luckPool.length) % luckPool.length];
+    if(first){
+      out.push({ id:first.id, icon:first.icon, title:first.title, exp:first.exp,
+        gain:Object.assign({}, first.gain), luck:true, done:false, custom:false });
+      const i = pool.indexOf(first);
+      if(i >= 0) pool.splice(i, 1);
+    }
+    /* 2) 나머지 1개는 남은 풀에서 무작위 */
+    while(out.length < 2 && pool.length){
+      const i = Math.floor(rnd() * pool.length) % pool.length;
+      const b = pool.splice(i, 1)[0];
+      out.push({ id:b.id, icon:b.icon, title:b.title, exp:b.exp,
+        gain:Object.assign({}, b.gain), luck:!!b.luck, done:false, custom:false });
+    }
+    return out;
+  }
+
+  function normBonus(){
+    const t = today();
+    if(!state.bonus || typeof state.bonus !== "object") state.bonus = {date:"", list:[], cleared:false};
+    if(!Array.isArray(state.bonusCustom)) state.bonusCustom = [];
+    if(state.bonus.date !== t || !Array.isArray(state.bonus.list) || !state.bonus.list.length){
+      const list = rollBonus();
+      state.bonusCustom.forEach(function(c){
+        if(!c || !c.id || !c.title) return;
+        list.push({
+          id: "bc-" + c.id, icon: c.icon || "⭐", title: c.title,
+          exp: c.exp || 15, gain: Object.assign({}, c.gain || {}),
+          luck: !!c.luck, done: false, custom: true, tid: c.id
+        });
+      });
+      state.bonus = { date: t, list: list, cleared: false };
+      try { save(); } catch(e){}
+    }
+  }
+
+  function addBonusQuest(title, stat, exp, gain){
+    const tid = "b" + Date.now().toString(36);
+    state.bonusCustom.push({
+      id: tid, icon: "⭐", title: title, stat: stat, exp: exp,
+      gain: Object.assign({}, gain || {}), luck: false
+    });
+    normBonus();
+    state.bonus.list.push({
+      id: "bc-" + tid, icon: "⭐", title: title, exp: exp,
+      gain: Object.assign({}, gain || {}), luck: false, done: false, custom: true, tid: tid
+    });
+  }
+
+  function deleteBonusQuest(id){
+    const q = (state.bonus.list || []).find(function(x){ return x.id === id; });
+    if(!q || !q.custom) return;
+    if(!confirm("'" + q.title + "' 보너스 퀘스트를 삭제할까요?\n지금까지 얻은 EXP는 그대로 남아요.")) return;
+    state.bonus.list = state.bonus.list.filter(function(x){ return x.id !== id; });
+    if(q.tid) state.bonusCustom = state.bonusCustom.filter(function(c){ return c.id !== q.tid; });
+    save();
+    render();
+    toast("보너스 퀘스트를 삭제했습니다.", "'" + esc(q.title) + "'");
+  }
+
+  function completeBonus(id){
+    normBonus();
+    const q = (state.bonus.list || []).find(function(x){ return x.id === id; });
+    if(!q || q.done) return;
+    const before = levelInfo(state.totalExp);
+    const beforeStr = state.stats.str || 0;
+    const beforeInt = state.stats.int || 0;
+
+    q.done = true;
+    const gainedExp = v7AddExp(q.exp);
+    Object.keys(q.gain || {}).forEach(function(k){
+      state.stats[k] = (state.stats[k] || 0) + q.gain[k];
+    });
+    state.totalQuests += 1;
+
+    const t = today();
+    if(state.lastActive !== t){
+      state.streak = (state.lastActive === yesterday()) ? state.streak + 1 : 1;
+      state.lastActive = t;
+    }
+    if(q.luck){
+      state.luck.n = (state.luck.n || 0) + 1;
+      state.luck.until = Date.now() + 3600000;
+    }
+    checkAllClear();
+    save();
+    render();
+
+    const card = $("bonusList") && $("bonusList").querySelector('[data-bid="' + id + '"]');
+    if(card){
+      const f = document.createElement("span");
+      f.className = "float";
+      f.textContent = gainedExp > 0 ? "+" + gainedExp + " EXP" : "MAX";
+      card.appendChild(f);
+      setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, 1000);
+    }
+    toast(gainedExp > 0 ? "보너스 퀘스트 완료! +" + gainedExp + " EXP" : "보너스 퀘스트 완료! (EXP MAX)",
+      "'" + esc(q.title) + "' · " + statGainText(q.gain) + (q.luck ? " · 🍀 재물운" : ""));
+    if(navigator.vibrate) navigator.vibrate(14);
+
+    if(q.luck){
+      setTimeout(function(){
+        toast("🍀 재물운 발동!", "재테크 퀘스트 완료 · 1시간 동안 네잎클로버와 금화가 따라붙어요.", null, 5200);
+        speak(pickLuckQuote(), 8000);
+        luckBurst();
+      }, 420);
+    }
+
+    bodyAfterChange(beforeStr, "soon");
+    intAfterChange(beforeInt, "soon");
+    const after = levelInfo(state.totalExp);
+    if(after.level > before.level) setTimeout(function(){ showLevelUp(before.level, after.level); }, 760);
+  }
+
+  function undoBonus(id, exp){
+    const q = (state.bonus.list || []).find(function(x){ return x.id === id; });
+    if(!q || !q.done) return;
+    const beforeStr = state.stats.str || 0;
+    const beforeInt = state.stats.int || 0;
+    q.done = false;
+    state.totalExp = Math.max(0, state.totalExp - exp);
+    Object.keys(q.gain || {}).forEach(function(k){
+      state.stats[k] = Math.max(10, (state.stats[k] || 0) - q.gain[k]);
+    });
+    state.totalQuests = Math.max(0, state.totalQuests - 1);
+    save();
+    render();
+    toast("되돌렸습니다. -" + exp + " EXP", "'" + esc(q.title) + "' 보너스 퀘스트를 다시 도전할 수 있어요.");
+    bodyAfterChange(beforeStr, "now");
+    intAfterChange(beforeInt, "now");
+  }
+
+  /* ---------- 🏆 올클리어 ---------- */
+  function checkAllClear(){
+    const t = today();
+    if(state.allclear === t) return false;
+    const list = (state.bonus && state.bonus.list) || [];
+    const baseAll = state.quests.length > 0 && state.quests.every(function(q){ return q.done; });
+    const bonusAll = list.length > 0 && list.every(function(q){ return q.done; });
+    if(!baseAll || !bonusAll) return false;
+
+    state.allclear = t;
+    if(state.bonus) state.bonus.cleared = true;
+    const before = levelInfo(state.totalExp);
+    const add = v7AddExp(40);
+    save();
+    setTimeout(function(){
+      render();
+      toast("🏆 오늘의 올클리어!", "기본 " + state.quests.length + "개 + 보너스 " + list.length + "개 전부 완료 · +" + add + " EXP 보너스", null, 6200);
+      acCelebrate();
+      const after = levelInfo(state.totalExp);
+      if(after.level > before.level) setTimeout(function(){ showLevelUp(before.level, after.level); }, 900);
+    }, 860);
+    return true;
+  }
+
+  function acCelebrate(){
+    const layer = $("charFx");
+    if(!layer) return;
+    const pool = ["🏆","✨","🎉","💛","🪙"];
+    for(let i=0;i<10;i++){
+      const s = document.createElement("span");
+      s.className = "fx-spark";
+      s.textContent = pool[i % pool.length];
+      s.style.left = (8 + Math.random()*84).toFixed(1) + "%";
+      s.style.bottom = (30 + Math.random()*40).toFixed(1) + "%";
+      s.style.setProperty("--dx", "0px");
+      s.style.animationDelay = (i*0.05).toFixed(2) + "s";
+      layer.appendChild(s);
+      (function(node){ setTimeout(function(){ if(node.parentNode) node.parentNode.removeChild(node); }, 1900); })(s);
+    }
+    if(navigator.vibrate) navigator.vibrate([12, 40, 12, 40, 20]);
+  }
+
+  function luckBurst(){
+    const hero = document.querySelector(".hero");
+    if(hero){
+      hero.classList.add("luck-burst");
+      setTimeout(function(){ hero.classList.remove("luck-burst"); }, 2200);
+    }
+    const layer = $("charFx");
+    if(layer){
+      for(let i=0;i<7;i++){
+        const s = document.createElement("span");
+        s.className = "fx-spark";
+        s.textContent = i % 2 ? "🍀" : "🪙";
+        s.style.left = (22 + Math.random()*56).toFixed(1) + "%";
+        s.style.bottom = (36 + Math.random()*28).toFixed(1) + "%";
+        s.style.setProperty("--dx", (Math.round(Math.random()*40)-20) + "px");
+        s.style.animationDelay = (i*0.06).toFixed(2) + "s";
+        layer.appendChild(s);
+        (function(node){ setTimeout(function(){ if(node.parentNode) node.parentNode.removeChild(node); }, 1800); })(s);
+      }
+    }
+    if(navigator.vibrate) navigator.vibrate([10, 40, 10]);
+  }
+
+  /* ---------- 말풍선 대사 뽑기 (직전 대사 반복 금지) ---------- */
+  let v7LastLine = "";
+  function nextSpeechLine(){
+    const prev = String((el.speech && el.speech.textContent) || "").trim();
+    const draw = function(){
+      if(luckOn() && Math.random() < 0.34) return pickLuckQuote();
+      return pickSpeech();
+    };
+    let line = draw();
+    for(let i=0;i<14 && (line.trim() === prev || line.trim() === v7LastLine);i++) line = draw();
+    if(line.trim() === prev || line.trim() === v7LastLine){
+      const alt = pickSpeech();
+      line = (alt.trim() === prev || alt.trim() === v7LastLine) ? alt + " …" : alt;
+    }
+    v7LastLine = line.trim();
+    return line;
+  }
+
+  function tapSpeech(){
+    speak(nextSpeechLine(), 9000);
+    const sp = $("speech");
+    if(sp){
+      sp.classList.remove("tap");
+      void sp.offsetWidth;
+      sp.classList.add("tap");
+      setTimeout(function(){ sp.classList.remove("tap"); }, 460);
+    }
+    if(navigator.vibrate) navigator.vibrate(6);
+  }
+
+  /* ---------- 퀘스트 완료 훅 ---------- */
+  function questHooks(q){
+    if(!q) return;
+    if(q.luck){
+      state.luck.n = (state.luck.n || 0) + 1;
+      state.luck.until = Date.now() + 3600000;
+      setTimeout(function(){
+        toast("🍀 재물운 발동!", "재테크 퀘스트 완료 · 1시간 동안 네잎클로버와 금화가 따라붙어요.", null, 5200);
+        speak(pickLuckQuote(), 8000);
+        luckBurst();
+      }, 400);
+    }
+    checkAllClear();
+  }
+
+  /* ---------- 렌더 ---------- */
+  let v7RichShown = -1;
+  let v7LastTier = -1;
+
+  function renderV7(){
+    if(!$("petCard")) return;
+    normBonus();
+    const p = petNow();
+
+    /* 다마고치 */
+    const h = Math.round(p.hunger), ha = Math.round(p.happy);
+    $("hungerFill").style.width = Math.max(0, Math.min(100, h)) + "%";
+    $("happyFill").style.width = Math.max(0, Math.min(100, ha)) + "%";
+    $("hungerBar").classList.toggle("low", h < 30);
+    $("happyBar").classList.toggle("low", ha < 30);
+    $("hungerText").textContent = h;
+    $("happyText").textContent = ha;
+    $("petMood").textContent = petMood(p).text;
+    $("mgBest").textContent = "🎮 최고 " + (p.best || 0) + "점";
+    $("careHint").textContent = careHintText(p);
+
+    /* 현물 자산 */
+    const v = moneyVal();
+    const tier = moneyTier(v);
+    $("moneyBig").textContent = fmtWon(v);
+    $("moneyWon").textContent = v > 0
+      ? v.toLocaleString("ko-KR") + "원 보유 · " + tier.tip
+      : "저축·현금을 기록하면 부자 등급이 올라가요";
+    $("moneyBadge").textContent = tier.emoji;
+    $("moneyTierName").textContent = tier.emoji + " " + tier.name;
+    const seg = 100 / 3;
+    const pct = tier.next ? Math.min(100, Math.max(0, (v - tier.min) / (tier.next - tier.min) * 100)) : 100;
+    const overall = tier.idx === 0 ? pct/3 : tier.idx === 1 ? seg + pct/3 : tier.idx === 2 ? seg*2 + pct/3 : 100;
+    $("tierFill").style.width = overall.toFixed(1) + "%";
+    $("tierNext").textContent = tier.next
+      ? "다음 등급까지 " + fmtWon(tier.next - v)
+      : "최고 등급 · 현물 재벌 👑";
+    if(v7LastTier !== tier.idx && v7LastTier !== -1){
+      $("moneyBadge").classList.remove("pop");
+      void $("moneyBadge").offsetWidth;
+      $("moneyBadge").classList.add("pop");
+    }
+    v7LastTier = tier.idx;
+    $("moneyPriv").checked = moneyHidden();
+
+    /* 히어로 오라 */
+    const hero = document.querySelector(".hero");
+    if(hero){
+      hero.classList.remove("rich-1", "rich-2", "rich-3");
+      if(tier.idx > 0) hero.classList.add("rich-" + tier.idx);
+      hero.classList.toggle("luck-on", luckOn());
+    }
+    renderRichFx(tier.idx);
+    renderLuckFx();
+    renderLuckBadge();
+
+    /* 보너스 */
+    renderBonus();
+
+    /* 올클리어 배너 */
+    const allDone = state.quests.length > 0 && state.quests.every(function(q){ return q.done; });
+    if(state.allclear === today()){
+      el.cleared.hidden = false;
+      el.cleared.textContent = "🏆 오늘의 올클리어! 기본 + 보너스 전부 완료";
+    } else if(allDone){
+      el.cleared.hidden = false;
+      el.cleared.textContent = "✓ 기본 퀘스트 클리어! 보너스까지 깨면 올클리어 🏆";
+    }
+  }
+
+  function renderRichFx(idx){
+    if(v7RichShown === idx) return;
+    v7RichShown = idx;
+    const box = $("richFx");
+    if(!box) return;
+    if(idx <= 0){ box.className = "rich-fx"; box.innerHTML = ""; return; }
+    const map = {
+      1: '<span class="rf pig">🐷</span><span class="rf coin1">🪙</span><span class="rf coin2">🪙</span><span class="rf shine">✨</span>',
+      2: '<span class="rf coin1">🪙</span><span class="rf bill1">💰</span><span class="rf gold1">🪙</span><span class="rf gold2">✨</span><span class="rf pig">🐷</span><span class="rf shine">💫</span>',
+      3: '<span class="rf crown">👑</span><span class="rf bill1">💰</span><span class="rf gold1">💰</span><span class="rf coin1">🪙</span><span class="rf coin2">🪙</span><span class="rf throne">🪙</span><span class="rf gold2">✨</span><span class="rf shine">💫</span>'
+    };
+    box.className = "rich-fx on";
+    box.innerHTML = map[idx] || map[1];
+    const items = box.querySelectorAll(".rf");
+    for(let i=0;i<items.length;i++){
+      items[i].style.setProperty("--d", (4.4 + (i % 3) * 0.7).toFixed(1) + "s");
+      items[i].style.setProperty("--delay", (i * 0.42).toFixed(2) + "s");
+    }
+  }
+
+  function renderLuckFx(){
+    const box = $("luckFx");
+    if(box && !box.getAttribute("data-built")){
+      box.innerHTML = '<span class="c1">🍀</span><span class="c2">🍀</span><span class="c3">✨</span><span class="g1">🪙</span>';
+      box.setAttribute("data-built", "1");
+    }
+  }
+
+  function renderLuckBadge(){
+    const b = $("luckBadge"), hint = $("luckHint");
+    if(!b) return;
+    const on = luckOn();
+    b.classList.toggle("on", on);
+    if(on){
+      const mins = Math.max(1, Math.ceil((state.luck.until - Date.now()) / 60000));
+      b.textContent = "🍀 재물운 LUCK +" + mins + "분";
+      hint.textContent = "재테크 퀘스트 완료 · 누적 " + (state.luck.n || 0) + "회";
+    } else {
+      b.textContent = "🍀 재물운 LUCK";
+      hint.textContent = "재테크 퀘스트를 깨면 재물운이 켜져요";
+    }
+  }
+
+  function renderBonus(){
+    const box = $("bonusList");
+    if(!box) return;
+    const list = (state.bonus && state.bonus.list) || [];
+    const done = list.filter(function(q){ return q.done; }).length;
+    $("bonusCount").textContent = done + "/" + list.length;
+    box.innerHTML = list.map(function(q){
+      const gains = Object.keys(q.gain || {}).map(function(k){
+        return (STATS[k] ? STATS[k].short : k) + " +" + q.gain[k];
+      }).join(" · ");
+      return '<button class="quest bonus-q' + (q.luck ? " lucky" : "") + (q.done ? " done" : "") + '" data-bid="' + esc(q.id) + '" aria-pressed="' + (q.done ? "true" : "false") + '">'
+        + '<span class="check">✓</span>'
+        + '<span class="q-main">'
+        +   '<span class="q-title">' + esc(q.icon) + " " + esc(q.title) + '</span>'
+        +   '<span class="q-sub"><span class="tag">' + (gains || "보너스") + '</span>'
+        +     (q.luck ? '<span class="tag">🍀 LUCK</span>' : '')
+        +     (q.custom ? '<span class="tag custom">내 퀘스트</span>' : '')
+        +   '</span>'
+        + '</span>'
+        + '<span class="exp-chip">+' + q.exp + '</span>'
+        + (q.custom ? '<span class="del" data-bdel="' + esc(q.id) + '" title="보너스 퀘스트 삭제">✕</span>' : '')
+        + '</button>';
+    }).join("");
+
+    const base = state.quests || [];
+    const baseAll = base.length > 0 && base.every(function(q){ return q.done; });
+    const achieved = state.allclear === today();
+    const acBox = $("acBox");
+    if(acBox) acBox.classList.toggle("done", achieved);
+    if($("acState")) $("acState").textContent = achieved ? "달성!" : (done + "/" + list.length + " 보너스");
+    if($("acDesc")){
+      $("acDesc").textContent = achieved
+        ? "오늘 +40 EXP 지급 완료 · 파트너 카드에도 자랑 배지가 떠요"
+        : (baseAll && done === list.length
+          ? "보너스 지급 중…"
+          : "기본 " + base.length + "개 + 보너스 " + list.length + "개를 모두 깨면 +40 EXP");
+    }
+  }
+
+  /* ---------- 현물 자산 조작 ---------- */
+  function moneyPulse(x, y, emoji){
+    try {
+      const s = document.createElement("span");
+      s.className = "money-fly";
+      s.textContent = emoji;
+      s.style.left = Math.max(8, Math.min(window.innerWidth - 30, x - 10)) + "px";
+      s.style.top = Math.max(8, y - 18) + "px";
+      document.body.appendChild(s);
+      setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 1100);
+    } catch(e){}
+  }
+
+  function applyMoney(next, silent){
+    const before = moneyVal();
+    const was = moneyTier(before);
+    const v = Math.max(0, Math.round(next));
+    state.money.total = v;
+    state.money.last = before;
+    save();
+    render();
+    const now = moneyTier(v);
+    if(!silent){
+      if(now.idx > was.idx){
+        toast("💰 " + now.name + " 달성!", now.emoji + " " + fmtWon(v) + " · " + now.tip, null, 5600);
+        speak("자산 " + fmtWon(v) + " 달성! 이 정도면 …" + now.name + "다. 🍀", 8000);
+        if(navigator.vibrate) navigator.vibrate([12, 40, 12, 40, 18]);
+      } else if(v !== before){
+        toast("현물 자산 기록", fmtWon(v) + " · " + now.emoji + " " + now.name);
+        if(navigator.vibrate) navigator.vibrate(8);
+      }
+    }
+  }
+
+  /* ---------- 🎮 미니게임 ---------- */
+  const MG_W = 660, MG_H = 760, MG_DUR = 12000;
+  const MG = {
+    running: false, raf: 0, last: 0, endAt: 0, nextSpawn: 0,
+    items: [], score: 0, target: 0.5, basket: 0.5, keyDir: 0, ended: true,
+    pendingLevel: null
+  };
+  function mgItemEmoji(){
+    const C = curChar();
+    if(C.key === "dog") return "🦴";
+    if(C.key === "rabbit") return "🥕";
+    return "🥬";
+  }
+  function mgCtx(){
+    const c = $("mgCanvas");
+    return c ? c.getContext("2d") : null;
+  }
+  function mgResetHud(){
+    $("mgTime").textContent = (MG_DUR/1000).toFixed(1) + "s";
+    $("mgScore").textContent = "0점";
+  }
+  function openGame(){
+    normBonus();
+    const C = curChar();
+    const p = petNow();
+    $("mgTitle").textContent = "떨어지는 " + C.item + " 받기";
+    $("mgSub").textContent = "12초 동안 바구니를 움직여 " + C.item + "을 받아요. 별·보석은 더 높은 점수!";
+    $("mgOverlay").classList.add("on");
+    $("mgStartPane").hidden = false;
+    $("mgResult").hidden = true;
+    $("mgAgain").hidden = true;
+    $("mgClose").textContent = "닫기";
+    mgResetHud();
+    MG.running = false;
+    MG.ended = true;
+    MG.items = [];
+    MG.score = 0;
+    mgDraw();
+    $("mgStartBtn").textContent = (p.best || 0) > 0 ? "다시 도전! (최고 " + p.best + "점)" : "시작!";
+  }
+  function closeGame(){
+    if(MG.running) mgStop();
+    $("mgOverlay").classList.remove("on");
+    flushMgLevel();
+  }
+  function flushMgLevel(){
+    if(!MG.pendingLevel) return;
+    const p = MG.pendingLevel;
+    MG.pendingLevel = null;
+    setTimeout(function(){ showLevelUp(p.from, p.to); }, 280);
+  }
+  function mgStop(){
+    MG.running = false;
+    if(MG.raf) cancelAnimationFrame(MG.raf);
+    MG.raf = 0;
+    $("mgStartPane").hidden = false;
+    $("mgAgain").hidden = true;
+    $("mgClose").textContent = "닫기";
+  }
+  function startGame(){
+    const now = performance.now();
+    MG.items = [];
+    MG.score = 0;
+    MG.target = 0.5;
+    MG.basket = MG_W / 2;
+    MG.nextSpawn = 260;
+    MG.last = now;
+    MG.endAt = now + MG_DUR;
+    MG.running = true;
+    MG.ended = false;
+    $("mgStartPane").hidden = true;
+    $("mgResult").hidden = true;
+    $("mgAgain").hidden = true;
+    $("mgClose").textContent = "그만두기";
+    mgResetHud();
+    if(MG.raf) cancelAnimationFrame(MG.raf);
+    MG.raf = requestAnimationFrame(mgLoop);
+  }
+  function mgSpawn(prog){
+    const roll = Math.random();
+    let emoji = mgItemEmoji(), pt = 1, size = 44;
+    if(roll > 0.94){ emoji = "💎"; pt = 5; size = 38; }
+    else if(roll > 0.82){ emoji = "⭐"; pt = 3; size = 38; }
+    MG.items.push({
+      x: 56 + Math.random() * (MG_W - 112),
+      y: -48,
+      vy: 250 + Math.random() * 110 + prog * 220,
+      rot: (Math.random() - 0.5) * 0.7,
+      vr: (Math.random() - 0.5) * 2.4,
+      emoji: emoji, pt: pt, size: size, got: false
+    });
+  }
+  function mgLoop(ts){
+    if(!MG.running) return;
+    const now = (typeof ts === "number") ? ts : performance.now();
+    const dt = Math.min(0.05, Math.max(0.008, (now - MG.last) / 1000));
+    MG.last = now;
+    const left = Math.max(0, MG.endAt - now);
+    if(left <= 0){ mgDraw(); mgFinish(); return; }
+
+    const prog = 1 - left / MG_DUR;
+    if(MG.keyDir){
+      MG.target = Math.max(0, Math.min(1, MG.target + MG.keyDir * dt * 0.85));
+    }
+    const want = 92 + MG.target * (MG_W - 184);
+    MG.basket += (want - MG.basket) * Math.min(1, dt * 13);
+
+    MG.nextSpawn -= dt * 1000;
+    if(MG.nextSpawn <= 0){
+      mgSpawn(prog);
+      MG.nextSpawn = 360 - 150 * prog;
+    }
+
+    for(let i=MG.items.length-1; i>=0; i--){
+      const it = MG.items[i];
+      it.y += it.vy * dt;
+      it.rot += it.vr * dt;
+      if(!it.got && it.y > MG_H - 178 && it.y < MG_H - 52 && Math.abs(it.x - MG.basket) < 82){
+        it.got = true;
+        MG.score += it.pt;
+        mgPop("+" + it.pt);
+        MG.items.splice(i, 1);
+        if(navigator.vibrate) navigator.vibrate(6);
+        continue;
+      }
+      if(it.y > MG_H + 70) MG.items.splice(i, 1);
+    }
+
+    $("mgTime").textContent = (left / 1000).toFixed(1) + "s";
+    $("mgScore").textContent = MG.score + "점";
+    mgDraw();
+    MG.raf = requestAnimationFrame(mgLoop);
+  }
+  function mgPop(text){
+    const stage = $("mgStage");
+    if(!stage) return;
+    const s = document.createElement("span");
+    s.className = "combo-pop";
+    s.textContent = text;
+    stage.appendChild(s);
+    setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 700);
+  }
+  function mgDraw(){
+    const ctx = mgCtx();
+    if(!ctx) return;
+    const g = ctx.createLinearGradient(0, 0, 0, MG_H);
+    g.addColorStop(0, "#FFFCF2");
+    g.addColorStop(0.46, "#FFEFD4");
+    g.addColorStop(1, "#E8F4FF");
+    ctx.clearRect(0, 0, MG_W, MG_H);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, MG_W, MG_H);
+
+    ctx.save();
+    ctx.globalAlpha = 0.5;
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.lineWidth = 3;
+    for(let i=0;i<5;i++){
+      ctx.beginPath();
+      ctx.arc(90 + i * 130, 120 + (i % 2) * 90, 60 + i * 6, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    ctx.save();
+    ctx.globalAlpha = 0.16;
+    ctx.fillStyle = "#FFFFFF";
+    for(let i=0;i<26;i++){
+      const x = (i * 97) % MG_W, y = (i * 149) % MG_H;
+      ctx.beginPath();
+      ctx.arc(x, y, 3 + (i % 3), 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    for(let i=0;i<MG.items.length;i++){
+      const it = MG.items[i];
+      ctx.save();
+      ctx.translate(it.x, it.y);
+      ctx.rotate(it.rot);
+      ctx.font = it.size + 'px "Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif';
+      ctx.fillText(it.emoji, 0, 0);
+      ctx.restore();
+    }
+
+    const bx = MG.basket, by = MG_H - 96, bw = 168, bh = 58;
+    ctx.save();
+    ctx.globalAlpha = 0.16;
+    ctx.fillStyle = "#7A5A16";
+    ctx.beginPath();
+    ctx.ellipse(bx, by + bh / 2 + 14, bw * 0.42, 12, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    const bg = ctx.createLinearGradient(0, by, 0, by + bh);
+    bg.addColorStop(0, "#FFD79B");
+    bg.addColorStop(1, "#F0A85E");
+    ctx.fillStyle = bg;
+    ctx.strokeStyle = "#C98442";
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(bx - bw/2, by, bw, bh, 18);
+    else ctx.rect(bx - bw/2, by, bw, bh);
+    ctx.fill();
+    ctx.stroke();
+    ctx.strokeStyle = "rgba(255,255,255,.55)";
+    ctx.lineWidth = 4;
+    for(let i=-1;i<=1;i++){
+      ctx.beginPath();
+      ctx.moveTo(bx + i * 40, by + 8);
+      ctx.lineTo(bx + i * 40, by + bh - 8);
+      ctx.stroke();
+    }
+    ctx.font = '34px "Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif';
+    ctx.fillText("🧺", bx, by - 6);
+  }
+  function mgFinish(){
+    MG.running = false;
+    MG.ended = true;
+    if(MG.raf) cancelAnimationFrame(MG.raf);
+    MG.raf = 0;
+    const score = MG.score;
+    const p = petNow();
+    const bestBefore = p.best || 0;
+    const best = Math.max(bestBefore, score);
+    p.best = best;
+    p.games = (p.games || 0) + 1;
+
+    const t = today();
+    if(p.expDate !== t){ p.expDate = t; p.expToday = 0; }
+    const raw = Math.min(30, 3 + score * 2);
+    const room = Math.max(0, 60 - (p.expToday || 0));
+    const exp = Math.min(raw, room);
+    p.expToday = (p.expToday || 0) + exp;
+    const happyAdd = 8 + Math.min(12, score);
+    p.happy = Math.min(100, p.happy + happyAdd);
+    p.at = Date.now();
+
+    const before = levelInfo(state.totalExp);
+    const gained = v7AddExp(exp);
+    save();
+    render();
+
+    $("mgResultTitle").textContent = best > bestBefore ? "🏆 최고 기록!" : "끝!";
+    $("mgResultScore").textContent = score + "점";
+    $("mgResultBest").textContent = "최고 " + best + "점 · " + (p.games || 1) + "번째 도전";
+    $("mgResultReward").textContent = gained > 0
+      ? "+" + gained + " EXP · 행복도 +" + Math.round(happyAdd)
+      : "+0 EXP (오늘 보상은 여기까지) · 행복도 +" + Math.round(happyAdd);
+    $("mgResult").hidden = false;
+    $("mgAgain").hidden = false;
+    $("mgClose").textContent = "닫기";
+
+    if(navigator.vibrate) navigator.vibrate(score > 0 ? [10, 30, 14] : 8);
+    toast("미니게임 종료! " + score + "점", (gained > 0 ? "+" + gained + " EXP · " : "") + "행복도 +" + Math.round(happyAdd) + " · 최고 " + best + "점");
+    if(score >= 12) speak("이 정도면 …나도 꽤 하는 " + curChar().nick + "다. 🎮", 6500);
+    else if(score > 0) speak("나쁘지 않다. 한 번 더? 🎮", 5200);
+    else speak("…바구니가 비었다. 다시 하자. 🧺", 5200);
+
+    const after = levelInfo(state.totalExp);
+    if(after.level > before.level){
+      MG.pendingLevel = MG.pendingLevel
+        ? { from: Math.min(MG.pendingLevel.from, before.level), to: Math.max(MG.pendingLevel.to, after.level) }
+        : { from: before.level, to: after.level };
+    }
+  }
+
+  /* ---------- 정규화 ---------- */
+  function v7Normalize(s){
+    if(!s.pet || typeof s.pet !== "object") s.pet = {};
+    ["hunger", "happy"].forEach(function(k){
+      const v = s.pet[k];
+      s.pet[k] = (typeof v === "number" && isFinite(v)) ? Math.min(100, Math.max(0, v)) : (k === "hunger" ? 60 : 55);
+    });
+    s.pet.at = Number(s.pet.at) || 0;
+    s.pet.best = Math.max(0, Math.round(Number(s.pet.best) || 0));
+    s.pet.games = Math.max(0, Math.round(Number(s.pet.games) || 0));
+    s.pet.expToday = Math.max(0, Math.round(Number(s.pet.expToday) || 0));
+    s.pet.expDate = typeof s.pet.expDate === "string" ? s.pet.expDate : "";
+
+    if(!s.money || typeof s.money !== "object") s.money = {};
+    s.money.total = Math.max(0, Math.round(Number(s.money.total) || 0));
+    s.money.last = Math.max(0, Math.round(Number(s.money.last) || 0));
+    s.money.hide = s.money.hide !== false;
+
+    if(!s.luck || typeof s.luck !== "object") s.luck = {};
+    s.luck.n = Math.max(0, Math.round(Number(s.luck.n) || 0));
+    s.luck.until = Number(s.luck.until) || 0;
+
+    if(!s.bonus || typeof s.bonus !== "object") s.bonus = {};
+    s.bonus.date = typeof s.bonus.date === "string" ? s.bonus.date : "";
+    s.bonus.cleared = !!s.bonus.cleared;
+    s.bonus.list = Array.isArray(s.bonus.list) ? s.bonus.list.filter(function(q){
+      return q && q.id && q.title;
+    }).map(function(q){
+      return {
+        id: String(q.id), icon: String(q.icon || "⭐"), title: String(q.title),
+        exp: Math.max(0, Math.round(Number(q.exp) || 15)),
+        gain: (q.gain && typeof q.gain === "object") ? q.gain : {},
+        luck: !!q.luck, done: !!q.done, custom: !!q.custom,
+        tid: q.tid ? String(q.tid) : null
+      };
+    }) : [];
+
+    s.bonusCustom = Array.isArray(s.bonusCustom) ? s.bonusCustom.filter(function(c){
+      return c && c.id && c.title;
+    }).map(function(c){
+      return {
+        id: String(c.id), icon: String(c.icon || "⭐"), title: String(c.title),
+        stat: c.stat || "wil", exp: Math.max(0, Math.round(Number(c.exp) || 15)),
+        gain: (c.gain && typeof c.gain === "object") ? c.gain : {}, luck: !!c.luck
+      };
+    }) : [];
+
+    s.allclear = (typeof s.allclear === "string") ? s.allclear : null;
+  }
+
+  /* ---------- 이벤트 ---------- */
+  function wireV7(){
+    if(!$("petCard")) return;
+
+    /* 말풍선 탭 → 현재 상태에 맞는 새 대사 (직전 문장 반복 금지) */
+    const sp = $("speech");
+    if(sp){
+      sp.setAttribute("role", "button");
+      sp.setAttribute("tabindex", "0");
+      sp.setAttribute("title", "눌러서 다른 대사 보기");
+      sp.setAttribute("aria-label", "말풍선 대사 바꾸기");
+      sp.addEventListener("click", tapSpeech);
+      sp.addEventListener("keydown", function(e){
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); tapSpeech(); }
+      });
+    }
+
+    $("feedBtn").addEventListener("click", feedPet);
+    $("patBtn").addEventListener("click", function(){
+      patPet();
+      const b = $("patBtn");
+      if(b){ b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop"); }
+    });
+    $("gameBtn").addEventListener("click", function(){
+      openGame();
+      const b = $("gameBtn");
+      if(b){ b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop"); }
+    });
+
+    $("mgClose").addEventListener("click", closeGame);
+    $("mgStartBtn").addEventListener("click", startGame);
+    $("mgAgain").addEventListener("click", startGame);
+    $("mgOverlay").addEventListener("click", function(e){ if(e.target === $("mgOverlay")) closeGame(); });
+
+    const stage = $("mgStage");
+    function aim(e){
+      if(!MG.running) return;
+      const r = stage.getBoundingClientRect();
+      if(!r.width) return;
+      MG.target = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+    }
+    stage.addEventListener("pointerdown", aim);
+    stage.addEventListener("pointermove", function(e){ if(e.pointerType !== "mouse" || e.buttons || true) aim(e); });
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape" && $("mgOverlay").classList.contains("on")) closeGame();
+      if($("mgOverlay").classList.contains("on") && MG.running){
+        if(e.key === "ArrowLeft"){ MG.keyDir = -1; e.preventDefault(); }
+        else if(e.key === "ArrowRight"){ MG.keyDir = 1; e.preventDefault(); }
+      }
+    });
+    document.addEventListener("keyup", function(e){
+      if(e.key === "ArrowLeft" || e.key === "ArrowRight") MG.keyDir = 0;
+    });
+
+    /* 현물 자산 */
+    const addRow = document.querySelector(".money-add");
+    if(addRow) addRow.addEventListener("click", function(e){
+      const b = e.target.closest ? e.target.closest("[data-add]") : null;
+      if(!b) return;
+      const amount = parseInt(b.getAttribute("data-add"), 10) || 0;
+      const r = b.getBoundingClientRect();
+      applyMoney(moneyVal() + amount);
+      moneyPulse(r.left + r.width / 2, r.top, moneyTier(moneyVal()).emoji);
+    });
+
+    $("moneySet").addEventListener("click", function(){
+      const raw = String($("moneyInput").value || "").replace(/[^0-9.]/g, "");
+      const man = parseFloat(raw);
+      if(!raw || !isFinite(man) || man < 0){
+        toast("만원 단위 숫자를 적어 주세요.", "예) 1250 → 1,250만 원으로 기록돼요.");
+        $("moneyInput").focus();
+        return;
+      }
+      applyMoney(Math.round(man * 10000));
+      $("moneyInput").value = "";
+      $("moneyInput").blur();
+    });
+    $("moneyInput").addEventListener("keydown", function(e){
+      if(e.key === "Enter"){ e.preventDefault(); $("moneySet").click(); }
+    });
+    $("moneyUndo").addEventListener("click", function(){
+      const back = Math.max(0, Math.round(state.money.last || 0));
+      if(back === moneyVal()){
+        toast("되돌릴 기록이 없어요.", "금액을 바꾼 뒤에 다시 눌러 주세요.");
+        return;
+      }
+      const cur = moneyVal();
+      applyMoney(back, true);
+      state.money.last = cur;
+      save();
+      toast("마지막 기록을 되돌렸어요.", fmtWon(back) + " · " + moneyTier(back).emoji + " " + moneyTier(back).name);
+    });
+    $("moneyPriv").addEventListener("change", function(){
+      state.money.hide = $("moneyPriv").checked;
+      save();
+      render();
+      toast(state.money.hide ? "금액을 숨겼어요 🔒" : "금액을 공유해요 🔓",
+        state.money.hide ? "파트너에게는 부자 등급만 보여요." : "파트너 카드에 정확한 금액이 보여요.");
+    });
+
+    /* 보너스 퀘스트 */
+    $("bonusAdd").addEventListener("click", function(){ openSheet("bonus"); });
+    $("bonusList").addEventListener("click", function(e){
+      const del = e.target.closest ? e.target.closest("[data-bdel]") : null;
+      if(del){
+        e.preventDefault();
+        e.stopPropagation();
+        deleteBonusQuest(del.getAttribute("data-bdel"));
+        return;
+      }
+      const card = e.target.closest ? e.target.closest("[data-bid]") : null;
+      if(!card) return;
+      const id = card.getAttribute("data-bid");
+      const q = (state.bonus.list || []).find(function(x){ return x.id === id; });
+      if(!q) return;
+      if(q.done){
+        toast("이미 완료한 보너스 퀘스트입니다.", "되돌리기는 완료 직후 토스트에서 누를 수 있어요.");
+        return;
+      }
+      completeBonus(id);
+    });
+
+    setInterval(v7Tick, 20000);
+    document.addEventListener("visibilitychange", function(){ if(!document.hidden) v7Tick(); });
+  }
+
+  function v7Tick(){
+    if(!state || !$("petCard")) return;
+    const p = petNow();
+    const h = Math.round(p.hunger), ha = Math.round(p.happy);
+    $("hungerFill").style.width = Math.max(0, Math.min(100, h)) + "%";
+    $("happyFill").style.width = Math.max(0, Math.min(100, ha)) + "%";
+    $("hungerText").textContent = h;
+    $("happyText").textContent = ha;
+    $("hungerBar").classList.toggle("low", h < 30);
+    $("happyBar").classList.toggle("low", ha < 30);
+    $("petMood").textContent = petMood(p).text;
+    $("careHint").textContent = careHintText(p);
+    renderLuckBadge();
+    const hero = document.querySelector(".hero");
+    if(hero) hero.classList.toggle("luck-on", luckOn());
+  }
+
   /* ---------- boot ---------- */
   state = load();
   save();
   render();
   wireParty();
+  wireV7();
   renderParty();
 
   let inviteParam = null, inviteKey = null;
