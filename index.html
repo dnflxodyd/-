@@ -2105,26 +2105,18 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 
 /* ---------- 캐릭터 얼굴 감정 레이어 ---------- */
 .mood{position:absolute;inset:0;z-index:5;pointer-events:none}
-.mood-face{
-  position:absolute;left:50%;top:50%;width:104px;height:104px;
-  transform:translate(-50%,-50%);
-}
+/* JS 가 #charImg 의 실제 렌더링 사각형에 맞춰 left/top/width/height 를 준다 */
+.mood-face{position:absolute;left:0;top:0;width:0;height:0}
 .mood-face svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .mood-face .mf-blush ellipse{fill:#FF9FBC;opacity:0;transition:opacity .45s}
 .mood-face .mf-tears path{
-  fill:#8FD0F6;stroke:#57AEE0;stroke-width:1.4;stroke-linejoin:round;opacity:0;
-}
-.mood-face .mf-mouth{
-  fill:none;stroke:#8A7280;stroke-width:2.6;stroke-linecap:round;opacity:0;
+  fill:#8FD0F6;stroke:#57AEE0;stroke-linejoin:round;opacity:0;
+  transform-box:fill-box;transform-origin:50% 22%;
 }
 .mood-face .ms{
-  position:absolute;line-height:1;opacity:0;
+  position:absolute;translate:-50% -50%;line-height:1;opacity:0;
   filter:drop-shadow(0 2px 3px rgba(150,110,140,.28));
 }
-.mood-face .ms-sweat{right:-2%;top:44%;font-size:15px}
-.mood-face .ms-anger{right:-16%;top:-12%;font-size:16px}
-.mood-face .ms-heart{left:-18%;top:6%;font-size:15px}
-.mood-face .ms-spark{right:-8%;top:-6%;font-size:14px}
 
 /* 상태별 표정 — .mood.state-x */
 [data-mood="hungry"] .mf-tears path,
@@ -2138,15 +2130,15 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 [data-mood="sad"] .mf-tears path:nth-child(2){animation:mfDrip 3s 1.4s ease-in-out infinite}
 [data-mood="hungry"] .mf-mouth,
 [data-mood="sad"] .mf-mouth,
-[data-mood="cry"] .mf-mouth{opacity:.8}
-[data-mood="sad"] .mf-mouth{transform:translateY(-2px) scaleX(.9);transform-origin:50% 60%}
+[data-mood="cry"] .mf-mouth{display:none}
+[data-mood="sad"] .mf-tears path{transform:translateY(-1px) scaleY(.92)}
 
 [data-mood="sad"] .ms-sweat{opacity:1;animation:mfDrop 2.6s ease-in-out infinite}
 [data-mood="cry"] .ms-sweat{opacity:1;animation:mfDrop 1.8s ease-in-out infinite}
 [data-mood="sad"] .ms-anger{opacity:.95;animation:mfPop 1.9s ease-in-out infinite}
 [data-mood="cry"] .ms-anger{opacity:.9;animation:mfPop 1.4s ease-in-out infinite}
 
-[data-mood="great"] .mf-blush ellipse{opacity:.6;animation:mfBlush 2.4s ease-in-out infinite}
+[data-mood="great"] .mf-blush ellipse{opacity:.55;animation:mfBlush 2.4s ease-in-out infinite}
 [data-mood="great"] .ms-heart{opacity:1;animation:mfFloat 3.1s ease-in-out infinite}
 [data-mood="great"] .ms-spark{opacity:1;animation:mfTwinkle 2.2s ease-in-out infinite}
 
@@ -2156,8 +2148,6 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 [data-mood="pat"] .ms-spark{opacity:1;animation:mfTwinkle 1.5s ease-in-out infinite}
 [data-mood="yum"] .mf-blush ellipse,
 [data-mood="pat"] .mf-blush ellipse{opacity:.5}
-[data-mood="yum"] .mf-mouth,
-[data-mood="pat"] .mf-mouth{opacity:.9}
 
 @keyframes mfDrip{
   0%{opacity:0;transform:translateY(-2px) scale(.6)}
@@ -2187,12 +2177,12 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   50%{opacity:1;transform:scale(1.15) rotate(8deg)}
 }
 
-/* 감정 말풍선 뱃지 */
+/* 감정 말풍선 뱃지 — 캐릭터 머리 위 여백에 붙는다(JS 가 left/top 지정) */
 .mood-chip{
-  position:absolute;left:54%;bottom:102%;transform:translate(-50%,0) scale(.9);
-  margin-bottom:2px;white-space:nowrap;
-  font-family:inherit;font-size:9.5px;font-weight:800;letter-spacing:-.01em;color:#7B5567;
-  background:#fff;border:1.5px solid #FFE1EC;border-radius:11px;padding:3px 8px 4px;
+  position:absolute;left:0;top:0;translate:-50% -100%;margin-top:4px;line-height:1.15;
+  white-space:nowrap;
+  font-family:inherit;font-size:9px;font-weight:800;letter-spacing:-.01em;color:#7B5567;
+  background:#fff;border:1.5px solid #FFE1EC;border-radius:11px;padding:2px 7px 2px;
   box-shadow:0 8px 16px -12px rgba(150,90,130,.95);
   opacity:0;transition:opacity .25s,transform .25s;
 }
@@ -2201,11 +2191,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   border-right:1.5px solid #FFE1EC;border-bottom:1.5px solid #FFE1EC;
   transform:translateX(-50%) rotate(45deg);
 }
-.mood-face.has-chip .mood-chip{opacity:1;transform:translate(-50%,0) scale(1);animation:mfChip .52s cubic-bezier(.2,.9,.3,1.4)}
+.mood-face.has-chip .mood-chip{opacity:1;animation:mfChip .52s cubic-bezier(.2,.9,.3,1.4)}
 @keyframes mfChip{
-  0%{transform:translate(-50%,0) scale(.6)}
-  60%{transform:translate(-50%,-3px) scale(1.08)}
-  100%{transform:translate(-50%,0) scale(1)}
+  0%{transform:scale(.6)}
+  60%{transform:translateY(-3px) scale(1.08)}
+  100%{transform:scale(1)}
 }
 
 /* ---------- 캐릭터 몸동작 ---------- */
@@ -2281,7 +2271,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 @keyframes v18Bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .v18-artbox{position:relative;width:100%;height:100%;display:grid;place-items:center;overflow:hidden;border-radius:50%}
 .v18-artbox img{height:106px;width:auto;display:block;filter:drop-shadow(0 8px 10px rgba(150,105,90,.2))}
-.v18-face{position:absolute;left:50%;top:50%;width:60px;height:60px;transform:translate(-50%,-50%)}
+.v18-face{position:absolute;left:0;top:0;width:60px;height:60px}
 .v18-emote{
   position:absolute;right:-4px;bottom:2px;font-size:26px;line-height:1;
   filter:drop-shadow(0 4px 6px rgba(150,100,130,.3));
@@ -9578,35 +9568,132 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
      · 한 번 뜬 뒤에는 45 이상으로 회복했다가 다시 35 아래로 내려가야 또 뜬다
      =================================================================== */
   var V18_LOW = 35, V18_SAFE = 46, V18_GREAT = 80;
+  /* 캐릭터 42장의 실제 눈 좌표 (work/moods/eyes2.json 에서 측정값)
+     [눈중심x, 눈중심y, 눈간격, 눈너비, 눈높이, 외곽x0, 외곽y0, 외곽x1, 외곽y1, 원본W, 원본H]
+     IMAGES 순서와 같다: 고양이 7단계+슬림7 · 강아지 · 토끼 */
   var V18_FACES = [
-    [0.500,0.565,0.135],[0.410,0.415,0.190],[0.464,0.376,0.201],[0.509,0.314,0.342],
-    [0.460,0.385,0.200],[0.494,0.371,0.297],[0.501,0.389,0.239],[0.500,0.555,0.135],
-    [0.420,0.415,0.190],[0.473,0.376,0.199],[0.515,0.285,0.300],[0.470,0.375,0.200],
-    [0.489,0.361,0.286],[0.495,0.358,0.233],[0.410,0.555,0.242],[0.492,0.379,0.248],
-    [0.418,0.476,0.242],[0.480,0.335,0.220],[0.470,0.421,0.219],[0.495,0.445,0.190],
-    [0.498,0.446,0.180],[0.410,0.515,0.246],[0.492,0.379,0.247],[0.424,0.472,0.247],
-    [0.480,0.335,0.220],[0.479,0.421,0.218],[0.495,0.445,0.190],[0.498,0.446,0.180],
-    [0.500,0.715,0.160],[0.489,0.506,0.202],[0.466,0.460,0.181],[0.516,0.415,0.131],
-    [0.480,0.400,0.200],[0.481,0.465,0.120],[0.506,0.383,0.129],[0.500,0.720,0.160],
-    [0.490,0.506,0.200],[0.473,0.466,0.179],[0.539,0.437,0.132],[0.480,0.400,0.200],
-    [0.485,0.468,0.120],[0.515,0.384,0.130]
+    [0.3901,0.5713,0.1322,0.0198,0.025,0.015,0.265,0.983,0.732,480,400],
+    [0.3698,0.4266,0.223,0.0333,0.0344,0.038,0.031,0.96,0.967,480,480],
+    [0.4635,0.3755,0.2,0.0271,0.026,0.031,0.029,0.965,0.969,480,480],
+    [0.5073,0.3589,0.1958,0.0229,0.0219,0.029,0.083,0.967,0.915,480,480],
+    [0.4948,0.3781,0.1916,0.0229,0.0229,0.029,0.042,0.967,0.956,480,480],
+    [0.4927,0.4073,0.1708,0.0187,0.0187,0.031,0.106,0.967,0.89,480,480],
+    [0.501,0.4125,0.1417,0.0187,0.0187,0.029,0.058,0.969,0.942,480,480],
+    [0.3973,0.545,0.1323,0.0219,0.025,0.015,0.305,0.981,0.692,480,400],
+    [0.3886,0.4271,0.2125,0.0312,0.0333,0.075,0.029,0.923,0.967,480,480],
+    [0.4729,0.376,0.1979,0.0271,0.0271,0.04,0.029,0.958,0.969,480,480],
+    [0.55,0.3338,0.198,0.0229,0.026,0.071,0.031,0.925,0.967,480,480],
+    [0.5125,0.3745,0.198,0.0229,0.024,0.038,0.031,0.96,0.967,480,480],
+    [0.4901,0.3937,0.1636,0.0198,0.0208,0.029,0.079,0.969,0.917,480,480],
+    [0.4938,0.3791,0.1375,0.0167,0.0187,0.033,0.033,0.95,0.894,480,480],
+    [0.4098,0.5552,0.2427,0.0552,0.0583,0.029,0.185,0.967,0.812,480,480],
+    [0.4917,0.3787,0.2479,0.0604,0.0635,0.083,0.029,0.91,0.967,480,480],
+    [0.4177,0.476,0.2416,0.0604,0.0646,0.029,0.073,0.967,0.925,480,480],
+    [0.4704,0.3823,0.2177,0.0635,0.0667,0.044,0.029,0.952,0.967,480,480],
+    [0.4698,0.4209,0.2188,0.0542,0.0625,0.098,0.031,0.898,0.967,480,480],
+    [0.4953,0.3995,0.201,0.0594,0.0615,0.031,0.05,0.967,0.948,480,480],
+    [0.512,0.4334,0.1636,0.0469,0.05,0.048,0.029,0.95,0.969,480,480],
+    [0.4104,0.5151,0.2458,0.0583,0.0615,0.031,0.223,0.969,0.775,480,480],
+    [0.4922,0.3797,0.2468,0.0594,0.0635,0.085,0.029,0.912,0.967,480,480],
+    [0.4244,0.4724,0.2469,0.0615,0.0656,0.029,0.056,0.967,0.942,480,480],
+    [0.4708,0.3823,0.2167,0.0625,0.0667,0.046,0.029,0.952,0.967,480,480],
+    [0.4787,0.4209,0.2177,0.0531,0.0625,0.108,0.031,0.89,0.967,480,480],
+    [0.4953,0.4016,0.201,0.0594,0.0615,0.029,0.05,0.967,0.946,480,480],
+    [0.5114,0.4334,0.1625,0.0479,0.05,0.046,0.029,0.95,0.967,480,480],
+    [0.3578,0.725,0.174,0.0302,0.0375,0.015,0.112,0.983,0.882,480,400],
+    [0.4886,0.5062,0.2021,0.0417,0.0417,0.204,0.025,0.794,0.973,480,480],
+    [0.4662,0.4594,0.1803,0.0344,0.0354,0.208,0.025,0.79,0.973,480,480],
+    [0.5146,0.4156,0.1312,0.0271,0.0271,0.183,0.029,0.815,0.969,480,480],
+    [0.49,0.447,0.186,0.03,0.03,0.15,0.025,0.846,0.973,480,480],
+    [0.4807,0.4641,0.101,0.024,0.024,0.044,0.029,0.952,0.967,480,480],
+    [0.5062,0.3844,0.1313,0.0312,0.0312,0.052,0.025,0.944,0.973,480,480],
+    [0.3781,0.74,0.1833,0.0333,0.04,0.015,0.095,0.983,0.898,480,400],
+    [0.4901,0.5057,0.201,0.0427,0.0427,0.227,0.025,0.769,0.973,480,480],
+    [0.4735,0.4656,0.1781,0.0344,0.0354,0.219,0.025,0.777,0.973,480,480],
+    [0.5396,0.4369,0.1312,0.0271,0.0281,0.206,0.031,0.79,0.969,480,480],
+    [0.4905,0.447,0.179,0.03,0.03,0.173,0.025,0.823,0.973,480,480],
+    [0.4854,0.4682,0.0979,0.0229,0.024,0.05,0.029,0.948,0.967,480,480],
+    [0.5146,0.3844,0.1312,0.0312,0.0312,0.129,0.025,0.867,0.973,480,480]
   ];
 
-  var V18_FACE_HTML = ''
-    + '<svg viewBox="0 0 100 100" aria-hidden="true">'
-    +   '<g class="mf-blush"><ellipse cx="13" cy="60" rx="13" ry="8"/><ellipse cx="87" cy="60" rx="13" ry="8"/></g>'
-    +   '<g class="mf-tears">'
-    +     '<path d="M31 54c-5 8-6 14-1 15 5 1 6-7 1-15z"/>'
-    +     '<path d="M69 54c-5 8-6 14-1 15 5 1 6-7 1-15z"/>'
-    +   '</g>'
-    +   '<path class="mf-mouth" d="M45 63q5 5 10 0"/>'
-    + '</svg>'
-    + '<span class="ms ms-sweat v18-e">💧</span>'
-    + '<span class="ms ms-anger v18-e">💢</span>'
-    + '<span class="ms ms-heart v18-e">💕</span>'
-    + '<span class="ms ms-spark v18-e">✨</span>'
-    + '<span class="mood-chip"></span>';
+  /* 얼굴 표정 SVG · 이모지 조각 (이미지별 실제 눈 좌표에서 계산) */
+  var v18PartsCache = {};
+  function v18F2(n){ return Math.round(n*100)/100; }
+  function v18Anchor(img){
+    var i = v18ImgIndex(img);
+    var a = (i >= 0 && V18_FACES[i]) ? V18_FACES[i] : [0.5,0.42,0.2,0.03,0.03,0.05,0.05,0.95,0.95,480,480];
+    return { i:i, x:a[0], y:a[1], sep:Math.max(0.06,a[2]), ew:a[3], eh:a[4],
+             bx0:a[5], by0:a[6], bx1:a[7], by1:a[8], W:a[9], H:a[10] };
+  }
 
+  function v18Parts(a){
+    var k = "p" + a.i;
+    if(v18PartsCache[k]) return v18PartsCache[k];
+    var W = a.W, H = a.H;
+    var cx = a.x * W, cy = a.y * H, sep = a.sep * W, ew = a.ew * W, eh = a.eh * H;
+
+    /* 눈물 — 실제 두 눈 바로 아래에 붙는 물방울 */
+    var dw = Math.max(7, Math.min(ew * 1.75, sep * 0.23)), dh = Math.max(10, Math.min(eh * 2.25, sep * 0.44));
+    var ty = cy + eh * 0.58, tears = "";
+    for(var s = -1; s <= 1; s += 2){
+      var ex = cx + s * sep / 2;
+      tears += '<g class="mf-tear" transform="translate(' + v18F2(ex - dw/2) + ' ' + v18F2(ty) + ')">'
+        + '<path d="M' + v18F2(dw/2) + ' 0C' + v18F2(dw*0.93) + ' ' + v18F2(dh*0.45) + ' ' + v18F2(dw)
+        + ' ' + v18F2(dh*0.72) + ' ' + v18F2(dw/2) + ' ' + v18F2(dh)
+        + 'C0 ' + v18F2(dh*0.72) + ' ' + v18F2(dw*0.07) + ' ' + v18F2(dh*0.45) + ' ' + v18F2(dw/2) + ' 0Z"/></g>';
+    }
+
+    /* 볼터치 — 두 눈 바깥쪽 아래 볼 */
+    var brx = Math.max(10, Math.min(sep*0.26, W*0.062)), bry = brx*0.6, blush = "";
+    for(var b = -1; b <= 1; b += 2){
+      var bx = cx + b * (sep/2 + brx*0.8), by = cy + eh*1.1 + bry*0.8;
+      blush += '<ellipse cx="' + v18F2(bx) + '" cy="' + v18F2(by) + '" rx="' + v18F2(brx) + '" ry="' + v18F2(bry) + '"/>';
+    }
+
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true">'
+      + '<g class="mf-blush">' + blush + '</g>'
+      + '<g class="mf-tears" stroke-width="' + v18F2(Math.max(2.2, W*0.0075)) + '">' + tears + '</g></svg>';
+
+    var pos = {
+      sweat: [(cx + sep*1.45) / W, (cy + eh*0.55) / H],
+      anger: [(cx + (a.bx1*W - cx)*0.72) / W, (cy - eh*3.2) / H],
+      heart: [(cx - (cx - a.bx0*W)*0.72) / W, (cy - eh*2.6) / H],
+      spark: [(cx + (a.bx1*W - cx)*0.58) / W, (cy - eh*4.0) / H]
+    };
+    v18PartsCache[k] = { svg: svg, pos: pos };
+    return v18PartsCache[k];
+  }
+
+  /* 얼굴 DOM 조립 — 표정에 맞는 조각 + 이모지 위치를 세팅 */
+  function v18BuildFace(faceEl, imgEl, mode){
+    if(!faceEl) return;
+    var a = v18Anchor(imgEl);
+    var p = v18Parts(a);
+    faceEl.innerHTML = p.svg
+      + '<span class="ms ms-sweat v18-e">💧</span>'
+      + '<span class="ms ms-anger v18-e">💢</span>'
+      + '<span class="ms ms-heart v18-e">💕</span>'
+      + '<span class="ms ms-spark v18-e">✨</span>'
+      + '<span class="mood-chip"></span>';
+    var k = (imgEl && imgEl.offsetWidth) ? imgEl.offsetWidth / a.W : 0.44;
+    var keys = ["sweat","anger","heart","spark"];
+    var sp = faceEl.querySelectorAll(".ms");
+    for(var i = 0; i < sp.length && i < keys.length; i++){
+      var q = p.pos[keys[i]];
+      sp[i].style.left = v18F2(q[0]*100) + "%";
+      sp[i].style.top  = v18F2(q[1]*100) + "%";
+      sp[i].style.fontSize = Math.max(6, Math.round((keys[i] === "spark" ? 30 : 34) * k * 10) / 10) + "px";
+    }
+    var chip = faceEl.querySelector(".mood-chip");
+    if(chip){
+      chip.style.left = v18F2(a.x*100) + "%";
+      chip.style.top  = v18F2(a.by0*100) + "%";
+    }
+    if(mode) faceEl.setAttribute("data-mood", mode);
+    else faceEl.removeAttribute("data-mood");
+    faceEl.setAttribute("data-idx", a.i);
+    return a;
+  }
   var V18_CHIP = {
     hungry: { emo: "🤤", txt: "꼬르륵..." },
     sad:    { emo: "🥺", txt: "관심 필요..." },
@@ -9658,13 +9745,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   var v18RetryTimer = null;
   var v18TickTimer = null;
   var v18TestStep = 0;
+  var v18FaceIdx = -1;
 
   /* ---------- 요소 준비 ---------- */
   function v18EnsureFaces(){
-    var f = $("moodFace");
-    if(f && !f.firstChild) f.innerHTML = V18_FACE_HTML;
     var c = $("careFace");
-    if(c && !c.firstChild) c.innerHTML = V18_FACE_HTML;
     if(c && c.className.indexOf("mood-face") < 0) c.classList.add("mood-face");
   }
 
@@ -9684,12 +9769,6 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     }
     try { return window.IMAGES.indexOf(String(img.getAttribute("src") || "")); } catch(e){}
     return -1;
-  }
-
-  function v18Anchor(img){
-    var i = v18ImgIndex(img);
-    var a = (i >= 0 && V18_FACES[i]) ? V18_FACES[i] : [0.5, 0.42, 0.2];
-    return { x: a[0], y: a[1], sep: Math.max(0.15, a[2]) };
   }
 
   /* ---------- 표정 상태 ---------- */
@@ -9712,28 +9791,44 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     return line;
   }
 
-  /* ---------- 얼굴 레이어 위치 (캐릭터 그림 위 눈 위치) ---------- */
+  /* ---------- 얼굴 레이어 위치 ----------
+     #charImg 가 실제로 그려지는 사각형(애니메이션 변형 포함)에 정확히 겹친다.
+     그림이 floaty/sob 로 떠 있거나 흔들려도 눈 위에 붙어 있도록 매 프레임 따라간다. */
   function v18PlaceFace(){
-    var face = $("moodFace"), img = $("charImg");
-    if(!face || !img || !img.offsetWidth) return;
-    var a = v18Anchor(img);
-    var w = Math.max(52, Math.min(200, a.sep * img.offsetWidth * 2.5));
-    face.style.left = (img.offsetLeft + a.x * img.offsetWidth) + "px";
-    face.style.top  = (img.offsetTop  + a.y * img.offsetHeight) + "px";
-    face.style.width = w + "px";
-    face.style.height = w + "px";
+    var face = $("moodFace"), img = $("charImg"), layer = $("moodLayer");
+    if(!face || !img || !layer) return;
+    var ir = img.getBoundingClientRect();
+    if(!ir.width) return;
+    var lr = layer.getBoundingClientRect();
+    face.style.left = (ir.left - lr.left) + "px";
+    face.style.top  = (ir.top  - lr.top)  + "px";
+    face.style.width = ir.width + "px";
+    face.style.height = ir.height + "px";
   }
 
   function v18PlacePreview(){
-    var face = $("careFace"), img = $("careImg"), box = $("careArtbox");
-    if(!face || !img || !box || !img.offsetWidth) return;
-    var a = v18Anchor(img);
-    var w = Math.max(26, Math.min(110, a.sep * img.offsetWidth * 2.5));
-    face.style.left = (img.offsetLeft + a.x * img.offsetWidth) + "px";
-    face.style.top  = (img.offsetTop  + a.y * img.offsetHeight) + "px";
-    face.style.width = w + "px";
-    face.style.height = w + "px";
+    var face = $("careFace"), img = $("careImg");
+    if(!face || !img || !img.offsetWidth) return;
+    if(face.getAttribute("data-idx") !== String(v18ImgIndex(img))){
+      v18BuildFace(face, img, face.getAttribute("data-mood") || "");
+    }
+    face.style.left = img.offsetLeft + "px";
+    face.style.top  = img.offsetTop  + "px";
+    face.style.width = img.offsetWidth + "px";
+    face.style.height = img.offsetHeight + "px";
   }
+
+  var v18FollowOn = false, v18FollowT = 0;
+  function v18Follow(ts){
+    if(!v18FollowOn) return;
+    if(!v18FollowT || ts - v18FollowT > 28){
+      v18FollowT = ts;
+      try { v18PlaceFace(); } catch(e){}
+    }
+    requestAnimationFrame(v18Follow);
+  }
+  function v18FollowStart(){ if(v18FollowOn) return; v18FollowOn = true; requestAnimationFrame(v18Follow); }
+  function v18FollowStop(){ v18FollowOn = false; }
 
   /* ---------- 표정 그리기 ---------- */
   function v18Paint(mode){
@@ -9741,14 +9836,14 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     if(!layer) return;
     v18EnsureFaces();
     layer.className = "mood" + (mode ? " state-" + mode : "") + (V18_CHIP[mode] ? " has-chip" : "");
-    var face = $("moodFace");
+    var face = $("moodFace"), img = $("charImg");
+    v18FaceIdx = img ? v18ImgIndex(img) : -1;
     if(face){
-      if(mode) face.setAttribute("data-mood", mode);
-      else face.removeAttribute("data-mood");
+      v18BuildFace(face, img, mode);
       face.classList.toggle("has-chip", !!V18_CHIP[mode]);
+      v18SetChip(face, mode);
+      if(mode){ v18PlaceFace(); v18FollowStart(); } else v18FollowStop();
     }
-    v18SetChip(face, mode);
-    var img = $("charImg");
     if(img){
       ["hungry","sad","cry","great","yum","pat"].forEach(function(k){
         img.classList.remove("mood-" + k);
@@ -9761,7 +9856,9 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   function v18RenderMood(){
     if(!state || !state.pet) return;
     var mode = v18State();
-    if(mode !== v18Mood){
+    var imgNow = $("charImg");
+    var idxNow = imgNow ? v18ImgIndex(imgNow) : -1;
+    if(mode !== v18Mood || (mode && idxNow !== v18FaceIdx)){
       var prev = v18Mood;
       v18Mood = mode;
       v18Paint(mode);
@@ -9832,10 +9929,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     var mode = v18State();
     var face = $("careFace");
     if(face){
+      v18BuildFace(face, img, mode);
       face.className = "v18-face mood-face" + (mode ? " state-" + mode : "") + (V18_CHIP[mode] ? " has-chip" : "");
-      if(mode) face.setAttribute("data-mood", mode);
-      else face.removeAttribute("data-mood");
-      face.classList.toggle("has-chip", !!V18_CHIP[mode]);
       v18SetChip(face, mode);
     }
     if($("careEmote")) $("careEmote").textContent = V18_EMOTE[mode] || "🥺";
@@ -9982,6 +10077,12 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     });
     window.addEventListener("focus", function(){ setTimeout(v18Tick, 400); });
     window.addEventListener("resize", function(){ try { v18PlaceFace(); } catch(e){} });
+
+    /* 캐릭터·체형이 바뀌어 그림이 교체되면 표정 좌표도 그 그림 것으로 다시 맞춘다 */
+    var cimg = $("charImg");
+    if(cimg) cimg.addEventListener("load", function(){
+      try { if(v18Mood) v18RenderMood(); } catch(e){}
+    });
 
     v18RenderMood();
     setTimeout(function(){ try { v18Tick(); } catch(e){} }, 2200);
