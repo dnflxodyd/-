@@ -2574,6 +2574,168 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   .pen-figures.has-hp{grid-template-columns:1fr 1fr;gap:5px}
 }
 
+/* v22.0 awakening styles */
+/* =====================================================================
+   v22.0 — ⚔️ 최고 능력치 기반 각성 클래스 · 오라
+   · 히어로 카드: 각성 배지 + 각성 루트 전용 오라/파티클 (상점 오라 스킨과 별도 레이어)
+   · ✨ 각성 루트 도감: 5대 루트 점수 · 현재 각성 · 다음 각성까지 남은 점수
+   · [ AWAKENING ] 각성 축하 팝업
+   ===================================================================== */
+
+/* ---------- 각성 루트 색 ---------- */
+.hero.aw-str,.aw-row.str{--aw-rgb:255,92,60;--aw-rgb2:255,178,64}
+.hero.aw-int,.aw-row.int{--aw-rgb:146,108,255;--aw-rgb2:96,200,255}
+.hero.aw-agi,.aw-row.agi{--aw-rgb:34,200,186;--aw-rgb2:132,232,255}
+.hero.aw-wil,.aw-row.wil{--aw-rgb:246,190,68;--aw-rgb2:255,242,190}
+.hero.aw-money,.aw-row.money{--aw-rgb:226,152,24;--aw-rgb2:255,214,96}
+
+/* ---------- 히어로 카드 — 각성 오라 레이어 ---------- */
+.hero.awake{border-color:rgba(var(--aw-rgb),.5);
+  box-shadow:0 20px 42px -24px rgba(150,105,110,.6),0 0 0 2px rgba(var(--aw-rgb),.22),0 0 34px -10px rgba(var(--aw-rgb),.6),inset 0 1px 0 rgba(255,255,255,.9);}
+.awaken-fx{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .6s ease}
+.hero.awake .awaken-fx{opacity:.62}
+.hero.awake.t2 .awaken-fx{opacity:.85}
+.hero.awake.t3 .awaken-fx{opacity:1}
+.awaken-fx::before{
+  content:"";position:absolute;left:50%;top:41%;width:252px;height:252px;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--aw-rgb),.55) 0%,rgba(var(--aw-rgb2),.24) 44%,rgba(255,255,255,0) 70%);
+  filter:blur(8px);animation:v22Aura 3.8s ease-in-out infinite;
+}
+.awaken-fx::after{
+  content:"";position:absolute;left:50%;top:41%;width:212px;height:212px;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:conic-gradient(from 0deg,rgba(var(--aw-rgb),0) 0deg,rgba(var(--aw-rgb),.6) 44deg,rgba(var(--aw-rgb),0) 96deg,rgba(var(--aw-rgb),0) 180deg,rgba(var(--aw-rgb2),.55) 224deg,rgba(var(--aw-rgb2),0) 276deg);
+  -webkit-mask:radial-gradient(circle,transparent 61%,#000 65%,#000 73%,transparent 77%);
+  mask:radial-gradient(circle,transparent 61%,#000 65%,#000 73%,transparent 77%);
+  animation:v22Spin 17s linear infinite;
+}
+.hero.awake.t3 .awaken-fx::before{width:274px;height:274px}
+.hero.awake.t3 .awaken-fx::after{width:232px;height:232px;animation-duration:11s}
+.awaken-fx i{
+  position:absolute;width:4px;height:4px;border-radius:50%;opacity:0;
+  background:rgba(var(--aw-rgb2),.98);box-shadow:0 0 7px 1px rgba(var(--aw-rgb),.9);
+  animation:v22Float 3.9s ease-in-out infinite;
+}
+.hero.awake.t3 .awaken-fx i{width:5px;height:5px}
+@keyframes v22Aura{
+  0%,100%{opacity:.72;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:1;transform:translate(-50%,-50%) scale(1.06,.96)}
+}
+@keyframes v22Spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes v22Float{
+  0%{opacity:0;transform:translateY(8px) scale(.7)}
+  28%{opacity:1}
+  72%{opacity:.9}
+  100%{opacity:0;transform:translateY(-28px) scale(1.15)}
+}
+
+/* ---------- 히어로 카드 — 각성 배지 ---------- */
+.awaken-row{position:relative;z-index:3;display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
+.awaken-badge{
+  display:inline-flex;align-items:center;gap:5px;max-width:100%;
+  font-size:10.5px;font-weight:850;letter-spacing:-.01em;line-height:1.2;
+  padding:5px 11px;border-radius:999px;color:#fff;
+  background:linear-gradient(135deg,rgba(var(--aw-rgb),1),rgba(var(--aw-rgb2),1));
+  border:1.5px solid rgba(255,255,255,.8);
+  box-shadow:0 9px 18px -11px rgba(var(--aw-rgb),.95);
+}
+.awaken-badge .aw-e{font-size:11.5px}
+.awaken-badge.locked{
+  color:#7C6A8C;font-weight:800;background:rgba(255,255,255,.82);
+  border:1.5px dashed #D9C9E6;box-shadow:none;
+}
+.awaken-next{font-size:9.5px;font-weight:750;color:rgba(70,53,79,.62);line-height:1.35;word-break:keep-all}
+.awaken-next b{color:#6B4EA8}
+
+/* ---------- ✨ 각성 루트 도감 ---------- */
+.awaken-card .card-head .sys.awake{color:#fff;background:linear-gradient(135deg,#7C5BD8,#C86BB6);border-color:transparent}
+.awaken-now{
+  margin:3px 0 10px;padding:9px 11px;border-radius:14px;
+  background:linear-gradient(120deg,rgba(var(--aw-rgb,150,120,200),.14),rgba(255,255,255,.72));
+  border:1px solid rgba(var(--aw-rgb,150,120,200),.32);
+  font-size:10.5px;font-weight:750;line-height:1.55;color:#5C4870;word-break:keep-all;
+}
+.awaken-now b{font-weight:900;color:#3F3049}
+.awaken-now .em{font-size:15px}
+.awaken-list{display:flex;flex-direction:column;gap:6px}
+.aw-row{
+  display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:13px;
+  background:rgba(255,255,255,.6);border:1px solid #F0E7F6;
+}
+.aw-row.on{
+  background:linear-gradient(120deg,rgba(var(--aw-rgb),.16),rgba(255,255,255,.88));
+  border-color:rgba(var(--aw-rgb),.55);
+  box-shadow:0 10px 20px -16px rgba(var(--aw-rgb),.95);
+}
+.aw-row .aw-ico{
+  flex:0 0 auto;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+  font-size:15px;background:rgba(var(--aw-rgb),.14);border:1px solid rgba(var(--aw-rgb),.28);
+}
+.aw-row.on .aw-ico{background:linear-gradient(135deg,rgba(var(--aw-rgb),.9),rgba(var(--aw-rgb2),.9));border-color:rgba(255,255,255,.8)}
+.aw-row .aw-main{flex:1 1 auto;min-width:0}
+.aw-row .aw-top{display:flex;align-items:baseline;gap:6px}
+.aw-row .aw-top b{font-size:10.5px;font-weight:850;color:#4B3A5A}
+.aw-row .aw-top small{font-size:8px;font-weight:800;letter-spacing:.06em;color:#A594B2}
+.aw-row .aw-top em{margin-left:auto;font-style:normal;font-size:12px;font-weight:900;color:var(--aw-ink,#4B3A5A)}
+.aw-row .aw-bar{position:relative;height:5px;border-radius:999px;background:#EFE6F5;margin-top:4px;overflow:hidden}
+.aw-row .aw-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,rgba(var(--aw-rgb),.9),rgba(var(--aw-rgb2),.95))}
+.aw-row .aw-sub{margin-top:3px;font-size:8.5px;font-weight:750;line-height:1.4;color:#8C7A96}
+.aw-row .aw-state{
+  flex:0 0 auto;font-size:8.5px;font-weight:850;padding:4px 7px;border-radius:999px;
+  color:#9583A4;background:#F6F0FA;border:1px solid #EDE4F3;white-space:nowrap;
+}
+.aw-row.on .aw-state{color:#fff;background:linear-gradient(135deg,rgba(var(--aw-rgb),1),rgba(var(--aw-rgb2),1));border-color:transparent}
+.aw-row .aw-state.soon{color:#6B4EA8;background:#F1E9FF;border-color:#E2D2FF}
+.awaken-note{margin:9px 0 0;font-size:8.5px;line-height:1.55;font-weight:700;color:#A08CB0;word-break:keep-all}
+
+/* ---------- [ AWAKENING ] 축하 팝업 ---------- */
+#awOverlay{background:rgba(22,12,36,.68)}
+.awaken-pop{
+  position:relative;width:100%;max-width:324px;overflow:hidden;text-align:center;
+  padding:18px 18px 15px;border-radius:26px;color:#F4ECFF;
+  background:linear-gradient(168deg,#231637 0%,#301B4B 46%,#140D20 100%);
+  border:1.5px solid rgba(var(--aw-rgb,170,130,230),.8);
+  box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 30px 60px -20px rgba(18,4,36,.95),0 0 44px -8px rgba(var(--aw-rgb,170,130,230),.55);
+  transform:scale(.92) translateY(12px);transition:transform .34s cubic-bezier(.2,.9,.3,1.3);
+}
+.overlay.on .awaken-pop{transform:none}
+.awaken-pop > *:not(.confetti){position:relative;z-index:1}
+.awaken-pop .lu-sys{color:rgba(var(--aw-rgb2,255,220,150),.9);letter-spacing:.34em}
+.aw-orb{
+  width:96px;height:96px;margin:8px auto 4px;border-radius:50%;display:grid;place-items:center;
+  font-size:42px;line-height:1;
+  background:radial-gradient(circle,rgba(var(--aw-rgb,170,130,230),.5) 0%,rgba(var(--aw-rgb2,255,220,150),.16) 52%,rgba(255,255,255,0) 74%);
+  border:1.5px solid rgba(var(--aw-rgb,170,130,230),.75);
+  box-shadow:0 0 26px -2px rgba(var(--aw-rgb,170,130,230),.75),inset 0 0 18px rgba(var(--aw-rgb2,255,220,150),.28);
+  animation:v22Orb 3.2s ease-in-out infinite;
+}
+@keyframes v22Orb{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-3px) scale(1.04)}}
+.awaken-pop h2{
+  margin:6px 0 0;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.15;
+  background:linear-gradient(100deg,#FFFFFF,rgba(var(--aw-rgb2,255,220,150),1));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.aw-tier{
+  display:inline-block;margin:8px 0 0;padding:4px 11px;border-radius:999px;
+  font-size:9.5px;font-weight:850;letter-spacing:.05em;color:#1B1026;
+  background:linear-gradient(135deg,rgba(var(--aw-rgb,170,130,230),1),rgba(var(--aw-rgb2,255,220,150),1));
+}
+.aw-desc{margin:10px 0 0;font-size:10.5px;line-height:1.6;font-weight:650;color:rgba(240,232,255,.82);word-break:keep-all}
+.aw-figs{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:11px 0 4px}
+.aw-fig{
+  min-width:64px;padding:6px 8px;border-radius:12px;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);
+}
+.aw-fig span{display:block;font-size:8px;font-weight:800;letter-spacing:.04em;color:rgba(230,218,250,.6)}
+.aw-fig b{display:block;font-size:12.5px;font-weight:900;color:#FFF6E2;margin-top:1px}
+.awaken-pop .btn-primary{width:100%;margin-top:12px}
+.awaken-pop .aw-note{margin:8px 0 0;font-size:8.5px;font-weight:700;color:rgba(228,214,246,.5);line-height:1.5}
+
+/* ---------- 파트너 각성 배지 ---------- */
+.p-chip.awake{color:#fff;background:linear-gradient(135deg,#7C5BD8,#C86BB6);border-color:transparent;font-weight:850}
+.pstat-badge.awake{color:#fff;background:linear-gradient(135deg,#6D4FC0,#C05FA8);border-color:transparent}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -2610,6 +2772,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 
   <section class="hero pane on" data-pane="quest">
     <div class="skin-fx" id="skinFx" aria-hidden="true"></div>
+    <div class="awaken-fx" id="awakenFx" aria-hidden="true"></div>
+
     <div class="hero-top">
       <span class="rank"><i>✦</i><span id="rankKey">E급</span> 갓생러</span>
       <span class="ht-chips">
@@ -2640,6 +2804,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         <p class="rank-desc" id="rankDesc">바닥이 제일 편하다. 대파는 덤이다.</p>
       </div>
       <div class="lv">LEVEL<b id="lvText">1</b></div>
+    </div>
+
+    <div class="awaken-row" id="awakenRow">
+      <span class="awaken-badge locked" id="awakenBadge"><span class="aw-e">🌱</span><span class="aw-t">미각성 · 잠재력 개화 전</span></span>
+      <span class="awaken-next" id="awakenNext">Lv.4에 1차 각성</span>
     </div>
 
     <div class="body-row">
@@ -2882,6 +3051,18 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <div id="statList"></div>
   </section>
 
+  <section class="card awaken-card pane" data-pane="stats" id="awakenCard">
+    <div class="card-head">
+      <span class="sys awake">[ AWAKENING ]</span>
+      <h3>✨ 각성 루트 도감</h3>
+      <span class="hint" id="awakenTierHint">Lv.4에 1차 각성</span>
+    </div>
+    <p class="awaken-now" id="awakenNow">미각성 · 잠재력 개화 전 — Lv.4에 가장 높은 능력치로 1차 각성합니다.</p>
+    <div class="awaken-list" id="awakenList"></div>
+    <p class="awaken-note">가장 높은 능력치가 각성 루트를 정해요 · 동률이면 💪체력 → 📘지력 → ⚡민첩 → 🛡️의지 → 💰재력 순서<br>재력은 🍀 LUCK 누적 + 💰 부자 등급 + 저축 점수로 4대 스탯과 같은 눈금에서 겨룹니다.</p>
+  </section>
+
+
   <section class="card pane" data-pane="stats">
     <div class="card-head">
       <span class="sys">[ COLLECTION ]</span>
@@ -2963,6 +3144,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
             <span class="p-chip game" id="pGameChip">🎮 0점</span>
             <span class="p-chip money" id="pMoneyChip">💰 🌱 소박한 갓생러</span>
             <span class="p-chip gold" id="pGoldChip">🪙 0 G</span>
+            <span class="p-chip awake" id="pAwakeChip" hidden></span>
             <span class="p-chip coupon" id="pCouponChip" hidden>🎟️ 쿠폰 사용!</span>
             <span class="p-chip clear" id="pClearChip" hidden>🏆 오늘 올클리어!</span>
           </div>
@@ -3052,7 +3234,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v21.0 (5탭 내비 · 2인 공유 · 🌅오전/☀️오후 퀘스트 · ❤️HP 자동 감소)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v22.0 (5탭 내비 · 2인 공유 · ⚔️각성 클래스·오라 · ❤️HP 자동 감소)</p>
 </div>
 
 <div id="toasts"></div>
@@ -3425,6 +3607,20 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <p class="v19-note">확인한 알림은 다시 뜨지 않아요 · 서로의 오늘을 함께 응원해요</p>
   </div>
 </div>
+<div class="overlay" id="awOverlay">
+  <div class="awaken-pop" role="dialog" aria-modal="true" aria-labelledby="awTitle">
+    <div class="confetti" id="awConfetti"></div>
+    <p class="lu-sys">[ AWAKENING ]</p>
+    <div class="aw-orb" id="awOrb">🔥</div>
+    <h2 id="awTitle">불꽃 투기</h2>
+    <p class="aw-tier" id="awTier">1차 각성</p>
+    <p class="aw-desc" id="awDesc"></p>
+    <div class="aw-figs" id="awFigs"></div>
+    <button class="btn-primary" id="awClose">각성 확인</button>
+    <p class="aw-note">가장 높은 능력치가 각성 루트를 정해요 · 다음 단계에서 더 강해집니다</p>
+  </div>
+</div>
+
 <div class="overlay" id="luOverlay">
   <div class="levelup" role="dialog" aria-modal="true" aria-labelledby="luTitle">
     <div class="confetti" id="luConfetti"></div>
@@ -3907,6 +4103,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v19Normalize(s); } catch(e){}
     try { v20Normalize(s); } catch(e){}
     try { v21Normalize(s); } catch(e){}
+    try { v22Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
@@ -4100,6 +4297,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     renderParty();
     try { v20AfterRender(); } catch(e){}
     try { v21AfterRender(); } catch(e){}
+    try { v22AfterRender(); } catch(e){}
   }
 
 /* ---------- toast ---------- */
@@ -4821,6 +5019,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         };
       })(),
       workStatus: (typeof v13Status === "function") ? (v13Status() || "") : "",
+      /* v22.0 — ⚔️ 각성 클래스 (key · tier · title · emoji) */
+      awakening: (typeof v22PartnerAwaken === "function") ? v22PartnerAwaken() : null,
       /* v19 — 🎉 마지막으로 깬 퀘스트 (상대 화면에 실시간 팝업) */
       lastQuestClear: (function(){
         var qc = state.lastQuestClear;
@@ -9761,6 +9961,26 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       var wrap = b.parentNode;
       if(wrap) wrap.className = "p-abil " + a.cls + (v === null ? " na" : "");
     });
+
+    /* v22.0 — ⚔️ 상대의 현재 각성 배지 */
+    var awChip = $("pAwakeChip");
+    if(awChip){
+      var aw = P && P.awakening;
+      if(aw && aw.tier){
+        awChip.hidden = false;
+        awChip.textContent = (aw.emoji || "✦") + " " + v22TierLabel(aw.tier) + " · " + (aw.title || "");
+      } else {
+        awChip.hidden = true;
+        awChip.textContent = "";
+      }
+    }
+  }
+
+  function v22TierLabel(t){
+    if(typeof v22TierName === "function"){ try { return v22TierName(t); } catch(e){} }
+    var names = ["미각성", "1차 각성", "진 각성", "초월 각성"];
+    var i = Math.max(0, Math.min(3, Math.round(Number(t) || 0)));
+    return names[i];
   }
 
   /* ---------- 상세 모달 ---------- */
@@ -9793,6 +10013,10 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     if(P.skin === "flame") badges.push('<span class="pstat-badge skin">🔥 불꽃 오라</span>');
     else if(P.skin === "rainbow") badges.push('<span class="pstat-badge skin">🌈 무지개 오라</span>');
     if(P.luck) badges.push('<span class="pstat-badge luck">🍀 재물운</span>');
+    if(P.awakening && P.awakening.tier){
+      badges.push('<span class="pstat-badge awake">' + (P.awakening.emoji || "✦") + " "
+        + v22TierLabel(P.awakening.tier) + " · " + esc(P.awakening.title || "") + '</span>');
+    }
     if($("pStatBadges")) $("pStatBadges").innerHTML = badges.join("");
 
     /* 일러스트 (슬림·오라 반영) */
@@ -11503,6 +11727,455 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   try { v21WrapPet(); } catch(e){}
   try { v21WrapRollover(); } catch(e){}
   try { v21WrapPenaltyModal(); } catch(e){}
+  /* ===================================================================
+     v22.0 — ⚔️ 최고 능력치 기반 각성 클래스 · 오라
+     · Lv.1~3 미각성 → Lv.4 1차 각성 → Lv.9 진 각성 → Lv.13 초월 각성
+     · 지금 가장 높은 수치의 능력치가 각성 루트를 정한다 (동률은 STR→INT→AGI→WIL→재력)
+     · 재력 = 기본 10 + 🍀 LUCK 누적(1회 +2, 최대 +24) + 💰 부자 등급(+0/4/10/18)
+              + 저축 점수(log10, 최대 +10) → 4대 스탯과 같은 눈금에서 겨룬다
+     · 각성 배지 · 루트별 오라/파티클(상점 오라 스킨과 다른 레이어) · [ AWAKENING ] 팝업
+     · 새로 각성하거나 등급/루트가 바뀌는 "그 순간"에 1회만 축하 팝업 (부팅 직후엔 조용히 기준만 저장)
+     =================================================================== */
+  var V22_TIERS = ["미각성", "1차 각성", "진 각성", "초월 각성"];
+  var V22_TIER_LV = [0, 4, 9, 13];
+  var V22_LUCK_PT = 2;        /* 🍀 LUCK 누적 1회 = +2 */
+  var V22_LUCK_CAP = 24;      /* LUCK 누적 보너스 상한 */
+  var V22_TIER_PT = [0, 4, 10, 18];   /* 부자 등급: 소박 / 소소(100만) / 천만(1000만) / 재벌(5000만) */
+  var V22_SAVE_CAP = 10;      /* 저축 점수 상한 */
+
+  var V22_ROUTES = [
+    { key:"str", cls:"str", ico:"💪", name:"체력", short:"STR", rgb:"255,92,60", rgb2:"255,178,64",
+      titles:[["🔥","불꽃 투기"],["⚔️","파쇄 투신"],["🌋","패왕 갓생러"]],
+      fx:"붉은 투기 · 불꽃 이펙트" },
+    { key:"int", cls:"int", ico:"📘", name:"지력", short:"INT", rgb:"146,108,255", rgb2:"96,200,255",
+      titles:[["📘","비전 학자"],["🔮","심연의 대현자"],["🌌","전지적 현자"]],
+      fx:"보라 마법진 · 별빛 이펙트" },
+    { key:"agi", cls:"agi", ico:"⚡", name:"민첩", short:"AGI", rgb:"34,200,186", rgb2:"132,232,255",
+      titles:[["💨","질풍 러너"],["⚡","그림자 암살자"],["🌩️","섬광의 군주"]],
+      fx:"청록 번개 · 잔상 이펙트" },
+    { key:"wil", cls:"wil", ico:"🛡️", name:"의지", short:"WIL", rgb:"246,190,68", rgb2:"255,242,190",
+      titles:[["🪨","강철 멘탈"],["🛡️","불굴의 수호자"],["⚜️","절대 성기사"]],
+      fx:"황금 방패 · 성광 이펙트" },
+    { key:"money", cls:"money", ico:"💰", name:"재력", short:"재력", rgb:"226,152,24", rgb2:"255,214,96",
+      titles:[["🪙","쌈짓돈 수집가"],["💎","황금 상단주"],["👑","억만장자 군주"]],
+      fx:"황금 코인 · 왕관 이펙트" }
+  ];
+  var V22_ORDER = ["str", "int", "agi", "wil", "money"];  /* 동률 우선순위 */
+
+  var v22Pending = null;
+  var v22PopTimer = null;
+  var v22PopWait = 0;
+  var v22Booted = false;      /* 부팅 전 렌더에서는 팝업 없이 기준점만 저장한다 */
+
+  function v22Route(key){
+    for(var i=0;i<V22_ROUTES.length;i++){ if(V22_ROUTES[i].key === key) return V22_ROUTES[i]; }
+    return V22_ROUTES[0];
+  }
+  function v22TierName(t){
+    t = Math.max(0, Math.min(3, Math.round(Number(t) || 0)));
+    return V22_TIERS[t];
+  }
+  function v22Num(v, d){
+    var n = Number(v);
+    if(!isFinite(n)) return d;
+    return Math.max(0, Math.round(n));
+  }
+  function v22LevelNow(){
+    try { return levelInfo(state.totalExp).level; } catch(e){}
+    var lv = 1;
+    try { while(lv < 18 && Number(state.totalExp) >= cumFor(lv + 1)) lv++; } catch(e){}
+    return lv;
+  }
+  function v22TierFor(lv){
+    if(lv >= 13) return 3;
+    if(lv >= 9) return 2;
+    if(lv >= 4) return 1;
+    return 0;
+  }
+
+  /* ---------- 재력 환산 ---------- */
+  function v22SavePts(v){
+    var n = Math.max(0, Number(v) || 0);
+    if(!n) return 0;
+    var p = Math.round(Math.log(1 + n / 10000) / Math.LN10 * 2);
+    if(!isFinite(p)) return 0;
+    return Math.max(0, Math.min(V22_SAVE_CAP, p));
+  }
+  function v22MoneyParts(){
+    var luckN = 0;
+    try { luckN = v22Num(state.luck && state.luck.n, 0); } catch(e){}
+    var luck = Math.min(V22_LUCK_CAP, luckN * V22_LUCK_PT);
+    var tierIdx = 0, save = 0, amount = 0;
+    try { tierIdx = Math.max(0, Math.min(3, Number(moneyTier().idx) || 0)); } catch(e){}
+    try { amount = moneyVal(); save = v22SavePts(amount); } catch(e){}
+    return { base:10, luck:luck, luckN:luckN, tier:V22_TIER_PT[tierIdx] || 0, tierIdx:tierIdx, save:save, amount:amount };
+  }
+  function v22MoneyScore(){
+    var p = v22MoneyParts();
+    return p.base + p.luck + p.tier + p.save;
+  }
+
+  /* ---------- 5대 루트 점수 ---------- */
+  function v22Scores(){
+    var st = (state && state.stats) || {};
+    return {
+      str: v22Num(st.str, 10),
+      int: v22Num(st.int, 10),
+      agi: v22Num(st.agi, 10),
+      wil: v22Num(st.wil, 10),
+      money: v22MoneyScore()
+    };
+  }
+
+  /* ---------- 지금의 각성 ---------- */
+  function v22Awaken(){
+    var lv = v22LevelNow();
+    var tier = v22TierFor(lv);
+    var sc = v22Scores();
+    var best = V22_ORDER[0];
+    for(var i=1;i<V22_ORDER.length;i++){
+      if(sc[V22_ORDER[i]] > sc[best] + 1e-9) best = V22_ORDER[i];
+    }
+    var route = v22Route(best);
+    var ttl = tier ? route.titles[tier - 1] : null;
+
+    /* 다음 각성까지 */
+    var nextTier = tier >= 3 ? 0 : tier + 1;
+    var nextLv = nextTier ? V22_TIER_LV[nextTier] : 0;
+    var expLeft = 0;
+    if(nextTier){
+      try { expLeft = Math.max(0, cumFor(nextLv) - Math.max(0, Number(state.totalExp) || 0)); } catch(e){}
+    }
+
+    /* 2위 추격 */
+    var second = null;
+    for(var j=0;j<V22_ORDER.length;j++){
+      var k = V22_ORDER[j];
+      if(k === best) continue;
+      if(second === null || sc[k] > sc[second]) second = k;
+    }
+
+    return {
+      level: lv,
+      tier: tier,
+      tierName: V22_TIERS[tier],
+      key: best,
+      cls: route.cls,
+      ico: route.ico,
+      routeName: route.name,
+      short: route.short,
+      emoji: ttl ? ttl[0] : route.ico,
+      title: ttl ? ttl[1] : "잠재력 개화 전",
+      fx: route.fx,
+      score: Math.round(sc[best]),
+      scores: sc,
+      secondKey: second,
+      secondDiff: second ? Math.round(sc[best] - sc[second]) : 0,
+      nextTier: nextTier,
+      nextLv: nextLv,
+      expLeft: expLeft
+    };
+  }
+
+  /* 내 각성 요약 — 파트너 스냅샷용 */
+  function v22PartnerAwaken(){
+    try {
+      var a = v22Awaken();
+      if(!a || !a.tier) return null;
+      return { key: a.key, tier: a.tier, title: a.title, emoji: a.emoji };
+    } catch(e){ return null; }
+  }
+
+  /* ---------- 상태 정규화 (load() 안) ---------- */
+  function v22Normalize(s){
+    if(!s || typeof s !== "object") return;
+    var a = s.awaken;
+    if(!a || typeof a !== "object" || !a.key){ s.awaken = null; return; }
+    a.key = V22_ORDER.indexOf(String(a.key)) >= 0 ? String(a.key) : "str";
+    a.tier = Math.max(0, Math.min(3, Math.round(Number(a.tier) || 0)));
+    a.title = String(a.title || "").slice(0, 24);
+    a.at = Math.max(0, Math.round(Number(a.at) || 0));
+  }
+
+  /* ---------- 히어로 카드 — 각성 배지 · 오라 ---------- */
+  function v22BuildParticles(){
+    var box = $("awakenFx");
+    if(!box || box.getAttribute("data-built")) return;
+    var pts = [[15,33],[24,63],[37,23],[61,25],[73,60],[85,35],[46,71],[67,73]];
+    var html = "";
+    for(var i=0;i<pts.length;i++){
+      html += '<i style="left:' + pts[i][0] + '%;top:' + pts[i][1] + '%;animation-delay:' + (i * 0.47).toFixed(2) + 's"></i>';
+    }
+    box.innerHTML = html;
+    box.setAttribute("data-built", "1");
+  }
+
+  function v22ApplyHero(a){
+    var hero = document.querySelector(".hero");
+    if(!hero) return;
+    hero.classList.remove("awake", "t1", "t2", "t3", "aw-str", "aw-int", "aw-agi", "aw-wil", "aw-money");
+    if(a.tier > 0){
+      hero.classList.add("awake", "t" + a.tier, "aw-" + a.key);
+      hero.setAttribute("data-awaken", a.title);
+    } else {
+      hero.removeAttribute("data-awaken");
+    }
+
+    var badge = $("awakenBadge"), next = $("awakenNext");
+    if(badge){
+      if(a.tier > 0){
+        badge.className = "awaken-badge";
+        badge.innerHTML = '<span class="aw-e">' + a.emoji + '</span><span class="aw-t">'
+          + v22TierName(a.tier) + " · " + esc(a.title) + "</span>";
+      } else {
+        badge.className = "awaken-badge locked";
+        badge.innerHTML = '<span class="aw-e">🌱</span><span class="aw-t">미각성 · 잠재력 개화 전</span>';
+      }
+    }
+    if(next){
+      var txt;
+      if(a.tier === 0){
+        txt = "<b>Lv.4</b>에 1차 각성 · EXP " + a.expLeft + " 남음";
+        if(a.secondDiff <= 0) txt += " · 지금 1위 " + a.ico + " " + a.routeName;
+      } else if(a.nextTier){
+        txt = "다음 <b>" + V22_TIERS[a.nextTier] + " Lv." + a.nextLv + "</b> · EXP " + a.expLeft + " 남음";
+        if(a.secondDiff >= 0 && a.secondDiff <= 3 && a.secondKey){
+          txt += " · " + v22Route(a.secondKey).ico + " " + v22Route(a.secondKey).name + " " + a.secondDiff + "점 차";
+        }
+      } else {
+        txt = "🌌 <b>초월 각성 완료</b> · 가장 높은 능력치를 계속 올려 보세요";
+      }
+      next.innerHTML = txt;
+    }
+  }
+
+  /* ---------- ✨ 각성 루트 도감 ---------- */
+  function v22RenderCodex(a){
+    var list = $("awakenList");
+    if(!list) return;
+
+    var top = 10;
+    for(var i=0;i<V22_ORDER.length;i++){ if(a.scores[V22_ORDER[i]] > top) top = a.scores[V22_ORDER[i]]; }
+    var scale = Math.max(30, Math.round(top * 1.15));
+
+    var parts = v22MoneyParts();
+    var rows = V22_ROUTES.map(function(r){
+      var v = Math.round(a.scores[r.key]);
+      var on = (r.key === a.key && a.tier > 0);
+      var lead = (r.key === a.key);
+      var ttl = a.tier ? r.titles[a.tier - 1] : r.titles[0];
+      var sub = ttl[0] + " " + ttl[1] + " · " + (a.tier ? V22_TIERS[a.tier] : "Lv.4 개화");
+      if(r.key === "money"){
+        sub += " · 🍀 +" + parts.luck + " 💰 +" + parts.tier + " 저축 +" + parts.save;
+      }
+      var state, cls = "";
+      if(on){ state = "각성 중"; }
+      else if(a.tier === 0 && lead){ state = "1위"; cls = " soon"; }
+      else {
+        var need = Math.max(1, Math.round(a.score - v) + 1);
+        state = need + "점 더";
+      }
+      return '<div class="aw-row ' + r.cls + (on ? " on" : "") + '">'
+        + '<span class="aw-ico">' + r.ico + '</span>'
+        + '<div class="aw-main">'
+        +   '<div class="aw-top"><b>' + r.name + '</b><small>' + r.short + '</small><em>' + v + '</em></div>'
+        +   '<div class="aw-bar"><i style="width:' + Math.min(100, Math.max(6, Math.round(v / scale * 100))) + '%"></i></div>'
+        +   '<div class="aw-sub">' + sub + '</div>'
+        + '</div>'
+        + '<span class="aw-state' + cls + '">' + state + '</span>'
+        + '</div>';
+    }).join("");
+    list.innerHTML = rows;
+
+    var now = $("awakenNow");
+    if(now){
+      if(a.tier > 0){
+        now.style.setProperty("--aw-rgb", v22Route(a.key).rgb);
+        now.innerHTML = '<span class="em">' + a.emoji + '</span> <b>' + v22TierName(a.tier) + " · " + esc(a.title) + "</b>"
+          + '<br>가장 높은 능력치 ' + a.ico + " " + a.routeName + " " + a.score + "점 · Lv." + a.level
+          + (a.secondKey ? " · 2위 " + v22Route(a.secondKey).ico + " " + v22Route(a.secondKey).name + " " + Math.round(a.scores[a.secondKey]) + "점" : "");
+      } else {
+        now.style.setProperty("--aw-rgb", "150,120,200");
+        now.innerHTML = "<b>미각성 · 잠재력 개화 전</b> — Lv.4에 가장 높은 능력치로 1차 각성합니다."
+          + "<br>지금 1위는 " + a.ico + " " + a.routeName + " " + a.score + "점 · Lv.4까지 EXP " + a.expLeft;
+      }
+    }
+    var hint = $("awakenTierHint");
+    if(hint){
+      hint.textContent = a.tier === 0 ? "Lv.4에 1차 각성"
+        : a.nextTier ? ("다음 " + V22_TIERS[a.nextTier] + " Lv." + a.nextLv)
+        : "초월 각성 완료";
+    }
+  }
+
+  /* ---------- [ AWAKENING ] 팝업 ---------- */
+  function v22Confetti(){
+    var box = $("awConfetti");
+    if(!box) return;
+    var chars = ["✦", "✧", "⚡", "◆", "★", "🔥"];
+    var html = "";
+    for(var i=0;i<12;i++){
+      var left = Math.round(Math.random() * 92) + 2;
+      var d = (2.2 + Math.random() * 1.8).toFixed(2);
+      var delay = (Math.random() * 1.6).toFixed(2);
+      html += '<span style="left:' + left + '%;--d:' + d + 's;--delay:' + delay + 's">' + chars[i % chars.length] + "</span>";
+    }
+    box.innerHTML = html;
+  }
+
+  function v22ShowPopup(a, prev){
+    var ov = $("awOverlay");
+    if(!ov) return;
+    var r = v22Route(a.key);
+    ov.style.setProperty("--aw-rgb", r.rgb);
+    ov.style.setProperty("--aw-rgb2", r.rgb2);
+    if($("awOrb")) $("awOrb").textContent = a.emoji;
+    if($("awTitle")) $("awTitle").textContent = a.title;
+
+    var tierTxt = v22TierName(a.tier);
+    var kind = "";
+    if(prev && prev.key && prev.key !== a.key) kind = " · 루트 전환";
+    else if(prev && prev.tier && a.tier > prev.tier) kind = " · 승급";
+    if($("awTier")) $("awTier").textContent = "Lv." + a.level + " · " + tierTxt + kind;
+
+    var desc;
+    if(prev && prev.key && prev.key !== a.key){
+      desc = "가장 높은 능력치가 " + a.ico + " " + a.routeName + " " + a.score + "점으로 바뀌어, 각성 루트가 "
+        + a.emoji + " " + a.title + "로 전환됐어요.";
+    } else if(prev && prev.tier && a.tier > prev.tier){
+      desc = "Lv." + a.level + " 달성 — " + a.emoji + " " + a.title + "로 한 단계 더 각성했습니다. "
+        + a.fx + "가 히어로 카드에 켜졌어요.";
+    } else {
+      desc = "가장 높은 능력치 " + a.ico + " " + a.routeName + " " + a.score + "점이 각성 루트를 정했습니다. "
+        + a.emoji + " " + a.title + " 각성!";
+    }
+    if($("awDesc")) $("awDesc").textContent = desc;
+
+    if($("awFigs")){
+      $("awFigs").innerHTML =
+          '<div class="aw-fig"><span>1위 능력치</span><b>' + a.ico + " " + a.routeName + '</b></div>'
+        + '<div class="aw-fig"><span>점수</span><b>' + a.score + '</b></div>'
+        + '<div class="aw-fig"><span>레벨</span><b>Lv.' + a.level + '</b></div>';
+    }
+    v22Confetti();
+    ov.classList.add("on");
+    if(navigator.vibrate) navigator.vibrate([10, 36, 14]);
+  }
+
+  function v22Busy(){
+    try {
+      if(document.querySelector(".overlay.on, .sheet-wrap.on, .picker:not([hidden])")) return true;
+    } catch(e){}
+    return false;
+  }
+
+  function v22FlushPopup(delay){
+    if(!v22Pending) return;
+    if(v22PopTimer){ clearInterval(v22PopTimer); v22PopTimer = null; }
+    v22PopWait = 0;
+    setTimeout(function(){
+      if(!v22Pending) return;
+      if(v22Busy()){ v22QueuePopup(v22Pending.a, v22Pending.prev); return; }
+      var p = v22Pending;
+      v22Pending = null;
+      try { v22ShowPopup(p.a, p.prev); } catch(e){}
+    }, delay || 260);
+  }
+
+  function v22QueuePopup(a, prev){
+    v22Pending = { a:a, prev:prev };
+    if(v22PopTimer) return;
+    v22PopWait = 0;
+    v22PopTimer = setInterval(function(){
+      v22PopWait++;
+      if(!v22Pending){ clearInterval(v22PopTimer); v22PopTimer = null; return; }
+      if(v22Busy()){
+        if(v22PopWait > 90){ clearInterval(v22PopTimer); v22PopTimer = null; }
+        return;
+      }
+      clearInterval(v22PopTimer);
+      v22PopTimer = null;
+      v22FlushPopup(300);
+    }, 420);
+  }
+
+  /* ---------- 변화 감지 ---------- */
+  function v22Check(opt){
+    if(!state) return null;
+    opt = opt || {};
+    var a = v22Awaken();
+    var prev = state.awaken;
+    if(!prev || typeof prev !== "object" || !prev.key){
+      /* 부팅/첫 렌더 — 조용히 기준만 저장한다 (팝업 없음) */
+      state.awaken = { key:a.key, tier:a.tier, title:a.title, at:Date.now() };
+      try { save(); } catch(e){}
+      return a;
+    }
+    var sameKey = (String(prev.key) === a.key);
+    var sameTier = (Math.round(Number(prev.tier) || 0) === a.tier);
+    if(sameKey && sameTier) return a;
+
+    var down = a.tier < Math.round(Number(prev.tier) || 0);
+    state.awaken = { key:a.key, tier:a.tier, title:a.title, at:Date.now() };
+    try { save(); } catch(e){}
+    if(!down && a.tier > 0 && v22Booted && !opt.silent){
+      try { v22QueuePopup(a, { key:prev.key, tier:Math.round(Number(prev.tier) || 0), title:prev.title }); } catch(e){}
+    }
+    return a;
+  }
+
+  /* ---------- render() 뒤처리 ---------- */
+  function v22AfterRender(){
+    var a = v22Awaken();
+    try { v22ApplyHero(a); } catch(e){}
+    try { v22RenderCodex(a); } catch(e){}
+    try { v22Check(); } catch(e){}
+  }
+
+  /* ---------- 레벨업 팝업을 닫으면 대기 중인 각성 팝업을 바로 ---------- */
+  function v22WrapLevelUp(){
+    if(typeof closeLevelUp !== "function") return;
+    var base = closeLevelUp;
+    closeLevelUp = function(){
+      var out = base.apply(null, arguments);
+      try { v22FlushPopup(760); } catch(e){}
+      return out;
+    };
+  }
+
+  /* ---------- boot ---------- */
+  function v22Boot(){
+    try { v22Normalize(state); } catch(e){}
+    try { v22BuildParticles(); } catch(e){}
+
+    var ov = $("awOverlay");
+    var close = $("awClose");
+    if(close) close.addEventListener("click", function(){ try { ov.classList.remove("on"); } catch(e){} });
+    if(ov) ov.addEventListener("click", function(e){ if(e.target === ov) ov.classList.remove("on"); });
+
+    /* 부팅 직후에는 축하 팝업을 띄우지 않는다 — 지금 상태를 기준점으로만 저장 */
+    try { v22Check({ silent:true }); } catch(e){}
+    v22Booted = true;
+    try { v22AfterRender(); } catch(e){}
+
+    /* QA/검증용 */
+    window.__v22Test = {
+      info: v22Awaken,
+      scores: v22Scores,
+      money: v22MoneyParts,
+      tierName: v22TierName,
+      check: function(o){ return v22Check(o || {}); },
+      codex: function(){ try { v22AfterRender(); } catch(e){} },
+      popup: function(){ try { v22ShowPopup(v22Awaken(), state.awaken); } catch(e){} },
+      close: function(){ try { $("awOverlay").classList.remove("on"); } catch(e){} },
+      stat: function(k, n){ if(!state.stats) state.stats = {}; state.stats[k] = Math.max(0, Math.round(Number(n) || 0)); save(); render(); return v22Awaken(); },
+      moneySet: function(n){ if(!state.money) state.money = { total:0, hide:true, last:0 }; state.money.total = Math.max(0, Math.round(Number(n) || 0)); save(); render(); return v22Awaken(); },
+      luckSet: function(n){ if(!state.luck) state.luck = { n:0, until:0 }; state.luck.n = Math.max(0, Math.round(Number(n) || 0)); save(); render(); return v22Awaken(); },
+      tier: V22_TIERS
+    };
+  }
+
+  try { v22WrapLevelUp(); } catch(e){}
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -11522,6 +12195,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   try { v19Boot(); } catch(e){}
   try { v20Boot(); } catch(e){}
   try { v21Boot(); } catch(e){}
+  try { v22Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
@@ -11565,7 +12239,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 (function(){
   if(!("serviceWorker" in navigator) || !window.isSecureContext) return;
 
-  var APP_SW = "mmm-2026-11-23-17";
+  var APP_SW = "mmm-2026-11-23-18";
   var GUARD = "mmm-auto-reload";
   var reg = null, reloading = false, checking = false;
 
