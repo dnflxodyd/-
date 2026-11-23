@@ -2739,6 +2739,28 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 .p-chip.awake{color:#fff;background:linear-gradient(135deg,#7C5BD8,#C86BB6);border-color:transparent;font-weight:850}
 .pstat-badge.awake{color:#fff;background:linear-gradient(135deg,#6D4FC0,#C05FA8);border-color:transparent}
 
+/* v23.0 version bar styles */
+/* v23.0 — 📊 스탯·도감 하단 버전 바 + 🔄 업데이트 확인 */
+.verbars{
+  display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+  margin:14px 2px 4px;padding:8px 12px;
+  background:rgba(255,255,255,.62);border:1px solid #EADDD0;border-radius:12px;
+}
+.verbars .ver-lbl{font-size:9px;font-weight:700;color:#A99BB0;letter-spacing:.02em}
+.verbars .ver-num{font-family:var(--mono);font-size:10px;font-weight:800;color:#6C5A88;letter-spacing:-.01em}
+.verbars .ver-btn{
+  font-family:inherit;font-size:9.5px;font-weight:800;color:#7A5BC0;background:#F5EFFF;
+  border:1px solid #EADDFF;border-radius:9px;padding:5px 10px;cursor:pointer;line-height:1.3;
+  transition:transform .12s ease, opacity .12s ease;
+}
+.verbars .ver-btn:active{transform:scale(.96)}
+.verbars .ver-btn[disabled]{opacity:.55;cursor:default}
+.verbars .ver-btn.busy{color:#9B7BDD}
+@media (max-width:360px){
+  .verbars{gap:6px;padding:8px 9px}
+  .verbars .ver-btn{font-size:9px;padding:5px 8px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -3117,6 +3139,12 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <button class="tool" id="hpDecayTest">❤️ 시간경과 HP 감소 테스트</button>
   </div>
 
+  <div class="verbars pane" data-pane="stats" id="verBar" role="status" aria-live="polite">
+    <span class="ver-lbl">현재 버전</span>
+    <b class="ver-num" id="verNum">v23.0</b>
+    <button class="ver-btn" type="button" id="verCheckBtn" data-idle="🔄 업데이트 확인">🔄 업데이트 확인</button>
+  </div>
+
   <section class="card party pane" data-pane="party" id="coupleCard">
     <div class="card-head">
       <span class="sys">[ PARTY ]</span>
@@ -3237,7 +3265,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v22.0 (5탭 내비 · 2인 공유 · ⚔️각성 클래스·오라 · ❤️HP 자동 감소)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v23.0 (5탭 내비 · 2인 공유 · ⚔️각성 클래스·오라 · 🔄자동 업데이트)</p>
 </div>
 
 <div id="toasts"></div>
@@ -12234,56 +12262,164 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 })();
 </script>
 <script>
-/* PWA — 서비스 워커 등록 + 새 버전 즉시 자동 업데이트 (v20.0)
+/* PWA — 서비스 워커 등록 + 새 버전 자동 업데이트 + 버전 확인 버튼 (v23.0)
    · 부팅 / 앱 복귀(visibilitychange) / pageshow / focus / 60초 주기마다
-     reg.update() + version.json?t=… (cache: no-store) 확인
-   · 서버 버전이 지금 실행 중인 버전보다 높으면 사용자 조작 없이 즉시 리로드
-   · 무한 리로드 방지 — sessionStorage 에 방금 리로드한 버전을 기록 */
+     version.json?t=… (cache: no-store) 를 확인한다.
+   · 서버 SW 가 지금 실행 중인 SW 와 다르면
+       ① miracle-morning-* 캐시 직접 삭제 → ② reg.update() + SKIP_WAITING → ③ controllerchange/1.2초 대기
+       → ④ 현재 URL 의 쿼리(?room=… 등)·해시를 보존한 채 _v=Date.now() 캐시 버스터를 붙여 location.replace
+     순서로 처리해 "구버전 HTML 이 캐시에서 다시 뜨는" 레이스 컨디션을 없앤다.
+   · sessionStorage 가드는 {버전, 시도횟수} 로 기록하고 같은 버전에 최대 2회까지만 리로드한다
+     (1회 실패로 멈추지도, 무한 리로드에 빠지지도 않게).
+   · 📊 스탯·도감 하단 버전 바: 현재 버전 표시 + 🔄 업데이트 확인 (이미 최신이면 토스트, 4초 안에 한 번 더 누르면 강제 새로고침)
+   · 업데이트로 다시 뜬 화면(URL 에 _v=)은 주소를 깨끗하게 되돌리고 짧은 토스트로 알려 준다. */
 (function(){
-  if(!("serviceWorker" in navigator) || !window.isSecureContext) return;
-
-  var APP_SW = "mmm-2026-11-23-18";
+  var APP_SW  = "mmm-2026-11-23-19";
+  var APP_VER = "23.0";
   var GUARD = "mmm-auto-reload";
-  var reg = null, reloading = false, checking = false;
+  var MAX_TRY = 2;
+  var reg = null, reloading = false, checking = false, manualBusy = false, forceUntil = 0;
 
-  function guardGet(){
-    try { return sessionStorage.getItem(GUARD) || ""; } catch(e){ return ""; }
+  /* ---------- sessionStorage 가드 (버전 + 시도 횟수) ---------- */
+  function guardRead(){
+    try {
+      var raw = sessionStorage.getItem(GUARD) || "";
+      if(!raw) return { v: "", n: 0 };
+      if(raw.charAt(0) === "{"){
+        var o = JSON.parse(raw) || {};
+        return { v: String(o.v || ""), n: Number(o.n || 0) || 0 };
+      }
+      return { v: raw, n: 1 };            /* 구버전 형식 호환 */
+    } catch(e){ return { v: "", n: 0 }; }
   }
-  function guardSet(v){
-    try { sessionStorage.setItem(GUARD, v); } catch(e){}
+  function guardWrite(v, n){
+    try { sessionStorage.setItem(GUARD, JSON.stringify({ v: String(v), n: Number(n) || 0 })); } catch(e){}
   }
   function guardClear(){
     try { sessionStorage.removeItem(GUARD); } catch(e){}
   }
 
-  function reloadFor(ver){
+  /* ---------- 작은 SYSTEM 토스트 (앱 토스트와 같은 모양) ---------- */
+  function tip(head, sub){
+    try{
+      var box = document.getElementById("toasts");
+      if(!box){ box = document.createElement("div"); box.id = "toasts"; document.body.appendChild(box); }
+      var t = document.createElement("div");
+      t.className = "toast";
+      t.innerHTML = '<div class="l1">[SYSTEM] <b>' + head + '</b></div>'
+        + (sub ? '<div class="l2">' + sub + '</div>' : '');
+      box.appendChild(t);
+      while(box.children.length > 2) box.removeChild(box.firstChild);
+      setTimeout(function(){
+        t.classList.add("out");
+        setTimeout(function(){ if(t.parentNode) t.parentNode.removeChild(t); }, 320);
+      }, 3600);
+    } catch(e){}
+  }
+
+  /* ---------- 캐시·서비스 워커 ---------- */
+  function clearAllCaches(){
+    try{
+      if(!(window.caches && typeof caches.keys === "function")) return Promise.resolve();
+      return caches.keys().then(function(keys){
+        var mine = (keys || []).filter(function(k){ return String(k).indexOf("miracle-morning-") === 0; });
+        return Promise.all(mine.map(function(k){
+          return caches.delete(k).catch(function(){});
+        }));
+      }).catch(function(){});
+    } catch(e){ return Promise.resolve(); }
+  }
+
+  function forceSwActivate(){
+    if(!("serviceWorker" in navigator)) return Promise.resolve();
+    return new Promise(function(resolve){
+      var done = false;
+      function fin(){ if(done) return; done = true; resolve(); }
+      try { navigator.serviceWorker.addEventListener("controllerchange", fin, { once: true }); } catch(e){}
+      function kick(){
+        try {
+          if(reg && reg.waiting) reg.waiting.postMessage("SKIP_WAITING");
+          if(reg && reg.installing){
+            reg.installing.addEventListener("statechange", function(){
+              try { if(reg && reg.waiting) reg.waiting.postMessage("SKIP_WAITING"); } catch(e){}
+            });
+          }
+        } catch(e){}
+      }
+      kick();
+      var p = null;
+      try { p = (reg && typeof reg.update === "function") ? reg.update() : null; } catch(e){ p = null; }
+      Promise.resolve(p).catch(function(){}).then(function(){
+        kick();
+        setTimeout(kick, 150);
+        setTimeout(fin, 1200);           /* controllerchange 또는 최대 1.2초 */
+      });
+    });
+  }
+
+  /* ---------- version.json ---------- */
+  function fetchFresh(){
+    try{
+      return fetch("./version.json?t=" + Date.now(), { cache: "no-store" })
+        .then(function(r){ return (r && r.ok) ? r.json() : null; })
+        .catch(function(){ return null; });
+    } catch(e){ return Promise.resolve(null); }
+  }
+
+  /* ---------- 리로드 (쿼리·해시 보존 + _v 캐시 버스터) ---------- */
+  function bustedUrl(){
+    try{
+      var u = new URL(location.href);
+      u.searchParams.delete("_v");
+      u.searchParams.set("_v", String(Date.now()));
+      return u.href;
+    } catch(e){
+      return location.href.split("#")[0].split("?")[0]
+        + "?_v=" + Date.now() + (location.hash || "");
+    }
+  }
+
+  function takeBust(){
+    try{
+      var u = new URL(location.href);
+      if(!u.searchParams.has("_v")) return false;
+      u.searchParams.delete("_v");
+      var q = u.searchParams.toString();
+      history.replaceState(null, "", u.pathname + (q ? "?" + q : "") + (u.hash || ""));
+      return true;
+    } catch(e){ return false; }
+  }
+
+  function reloadTo(server, force){
     if(reloading) return false;
-    if(guardGet() === ver) return false;     /* 이미 이 버전으로 한 번 리로드함 */
-    guardSet(ver);
+    var g = guardRead();
+    var n = (g.v === server) ? g.n : 0;
+    if(!force && n >= MAX_TRY) return false;      /* 같은 버전으로 두 번 시도해도 그대로면 이번 세션은 멈춤 */
+    guardWrite(server, n + 1);
     reloading = true;
-    try { location.reload(); } catch(e){ reloading = false; return false; }
-    return true;
+    try { location.replace(bustedUrl()); return true; }
+    catch(e){ reloading = false; return false; }
+  }
+
+  function autoUpdate(server){
+    if(reloading) return;
+    var g = guardRead();
+    if(g.v === server && g.n >= MAX_TRY) return;
+    clearAllCaches().then(forceSwActivate).then(function(){
+      reloadTo(server);
+    });
   }
 
   function checkVersion(){
     if(reloading || checking) return;
     checking = true;
-    var url = "./version.json?t=" + Date.now();
-    var opts = { cache: "no-store" };
-    fetch(url, opts).then(function(r){
-      return r && r.ok ? r.json() : null;
-    }).then(function(j){
+    fetchFresh().then(function(j){
       checking = false;
       if(!j || !j.sw) return;
       var server = String(j.sw);
       if(server === APP_SW){ guardClear(); return; }   /* 최신 — 가드 해제 */
-      try { if(reg && reg.waiting) reg.waiting.postMessage("SKIP_WAITING"); } catch(e){}
-      var upd = (reg && typeof reg.update === "function") ? reg.update() : null;
-      Promise.resolve(upd).catch(function(){}).then(function(){
-        if(reg && reg.waiting){ try { reg.waiting.postMessage("SKIP_WAITING"); } catch(e){} }
-        reloadFor(server);
-      });
-    }).catch(function(){ checking = false; });
+      autoUpdate(server);
+    });
   }
 
   function poke(){
@@ -12291,27 +12427,116 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     checkVersion();
   }
 
-  if("serviceWorker" in navigator){
-    window.addEventListener("load", function(){
-      navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" }).then(function(r){
-        reg = r;
-        try { reg.update(); } catch(e){}
-        setTimeout(checkVersion, 700);
-      }).catch(function(){});
+  /* ---------- 버전 바 ---------- */
+  function setBusy(b){
+    var btn = document.getElementById("verCheckBtn");
+    if(!btn) return;
+    btn.disabled = !!b;
+    if(b) btn.classList.add("busy"); else btn.classList.remove("busy");
+    btn.textContent = b ? "확인 중…" : (btn.getAttribute("data-idle") || "🔄 업데이트 확인");
+  }
+
+  function manualCheck(){
+    if(manualBusy || reloading) return;
+    manualBusy = true;
+    setBusy(true);
+    fetchFresh().then(function(j){
+      if(!j || !j.sw){
+        manualBusy = false; setBusy(false);
+        tip("버전 확인에 실패했어요", "인터넷 연결을 확인하고 다시 눌러 주세요.");
+        return;
+      }
+      var server = String(j.sw);
+
+      if(server === APP_SW){
+        /* 이미 최신 — 4초 안에 한 번 더 누르면 캐시를 비우고 강제 새로고침 */
+        if(forceUntil > Date.now()){
+          forceUntil = 0;
+          tip("캐시를 비우고 새로 고칩니다", "현재 v" + APP_VER + " · 잠시 후 다시 시작해요");
+          clearAllCaches().then(forceSwActivate).then(function(){
+            manualBusy = false; setBusy(false);
+            if(!reloadTo(APP_SW, true)) setBusy(false);
+          });
+          return;
+        }
+        forceUntil = Date.now() + 4000;
+        manualBusy = false; setBusy(false);
+        tip("이미 최신 버전(v" + APP_VER + ")이에요!", "한 번 더 누르면 강제로 새로 고칩니다.");
+        return;
+      }
+
+      /* 새 버전 발견 — 캐시 삭제 + SW 갱신 + 최신판 리로드 */
+      tip("새 버전(v" + String(j.version || "") + ")을 찾았어요!", "캐시를 비우고 최신판으로 다시 시작합니다");
+      clearAllCaches().then(forceSwActivate).then(function(){
+        manualBusy = false; setBusy(false);
+        setTimeout(function(){
+          if(!reloadTo(server, true)) tip("업데이트를 시작하지 못했어요", "앱을 완전히 닫았다가 다시 열어 주세요.");
+        }, 280);
+      });
     });
   }
 
-  document.addEventListener("visibilitychange", function(){
-    if(document.visibilityState === "visible") poke();
-  });
-  window.addEventListener("pageshow", function(){ poke(); });
-  window.addEventListener("focus", function(){ poke(); });
-  setInterval(poke, 60000);
+  function bindBar(){
+    var bar = document.getElementById("verBar");
+    if(bar) bar.title = "sw " + APP_SW;
+    var num = document.getElementById("verNum");
+    if(num) num.textContent = "v" + APP_VER;
+    var btn = document.getElementById("verCheckBtn");
+    if(btn && !btn.getAttribute("data-bound")){
+      btn.setAttribute("data-bound", "1");
+      btn.setAttribute("data-idle", btn.textContent || "🔄 업데이트 확인");
+      btn.addEventListener("click", function(e){ e.preventDefault(); manualCheck(); });
+    }
+  }
 
-  navigator.serviceWorker && navigator.serviceWorker.addEventListener("controllerchange", function(){
-    /* 새 서비스 워커가 제어를 넘겨받음 — 다음 버전 확인에서 리로드 판단 */
-    try { if(reg && reg.waiting) reg.waiting.postMessage("SKIP_WAITING"); } catch(e){}
-  });
+  /* ---------- 부팅 ---------- */
+  function boot(){
+    var justUpdated = takeBust();       /* _v= 가 붙은 채 떴다 = 방금 업데이트로 다시 뜬 화면 */
+    bindBar();
+    if(justUpdated){
+      setTimeout(function(){
+        fetchFresh().then(function(j){
+          if(!j || String(j.sw) !== APP_SW) return;   /* 아직 구버전이면 자동 업데이트가 이어서 처리 */
+          guardClear();
+          var shown = "";
+          try { shown = sessionStorage.getItem("mmm-updated-toast") || ""; } catch(e){}
+          if(shown === APP_SW) return;
+          try { sessionStorage.setItem("mmm-updated-toast", APP_SW); } catch(e){}
+          tip("✨ 최신 버전(v" + APP_VER + ")으로 업데이트되었어요!", "지금 실행 중인 버전 v" + APP_VER);
+        });
+      }, 450);
+    }
+  }
+
+  if("serviceWorker" in navigator && window.isSecureContext){
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" }).then(function(r){
+        reg = r;
+        try { r.update(); } catch(e){}
+        setTimeout(checkVersion, 700);
+      }).catch(function(){ setTimeout(checkVersion, 700); });
+    });
+    document.addEventListener("visibilitychange", function(){
+      if(document.visibilityState === "visible") poke();
+    });
+    window.addEventListener("pageshow", poke);
+    window.addEventListener("focus", poke);
+    setInterval(poke, 60000);
+    navigator.serviceWorker.addEventListener("controllerchange", function(){
+      try { if(reg && reg.waiting) reg.waiting.postMessage("SKIP_WAITING"); } catch(e){}
+    });
+  }
+
+  boot();
+
+  /* 검증용 훅 (기존 치트 버튼·__v22Test 와 같은 방식) */
+  window.__mmmUpdater = {
+    ver: APP_VER, sw: APP_SW,
+    check: manualCheck,
+    reloadTo: reloadTo,
+    forceUpdate: function(){ reloadTo(APP_SW, true); },
+    guard: guardRead
+  };
 })();
 </script>
 </body>
