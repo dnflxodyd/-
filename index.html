@@ -1808,7 +1808,6 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   position:relative;margin:9px auto 0;max-width:262px;
   padding:10px 12px;border-radius:15px;
   background:rgba(255,255,255,.94);border:1.5px solid #F2E4F2;
-  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
   font-size:10.5px;line-height:1.58;color:#7C6A8A;font-weight:700;word-break:keep-all;
   box-shadow:0 8px 18px -16px rgba(140,90,150,.8);
 }
@@ -8009,10 +8008,10 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   var V15_POKE_WINDOW = 24 * 60 * 60 * 1000;
   var V15_POKE_SEEN_KEY = "mmmLastSeenPoke";
   var V15_LINES = [
-    "지금 미라클 모닝 할 시간인가요? 👀",
-    "일어나요~ 오늘도 갓생 한 스푼! ☀️",
-    "콕! 나 지금 널 응원하고 있어 💪",
-    "이불 밖은 위험해… 아니, 갓생은 밖에 있어! 🏃"
+    '지금 미라클 모닝 할 시간인가요? <span class="v15-e">👀</span>',
+    '일어나요~ 오늘도 갓생 한 스푼! <span class="v15-e">☀️</span>',
+    '콕! 나 지금 널 응원하고 있어 <span class="v15-e">💪</span>',
+    '이불 밖은 위험해… 아니, 갓생은 밖에 있어! <span class="v15-e">🏃</span>'
   ];
   var v15Pending = null;    /* 아직 화면에 못 띄운 콕 (다른 모달이 열려 있을 때) */
   var v15Showing = null;    /* 지금 떠 있는 팝업의 콕 */
@@ -8132,7 +8131,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     var m = $("pokeMsg");
     if(m){
       var idx = Math.abs(Math.floor((info.at || 0) / 60000) + (info.seq || 0)) % V15_LINES.length;
-      m.textContent = "\u201C" + V15_LINES[idx] + "\u201D";
+      m.innerHTML = "\u201C" + V15_LINES[idx] + "\u201D";
     }
     var tm = $("pokeTime");
     if(tm) tm.textContent = v15AgoText(info.at);
