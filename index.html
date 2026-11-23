@@ -2316,6 +2316,162 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 /* 팝업 미리보기 안에서는 뱃지를 숨긴다 (원형 밖으로 잘리지 않게 · 감정은 오른쪽 이모지로) */
 .v18-artbox .mood-chip{display:none}
 
+/* v19.0 quest clear popup styles */
+/* ==========================================================
+   v19 — 🎉 파트너 퀘스트 완료 알림 팝업
+   (상대가 퀘스트를 깨면 화면 전체에 뜨는 모달 · 콕 팝업과 같은 결)
+   ========================================================== */
+#questClearOverlay{z-index:150;background:rgba(58,38,70,.48)}
+/* Jua 폰트에는 흑백 이모지 글리프가 있어 색 이모지가 가려진다 → 이모지만 색 폰트로 */
+.v19-e{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif!important;font-weight:400!important}
+.v19-pop{
+  position:relative;width:100%;max-width:330px;overflow:hidden;text-align:center;
+  background:linear-gradient(180deg,#FFFCF2 0%,#FFF4E8 44%,#F4EEFF 100%);
+  border:2px solid #fff;border-radius:30px;padding:17px 18px 14px;
+  box-shadow:0 30px 60px -22px rgba(70,40,90,.62);
+  transform:scale(.88) translateY(16px);
+  transition:transform .34s cubic-bezier(.2,.9,.3,1.3);
+}
+.overlay.on .v19-pop{transform:none}
+#questClearOverlay .v19-pop.bump{animation:v19bump .56s cubic-bezier(.2,.9,.3,1.35)}
+@keyframes v19bump{
+  0%{transform:scale(1) rotate(0)}
+  35%{transform:scale(1.03) rotate(-.6deg)}
+  70%{transform:scale(1.008) rotate(.4deg)}
+  100%{transform:scale(1) rotate(0)}
+}
+
+/* 배경에 흩날리는 축포 */
+.v19-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.v19-confetti span{
+  position:absolute;font-size:15px;line-height:1;opacity:.18;
+  animation:v19conf 5.6s ease-in-out infinite;
+}
+.v19-confetti span:nth-child(1){left:6%;top:11%;animation-delay:0s}
+.v19-confetti span:nth-child(2){right:9%;top:19%;font-size:12px;animation-delay:1.2s}
+.v19-confetti span:nth-child(3){left:13%;bottom:15%;font-size:13px;animation-delay:2.3s}
+.v19-confetti span:nth-child(4){right:7%;bottom:24%;font-size:11px;animation-delay:.7s}
+.v19-confetti span:nth-child(5){left:47%;top:6%;font-size:11px;animation-delay:1.8s}
+@keyframes v19conf{
+  0%,100%{opacity:.1;transform:translateY(0) rotate(-12deg) scale(.9)}
+  50%{opacity:.3;transform:translateY(-8px) rotate(10deg) scale(1.08)}
+}
+
+.v19-badge{
+  position:relative;display:inline-block;margin:0 0 2px;
+  font-family:var(--mono,'Jua',sans-serif);font-size:9px;font-weight:900;letter-spacing:.24em;
+  color:#fff;padding:4px 12px 3px;border-radius:99px;
+  background:linear-gradient(135deg,#FFC061,#FF8FB4 62%,#A98BF0);
+  box-shadow:0 6px 14px -8px rgba(190,120,150,.95);
+  animation:v19badge 2s ease-in-out infinite;
+}
+@keyframes v19badge{
+  0%,100%{transform:rotate(-2deg)}
+  50%{transform:rotate(2deg) scale(1.04)}
+}
+
+/* 파트너 캐릭터 + 반짝 링 */
+.v19-art{
+  position:relative;width:98px;height:98px;margin:6px auto 2px;border-radius:50%;
+  display:grid;place-items:center;border:2.5px solid #fff;
+  background:radial-gradient(circle at 50% 62%,#FFF8E2 0%,#FFF0E4 58%,#EFE6FF 100%);
+  box-shadow:0 14px 24px -16px rgba(150,110,140,.9),inset 0 -6px 12px rgba(255,255,255,.7);
+  animation:v19bob 2.9s ease-in-out infinite;
+}
+.v19-art img{width:90%;height:90%;object-fit:contain;display:block;filter:drop-shadow(0 8px 10px rgba(150,110,140,.22))}
+.v19-art img[hidden]{display:none}
+.v19-ring{
+  position:absolute;inset:-7px;border-radius:50%;
+  border:2px dashed rgba(255,170,120,.55);
+  animation:v19spin 9s linear infinite;
+}
+@keyframes v19spin{to{transform:rotate(360deg)}}
+.v19-spark{
+  position:absolute;right:-4px;top:-6px;font-size:19px;line-height:1;
+  filter:drop-shadow(0 4px 6px rgba(150,90,120,.24));
+  animation:v19twinkle 1.9s ease-in-out infinite;
+}
+@keyframes v19twinkle{
+  0%,100%{transform:scale(.9) rotate(-6deg);opacity:.75}
+  50%{transform:scale(1.14) rotate(6deg);opacity:1}
+}
+@keyframes v19bob{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+
+.v19-pop h2{
+  position:relative;margin:8px 0 0;font-size:18.5px;font-weight:400;letter-spacing:-.02em;
+  line-height:1.3;color:#5C4870;word-break:keep-all;
+}
+.v19-pop h2 b{
+  font-weight:400;
+  background:linear-gradient(100deg,#E08A2E,#DB7CAB 68%,#9B7BFF);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.v19-sub{
+  position:relative;margin:5px 0 0;font-size:10px;line-height:1.5;color:#A08CB0;font-weight:700;
+}
+
+/* 퀘스트 카드 */
+.v19-card{
+  position:relative;margin:11px 0 0;padding:11px 12px 10px;text-align:left;
+  background:rgba(255,255,255,.96);border:1.5px solid #F4E6DA;border-radius:18px;
+  box-shadow:0 10px 22px -18px rgba(140,90,150,.9);
+}
+.v19-card-head{display:flex;align-items:center;gap:9px}
+.v19-emoji{
+  flex:0 0 auto;width:34px;height:34px;border-radius:12px;display:grid;place-items:center;
+  font-size:18px;line-height:1;background:linear-gradient(160deg,#FFF3D9,#FDE9F3);
+  border:1px solid #F6E4D2;
+}
+.v19-meta{min-width:0;display:flex;flex-direction:column;gap:2px}
+.v19-meta b{
+  font-size:12.5px;font-weight:700;color:#5E4A70;line-height:1.32;letter-spacing:-.01em;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:keep-all;
+}
+.v19-kind{
+  align-self:flex-start;font-family:var(--mono,'Jua',sans-serif);font-size:8px;font-weight:800;
+  letter-spacing:.05em;color:#A78BC0;background:#F7F0FB;border:1px solid #EFE3F7;
+  border-radius:99px;padding:2px 7px 1px;
+}
+.v19-rewards{display:flex;gap:6px;margin-top:9px}
+.v19-chip{
+  font-family:var(--mono,'Jua',sans-serif);font-size:9.5px;font-weight:900;letter-spacing:.02em;
+  padding:4px 9px 3px;border-radius:99px;border:1px solid transparent;
+}
+.v19-chip.exp{color:#7A5CC4;background:#F2ECFF;border-color:#E7DDFB}
+.v19-chip.gold{color:#B4781F;background:#FFF4DC;border-color:#FBE7BE}
+.v19-progress{display:flex;align-items:center;gap:7px;margin-top:9px}
+.v19-prog-label{flex:0 0 auto;font-size:8.5px;font-weight:800;color:#A798B4;letter-spacing:-.01em}
+.v19-bar{
+  flex:1 1 auto;height:7px;border-radius:99px;background:#F1EAF4;overflow:hidden;
+  box-shadow:inset 0 1px 2px rgba(120,90,140,.1);
+}
+.v19-bar i{
+  display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,#FFC061,#FF9BBE 60%,#A98BF0);
+  transition:width .5s cubic-bezier(.2,.9,.3,1.2);
+}
+.v19-progress b{
+  flex:0 0 auto;font-family:var(--mono,'Jua',sans-serif);font-size:9.5px;font-weight:900;color:#7A6A8A;
+}
+
+.v19-actions{position:relative;display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.v19-actions .btn-primary{width:100%;font-size:12.5px;padding:13px 10px}
+.v19-actions .btn-ghost{width:100%;padding:11px;font-size:11.5px}
+.v19-actions .btn-primary:active,.v19-actions .btn-ghost:active{transform:scale(.982)}
+
+.v19-note{position:relative;margin:8px 0 0;font-size:8px;line-height:1.5;color:#B4A4C0;font-weight:700}
+
+@media (max-width:340px){
+  .v19-pop{padding:15px 14px 12px}
+  .v19-pop h2{font-size:16.5px}
+  .v19-art{width:88px;height:88px}
+  .v19-meta b{font-size:11.5px}
+  .v19-sub{font-size:9.5px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -2765,7 +2921,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v18.0 (5탭 내비 · 2인 공유 · 🪙상점·스킨 · 💼출근·일급 · 🥺다마고치 표정·케어알림)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v19.0 (5탭 내비 · 2인 공유 · 🪙상점·스킨 · 💼출근·일급 · 🎉퀘스트완료 알림)</p>
 </div>
 
 <div id="toasts"></div>
@@ -3091,6 +3247,43 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <button class="btn-ghost v18-pat" id="carePat" type="button"><span class="v18-e">💕</span> 쓰다듬어 주기</button>
     </div>
     <button class="v18-close" id="careLater" type="button">나중에 할게요</button>
+  </div>
+</div>
+
+<div class="overlay qclear" id="questClearOverlay">
+  <div class="v19-pop" role="dialog" aria-modal="true" aria-labelledby="qcTitle">
+    <div class="v19-confetti" aria-hidden="true"><span class="v19-e">🎉</span><span class="v19-e">✨</span><span class="v19-e">🎊</span><span class="v19-e">⭐</span><span class="v19-e">💜</span></div>
+    <p class="v19-badge">[ QUEST CLEAR ]</p>
+    <div class="v19-art">
+      <span class="v19-ring" aria-hidden="true"></span>
+      <img id="qcImg" alt="파트너 캐릭터">
+      <span class="v19-spark v19-e" aria-hidden="true">✨</span>
+    </div>
+    <h2 id="qcTitle"><span class="v19-e">🎉</span> <b id="qcName">파트너</b> 님이 퀘스트를 깼어요!</h2>
+    <p class="v19-sub" id="qcSub">오늘의 루틴을 하나 더 해냈어요!</p>
+    <div class="v19-card">
+      <div class="v19-card-head">
+        <span class="v19-emoji v19-e" id="qcEmoji">🎯</span>
+        <div class="v19-meta">
+          <b id="qcQuest">퀘스트</b>
+          <span class="v19-kind" id="qcKind">일일 퀘스트</span>
+        </div>
+      </div>
+      <div class="v19-rewards">
+        <span class="v19-chip exp" id="qcExp">+25 EXP</span>
+        <span class="v19-chip gold" id="qcGold">+15 G</span>
+      </div>
+      <div class="v19-progress">
+        <span class="v19-prog-label">오늘 진행률</span>
+        <div class="v19-bar"><i id="qcBar"></i></div>
+        <b id="qcCount">2 / 4</b>
+      </div>
+    </div>
+    <div class="v19-actions">
+      <button class="btn-ghost v19-close" id="qcClose" type="button">닫기</button>
+      <button class="btn-primary v19-poke" id="qcPoke" type="button"><span class="v19-e">👏</span> 칭찬 콕 찌르기</button>
+    </div>
+    <p class="v19-note">확인한 알림은 다시 뜨지 않아요 · 서로의 오늘을 함께 응원해요</p>
   </div>
 </div>
 <div class="overlay" id="luOverlay">
@@ -3508,6 +3701,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       pokeSeq: 0,
       pokeSeenAt: 0,
       pokeSeenSeq: 0,
+      lastQuestClear: null,
+      questSeenId: "",
+      questSeenAt: 0,
+      questSeenRoom: "",
+      questBaseAt: 0,
       born: today()
     };
   }
@@ -3562,6 +3760,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v12Normalize(s); } catch(e){}
     try { v13Normalize(s); } catch(e){}
     try { v16Normalize(s); } catch(e){}
+    try { v19Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
@@ -3952,6 +4151,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { questHooks(q); } catch(e){}
     try { v9OnQuestDone(q); } catch(e){}
     try { v12OnDailyDone(q); } catch(e){}
+    try { v19OnDailyDone(q); } catch(e){}
 
     const t = today();
     if(state.lastActive !== t){
@@ -4462,6 +4662,23 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         })
       },
       workStatus: (typeof v13Status === "function") ? (v13Status() || "") : "",
+      /* v19 — 🎉 마지막으로 깬 퀘스트 (상대 화면에 실시간 팝업) */
+      lastQuestClear: (function(){
+        var qc = state.lastQuestClear;
+        if(!qc || typeof qc !== "object" || !qc.id) return null;
+        var kind = (qc.kind === "bonus" || qc.kind === "allclear") ? qc.kind : "daily";
+        return {
+          id: String(qc.id).slice(0, 40),
+          at: Number(qc.at) || 0,
+          title: String(qc.title || "").slice(0, 30),
+          emoji: String(qc.emoji || "").slice(0, 4),
+          exp: Math.max(0, Math.round(Number(qc.exp) || 0)),
+          gold: Math.max(0, Math.round(Number(qc.gold) || 0)),
+          kind: kind,
+          doneCount: Math.max(0, Math.round(Number(qc.doneCount) || 0)),
+          totalCount: Math.max(0, Math.round(Number(qc.totalCount) || 0))
+        };
+      })(),
       at: Date.now()
     };
   }
@@ -4621,6 +4838,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     }
     let v15poke = false;
     try { v15poke = v15OnPartner(d); } catch(e){ v15poke = false; }
+    try { v19OnPartner(d); } catch(e){}
     if(v15poke){
       /* 콕 팝업이 대신 알려 주니 응원 토스트는 겹치지 않게 */
       state.cheerSeen = Math.max(state.cheerSeen || 0, d.cheerSeq || 0);
@@ -5416,6 +5634,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     }
     try { v9OnQuestDone(q); } catch(e){}
     try { v12OnBonusDone(q); } catch(e){}
+    try { v19OnBonusDone(q); } catch(e){}
     checkAllClear();
     save();
     render();
@@ -5479,6 +5698,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     const add = v7AddExp(40);
     let v12acGold = 0;
     try { v12acGold = v12OnAllClear(); } catch(e){}
+    try { v19OnAllClear(add, v12acGold, list.length); } catch(e){}
     save();
     setTimeout(function(){
       render();
@@ -10113,6 +10333,345 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     }
     return v18SpeechBase.apply(null, arguments);
   };
+  /* ===================================================================
+     v19 — 🎉 서로 퀘스트 완료 알림 : 파트너가 퀘스트를 깨면 실시간 팝업
+     · 내가 퀘스트를 새로 완료하면 state.lastQuestClear = { id, at, title, emoji,
+       exp, gold, kind, doneCount, totalCount } 를 남기고 바로 내 bin 에 올린다
+       (완료 취소는 기록하지 않는다 — 새로 깰 때만)
+     · 올클리어가 되는 순간엔 그 퀘스트 완료 1건을 allclear 1건으로 묶어
+       팝업이 두 개 연달아 뜨지 않게 한다
+     · 파트너 기록을 받았을 때 lastQuestClear.id 가 새 값이면 팝업
+       (콕처럼 8초 폴링 + 앱 복귀/포커스 시 즉시 동기화)
+     · 본 기록은 localStorage "mmmLastSeenQuestClear" { roomId, id, at } + state 에 남겨
+       새로고침해도 다시 뜨지 않고, 처음 연결한 순간의 지난 기록은 기준만 잡고 넘어간다
+     =================================================================== */
+  var V19_WINDOW = 24 * 60 * 60 * 1000;   /* 24시간 안에 깬 퀘스트만 알림 */
+  var V19_SEEN_KEY = "mmmLastSeenQuestClear";
+  var V19_KIND = {
+    daily:    { tag: "일일 퀘스트",   sub: "오늘의 루틴을 하나 더 해냈어요!" },
+    bonus:    { tag: "보너스 퀘스트", sub: "보너스까지 챙기는 갓생러!" },
+    allclear: { tag: "올클리어",      sub: "오늘 퀘스트를 전부 끝냈어요!" }
+  };
+  var v19Pending = null;    /* 아직 화면에 못 띄운 알림 (다른 모달이 열려 있을 때) */
+  var v19Showing = null;    /* 지금 떠 있는 팝업 */
+  var v19Retry = null;
+  var v19Queued = null;     /* 이번 완료 처리에서 확정할 기록 */
+  var v19QueueTimer = null;
+
+  function v19NewId(){
+    return "q" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
+  function v19Num(n){
+    n = Math.round(Number(n) || 0);
+    return n > 0 ? n : 0;
+  }
+
+  /* load() 에서 부른다 — 저장된 마지막 퀘스트 기록/확인 기록을 다듬는다 */
+  function v19Normalize(s){
+    if(!s) return;
+    var qc = s.lastQuestClear;
+    if(qc && typeof qc === "object" && qc.id && Number(qc.at)){
+      var kind = (qc.kind === "bonus" || qc.kind === "allclear") ? qc.kind : "daily";
+      s.lastQuestClear = {
+        id: String(qc.id).slice(0, 40),
+        at: Number(qc.at) || 0,
+        title: String(qc.title || "퀘스트").slice(0, 30),
+        emoji: String(qc.emoji || "🎯").slice(0, 4),
+        exp: v19Num(qc.exp),
+        gold: v19Num(qc.gold),
+        kind: kind,
+        doneCount: v19Num(qc.doneCount),
+        totalCount: v19Num(qc.totalCount)
+      };
+    } else {
+      s.lastQuestClear = null;
+    }
+    if(typeof s.questSeenId !== "string") s.questSeenId = "";
+    if(typeof s.questSeenRoom !== "string") s.questSeenRoom = "";
+    s.questSeenAt = Number(s.questSeenAt) || 0;
+    s.questBaseAt = Number(s.questBaseAt) || 0;
+  }
+
+  /* ---------- 내 기록 올리기 (퀘스트를 새로 깼을 때) ---------- */
+  function v19Queue(kind, q){
+    if(!cRoom() || !state || !state.character) return;
+    v19Queued = {
+      id: v19NewId(),
+      at: Date.now(),
+      title: String((q && q.title) || "퀘스트").slice(0, 30),
+      emoji: String((q && q.icon) || "🎯").slice(0, 4),
+      exp: v19Num(q && q.exp),
+      gold: v19Num(q && q.v12gold),
+      kind: kind,
+      doneCount: state.quests.filter(function(x){ return x.done; }).length,
+      totalCount: state.quests.length
+    };
+    /* 같은 처리 안에서 올클리어가 확정되면 그 1건이 이 기록을 대신한다 */
+    if(!v19QueueTimer) v19QueueTimer = setTimeout(v19Flush, 0);
+  }
+
+  function v19OnDailyDone(q){ v19Queue("daily", q); }
+  function v19OnBonusDone(q){ v19Queue("bonus", q); }
+
+  function v19OnAllClear(exp, gold, bonusN){
+    if(!cRoom() || !state || !state.character) return;
+    var total = state.quests.length + v19Num(bonusN);
+    v19Commit({
+      id: v19NewId(),
+      at: Date.now(),
+      title: "오늘의 올클리어",
+      emoji: "🏆",
+      exp: v19Num(exp),
+      gold: v19Num(gold),
+      kind: "allclear",
+      doneCount: total,
+      totalCount: total
+    });
+  }
+
+  function v19Flush(){
+    if(v19QueueTimer){ clearTimeout(v19QueueTimer); v19QueueTimer = null; }
+    var rec = v19Queued;
+    v19Queued = null;
+    if(rec) v19Commit(rec);
+  }
+
+  function v19Commit(rec){
+    if(!rec || !cRoom()) return;
+    if(v19QueueTimer){ clearTimeout(v19QueueTimer); v19QueueTimer = null; }
+    v19Queued = null;
+    state.lastQuestClear = rec;
+    try { save(); } catch(e){}
+    try { pushParty(); } catch(e){}
+  }
+
+  /* ---------- 확인한 알림 기록 ----------
+     base = 이 방의 파트너를 처음 본 순간(파트너 시계의 스냅숏 at)
+            → base 보다 전에 깬 기록은 연결 전 일로 보고 띄우지 않는다 */
+  function v19SeenRead(){
+    var r = cRoom();
+    var rid = r ? String(r.id) : "";
+    var id = "", at = 0, base = 0;
+    if(state && String(state.questSeenRoom || "") === rid){
+      id = String(state.questSeenId || "");
+      at = Number(state.questSeenAt) || 0;
+      base = Number(state.questBaseAt) || 0;
+    }
+    try {
+      var rec = JSON.parse(localStorage.getItem(V19_SEEN_KEY) || "null");
+      if(rec && String(rec.roomId || "") === rid){
+        var rat = Number(rec.at) || 0;
+        var rbase = Number(rec.base) || 0;
+        if(!id || rat >= at){ id = String(rec.id || ""); at = Math.max(at, rat); }
+        if(!base || rbase > base) base = rbase;
+      }
+    } catch(e){}
+    return { roomId: rid, id: id, at: at, base: base };
+  }
+
+  function v19SeenWrite(roomId, id, at, base){
+    state.questSeenRoom = roomId;
+    state.questSeenId = id;
+    state.questSeenAt = at;
+    state.questBaseAt = base;
+    try { rawSave(); } catch(e){}
+    try { localStorage.setItem(V19_SEEN_KEY, JSON.stringify({ roomId: roomId, id: id, at: at, base: base })); } catch(e){}
+  }
+
+  function v19MarkSeen(info){
+    if(!info) return;
+    var cur = v19SeenRead();
+    var base = cur.base || 0;
+    if(cur.id === info.id){ if(base) return; }
+    if(cur.at > info.at) return;          /* 이미 더 새로운 기록을 봤다 */
+    v19SeenWrite(info.roomId, info.id, Math.max(cur.at || 0, info.at), base);
+  }
+
+  /* 파트너를 처음 본 순간의 기준점 */
+  function v19SetBase(roomId, base){
+    if(!base) return;
+    var cur = v19SeenRead();
+    v19SeenWrite(roomId, cur.id || "", cur.at || 0, Math.max(cur.base || 0, base));
+  }
+
+  /* ---------- 파트너 기록에서 알림 정보 뽑기 ---------- */
+  function v19Info(d){
+    var r = cRoom();
+    if(!r || !d) return null;
+    var qc = d.lastQuestClear;
+    if(!qc || typeof qc !== "object" || !qc.id) return null;
+    var at = Number(qc.at) || 0;
+    if(!at) return null;
+    var now = Date.now();
+    if(at > now + 5 * 60 * 1000) return null;      /* 기기 시계가 앞선 경우 무시 */
+    if(now - at > V19_WINDOW) return null;         /* 하루 지난 기록은 팝업하지 않음 */
+    var kind = (qc.kind === "bonus" || qc.kind === "allclear") ? qc.kind : "daily";
+    var total = v19Num(qc.totalCount);
+    var done = v19Num(qc.doneCount);
+    return {
+      roomId: String(r.id),
+      id: String(qc.id).slice(0, 40),
+      at: at,
+      title: String(qc.title || "퀘스트").slice(0, 30),
+      emoji: String(qc.emoji || "🎯").slice(0, 4),
+      exp: v19Num(qc.exp),
+      gold: v19Num(qc.gold),
+      kind: kind,
+      doneCount: total ? Math.min(done, total) : done,
+      totalCount: total,
+      from: String(d.nick || "파트너").slice(0, 10)
+    };
+  }
+
+  function v19Same(a, b){
+    return !!(a && b && a.roomId === b.roomId && a.id === b.id);
+  }
+
+  /* 파트너 기록을 받았을 때 (party.js applyPartner 에서 호출) */
+  function v19OnPartner(d){
+    var r = cRoom();
+    if(!r || !d) return false;
+    var seen = v19SeenRead();
+    if(!seen.base){
+      /* 처음 파트너와 연결된 순간 — 이때까지의 기록은 기준점만 잡고 넘어간다 */
+      v19SetBase(String(r.id), Number(d.at) || Date.now());
+      seen = v19SeenRead();
+    }
+    var info = v19Info(d);
+    if(!info) return false;
+    if(v19Same(info, v19Showing) || v19Same(info, v19Pending)) return true;
+    if(info.id === seen.id) return false;
+    if(info.at < (seen.base || 0) - 60000){ v19MarkSeen(info); return false; }  /* 연결 전에 깬 기록 */
+    if(info.at <= (seen.at || 0)){ v19MarkSeen(info); return false; }           /* 뒤늦게 도착한 옛 기록 */
+    v19Pending = info;
+    v19TryShow();
+    return true;
+  }
+
+  /* ---------- 다른 모달과 겹치지 않게 ---------- */
+  function v19Conflict(){
+    var nodes = document.querySelectorAll(".overlay.on, .sheet-wrap.on, .picker.on");
+    for(var i = 0; i < nodes.length; i++){
+      if(nodes[i].id !== "questClearOverlay") return true;
+    }
+    var ids = ["pickWrap", "restoreWrap", "restoreOkWrap", "rejoinWrap", "joinWrap"];
+    for(var j = 0; j < ids.length; j++){
+      var n = $(ids[j]);
+      if(n && !n.hidden) return true;
+    }
+    return false;
+  }
+
+  function v19TryShow(){
+    if(v19Retry){ clearTimeout(v19Retry); v19Retry = null; }
+    if(!v19Pending || v19Showing) return;
+    if(!state || !state.character){ v19Retry = setTimeout(v19TryShow, 1200); return; }
+    if(v19Conflict()){ v19Retry = setTimeout(v19TryShow, 900); return; }   /* 닫힌 뒤 표시 */
+    v19Show(v19Pending);
+  }
+
+  /* ---------- 팝업 내용 ---------- */
+  function v19Fill(info){
+    if(!info) return;
+    var from = info.from || "파트너";
+    var K = V19_KIND[info.kind] || V19_KIND.daily;
+
+    var t = $("qcTitle");
+    if(t){
+      t.innerHTML = (info.kind === "allclear")
+        ? '<span class="v19-e">🏆</span> <b>' + esc(from) + '</b> 님이 오늘 올클리어!'
+        : '<span class="v19-e">🎉</span> <b>' + esc(from) + '</b> 님이 퀘스트를 깼어요!';
+    }
+    if($("qcName")) $("qcName").textContent = from;
+    if($("qcSub")) $("qcSub").textContent = K.sub;
+    if($("qcEmoji")) $("qcEmoji").textContent = info.emoji || "🎯";
+    if($("qcQuest")) $("qcQuest").textContent = info.title;
+    if($("qcKind")) $("qcKind").textContent = K.tag;
+    if($("qcExp")) $("qcExp").textContent = "+" + info.exp + " EXP";
+    if($("qcGold")) $("qcGold").textContent = "+" + info.gold + " G";
+
+    var total = info.totalCount || 0;
+    var done = total ? Math.min(info.doneCount || 0, total) : (info.doneCount || 0);
+    if($("qcCount")) $("qcCount").textContent = total ? (done + " / " + total) : (done + " / -");
+    if($("qcBar")) $("qcBar").style.width = total ? Math.max(6, Math.round(done / total * 100)) + "%" : "0%";
+
+    /* 파트너 캐릭터를 그대로 보여 준다 */
+    var img = $("qcImg");
+    if(img){
+      var P = state.partner || {};
+      var C = CHARS[P.char] || CHARS.cat;
+      var st7 = (typeof P.stage7 === "number") ? P.stage7 : Math.min(2, P.stage || 0);
+      var idx = C.imgOffset + Math.max(0, Math.min(6, st7)) + (P.strKey === "slim" ? 7 : 0);
+      var src = (window.IMAGES && window.IMAGES[idx]) ? window.IMAGES[idx] : "";
+      if(src){
+        if(img.getAttribute("data-idx") !== String(idx)){ img.src = src; img.setAttribute("data-idx", String(idx)); }
+        img.alt = from + " 캐릭터";
+        img.hidden = false;
+      } else {
+        img.hidden = true;
+      }
+    }
+
+    var pop = document.querySelector("#questClearOverlay .v19-pop");
+    if(pop && $("questClearOverlay") && $("questClearOverlay").classList.contains("on")){
+      pop.classList.remove("bump");
+      void pop.offsetWidth;
+      pop.classList.add("bump");
+    }
+  }
+
+  function v19Show(info){
+    var o = $("questClearOverlay");
+    if(!o) return false;
+    v19Showing = info;
+    v19Pending = null;
+    v19Fill(info);
+    v19MarkSeen(info);            /* 떠 있는 순간 '본 것'으로 — 새로고침해도 다시 안 뜬다 */
+    o.classList.add("on");
+    try { document.body.style.overflow = "hidden"; } catch(e){}
+    try {
+      if(navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate([0, 16, 26, 16]);
+    } catch(e){}
+    return true;
+  }
+
+  function v19Close(){
+    var o = $("questClearOverlay");
+    if(o) o.classList.remove("on");
+    try { document.body.style.overflow = ""; } catch(e){}
+    v19Showing = null;
+    v19Pending = null;
+    if(v19Retry){ clearTimeout(v19Retry); v19Retry = null; }
+  }
+
+  /* 닫기 → 이 알림은 다시 안 뜨게 / 👏 칭찬 콕 찌르기 → 닫고 칭찬 콕을 보낸다 */
+  function v19Ack(reply){
+    var info = v19Showing || v19Pending;
+    if(!info) return;
+    v19MarkSeen(info);
+    v19Close();
+    if(reply){
+      var ok = false;
+      try { ok = pokePartner({ quiet: true }); } catch(e){ ok = false; }
+      toast('<span class="v19-e">👏</span> 칭찬 콕 완료!',
+        ok ? (info.from || "파트너") + "님에게 칭찬 콕을 보냈어요!" : "파트너와 다시 연결되면 칭찬이 전해져요.",
+        null, 4200);
+    }
+  }
+
+  /* ---------- wire ---------- */
+  function v19Boot(){
+    var o = $("questClearOverlay");
+    if(!o) return;
+    var cB = $("qcClose");
+    if(cB) cB.addEventListener("click", function(){ v19Ack(false); });
+    var pB = $("qcPoke");
+    if(pB) pB.addEventListener("click", function(){ v19Ack(true); });
+    o.addEventListener("click", function(e){ if(e.target === o) v19Ack(false); });
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape" && o.classList.contains("on")) v19Ack(false);
+    });
+  }
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -10129,6 +10688,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   try { v16Boot(); } catch(e){}
   try { v17Boot(); } catch(e){}
   try { v18Boot(); } catch(e){}
+  try { v19Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
