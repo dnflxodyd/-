@@ -2763,6 +2763,212 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   .verbars .ver-btn{font-size:9px;padding:5px 8px}
 }
 
+/* v24.0 dress-up styles */
+/* ==========================================================
+   v24 — ✨ 꾸미기 탭 · 치장템 미리보기 / 구매 / 착용
+   ========================================================== */
+
+/* ---------- 하단 6탭 ---------- */
+.tabbar-in{
+  grid-template-columns:repeat(6, 1fr);
+  gap:1px; padding:7px 5px 6px;
+}
+.tab{ padding:6px 0 5px; }
+.tab .ti{ font-size:16px; }
+.tab .tl{ font-size:8.8px; letter-spacing:-.045em; }
+.tab .dot{ right:calc(50% - 15px); }
+@media (max-width:340px){
+  .tabbar-in{ padding:6px 3px 5px; }
+  .tab .ti{ font-size:15px; }
+  .tab .tl{ font-size:8.2px; letter-spacing:-.05em; }
+  .dress-item{ padding:7px 6px 6px; gap:5px; }
+  .dress-item .di-body b{ font-size:9px; }
+  .dress-item .di-body small{ font-size:7.5px; }
+
+}
+@media (max-width:300px){
+  .tab .ti{ font-size:14px; }
+  .tab .tl{ font-size:7.6px; }
+}
+
+/* ---------- 치장템 레이어 (캐릭터 위에 1:1 로 겹치는 SVG) ---------- */
+.cosmo{ position:absolute; inset:0; z-index:3; pointer-events:none; overflow:visible; }
+.cosmo.back{ z-index:1; }
+.cosmo-box{ position:absolute; left:0; top:0; width:0; height:0; }
+.cosmo-box > svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; display:block; }
+.stage .cosmo.front{ z-index:3; }
+
+/* 미니 상태바 아바타 */
+.ms-charwrap{ position:relative; flex:0 0 26px; width:26px; height:26px; display:block; }
+.ms-charwrap .ms-char{ width:100%; height:100%; flex:none; }
+.ms-cosmo{
+  position:absolute; inset:0; z-index:3; pointer-events:none;
+  border-radius:50%; overflow:hidden;
+}
+
+/* 파트너 상세 모달 */
+.pstat-art .cosmo{ z-index:3; }
+.pstat-art .cosmo.back{ z-index:1; }
+
+/* ---------- ✨ 꾸미기 탭 ---------- */
+.card.dressup{
+  background:linear-gradient(160deg,#FFF7FD 0%,#F8F1FF 48%,#FFF9F1 100%);
+}
+.dress-desc{
+  margin:2px 0 10px; font-size:10.5px; line-height:1.6;
+  color:var(--muted); font-weight:600; word-break:keep-all;
+}
+.dress-desc b{ color:#6B4BC0; }
+
+/* 미리보기 무대 */
+.dress-stage{
+  position:relative; height:262px; margin:0 0 11px;
+  display:grid; place-items:center;
+  border-radius:22px; overflow:hidden;
+  border:1.5px solid #F2E4F6;
+  background:
+    radial-gradient(circle at 50% 78%, #FFFFFF 0%, #FFF3FA 42%, #F3ECFF 74%, #EFE8FC 100%);
+  box-shadow:inset 0 2px 14px -8px rgba(150,110,180,.55);
+  transition:padding-bottom .22s ease;
+}
+.dress-stage.pv-on{ padding-bottom:72px; }
+.dress-stage.pv-on .dress-char{ height:176px; }
+.dress-stage.pv-on .dress-cap{ opacity:.35; }
+.dress-plate{
+  position:absolute; left:50%; bottom:14px; width:150px; height:26px; margin-left:-75px;
+  border-radius:50%; background:radial-gradient(ellipse at 50% 50%,rgba(150,110,190,.16),rgba(150,110,190,0) 72%);
+}
+.dress-stage.pv-on .dress-plate{ bottom:70px; }
+.dress-char{
+  position:relative; z-index:2; height:196px; width:auto; display:block;
+  transition:height .22s ease;
+  filter:drop-shadow(0 12px 14px rgba(150,105,120,.20));
+}
+.dress-cap{
+  position:absolute; left:10px; top:9px; z-index:6;
+  font-family:var(--mono); font-size:8px; font-weight:800; letter-spacing:-.01em;
+  color:#8A76A0; background:rgba(255,255,255,.88);
+  border:1px solid #EFE2F4; border-radius:9px; padding:3px 7px;
+}
+.dress-hint{
+  position:absolute; right:10px; top:9px; z-index:6;
+  font-family:var(--mono); font-size:8px; font-weight:800;
+  color:#A08BB4; background:rgba(255,255,255,.82);
+  border:1px solid #F1E6F5; border-radius:9px; padding:3px 7px;
+}
+
+/* 미리보기 안내 바 (무대 하단) */
+.dress-pv{
+  position:absolute; left:8px; right:8px; bottom:8px; z-index:7;
+  display:flex; flex-direction:column; gap:6px;
+  padding:8px 9px 9px;
+  background:rgba(255,255,255,.94);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border:1.5px solid #F3DFF0; border-radius:15px;
+  box-shadow:0 10px 22px -16px rgba(140,90,150,.9);
+  animation:v24pvIn .26s cubic-bezier(.2,.9,.3,1.15) both;
+}
+@keyframes v24pvIn{ from{ opacity:0; transform:translateY(8px) } to{ opacity:1; transform:none } }
+.dpv-label{
+  font-size:9.5px; font-weight:850; color:#8A5BD6; letter-spacing:-.02em; text-align:center;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.dpv-btns{ display:flex; gap:6px; }
+.dpv-buy{
+  flex:1.6; font-family:inherit; font-size:10.5px; font-weight:850; letter-spacing:-.02em;
+  color:#fff; background:linear-gradient(135deg,#8B5CF6 0%,#C86BD8 100%);
+  border:0; border-radius:11px; padding:9px 6px; cursor:pointer;
+  box-shadow:0 10px 18px -12px rgba(120,60,180,.95);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.dpv-buy.lack{
+  color:#8A6420; background:linear-gradient(135deg,#FFF3D6,#FFE7B4);
+  box-shadow:inset 0 0 0 1px #F4D79A;
+}
+.dpv-buy:active{ transform:scale(.97); }
+.dpv-off{
+  flex:1; font-family:inherit; font-size:10.5px; font-weight:800; letter-spacing:-.02em;
+  color:#7C6C8C; background:#FBF6FD; border:1.5px solid #EEE2F4;
+  border-radius:11px; padding:9px 6px; cursor:pointer; white-space:nowrap;
+}
+.dpv-off:active{ transform:scale(.97); }
+.shake{ animation:v12shake .42s ease both; }
+
+/* 현재 착용 줄 */
+.dress-now{ display:flex; flex-wrap:wrap; gap:5px; margin:0 0 11px; }
+.dress-now .dw{
+  font-family:inherit; font-size:9px; font-weight:800; letter-spacing:-.02em;
+  color:#9C8AA8; background:#FBF7FD; border:1.5px solid #EFE6F4;
+  border-radius:9px; padding:4px 7px; white-space:nowrap;
+}
+.dress-now .dw.on{ color:#6B4BC0; background:#F4ECFF; border-color:#DFCFF8; cursor:pointer; }
+.dress-now .dw.on i{ font-style:normal; color:#B49BD8; margin-left:2px; }
+.dress-now .dw.on:active{ transform:scale(.96); }
+.dress-now .dw-off{
+  font-family:inherit; font-size:9px; font-weight:800;
+  color:#B4698A; background:#FFF5F9; border:1.5px dashed #F3D8E6;
+  border-radius:9px; padding:4px 8px; cursor:pointer;
+}
+.dress-now .dw-off[disabled]{ opacity:.45; cursor:default; }
+.dress-now .dw-off:not([disabled]):active{ transform:scale(.96); }
+
+/* 슬롯 카탈로그 */
+.dress-slot + .dress-slot{ margin-top:11px; }
+.ds-head{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  margin:0 0 6px; padding-left:1px;
+}
+.ds-head b{ font-size:10.5px; font-weight:850; letter-spacing:-.02em; color:#5A4A66; }
+.ds-cur{
+  font-size:8.5px; font-weight:800; color:#A08BB4;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:52%;
+}
+.dress-grid{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.dress-item{
+  position:relative; display:flex; align-items:center; gap:7px;
+  padding:8px 8px 7px; min-width:0;
+  font-family:inherit; text-align:left; cursor:pointer;
+  background:#fff; border:1.5px solid #EFE4F3; border-radius:13px;
+  box-shadow:0 6px 12px -12px rgba(130,90,150,.8);
+  transition:border-color .16s ease, transform .12s ease, background .16s ease;
+}
+.dress-item:active{ transform:scale(.975); }
+.dress-item .di-emoji{
+  flex:0 0 22px; width:22px; text-align:center; font-size:17px; line-height:1;
+  filter:drop-shadow(0 2px 3px rgba(150,110,170,.22));
+}
+.dress-item .di-body{ display:flex; flex-direction:column; gap:2px; min-width:0; flex:1; }
+
+.dress-item .di-body b{
+  font-size:9.5px; font-weight:850; color:#4F4258; letter-spacing:-.03em; line-height:1.2;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.dress-item .di-body small{
+  font-size:8px; font-weight:800; color:#A897B6; letter-spacing:-.02em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.dress-item.locked{ background:#FCFAFD; border-style:dashed; border-color:#EDE2F1; }
+.dress-item.locked .di-emoji{ filter:grayscale(.55) opacity(.62); }
+.dress-item.locked .di-body b{ color:#7A6A86; }
+.dress-item.locked .di-body small{ color:#B08E6A; }
+.dress-item.on{
+  border-color:#C7A6F5; background:linear-gradient(180deg,#FCF6FF 0%,#F3E9FF 100%);
+  box-shadow:inset 0 0 0 1.5px rgba(170,120,255,.20), 0 10px 18px -14px rgba(120,60,180,.9);
+}
+.dress-item.pv{
+  border-color:#F4B6D2; background:linear-gradient(180deg,#FFF8FC 0%,#FFEFF7 100%);
+  box-shadow:inset 0 0 0 1.5px rgba(244,134,178,.25);
+}
+.dress-item .di-body small.st{ font-weight:850; }
+.dress-item .di-body small.st.on{ color:#7C4BD6; }
+.dress-item .di-body small.st.pv{ color:#E2659A; }
+.dress-item .di-body small.st.own{ color:#6E90B8; }
+.dress-item .di-body small.st.buy{ color:#A8823E; }
+.dress-note{
+  margin:9px 0 0; font-size:9px; line-height:1.5; color:#A091AC; font-weight:700;
+  text-align:center; word-break:keep-all;
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -2786,7 +2992,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   </header>
   <div class="ministat" id="miniStat" hidden>
     <button class="ms-in" id="msJump" type="button" aria-label="퀘스트 탭으로 이동 — 레벨·HP·EXP 요약">
-      <img class="ms-char" id="msChar" alt="">
+      <span class="ms-charwrap"><img class="ms-char" id="msChar" alt=""><span class="ms-cosmo" id="msCosmo" aria-hidden="true"></span></span>
       <span class="ms-id"><b id="msLv">Lv.1</b><span id="msRank">E급 · 하찮은 냥이</span></span>
       <span class="ms-bars">
         <span class="ms-b hp"><em>HP</em><span class="bar"><i id="msHpFill"></i></span><b id="msHpNum">100</b></span>
@@ -2822,7 +3028,9 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <div class="mood" id="moodLayer" aria-hidden="true">
         <div class="mood-face" id="moodFace"></div>
       </div>
+      <div class="cosmo back" id="heroCosmoBack" aria-hidden="true"></div>
       <img class="char" id="charImg" alt="냥이 갓생러 캐릭터">
+      <div class="cosmo front" id="heroCosmoFront" aria-hidden="true"></div>
     </div>
 
     <div class="name-row">
@@ -2897,6 +3105,36 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     </div>
   </section>
 
+  <section class="card dressup pane" data-pane="dressup" id="dressCard">
+    <div class="card-head">
+      <span class="sys">[ DRESS UP ]</span>
+      <h3>✨ 꾸미기</h3>
+      <span class="hint gold-hint" id="dressGold">🪙 0 G</span>
+    </div>
+    <p class="dress-desc">아이템을 누르면 <b>내 캐릭터에 바로 입혀 볼 수 있어요</b>.
+      구매 전에는 이 무대에서만 보이고, <b>구매 &amp; 착용</b>하면 메인 화면에도 나타나요.</p>
+
+    <div class="dress-stage" id="dressStage">
+      <div class="dress-plate" aria-hidden="true"></div>
+      <div class="cosmo back" id="dressBack" aria-hidden="true"></div>
+      <img class="dress-char" id="dressImg" alt="꾸미기 미리보기 캐릭터">
+      <div class="cosmo front" id="dressFront" aria-hidden="true"></div>
+      <span class="dress-cap" id="dressCap">Lv.1</span>
+      <span class="dress-hint">미리보기 무대</span>
+      <div class="dress-pv" id="dressPv" hidden>
+        <span class="dpv-label">👀 미리보기 중 (미구매)</span>
+        <div class="dpv-btns">
+          <button class="dpv-buy" id="dressBuy" type="button">🪙 80 G로 구매 &amp; 착용</button>
+          <button class="dpv-off" id="dressCancel" type="button">미리보기 해제</button>
+        </div>
+        <span class="dpv-note" id="dressNote" hidden></span>
+      </div>
+    </div>
+
+    <div class="dress-now" id="dressNow"></div>
+    <div class="dress-slots" id="dressSlots"></div>
+    <p class="dress-note">3슬롯(눈 · 머리 · 소품)은 동시에 착용할 수 있어요 · 구매한 아이템은 영구 보관</p>
+  </section>
   <section class="card money pane" data-pane="cash" id="moneyCard">
     <div class="card-head">
       <span class="sys">[ CASH ]</span>
@@ -3255,6 +3493,9 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         <span class="dot" id="tabDotCare" hidden></span>
         <span class="ti">🐣</span><span class="tl">돌봄·HP</span>
       </button>
+      <button class="tab" type="button" data-tab="dressup" role="tab" aria-selected="false">
+        <span class="ti">✨</span><span class="tl">꾸미기</span>
+      </button>
       <button class="tab" type="button" data-tab="cash" role="tab" aria-selected="false">
         <span class="ti">💰</span><span class="tl">자산·상점</span>
       </button>
@@ -3267,7 +3508,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v23.0 (5탭 내비 · 2인 공유 · ⚔️각성 클래스·오라 · 🔄자동 업데이트)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v24.0 (6탭 내비 · 2인 공유 · ⚔️각성 클래스·오라 · ✨꾸미기 12종)</p>
 </div>
 
 <div id="toasts"></div>
@@ -3534,7 +3775,9 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <div class="pstat-hero">
         <div class="pstat-art" id="pStatArt">
           <span class="pstat-aura" aria-hidden="true"></span>
+          <div class="cosmo back" id="pCosmoBack" aria-hidden="true"></div>
           <img id="pStatImg" alt="파트너 캐릭터">
+          <div class="cosmo front" id="pCosmoFront" aria-hidden="true"></div>
         </div>
         <div class="pstat-info">
           <b id="pStatNick">파트너</b>
@@ -4137,6 +4380,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v20Normalize(s); } catch(e){}
     try { v21Normalize(s); } catch(e){}
     try { v22Normalize(s); } catch(e){}
+    try { v24Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
@@ -4331,6 +4575,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v20AfterRender(); } catch(e){}
     try { v21AfterRender(); } catch(e){}
     try { v22AfterRender(); } catch(e){}
+    try { v24AfterRender(); } catch(e){}
   }
 
 /* ---------- toast ---------- */
@@ -5054,6 +5299,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       workStatus: (typeof v13Status === "function") ? (v13Status() || "") : "",
       /* v22.0 — ⚔️ 각성 클래스 (key · tier · title · emoji) */
       awakening: (typeof v22PartnerAwaken === "function") ? v22PartnerAwaken() : null,
+      /* v24.0 — ✨ 구매 + 착용 완료한 치장템만 (구버전 파트너는 이 필드가 없어도 동작) */
+      equippedCosmetics: (typeof v24PartnerCosmetics === "function") ? v24PartnerCosmetics() : null,
       /* v19 — 🎉 마지막으로 깬 퀘스트 (상대 화면에 실시간 팝업) */
       lastQuestClear: (function(){
         var qc = state.lastQuestClear;
@@ -7802,7 +8049,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
      v7.0 — 하단 5탭 내비게이션 · 상단 미니 상태바
      v7.1 — 다른 브라우저(사파리·홈 화면 앱)로 내 데이터 옮기기 · 방 재접속
      =================================================================== */
-  var V11_TABS = ["quest", "care", "cash", "stats", "party"];
+  var V11_TABS = ["quest", "care", "dressup", "cash", "stats", "party"];
   var v11Tab = "quest";
   var v11ReconInfo = null;   /* 멤버 자리로 재접속 대기 중인 방 정보 */
   var v11Pending = null;     /* 이어하기 확인을 기다리는 state */
@@ -7831,6 +8078,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     if(ms) ms.hidden = (id === "quest");
     v11RenderMini();
     try { v11RenderCash(); } catch(e){}
+    try { v24TabEnter(id); } catch(e){}
     if(!opts || opts.scroll !== false){
       try { window.scrollTo({ top: 0, behavior: "smooth" }); }
       catch(e){ try { window.scrollTo(0, 0); } catch(e2){} }
@@ -10063,6 +10311,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       img.alt = nick + " 캐릭터";
     }
     if(art) art.className = "pstat-art" + (P.skin === "flame" ? " flame" : (P.skin === "rainbow" ? " rainbow" : ""));
+    try { v24PaintPartner(P); } catch(e){}
 
     /* 4대 능력치 */
     var s = v17Stats(P);
@@ -12209,6 +12458,739 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   }
 
   try { v22WrapLevelUp(); } catch(e){}
+  /* ===================================================================
+     v24.0 — ✨ 꾸미기 탭 · 치장템 미리보기 / 구매 / 착용
+     · 하단 6탭(퀘스트 · 돌봄·HP · 꾸미기 · 자산·상점 · 스탯·도감 · 파트너)
+     · ✨ 꾸미기 탭 = 내 캐릭터 미리보기 무대 + 3슬롯(눈/머리/소품) 카탈로그 12종
+     · 카탈로그에서 누르면 구매 여부와 상관없이 무대의 캐릭터에 바로 입혀 보여 준다
+       - 미구매 : 무대에만 입혀지고 [ 👀 미리보기 중 (미구매) · NNN G로 구매 & 착용 ] 표시
+       - 구매함 : 무대와 메인 화면(히어로·미니바·파트너 모달)에 실제 착용/해제
+     · ★ 격리 규칙 — 구매하지 않은 치장템은 오직 이 미리보기 무대에서만 그린다.
+       히어로 카드 · 미니 상태바 · 파트너 모달은 state.cosmetics.equipped 만 그린다.
+     · 눈·머리·목 좌표는 work/moods/heads.json 측정값(42장 알파 실루엣 + eyes2.json 눈 좌표)
+       → #charImg 의 실제 렌더링 사각형에 1:1 로 겹치는 SVG 레이어 (v18 표정과 같은 방식)
+     =================================================================== */
+  var V24_A = [[187.2,228.5,63.5,9.5,10.0,7,106,472,293,480,400,187.2,128,253.1,263,426],[177.5,204.8,107.0,16.0,16.5,18,15,461,464,480,480,177.5,39,278.3,231,348],[222.5,180.2,96.0,13.0,12.5,15,14,464,465,480,480,222.5,56,249.6,200,318],[243.5,172.3,94.0,11.0,10.5,14,40,464,440,480,480,243.5,61,244.4,189,343],[237.5,181.5,92.0,11.0,11.0,14,20,464,459,480,480,237.5,58,239.1,234,337],[236.5,195.5,82.0,9.0,9.0,15,51,465,427,480,480,236.5,99,213.2,209,301],[240.5,198.0,68.0,9.0,9.0,14,27,465,452,480,480,240.5,119,176.8,230,281],[190.7,218.0,63.5,10.5,10.0,7,121,472,277,480,400,190.7,140,187.0,250,430],[186.5,205.0,102.0,15.0,16.0,36,14,443,464,480,480,186.5,40,265.2,248,301],[227.0,180.5,95.0,13.0,13.0,19,14,460,465,480,480,227.0,56,247.0,201,315],[264.0,160.2,95.0,11.0,12.5,34,15,444,464,480,480,264.0,37,247.1,180,316],[246.0,179.8,95.0,11.0,11.5,17,14,461,465,480,480,246.0,53,247.1,240,338],[235.2,189.0,78.5,9.5,10.0,14,38,465,440,480,480,235.2,86,204.2,204,274],[237.0,182.0,66.0,8.0,9.0,16,16,456,429,480,480,237.0,105,171.6,196,275],[196.7,266.5,116.5,26.5,28.0,14,89,464,390,480,480,196.7,118,302.9,334,346],[236.0,181.8,119.0,29.0,30.5,40,14,438,464,480,480,236.0,49,309.4,320,208],[200.5,228.5,116.0,29.0,31.0,14,35,464,444,480,480,200.5,90,301.5,347,318],[225.8,183.5,104.5,30.5,32.0,21,14,457,464,480,480,225.8,66,271.7,289,316],[225.5,202.0,105.0,26.0,30.0,47,15,432,464,480,480,225.5,60,273.1,270,258],[237.7,191.8,96.5,28.5,29.5,14,24,465,455,480,480,237.7,95,250.8,288,230],[245.8,208.0,78.5,22.5,24.0,23,14,456,465,480,480,245.8,119,204.2,266,216],[197.0,247.2,118.0,28.0,29.5,15,107,465,372,480,480,197.0,129,306.8,315,350],[236.3,182.3,118.5,28.5,30.5,41,14,438,464,480,480,236.3,50,308.0,326,199],[203.7,226.8,118.5,29.5,31.5,14,26,464,452,480,480,203.7,84,308.1,349,309],[226.0,183.5,104.0,30.0,32.0,22,14,458,464,480,480,226.0,66,270.4,244,316],[229.8,202.0,104.5,25.5,30.0,52,15,427,464,480,480,229.8,60,271.7,270,258],[237.7,192.8,96.5,28.5,29.5,14,24,464,454,480,480,237.7,96,250.8,295,207],[245.5,208.0,78.0,23.0,24.0,22,14,456,464,480,480,245.5,119,202.8,266,216],[171.7,290.0,83.5,14.5,15.0,7,45,472,353,480,400,171.7,216,233.0,314,453],[234.5,243.0,97.0,20.0,20.0,98,12,381,467,480,480,234.5,126,252.2,310,172],[223.8,220.5,86.5,16.5,17.0,100,12,379,467,480,480,223.8,113,225.0,295,208],[247.0,199.5,63.0,13.0,13.0,88,14,391,465,480,480,247.0,123,163.7,220,180],[235.2,214.6,89.3,14.4,14.4,72,12,406,467,480,480,235.2,109,232.1,267,175],[230.7,222.8,48.5,11.5,11.5,21,14,457,465,480,480,230.7,145,126.0,241,236],[243.0,184.5,63.0,15.0,15.0,25,12,453,467,480,480,243.0,122,163.9,208,230],[181.5,296.0,88.0,16.0,16.0,7,38,472,359,480,400,181.5,249,247.5,321,451],[235.2,242.7,96.5,20.5,20.5,109,12,369,467,480,480,235.2,127,250.8,305,177],[227.3,223.5,85.5,16.5,17.0,105,12,373,467,480,480,227.3,115,222.3,295,191],[259.0,209.7,63.0,13.0,13.5,99,15,379,465,480,480,259.0,131,163.7,237,165],[235.4,214.6,85.9,14.4,14.4,83,12,395,467,480,480,235.4,110,223.4,267,173],[233.0,224.7,47.0,11.0,11.5,23,14,456,465,480,480,233.0,141,122.2,243,213],[247.0,184.5,63.0,15.0,15.0,62,12,416,467,480,480,247.0,121,163.7,243,208]];
+
+  var V24_SLOTS = [
+    { key:"eyes", emoji:"😎", label:"눈 / 안경" },
+    { key:"head", emoji:"👑", label:"머리 / 모자" },
+    { key:"acc",  emoji:"🧣", label:"소품 / 목" }
+  ];
+
+  var V24_ITEMS = [
+    { id:"hip",      slot:"eyes", emoji:"🕶️", name:"힙합 선글라스",      price:80,
+      desc:"눈을 덮는 검은 렌즈 · 힙한 기본템" },
+    { id:"round",    slot:"eyes", emoji:"👓", name:"똑똑이 동그리 안경",  price:60,
+      desc:"동글동글 금속테 안경 · 공부한 척" },
+    { id:"star",     slot:"eyes", emoji:"🤩", name:"스타 선글라스",      price:120,
+      desc:"별 모양 렌즈 · 오늘의 주인공" },
+    { id:"monocle",  slot:"eyes", emoji:"🧐", name:"황금 모노클",        price:100,
+      desc:"한쪽 눈에 황금 외알안경 · 귀족 감성" },
+
+    { id:"crown",    slot:"head", emoji:"👑", name:"미니 황금 왕관",      price:150,
+      desc:"머리 위 반짝이는 왕관 · 갓생러의 품격" },
+    { id:"ribbon",   slot:"head", emoji:"🎀", name:"핑크 리본",          price:70,
+      desc:"옆머리에 살짝 얹은 리본" },
+    { id:"headset",  slot:"head", emoji:"🎧", name:"게이밍 헤드셋",      price:110,
+      desc:"헤드밴드 + 마이크 · 게임 모드" },
+    { id:"grad",     slot:"head", emoji:"🎓", name:"졸업 학사모",        price:90,
+      desc:"각진 학사모 + 술 · 한 단계 졸업" },
+
+    { id:"scarf",    slot:"acc",  emoji:"🧣", name:"빨간 목도리",        price:75,
+      desc:"목을 감싸는 빨간 목도리" },
+    { id:"bowtie",   slot:"acc",  emoji:"🎀", name:"나비넥타이",          price:65,
+      desc:"목 앞의 작은 나비넥타이" },
+    { id:"wings",    slot:"acc",  emoji:"🪽", name:"천사 날개",          price:160,
+      desc:"등 뒤에 펼쳐지는 날개 (뒤쪽 레이어)" },
+    { id:"clover",   slot:"acc",  emoji:"🍀", name:"네잎클로버 핀",       price:50,
+      desc:"가슴에 다는 행운 핀" }
+  ];
+
+  var v24Preview = null;          /* {slot, id} — 미구매 미리보기 중인 아이템 */
+  var v24FollowOn = false, v24FollowT = 0;
+  var v24LastSig = {};            /* 레이어별 마지막 서명 (불필요한 재조립 방지) */
+
+  function v24Item(id){
+    for(var i=0;i<V24_ITEMS.length;i++){ if(V24_ITEMS[i].id === id) return V24_ITEMS[i]; }
+    return null;
+  }
+  function v24Gold(id){ var it = v24Item(id); return it ? it.price : 0; }
+  function v24f(n){ return Math.round(n*10)/10; }
+
+  /* ---------- 상태 ---------- */
+  function v24Blank(){
+    return { owned:{}, equipped:{ eyes:"", head:"", acc:"" } };
+  }
+  function cosNow(){
+    if(!state) return v24Blank();
+    if(!state.cosmetics || typeof state.cosmetics !== "object") state.cosmetics = v24Blank();
+    var c = state.cosmetics;
+    if(!c.owned || typeof c.owned !== "object") c.owned = {};
+    if(!c.equipped || typeof c.equipped !== "object") c.equipped = {};
+    V24_SLOTS.forEach(function(sl){ if(typeof c.equipped[sl.key] !== "string") c.equipped[sl.key] = ""; });
+    return c;
+  }
+  function v24Normalize(s){
+    if(!s || typeof s !== "object") return;
+    if(!s.cosmetics || typeof s.cosmetics !== "object") s.cosmetics = v24Blank();
+    var c = s.cosmetics;
+    if(!c.owned || typeof c.owned !== "object") c.owned = {};
+    var own = {};
+    V24_ITEMS.forEach(function(it){ if(c.owned[it.id]) own[it.id] = true; });
+    c.owned = own;
+    if(!c.equipped || typeof c.equipped !== "object") c.equipped = {};
+    V24_SLOTS.forEach(function(sl){
+      var id = String(c.equipped[sl.key] || "");
+      var it = id ? v24Item(id) : null;
+      c.equipped[sl.key] = (it && it.slot === sl.key && own[id]) ? id : "";
+    });
+  }
+  /* 구매 + 착용 완료된 슬롯 맵만 (파트너 스냅샷 · 메인 화면 공통) */
+  function v24EquippedMap(){
+    var c = cosNow(), out = { eyes:"", head:"", acc:"" };
+    V24_SLOTS.forEach(function(sl){
+      var id = c.equipped[sl.key];
+      if(id && c.owned[id]) out[sl.key] = id;
+    });
+    return out;
+  }
+  function v24PartnerCosmetics(){
+    try { return v24EquippedMap(); } catch(e){ return null; }
+  }
+  function v24Any(id){ var m = v24EquippedMap(); return m.eyes === id || m.head === id || m.acc === id; }
+
+  /* ---------- 캐릭터 앵커 ---------- */
+  function v24Idx(img){
+    if(!img || !window.IMAGES) return -1;
+    var src = String(img.getAttribute("src") || "");
+    /* data URI 는 100KB 대라 매 프레임 indexOf 하면 느리다 — 요소에 마지막 결과를 붙여 둔다 */
+    if(img.__v24src === src && typeof img.__v24i === "number") return img.__v24i;
+    var found = -1;
+    for(var i=0;i<window.IMAGES.length;i++){ if(window.IMAGES[i] === src){ found = i; break; } }
+    img.__v24src = src;
+    img.__v24i = found;
+    return found;
+  }
+  function v24A(img){
+    var i = v24Idx(img);
+    var r = (i >= 0 && V24_A[i]) ? V24_A[i] : null;
+    if(!r){
+      return { i:i, W:480, H:480, cx:240, cy:200, sep:96, ew:16, eh:16,
+               bx0:20, by0:20, bx1:460, by1:460,
+               headCx:240, headTop:110, headW:250, neckY:290, neckW:220 };
+    }
+    return { i:i, W:r[9], H:r[10], cx:r[0], cy:r[1], sep:r[2], ew:r[3], eh:r[4],
+             bx0:r[5], by0:r[6], bx1:r[7], by1:r[8],
+             headCx:r[11], headTop:r[12], headW:r[13], neckY:r[14], neckW:r[15] };
+  }
+
+  /* ---------- SVG 조각 헬퍼 ---------- */
+  function v24rr(x,y,w,h,rx,fill,stroke,sw,extra){
+    return '<rect x="' + v24f(x) + '" y="' + v24f(y) + '" width="' + v24f(w) + '" height="' + v24f(h)
+      + '" rx="' + v24f(rx) + '" fill="' + fill + '"'
+      + (stroke ? ' stroke="' + stroke + '" stroke-width="' + v24f(sw || 1) + '"' : '')
+      + (extra || '') + '/>';
+  }
+  function v24circ(x,y,r,fill,stroke,sw,extra){
+    return '<circle cx="' + v24f(x) + '" cy="' + v24f(y) + '" r="' + v24f(r) + '" fill="' + fill + '"'
+      + (stroke ? ' stroke="' + stroke + '" stroke-width="' + v24f(sw || 1) + '"' : '')
+      + (extra || '') + '/>';
+  }
+  function v24star(cx,cy,r,fill,stroke,sw){
+    var pts = [];
+    for(var k=0;k<10;k++){
+      var ang = -Math.PI/2 + k*Math.PI/5;
+      var rad = (k % 2 === 0) ? r : r*0.44;
+      pts.push(v24f(cx + Math.cos(ang)*rad) + ',' + v24f(cy + Math.sin(ang)*rad));
+    }
+    return '<polygon points="' + pts.join(' ') + '" fill="' + fill + '"'
+      + (stroke ? ' stroke="' + stroke + '" stroke-width="' + v24f(sw || 1) + '" stroke-linejoin="round"' : '') + '/>';
+  }
+
+  /* ---------- 치장템 그림 (원본 이미지 좌표계) ---------- */
+  var V24_DRAW = {
+    /* 😎 눈 / 안경 -------------------------------------------------- */
+    hip: function(a){
+      var r = Math.max(a.ew*1.55, a.sep*0.30), cx = a.cx, cy = a.cy, s = a.sep;
+      var w = r*2.02, h = r*1.34, g = '';
+      for(var sg=-1; sg<=1; sg+=2){
+        var ex = cx + sg*s/2;
+        g += v24rr(ex - w/2, cy - h/2, w, h, h*0.34, "#23252E", "#0D0F14", Math.max(1.6, r*0.11));
+        g += '<path d="M' + v24f(ex - w*0.28) + ' ' + v24f(cy + h*0.08) + ' L' + v24f(ex - w*0.08)
+          + ' ' + v24f(cy - h*0.30) + '" stroke="#7C8496" stroke-width="' + v24f(Math.max(2, r*0.17))
+          + '" stroke-linecap="round" opacity=".9"/>';
+        /* 다리(안경테) */
+        g += '<path d="M' + v24f(ex + sg*w/2) + ' ' + v24f(cy - h*0.12) + ' L' + v24f(cx + sg*(s*0.5 + w*0.5 + s*0.34))
+          + ' ' + v24f(cy - h*0.30) + '" stroke="#23252E" stroke-width="' + v24f(Math.max(2, r*0.16))
+          + '" stroke-linecap="round" fill="none"/>';
+      }
+      g += '<path d="M' + v24f(cx - s/2 + w/2) + ' ' + v24f(cy - h*0.16) + ' Q' + v24f(cx) + ' ' + v24f(cy - h*0.44)
+        + ' ' + v24f(cx + s/2 - w/2) + ' ' + v24f(cy - h*0.16) + '" fill="none" stroke="#16181F" stroke-width="'
+        + v24f(Math.max(2, r*0.20)) + '" stroke-linecap="round"/>';
+      return g;
+    },
+    round: function(a){
+      var r = Math.max(a.ew*1.45, a.sep*0.285), cx = a.cx, cy = a.cy, s = a.sep;
+      var g = '', sw = Math.max(2.2, r*0.19);
+      for(var sg=-1; sg<=1; sg+=2){
+        var ex = cx + sg*s/2;
+        g += v24circ(ex, cy, r, "rgba(255,255,255,.30)", "#4A4254", sw);
+        g += '<path d="M' + v24f(ex - r*0.52) + ' ' + v24f(cy - r*0.36) + ' L' + v24f(ex - r*0.10)
+          + ' ' + v24f(cy - r*0.62) + '" stroke="#FFFFFF" stroke-width="' + v24f(Math.max(1.6, r*0.14))
+          + '" stroke-linecap="round" opacity=".95"/>';
+        g += '<path d="M' + v24f(ex + sg*r) + ' ' + v24f(cy - r*0.10) + ' L' + v24f(cx + sg*(s/2 + r + s*0.30))
+          + ' ' + v24f(cy - r*0.34) + '" stroke="#4A4254" stroke-width="' + v24f(sw*0.92)
+          + '" stroke-linecap="round" fill="none"/>';
+      }
+      g += '<path d="M' + v24f(cx - s/2 + r*0.92) + ' ' + v24f(cy - r*0.12) + ' Q' + v24f(cx) + ' ' + v24f(cy - r*0.66)
+        + ' ' + v24f(cx + s/2 - r*0.92) + ' ' + v24f(cy - r*0.12) + '" fill="none" stroke="#4A4254" stroke-width="'
+        + v24f(sw*0.92) + '" stroke-linecap="round"/>';
+      return g;
+    },
+    star: function(a){
+      var r = Math.max(a.ew*1.45, a.sep*0.27), cx = a.cx, cy = a.cy, s = a.sep, g = '';
+      for(var sg=-1; sg<=1; sg+=2){
+        var ex = cx + sg*s/2;
+        g += v24star(ex, cy, r, "#FFD653", "#C08A16", Math.max(1.8, r*0.10));
+        g += v24star(ex, cy, r*0.42, "#FFF3B8", "", 0);
+        g += '<path d="M' + v24f(ex + sg*r*0.92) + ' ' + v24f(cy - r*0.10) + ' L' + v24f(cx + sg*(s/2 + r + s*0.26))
+          + ' ' + v24f(cy - r*0.42) + '" stroke="#E7B23B" stroke-width="' + v24f(Math.max(2, r*0.13))
+          + '" stroke-linecap="round" fill="none"/>';
+      }
+      g += '<path d="M' + v24f(cx - s/2 + r*0.80) + ' ' + v24f(cy - r*0.22) + ' Q' + v24f(cx) + ' ' + v24f(cy - r*0.52)
+        + ' ' + v24f(cx + s/2 - r*0.80) + ' ' + v24f(cy - r*0.22) + '" fill="none" stroke="#C08A16" stroke-width="'
+        + v24f(Math.max(2, r*0.16)) + '" stroke-linecap="round"/>';
+      return g;
+    },
+    monocle: function(a){
+      var r = Math.max(a.ew*1.9, a.sep*0.36), ex = a.cx + a.sep/2, cy = a.cy, g = '';
+      g += v24circ(ex, cy, r, "rgba(255,255,255,.26)", "#E0A82E", Math.max(2.6, r*0.16));
+      g += v24circ(ex, cy, r*0.84, "none", "#FFE9A8", Math.max(1.4, r*0.07));
+      g += '<path d="M' + v24f(ex - r*0.46) + ' ' + v24f(cy - r*0.34) + ' L' + v24f(ex - r*0.06)
+        + ' ' + v24f(cy - r*0.66) + '" stroke="#FFFFFF" stroke-width="' + v24f(Math.max(2, r*0.13))
+        + '" stroke-linecap="round" opacity=".95"/>';
+      /* 줄 + 체인 */
+      g += '<path d="M' + v24f(ex + r*0.62) + ' ' + v24f(cy + r*0.74) + ' Q' + v24f(ex + r*1.30) + ' ' + v24f(cy + r*1.10)
+        + ' ' + v24f(ex + r*1.10) + ' ' + v24f(cy + r*1.85) + '" fill="none" stroke="#D9A227" stroke-width="'
+        + v24f(Math.max(1.6, r*0.10)) + '" stroke-dasharray="' + v24f(r*0.22) + ' ' + v24f(r*0.14) + '" stroke-linecap="round"/>';
+      g += v24circ(ex + r*1.10, cy + r*1.92, Math.max(2.4, r*0.13), "#FFD764", "#C08A16", 1.2);
+      return g;
+    },
+
+    /* 👑 머리 / 모자 ------------------------------------------------- */
+    crown: function(a){
+      var w = a.headW*0.70, h = w*0.44, x = a.headCx - w/2, yb = a.headTop + w*0.08;
+      var bh = h*0.24, y0 = yb - bh, g = '';
+      g += '<path d="M' + v24f(x) + ' ' + v24f(y0) + ' L' + v24f(x + w*0.13) + ' ' + v24f(y0 - h*0.58)
+        + ' L' + v24f(x + w*0.36) + ' ' + v24f(y0 - h*0.16) + ' L' + v24f(x + w*0.5) + ' ' + v24f(y0 - h*0.74)
+        + ' L' + v24f(x + w*0.64) + ' ' + v24f(y0 - h*0.16) + ' L' + v24f(x + w*0.87) + ' ' + v24f(y0 - h*0.58)
+        + ' L' + v24f(x + w) + ' ' + v24f(y0) + ' Z" fill="#FFD34D" stroke="#C08A16" stroke-width="'
+        + v24f(Math.max(1.6, w*0.016)) + '" stroke-linejoin="round"/>';
+      g += v24rr(x, y0, w, bh*1.06, bh*0.30, "#FFE07A", "#C08A16", Math.max(1.6, w*0.016));
+      g += v24circ(x + w*0.5, y0 + bh*0.50, bh*0.40, "#FF7BA9", "#D94A7E", Math.max(1.2, w*0.008));
+      g += v24circ(x + w*0.17, y0 + bh*0.50, bh*0.28, "#8FD8FF", "#4FA8D8", Math.max(1, w*0.006));
+      g += v24circ(x + w*0.83, y0 + bh*0.50, bh*0.28, "#8FD8FF", "#4FA8D8", Math.max(1, w*0.006));
+      g += v24circ(x + w*0.5, y0 - h*0.74, Math.max(2, w*0.020), "#FFF6C8", "#C08A16", 1.2);
+      return g;
+    },
+    ribbon: function(a){
+      var w = a.headW*0.34, h = w*0.70, cx0 = a.headCx - a.headW*0.34, y = a.headTop + h*0.26, g = '';
+      g += '<path d="M' + v24f(cx0) + ' ' + v24f(y) + ' C' + v24f(cx0 - w*0.62) + ' ' + v24f(y - h*0.66) + ' '
+        + v24f(cx0 - w*0.64) + ' ' + v24f(y + h*0.60) + ' ' + v24f(cx0) + ' ' + v24f(y) + ' Z" fill="#FF9DC0" stroke="#E2679A" stroke-width="'
+        + v24f(Math.max(1.5, w*0.05)) + '" stroke-linejoin="round"/>';
+      g += '<path d="M' + v24f(cx0 + w*0.30) + ' ' + v24f(y) + ' C' + v24f(cx0 + w*0.92) + ' ' + v24f(y - h*0.66) + ' '
+        + v24f(cx0 + w*0.94) + ' ' + v24f(y + h*0.60) + ' ' + v24f(cx0 + w*0.30) + ' ' + v24f(y) + ' Z" fill="#FF9DC0" stroke="#E2679A" stroke-width="'
+        + v24f(Math.max(1.5, w*0.05)) + '" stroke-linejoin="round"/>';
+      g += v24rr(cx0 + w*0.02, y - h*0.22, w*0.26, h*0.44, h*0.16, "#FF7FB0", "#D9538A", Math.max(1.2, w*0.04));
+      g += '<path d="M' + v24f(cx0 - w*0.20) + ' ' + v24f(y - h*0.30) + ' L' + v24f(cx0 - w*0.02) + ' ' + v24f(y - h*0.44)
+        + '" stroke="#FFFFFF" stroke-width="' + v24f(Math.max(1.4, w*0.05)) + '" stroke-linecap="round" opacity=".85"/>';
+      return g;
+    },
+    headset: function(a){
+      var s = a.sep, cx = a.cx, cy = a.cy, g = '';
+      var apex = Math.min(a.headTop, cy - s*0.86);
+      var ex1 = cx - s*1.14, ex2 = cx + s*1.14, ey = cy + s*0.02;
+      var band = 'M' + v24f(ex1) + ' ' + v24f(ey) + ' Q' + v24f(cx) + ' ' + v24f(apex - s*0.14) + ' ' + v24f(ex2) + ' ' + v24f(ey);
+      g += '<path d="' + band + '" fill="none" stroke="#333A4E" stroke-width="' + v24f(Math.max(3, s*0.20)) + '" stroke-linecap="round"/>';
+      g += '<path d="' + band + '" fill="none" stroke="#7CE8FF" stroke-width="' + v24f(Math.max(1.2, s*0.055)) + '" stroke-linecap="round" opacity=".8"/>';
+      for(var sg=-1; sg<=1; sg+=2){
+        var bx = cx + sg*s*1.18;
+        g += v24rr(bx - s*0.19, ey - s*0.28, s*0.38, s*0.58, s*0.15, "#2E3448", "#161A26", Math.max(1.5, s*0.045));
+        g += v24rr(bx - s*0.11, ey - s*0.19, s*0.22, s*0.38, s*0.09, "#4B5470", "", 0);
+        g += v24circ(bx, ey + s*0.02, s*0.075, "#8CF3FF", "#2E8CA0", 1);
+      }
+      /* 마이크 — 왼쪽 컵에서 입 쪽으로 */
+      g += '<path d="M' + v24f(cx - s*1.16) + ' ' + v24f(ey + s*0.26) + ' Q' + v24f(cx - s*1.26) + ' ' + v24f(ey + s*0.74)
+        + ' ' + v24f(cx - s*0.62) + ' ' + v24f(ey + s*0.66) + '" fill="none" stroke="#333A4E" stroke-width="'
+        + v24f(Math.max(2, s*0.070)) + '" stroke-linecap="round"/>';
+      g += v24circ(cx - s*0.56, ey + s*0.66, Math.max(2.2, s*0.09), "#8CF3FF", "#2E8CA0", 1.1);
+      return g;
+    },
+    grad: function(a){
+      var w = a.headW*0.66, x = a.headCx - w/2, by = a.headTop + w*0.10, g = '';
+      var bh = w*0.26, bw = w*0.50;
+      /* 머리에 쓰는 모자통 */
+      g += v24rr(a.headCx - bw/2, by + w*0.02, bw, bh, w*0.03, "#3A3A48", "#1C1C26", Math.max(1.4, w*0.013));
+      /* 학사모 판 */
+      g += '<path d="M' + v24f(x) + ' ' + v24f(by + w*0.09) + ' L' + v24f(a.headCx) + ' ' + v24f(by - w*0.05)
+        + ' L' + v24f(x + w) + ' ' + v24f(by + w*0.09) + ' L' + v24f(a.headCx) + ' ' + v24f(by + w*0.23)
+        + ' Z" fill="#44444F" stroke="#1B1B24" stroke-width="' + v24f(Math.max(1.5, w*0.015)) + '" stroke-linejoin="round"/>';
+      g += v24circ(a.headCx, by + w*0.09, Math.max(1.8, w*0.020), "#2A2A34", "#111118", 1);
+      /* 술 */
+      g += '<path d="M' + v24f(a.headCx + w*0.32) + ' ' + v24f(by + w*0.10) + ' Q' + v24f(a.headCx + w*0.44) + ' '
+        + v24f(by + w*0.24) + ' ' + v24f(a.headCx + w*0.34) + ' ' + v24f(by + w*0.36) + '" fill="none" stroke="#FFD34D" stroke-width="'
+        + v24f(Math.max(1.7, w*0.019)) + '" stroke-linecap="round"/>';
+      g += v24circ(a.headCx + w*0.34, by + w*0.39, Math.max(2.2, w*0.028), "#FFD34D", "#C08A16", 1.2);
+      return g;
+    },
+    scarf: function(a){
+      var nw = Math.min(a.neckW*0.92, a.sep*2.6), th = Math.max(a.sep*0.26, nw*0.15),
+          x = a.cx - nw/2, y = a.neckY, g = '';
+      /* 목을 감싸는 띠 */
+      g += v24rr(x, y - th*0.50, nw, th, th*0.46, "#E8453C", "#AF2A26", Math.max(1.5, th*0.09));
+      g += v24rr(x + nw*0.03, y - th*0.18, nw*0.94, th*0.26, th*0.13, "#F4685D", "", 0);
+      for(var k=0;k<3;k++){
+        var lx = x + nw*(0.20 + k*0.22);
+        g += '<path d="M' + v24f(lx) + ' ' + v24f(y - th*0.40) + ' L' + v24f(lx) + ' ' + v24f(y + th*0.30)
+          + '" stroke="#FF9A8E" stroke-width="' + v24f(Math.max(1.2, th*0.08)) + '" opacity=".75"/>';
+      }
+      /* 매듭 + 늘어뜨린 끝자락 */
+      var kx = x + nw*0.70;
+      g += v24rr(kx - th*0.30, y + th*0.06, th*0.60, th*0.58, th*0.20, "#F4685D", "#AF2A26", Math.max(1.2, th*0.08));
+      g += v24rr(kx - th*0.26, y + th*0.50, th*0.52, th*1.20, th*0.18, "#E8453C", "#AF2A26", Math.max(1.3, th*0.08));
+      for(var j=0;j<3;j++){
+        g += '<path d="M' + v24f(kx - th*0.20 + j*th*0.16) + ' ' + v24f(y + th*1.66) + ' L'
+          + v24f(kx - th*0.20 + j*th*0.16) + ' ' + v24f(y + th*1.86) + '" stroke="#AF2A26" stroke-width="'
+          + v24f(Math.max(1.2, th*0.06)) + '" stroke-linecap="round"/>';
+      }
+      return g;
+    },
+    bowtie: function(a){
+      var bw = Math.min(a.neckW*0.40, a.sep*1.02), bh = bw*0.56,
+          x = a.cx - bw/2, y = a.neckY + (a.by1 - a.neckY)*0.16, g = '';
+      g += '<path d="M' + v24f(x) + ' ' + v24f(y) + ' L' + v24f(x + bw*0.42) + ' ' + v24f(y - bh/2)
+        + ' L' + v24f(x + bw*0.42) + ' ' + v24f(y + bh/2) + ' Z" fill="#FF6F91" stroke="#D94A6E" stroke-width="'
+        + v24f(Math.max(1.3, bw*0.03)) + '" stroke-linejoin="round"/>';
+      g += '<path d="M' + v24f(x + bw) + ' ' + v24f(y) + ' L' + v24f(x + bw*0.58) + ' ' + v24f(y - bh/2)
+        + ' L' + v24f(x + bw*0.58) + ' ' + v24f(y + bh/2) + ' Z" fill="#FF6F91" stroke="#D94A6E" stroke-width="'
+        + v24f(Math.max(1.3, bw*0.03)) + '" stroke-linejoin="round"/>';
+      g += v24rr(x + bw*0.43, y - bh*0.24, bw*0.14, bh*0.48, bh*0.14, "#E8456B", "#C33A5C", Math.max(1.1, bw*0.02));
+      g += '<path d="M' + v24f(x + bw*0.12) + ' ' + v24f(y - bh*0.14) + ' L' + v24f(x + bw*0.30) + ' ' + v24f(y - bh*0.24)
+        + '" stroke="#FFFFFF" stroke-width="' + v24f(Math.max(1.2, bw*0.03)) + '" stroke-linecap="round" opacity=".8"/>';
+      return g;
+    },
+    clover: function(a){
+      var s = Math.max(a.sep*0.34, a.neckW*0.11, 10),
+          x = a.cx - Math.max(a.sep*0.95, a.neckW*0.26), y = a.neckY + (a.by1 - a.neckY)*0.06, g = '';
+      var rr2 = s*0.50;
+      var spots = [[-rr2*0.66, -rr2*0.66], [rr2*0.66, -rr2*0.66], [-rr2*0.66, rr2*0.66], [rr2*0.66, rr2*0.66]];
+      for(var i=0;i<4;i++){
+        g += v24circ(x + spots[i][0], y + spots[i][1], rr2, "#4CBB6A", "#2A8043", Math.max(1.2, s*0.07));
+      }
+      g += v24circ(x, y, rr2*0.30, "#8FE3A8", "", 0);
+      g += '<path d="M' + v24f(x) + ' ' + v24f(y + s*0.26) + ' Q' + v24f(x + s*0.22) + ' ' + v24f(y + s*0.86)
+        + ' ' + v24f(x + s*0.02) + ' ' + v24f(y + s*1.16) + '" fill="none" stroke="#2A8043" stroke-width="'
+        + v24f(Math.max(1.4, s*0.09)) + '" stroke-linecap="round"/>';
+      return g;
+    },
+    wings: function(a){
+      var s = Math.max(a.sep*1.95, a.neckW*0.80), cx = a.cx, yc = a.cy + (a.by1 - a.cy)*0.32, g = '';
+      for(var sg=-1; sg<=1; sg+=2){
+        var p = 'M' + v24f(cx + sg*s*0.14) + ' ' + v24f(yc)
+          + ' C' + v24f(cx + sg*s*0.34) + ' ' + v24f(yc - s*0.62) + ' ' + v24f(cx + sg*s*0.70) + ' ' + v24f(yc - s*0.66)
+          + ' ' + v24f(cx + sg*s*0.84) + ' ' + v24f(yc - s*0.26)
+          + ' C' + v24f(cx + sg*s*0.96) + ' ' + v24f(yc + s*0.02) + ' ' + v24f(cx + sg*s*0.90) + ' ' + v24f(yc + s*0.16)
+          + ' ' + v24f(cx + sg*s*0.78) + ' ' + v24f(yc + s*0.12)
+          + ' C' + v24f(cx + sg*s*0.86) + ' ' + v24f(yc + s*0.34) + ' ' + v24f(cx + sg*s*0.66) + ' ' + v24f(yc + s*0.44)
+          + ' ' + v24f(cx + sg*s*0.56) + ' ' + v24f(yc + s*0.32)
+          + ' C' + v24f(cx + sg*s*0.62) + ' ' + v24f(yc + s*0.54) + ' ' + v24f(cx + sg*s*0.40) + ' ' + v24f(yc + s*0.58)
+          + ' ' + v24f(cx + sg*s*0.28) + ' ' + v24f(yc + s*0.44) + ' Z';
+        g += '<path d="' + p + '" fill="#EDF5FF" fill-opacity=".98" stroke="#9EC4EA" stroke-width="'
+          + v24f(Math.max(1.6, s*0.026)) + '" stroke-linejoin="round"/>';
+        for(var k=1;k<=2;k++){
+          g += '<path d="M' + v24f(cx + sg*s*0.26) + ' ' + v24f(yc - s*(0.02 + k*0.16)) + ' C'
+            + v24f(cx + sg*s*0.48) + ' ' + v24f(yc - s*(0.16 + k*0.16)) + ' ' + v24f(cx + sg*s*0.64) + ' ' + v24f(yc - s*(0.20 + k*0.14))
+            + ' ' + v24f(cx + sg*s*0.74) + ' ' + v24f(yc - s*(0.26 + k*0.10)) + '" fill="none" stroke="#C6DCF6" stroke-width="'
+            + v24f(Math.max(1.1, s*0.022)) + '" stroke-linecap="round"/>';
+        }
+      }
+      return g;
+    }
+  };
+
+  /* ---------- 레이어 조립 ---------- */
+  function v24IsBack(id){ return id === "wings"; }
+
+  function v24Svg(a, map, back){
+    var out = "";
+    for(var i=0;i<V24_SLOTS.length;i++){
+      var sl = V24_SLOTS[i], id = map && map[sl.key];
+      if(!id) continue;
+      if(v24IsBack(id) !== !!back) continue;
+      var fn = V24_DRAW[id];
+      if(fn){ try { out += fn(a); } catch(e){} }
+    }
+    if(!out) return "";
+    return '<svg viewBox="0 0 ' + a.W + ' ' + a.H + '" preserveAspectRatio="none" aria-hidden="true">'
+      + out + '</svg>';
+  }
+
+  function v24Sig(a, map, back){
+    var s = "i" + a.i + "|";
+    for(var i=0;i<V24_SLOTS.length;i++){
+      var k = V24_SLOTS[i].key;
+      if(!(map && map[k])) continue;
+      if(v24IsBack(map[k]) === !!back) s += k + "=" + map[k] + ",";
+    }
+    return s;
+  }
+
+  /* #charImg 가 실제로 그려지는 사각형 (object-fit cover/contain + object-position 반영) */
+  function v24Drawn(img){
+    var r = img.getBoundingClientRect();
+    var cs = null;
+    try { cs = window.getComputedStyle(img); } catch(e){}
+    var bt = cs ? (parseFloat(cs.borderLeftWidth) || 0) : 0;
+    var bb = cs ? (parseFloat(cs.borderTopWidth) || 0) : 0;
+    var br = cs ? (parseFloat(cs.borderRightWidth) || 0) : 0;
+    var bo = cs ? (parseFloat(cs.borderBottomWidth) || 0) : 0;
+    var x = r.left + bt, y = r.top + bb;
+    var cw = Math.max(0, r.width - bt - br), ch = Math.max(0, r.height - bb - bo);
+    var W = Number(img.naturalWidth) || 0, H = Number(img.naturalHeight) || 0;
+    if(!W || !H) W = H = 480;
+    if(!cw || !ch) return { x:x, y:y, w:0, h:0, W:W, H:H };
+    var fit = cs ? (cs.objectFit || "fill") : "fill";
+    var dw = cw, dh = ch, dx = 0, dy = 0;
+    if(fit === "cover" || fit === "contain"){
+      var k = (fit === "cover") ? Math.max(cw/W, ch/H) : Math.min(cw/W, ch/H);
+      dw = W*k; dh = H*k;
+      var pos = (cs.objectPosition || "50% 50%").replace(/px/g, "");
+      var parts = pos.split(/\s+/);
+      var px = parts[0] || "50%", py = parts[1] || "50%";
+      var fx = px.indexOf("%") >= 0 ? parseFloat(px)/100 : 0.5;
+      var fy = py.indexOf("%") >= 0 ? parseFloat(py)/100 : 0.5;
+      dx = (cw - dw)*fx; dy = (ch - dh)*fy;
+    }
+    return { x: x + dx, y: y + dy, w: dw, h: dh, W: W, H: H };
+  }
+
+  function v24Fit(box, img){
+    var layer = box.parentNode;
+    if(!layer || !img) return;
+    var lr = layer.getBoundingClientRect();
+    var d = v24Drawn(img);
+    if(!d.w || !lr.width){ box.style.display = "none"; return; }
+    box.style.display = "";
+    box.style.left = (d.x - lr.left) + "px";
+    box.style.top  = (d.y - lr.top)  + "px";
+    box.style.width = d.w + "px";
+    box.style.height = d.h + "px";
+  }
+
+  /* 레이어 하나(=한 슬롯 묶음)를 그림 — back 은 날개만, front 는 나머지 */
+  function v24PaintLayer(layerEl, imgEl, map){
+    if(!layerEl || !imgEl) return;
+    var back = layerEl.classList.contains("back");
+    var img = imgEl.tagName === "IMG" ? imgEl : imgEl.querySelector("img");
+    if(!img) return;
+    var box = layerEl.querySelector(".cosmo-box");
+    if(!box){
+      box = document.createElement("div");
+      box.className = "cosmo-box";
+      layerEl.appendChild(box);
+    }
+    var a = v24A(img);
+    var sig = v24Sig(a, map, back);
+    if(box.getAttribute("data-sig") !== sig){
+      box.setAttribute("data-sig", sig);
+      var svg = v24Svg(a, map, back);
+      box.innerHTML = svg;
+      box.setAttribute("data-on", svg ? "1" : "0");
+    }
+    if(box.getAttribute("data-on") === "1") v24Fit(box, img);
+    else box.style.display = "none";
+  }
+
+  function v24PaintSet(backEl, frontEl, imgEl, map){
+    try { v24PaintLayer(backEl, imgEl, map); } catch(e){}
+    try { v24PaintLayer(frontEl, imgEl, map); } catch(e){}
+  }
+
+  /* ---------- 위치 추적 (히어로의 floaty 애니메이션까지 따라간다) ---------- */
+  function v24PlaceAll(){
+    if(!state) return;
+    if(document.hidden) return;   /* 백그라운드에서는 위치 추적을 쉰다 */
+    var eq = v24EquippedMap();
+    v24PaintSet($("heroCosmoBack"), $("heroCosmoFront"), $("charImg"), eq);
+    v24PaintSet($("dressBack"), $("dressFront"), $("dressImg"), v24StageMap());
+    if($("msChar")) v24PaintLayer($("msCosmo"), $("msChar"), eq);
+    var pw = $("pStatWrap");
+    if(pw && pw.classList.contains("on")){
+      try { v24PaintSet($("pCosmoBack"), $("pCosmoFront"), $("pStatImg"), v24PartnerMap); } catch(e){}
+    }
+  }
+  function v24Follow(ts){
+    if(!v24FollowOn) return;
+    if(!v24FollowT || ts - v24FollowT > 30){
+      v24FollowT = ts;
+      try { v24PlaceAll(); } catch(e){}
+    }
+    requestAnimationFrame(v24Follow);
+  }
+  function v24FollowStart(){ if(v24FollowOn) return; v24FollowOn = true; requestAnimationFrame(v24Follow); }
+
+  /* ---------- 파트너 모달용 (스냅샷의 equippedCosmetics 만) ---------- */
+  var v24PartnerMap = { eyes:"", head:"", acc:"" };
+  function v24PaintPartner(P){
+    var out = { eyes:"", head:"", acc:"" };
+    var ec = P && P.equippedCosmetics;
+    if(ec && typeof ec === "object"){
+      V24_SLOTS.forEach(function(sl){
+        var id = String(ec[sl.key] || "");
+        var it = id ? v24Item(id) : null;
+        if(it && it.slot === sl.key) out[sl.key] = id;
+      });
+    }
+    v24PartnerMap = out;
+    v24PaintSet($("pCosmoBack"), $("pCosmoFront"), $("pStatImg"), out);
+  }
+
+  /* ---------- 꾸미기 무대 ---------- */
+  function v24SelfIdx(){
+    try {
+      var C = curChar();
+      var li = levelInfo(state.totalExp || 0);
+      var rank = rankFor(li.level);
+      var bd = bodyInfo(state.stats.str);
+      return C.imgOffset + rank.stage + (bd.key === "slim" ? 7 : 0);
+    } catch(e){ return 0; }
+  }
+  function v24StageMap(){
+    var eq = v24EquippedMap(), map = { eyes:eq.eyes, head:eq.head, acc:eq.acc };
+    if(v24Preview){
+      var it = v24Item(v24Preview.id);
+      if(it && !cosNow().owned[it.id]) map[it.slot] = it.id;
+    }
+    return map;
+  }
+
+  function v24RenderStage(){
+    var img = $("dressImg");
+    if(!img) return;
+    var idx = v24SelfIdx();
+    var src = (window.IMAGES && window.IMAGES[idx]) || "";
+    if(src && img.getAttribute("data-i") !== String(idx)){
+      img.src = src;
+      img.setAttribute("data-i", String(idx));
+    }
+    var cap = $("dressCap");
+    if(cap){
+      var t = "";
+      try {
+        var li = levelInfo(state.totalExp || 0);
+        t = "Lv." + li.level + " · " + rankFor(li.level).name;
+      } catch(e){ t = ""; }
+      cap.textContent = t;
+    }
+    v24PaintSet($("dressBack"), $("dressFront"), img, v24StageMap());
+  }
+
+  function v24RenderPreviewBar(){
+    var bar = $("dressPv"), stage = $("dressStage"), buy = $("dressBuy"), note = $("dressNote");
+    var pv = v24Preview ? v24Item(v24Preview.id) : null;
+    if(pv && cosNow().owned[pv.id]){ v24Preview = null; pv = null; }
+    if(stage) stage.classList.toggle("pv-on", !!pv);
+    if(!bar) return;
+    bar.hidden = !pv;
+    if(!pv) return;
+    var gold = (typeof goldVal === "function") ? goldVal() : 0;
+    var label = bar.querySelector(".dpv-label");
+    if(label) label.innerHTML = '👀 미리보기 중 (미구매) · ' + pv.emoji + " " + esc(pv.name);
+    if(buy){
+      var lack = pv.price - gold;
+      buy.textContent = (lack > 0)
+        ? "🪙 " + pv.price + " G로 구매 & 착용 · " + lack + " G 부족"
+        : "🪙 " + pv.price + " G로 구매 & 착용";
+      buy.classList.toggle("lack", lack > 0);
+      buy.setAttribute("data-v24buy", pv.id);
+    }
+    if(note){
+      note.hidden = true;
+      note.textContent = "";
+    }
+  }
+
+  function v24RenderNow(){
+    if(v24Preview){
+      var pv0 = v24Item(v24Preview.id);
+      if(!pv0 || cosNow().owned[pv0.id]) v24Preview = null;
+    }
+    var g = $("dressGold");
+    if(g) g.textContent = "🪙 " + ((typeof goldVal === "function") ? goldVal() : 0) + " G";
+    var c = cosNow();
+    /* 현재 착용 칩 */
+    var now = $("dressNow");
+    if(now){
+      var html = "";
+      V24_SLOTS.forEach(function(sl){
+        var id = c.equipped[sl.key];
+        var it = id ? v24Item(id) : null;
+        html += it
+          ? '<button class="dw on" type="button" data-v24off="' + sl.key + '"><span class="v18-e">' + sl.emoji + "</span> <span class=\"v18-e\">" + it.emoji + "</span> " + esc(it.name) + ' <i>×</i></button>'
+          : '<span class="dw"><span class="v18-e">' + sl.emoji + '</span> 착용 없음</span>';
+      });
+      var anyEq = !!(c.equipped.eyes || c.equipped.head || c.equipped.acc);
+      html += '<button class="dw-off" type="button" id="dressTakeOff"' + (anyEq ? "" : " disabled") + '>모두 벗기</button>';
+      now.innerHTML = html;
+      var off = $("dressTakeOff");
+      if(off) off.addEventListener("click", v24TakeOffAll);
+      Array.prototype.forEach.call(now.querySelectorAll("[data-v24off]"), function(b){
+        b.addEventListener("click", function(){ v24Unequip(b.getAttribute("data-v24off")); });
+      });
+    }
+    /* 슬롯 카탈로그 */
+    var wrap = $("dressSlots");
+    if(wrap){
+      var gold = (typeof goldVal === "function") ? goldVal() : 0;
+      wrap.innerHTML = V24_SLOTS.map(function(sl){
+        var cur = c.equipped[sl.key];
+        var curIt = cur ? v24Item(cur) : null;
+        var cards = V24_ITEMS.filter(function(it){ return it.slot === sl.key; }).map(function(it){
+          var owned = !!c.owned[it.id];
+          var on = cur === it.id;
+          var pv = !!(v24Preview && v24Preview.id === it.id);
+          var cls = "dress-item" + (on ? " on" : "") + (pv ? " pv" : "") + (owned ? "" : " locked");
+          var sub, st;
+          if(on){ st = "on"; sub = "착용 중 · 눌러서 벗기"; }
+          else if(pv){ st = "pv"; sub = "미리보기 · " + it.price + " G"; }
+          else if(owned){ st = "own"; sub = "보유 · 눌러서 착용"; }
+          else { st = "buy"; sub = "🪙 " + it.price + " G"; }
+          return '<button class="' + cls + '" type="button" data-v24id="' + it.id + '" aria-pressed="' + (on ? "true" : "false") + '">'
+            + '<span class="di-emoji v18-e" aria-hidden="true">' + it.emoji + '</span>'
+            + '<span class="di-body"><b>' + esc(it.name) + '</b><small class="st ' + st + '">' + esc(sub) + '</small></span>'
+            + '</button>';
+        }).join("");
+        return '<section class="dress-slot">'
+          + '<div class="ds-head"><b><span class="v18-e">' + sl.emoji + "</span> " + esc(sl.label) + '</b>'
+          + '<span class="ds-cur">' + (curIt ? '<span class="v18-e">' + curIt.emoji + "</span> " + esc(curIt.name) : "착용 없음") + '</span></div>'
+          + '<div class="dress-grid">' + cards + '</div></section>';
+      }).join("");
+      Array.prototype.forEach.call(wrap.querySelectorAll("[data-v24id]"), function(b){
+        b.addEventListener("click", function(){ v24Click(b.getAttribute("data-v24id")); });
+      });
+    }
+    v24RenderStage();
+    v24RenderPreviewBar();
+  }
+
+  /* ---------- 동작 ---------- */
+  function v24Click(id){
+    var it = v24Item(id);
+    if(!it) return;
+    var c = cosNow();
+    if(c.owned[id]){
+      /* 산 아이템 = 누르면 실제 착용/해제 (메인 화면에도 바로) */
+      if(v24Preview && v24Preview.slot === it.slot) v24Preview = null;
+      var was = c.equipped[it.slot] === id;
+      c.equipped[it.slot] = was ? "" : id;
+      save();
+      render();
+      if(navigator.vibrate) navigator.vibrate(8);
+      toast(was ? "🎩 치장템을 벗었어요" : "✨ 착용 완료 · " + it.emoji + " " + esc(it.name),
+        was ? esc(it.name) + " · 보관함에 그대로 있어요" : "메인 화면 캐릭터에도 바로 보여요", null, was ? 2600 : 3600);
+      return;
+    }
+    /* 안 산 아이템 = 이 무대에서만 미리보기 */
+    if(v24Preview && v24Preview.id === id){
+      v24Preview = null;
+      v24RenderNow();
+      return;
+    }
+    v24Preview = { slot: it.slot, id: id };
+    if(navigator.vibrate) navigator.vibrate(6);
+    v24RenderNow();
+  }
+
+  function v24Unequip(slot){
+    var c = cosNow();
+    var id = c.equipped[slot];
+    if(!id) return;
+    var it = v24Item(id);
+    c.equipped[slot] = "";
+    save();
+    render();
+    if(navigator.vibrate) navigator.vibrate(8);
+    toast("🎩 착용 해제", (it ? it.emoji + " " + esc(it.name) + " · " : "") + "보관함에 그대로 있어요", null, 2600);
+  }
+
+  function v24TakeOffAll(){
+    var c = cosNow();
+    if(!(c.equipped.eyes || c.equipped.head || c.equipped.acc)) return;
+    c.equipped.eyes = ""; c.equipped.head = ""; c.equipped.acc = "";
+    save();
+    render();
+    if(navigator.vibrate) navigator.vibrate([8, 30, 8]);
+    toast("🎩 모두 벗기", "치장템은 그대로 보관돼요 · 다시 눌러서 착용할 수 있어요", null, 3200);
+  }
+
+  function v24Buy(id){
+    var it = v24Item(id || (v24Preview && v24Preview.id));
+    if(!it) return;
+    var c = cosNow();
+    if(c.owned[it.id]){ v24Click(it.id); return; }
+    var gold = (typeof goldVal === "function") ? goldVal() : 0;
+    if(gold < it.price){
+      toast("🪙 골드가 부족해요", it.emoji + " " + esc(it.name) + " · " + it.price + " G 필요 · 지금 " + gold + " G · "
+        + (it.price - gold) + " G 더 모아 주세요", null, 4400);
+      var b = $("dressBuy");
+      if(b){ b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); }
+      return;
+    }
+    if(typeof v12AddGold === "function") v12AddGold(-it.price);
+    else state.gold = Math.max(0, (Number(state.gold) || 0) - it.price);
+    c.owned[it.id] = true;
+    c.equipped[it.slot] = it.id;
+    v24Preview = null;
+    save();
+    render();
+    try { if(typeof v12GoldPop === "function") v12GoldPop(); } catch(e){}
+    if(navigator.vibrate) navigator.vibrate([10, 40, 12]);
+    toast("🛒 구매 & 착용 완료 · " + it.emoji + " " + esc(it.name),
+      "-" + it.price + " G → 남은 " + ((typeof goldVal === "function") ? goldVal() : 0) + " G · 메인 화면에도 나타나요", null, 5200);
+  }
+
+  /* ---------- 탭 진입 / 렌더 훅 ---------- */
+  function v24TabEnter(id){
+    if(id === "dressup") v24RenderNow();
+    try { v24PlaceAll(); } catch(e){}
+    v24FollowStart();
+  }
+
+  function v24AfterRender(){
+    try { v24RenderNow(); } catch(e){}
+    try { v24PlaceAll(); } catch(e){}
+  }
+
+  function v24Boot(){
+    try { v24Normalize(state); } catch(e){}
+    var buy = $("dressBuy");
+    if(buy) buy.addEventListener("click", function(){ v24Buy(buy.getAttribute("data-v24buy")); });
+    var cancel = $("dressCancel");
+    if(cancel) cancel.addEventListener("click", function(){ v24Preview = null; v24RenderNow(); });
+    v24FollowStart();
+    try { v24RenderNow(); } catch(e){}
+    try { v24PlaceAll(); } catch(e){}
+  }
+
+  window.__v24 = {
+    items: function(){ return V24_ITEMS.slice(); },
+    equipped: v24EquippedMap,
+    preview: function(){ return v24Preview ? { slot:v24Preview.slot, id:v24Preview.id } : null; },
+    click: v24Click,
+    buy: v24Buy,
+    takeOffAll: v24TakeOffAll
+  };
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -12229,6 +13211,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   try { v20Boot(); } catch(e){}
   try { v21Boot(); } catch(e){}
   try { v22Boot(); } catch(e){}
+  try { v24Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
@@ -12276,8 +13259,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
    · 📊 스탯·도감 하단 버전 바: 현재 버전 표시 + 🔄 업데이트 확인 (이미 최신이면 토스트, 4초 안에 한 번 더 누르면 강제 새로고침)
    · 업데이트로 다시 뜬 화면(URL 에 _v=)은 주소를 깨끗하게 되돌리고 짧은 토스트로 알려 준다. */
 (function(){
-  var APP_SW  = "mmm-2026-11-23-20";
-  var APP_VER = "23.0";
+  var APP_SW  = "mmm-2026-11-23-21";
+  var APP_VER = "24.0";
   var GUARD = "mmm-auto-reload";
   var MAX_TRY = 2;
   var reg = null, reloading = false, checking = false, manualBusy = false, forceUntil = 0;

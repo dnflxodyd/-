@@ -11,7 +11,7 @@
  *  5) 새 버전은 install 에서 skipWaiting, activate 에서 clients.claim + 옛 캐시 삭제로
  *     바로 활성화된다. (iOS Safari 홈 화면 PWA 포함)
  */
-const VERSION = "mmm-2026-11-23-20";
+const VERSION = "mmm-2026-11-23-21";
 const CACHE = "miracle-morning-" + VERSION;
 const CORE = [
   "./",
