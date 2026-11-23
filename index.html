@@ -1713,6 +1713,133 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   .v13-fig b{font-size:11.5px}
 }
 
+/* v15.0 poke popup styles */
+/* ==========================================================
+   v15 — 👉 콕 찌르기 팝업 (상대가 콕 찔렀을 때 화면 전체에 뜨는 모달)
+   ========================================================== */
+#pokeOverlay{z-index:140;background:rgba(58,38,70,.46)}
+/* Jua 폰트에는 흑백 👉 글리프가 있어 색 이모지가 가려진다 → 이모지만 색 폰트로 */
+.v15-e{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif!important;font-weight:400!important}
+.v15-pop{
+  position:relative;width:100%;max-width:326px;overflow:hidden;text-align:center;
+  background:linear-gradient(180deg,#FFFCF2 0%,#FFF3F8 48%,#F3EDFF 100%);
+  border:2px solid #fff;border-radius:30px;padding:17px 18px 14px;
+  box-shadow:0 30px 60px -22px rgba(70,40,90,.62);
+  transform:scale(.88) translateY(16px);
+  transition:transform .34s cubic-bezier(.2,.9,.3,1.3);
+}
+.overlay.on .v15-pop{transform:none}
+#pokeOverlay .v15-pop.bump{animation:v15bump .52s cubic-bezier(.2,.9,.3,1.35)}
+@keyframes v15bump{
+  0%{transform:scale(1) rotate(0)}
+  35%{transform:scale(1.035) rotate(-.6deg)}
+  70%{transform:scale(1.01) rotate(.4deg)}
+  100%{transform:scale(1) rotate(0)}
+}
+
+/* 배경에 살랑이는 발도장 */
+.v15-paws{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.v15-paws span{
+  position:absolute;font-size:15px;line-height:1;opacity:.16;
+  animation:v15paw 5.4s ease-in-out infinite;
+}
+.v15-paws span:nth-child(1){left:7%;top:12%;animation-delay:0s}
+.v15-paws span:nth-child(2){right:9%;top:24%;font-size:12px;animation-delay:1.1s}
+.v15-paws span:nth-child(3){left:13%;bottom:17%;font-size:12px;animation-delay:2.2s}
+.v15-paws span:nth-child(4){right:8%;bottom:11%;animation-delay:.6s}
+@keyframes v15paw{
+  0%,100%{opacity:.1;transform:translateY(0) rotate(-14deg) scale(.9)}
+  50%{opacity:.28;transform:translateY(-7px) rotate(8deg) scale(1.06)}
+}
+
+.v15-badge{
+  position:relative;display:inline-block;margin:0 0 2px;
+  font-family:var(--mono,'Jua',sans-serif);font-size:9px;font-weight:900;letter-spacing:.26em;
+  color:#fff;padding:4px 12px 3px;border-radius:99px;
+  background:linear-gradient(135deg,#FF9BBE,#A98BF0);
+  box-shadow:0 6px 14px -8px rgba(180,110,190,.9);
+  animation:v15badge 1.9s ease-in-out infinite;
+}
+@keyframes v15badge{
+  0%,100%{transform:rotate(-2deg)}
+  50%{transform:rotate(2deg) scale(1.04)}
+}
+
+/* 파트너 캐릭터 + 콕 찌르는 손가락 */
+.v15-art{
+  position:relative;width:104px;height:104px;margin:6px auto 2px;border-radius:50%;
+  display:grid;place-items:center;border:2.5px solid #fff;
+  background:radial-gradient(circle at 50% 62%,#FFF8E2 0%,#FCEAF3 66%,#EFE6FF 100%);
+  box-shadow:0 14px 24px -16px rgba(150,110,140,.9),inset 0 -6px 12px rgba(255,255,255,.7);
+  animation:v15bob 2.8s ease-in-out infinite;
+}
+.v15-art img{
+  width:90%;height:90%;object-fit:contain;display:block;
+  filter:drop-shadow(0 8px 10px rgba(150,110,140,.22));
+}
+.v15-art img[hidden]{display:none}
+.v15-finger{
+  position:absolute;right:-16px;bottom:-4px;font-size:31px;line-height:1;
+  transform-origin:70% 80%;pointer-events:none;
+  filter:drop-shadow(0 5px 6px rgba(150,90,120,.28));
+  animation:v15poke 1s cubic-bezier(.3,.7,.3,1) infinite;
+}
+@keyframes v15bob{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+@keyframes v15poke{
+  0%,100%{transform:rotate(-10deg) translate(0,0)}
+  42%{transform:rotate(6deg) translate(-6px,-5px)}
+  58%{transform:rotate(-2deg) translate(2px,0)}
+}
+
+.v15-pop h2{
+  position:relative;margin:7px 0 0;font-size:18.5px;font-weight:400;letter-spacing:-.02em;
+  line-height:1.3;color:#5C4870;
+}
+.v15-pop h2 b{
+  font-weight:400;
+  background:linear-gradient(100deg,#E08A2E,#DB7CAB 68%,#9B7BFF);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+.v15-msg{
+  position:relative;margin:9px auto 0;max-width:262px;
+  padding:10px 12px;border-radius:15px;
+  background:rgba(255,255,255,.94);border:1.5px solid #F2E4F2;
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
+  font-size:10.5px;line-height:1.58;color:#7C6A8A;font-weight:700;word-break:keep-all;
+  box-shadow:0 8px 18px -16px rgba(140,90,150,.8);
+}
+.v15-msg::before{
+  content:"";position:absolute;left:50%;top:-7px;width:10px;height:10px;
+  background:rgba(255,255,255,.94);border-left:1.5px solid #F2E4F2;border-top:1.5px solid #F2E4F2;
+  transform:translateX(-50%) rotate(45deg);border-top-left-radius:2px;
+}
+
+.v15-time{
+  position:relative;display:inline-block;margin:9px 0 0;
+  font-family:var(--mono,'Jua',sans-serif);font-size:8.5px;font-weight:800;letter-spacing:.05em;
+  color:#A78BC0;background:rgba(255,255,255,.82);border:1px solid #ECDFF4;
+  border-radius:99px;padding:3px 9px;
+}
+
+.v15-actions{position:relative;display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.v15-actions .btn-primary{width:100%;font-size:12.5px;padding:13px 10px}
+.v15-actions .btn-ghost{width:100%;padding:11px;font-size:11.5px}
+.v15-actions .btn-primary:active,.v15-actions .btn-ghost:active{transform:scale(.982)}
+
+.v15-note{position:relative;margin:8px 0 0;font-size:8px;line-height:1.5;color:#B4A4C0;font-weight:700}
+
+@media (max-width:340px){
+  .v15-pop{padding:15px 14px 12px}
+  .v15-pop h2{font-size:16.5px}
+  .v15-art{width:92px;height:92px}
+  .v15-finger{font-size:27px}
+  .v15-msg{font-size:10px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -2075,7 +2202,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <p class="p-line" id="pLine">한마디를 기다리는 중…</p>
       <div class="p-actions">
         <button class="p-btn" id="syncBtn" type="button">🔄 지금 동기화</button>
-        <button class="p-btn poke" id="pokeBtn" type="button">💌 응원 콕 찌르기</button>
+        <button class="p-btn poke" id="pokeBtn" type="button"><span class="v15-e">👉</span> 콕 찌르기</button>
       </div>
       <div class="p-foot">
         <span id="pSyncTime">아직 동기화 전</span>
@@ -2137,7 +2264,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v9.0 (5탭 내비 · 2인 공유 · HP·유혹 · 🪙상점·스킨 · 💼출근·일급)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v15.0 (5탭 내비 · 2인 공유 · 🪙상점·스킨 · 💼출근·일급 · 👉콕 찌르기)</p>
 </div>
 
 <div id="toasts"></div>
@@ -2335,6 +2462,25 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <button class="btn-primary" id="workYes" type="button">💼 네, 출근해요!</button>
     <button class="btn-ghost v13-rest" id="workRest" type="button">🏠 오늘은 쉬는 날</button>
     <p class="v13-note">내일 또 물어볼게요 · 일급은 언제든 💰 자산 탭에서 바꿀 수 있어요</p>
+  </div>
+</div>
+
+<div class="overlay poke" id="pokeOverlay">
+  <div class="v15-pop" role="dialog" aria-modal="true" aria-labelledby="pokeTitle">
+    <div class="v15-paws" aria-hidden="true"><span class="v15-e">🐾</span><span class="v15-e">🐾</span><span class="v15-e">🐾</span><span class="v15-e">🐾</span></div>
+    <p class="v15-badge">[ POKE! ]</p>
+    <div class="v15-art">
+      <img id="pokeImg" alt="파트너 캐릭터">
+      <span class="v15-finger v15-e" aria-hidden="true">👉</span>
+    </div>
+    <h2 id="pokeTitle"><span class="v15-e">👉</span> <b>파트너</b> 님이 콕 찔렀어요!</h2>
+    <p class="v15-msg" id="pokeMsg">"지금 미라클 모닝 할 시간인가요? 👀"</p>
+    <p class="v15-time" id="pokeTime">방금 전</p>
+    <div class="v15-actions">
+      <button class="btn-ghost v15-ok" id="pokeOk" type="button">확인!</button>
+      <button class="btn-primary v15-back" id="pokeBack" type="button"><span class="v15-e">👉</span> 나도 콕 찌르기!</button>
+    </div>
+    <p class="v15-note">최근 24시간 안에 온 콕만 보여드려요 · 확인하면 다시 뜨지 않아요</p>
   </div>
 </div>
 <div class="overlay" id="luOverlay">
@@ -2747,6 +2893,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       dailyWage: 0,
       workPromptDate: "",
       workStatusToday: {date:"", status:""},
+      pokeAt: 0,
+      pokeFrom: "",
+      pokeSeq: 0,
+      pokeSeenAt: 0,
+      pokeSeenSeq: 0,
       born: today()
     };
   }
@@ -2787,6 +2938,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     s.cheerSeq = s.cheerSeq || 0;
     s.cheerAt = s.cheerAt || 0;
     s.cheerSeen = s.cheerSeen || 0;
+    s.pokeSeq = s.pokeSeq || 0;
+    s.pokeAt = s.pokeAt || 0;
+    s.pokeFrom = typeof s.pokeFrom === "string" ? s.pokeFrom.slice(0, 10) : "";
+    s.pokeSeenAt = s.pokeSeenAt || 0;
+    s.pokeSeenSeq = s.pokeSeenSeq || 0;
     s.lastSyncT = s.lastSyncT || 0;
 
     // v3.0 필드
@@ -3548,7 +3704,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
      =================================================================== */
   const API_BASE = "https://jsonstorage.com";
   const POLL_WAIT_MS = 6000;
-  const POLL_LIVE_MS = 15000;
+  const POLL_LIVE_MS = 8000;   /* v15 — 콕 찌르기 팝업이 빨리 뜨도록 조금 더 자주 확인 */
   const API_TIMEOUT_MS = 10000;
   const ROOM_TOUCH_MS = 12 * 60 * 60 * 1000;
 
@@ -3637,6 +3793,10 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       line: String((el.speech && el.speech.textContent) || "").slice(0, 60),
       cheerSeq: state.cheerSeq || 0,
       cheerAt: state.cheerAt || 0,
+      /* v15 — 👉 콕 찌르기 */
+      pokeSeq: state.pokeSeq || 0,
+      pokeAt: state.pokeAt || 0,
+      pokeFrom: String(state.pokeFrom || state.nick || "").slice(0, 10),
       /* v3.0 — 다마고치 · 현물 자산 · 재물운 · 올클리어 */
       mg: (state.pet && state.pet.best) || 0,
       petHappy: Math.round((state.pet && state.pet.happy) || 0),
@@ -3810,7 +3970,12 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       const stale = !d.cheerAt || (Date.now() - d.cheerAt) > 5 * 60 * 1000;
       if(stale) state.cheerSeen = d.cheerSeq || 0;
     }
-    if((d.cheerSeq || 0) > (state.cheerSeen || 0)){
+    let v15poke = false;
+    try { v15poke = v15OnPartner(d); } catch(e){ v15poke = false; }
+    if(v15poke){
+      /* 콕 팝업이 대신 알려 주니 응원 토스트는 겹치지 않게 */
+      state.cheerSeen = Math.max(state.cheerSeen || 0, d.cheerSeq || 0);
+    } else if((d.cheerSeq || 0) > (state.cheerSeen || 0)){
       state.cheerSeen = d.cheerSeq;
       cheerToast(d.nick || "파트너", d.line || "");
     }
@@ -3856,6 +4021,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         touchedAt: Date.now()
       };
       state.lastSyncT = Date.now();
+      state.pokeSeenAt = 0;
+      state.pokeSeenSeq = 0;
       rawSave();
       setPartyState("waiting");
       renderParty();
@@ -3933,25 +4100,34 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     copyInvite();
   }
 
-  /* ---------- 응원 콕 찌르기 ---------- */
-  function cheerPartner(){
+  /* ---------- 👉 콕 찌르기 (v15) ---------- */
+  function pokePartner(opt){
     const p = state.partner;
+    const quiet = !!(opt && opt.quiet);
     if(!cRoom() || !p){
-      toast("아직 파트너가 없어요.", "초대 링크를 먼저 보내 주세요.");
-      return;
+      if(!quiet) toast("아직 파트너가 없어요.", "초대 링크를 먼저 보내 주세요.");
+      return false;
     }
+    const t = Date.now();
+    state.pokeSeq = (state.pokeSeq || 0) + 1;
+    state.pokeAt = t;
+    state.pokeFrom = String(state.nick || curChar().nick || "나").slice(0, 10);
+    /* 구버전 파트너도 알아보게 기존 응원 기록도 함께 올린다 */
     state.cheerSeq = (state.cheerSeq || 0) + 1;
-    state.cheerAt = Date.now();
+    state.cheerAt = t;
     save();
     pushParty();
     if(navigator.vibrate) navigator.vibrate([12, 40, 12]);
-    toast("응원을 보냈어요! 💌", "파트너가 다음 동기화 때 확인해요.");
     const b = $("pokeBtn");
     if(b){
       b.classList.remove("pop");
       void b.offsetWidth;
       b.classList.add("pop");
     }
+    if(!quiet){
+      toast('<span class="v15-e">👉</span> 콕 찌르기 완료!', (p.nick || "파트너") + "님 화면에 팝업이 떠요.", null, 3800);
+    }
+    return true;
   }
 
   function cheerToast(nick, line){
@@ -4154,6 +4330,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     state.character = joinSel;
     state.partner = null;
     state.cheerSeen = 0;
+    state.pokeSeenAt = 0;
+    state.pokeSeenSeq = 0;
     lastChar = -1;
     save();
     render();
@@ -4310,7 +4488,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       });
     });
     const pb = $("pokeBtn");
-    if(pb) pb.addEventListener("click", cheerPartner);
+    if(pb) pb.addEventListener("click", function(){ pokePartner(); });
     const nb = $("nameBtn");
     if(nb) nb.addEventListener("click", function(){
       if(!state.character){ openPicker("start"); return; }
@@ -7821,6 +7999,217 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       if(!v13PopupShown) v13MaybePrompt();
     }, 4000);
   }
+  /* ===================================================================
+     v15 — 👉 콕 찌르기 : 상대가 콕 찔렀을 때 화면에 자동으로 뜨는 팝업
+     · 내가 보낸 콕  : state.pokeAt / pokeFrom / pokeSeq → 내 bin 에 기록
+     · 확인한 콕     : localStorage "mmmLastSeenPoke" { roomId, at, seq }
+                       (같은 방·같은 콕이면 새로고침해도 다시 뜨지 않음)
+     · 24시간 안에 온 콕만 팝업 대상 (지난 콕이 뒤늦게 튀어나오지 않게)
+     =================================================================== */
+  var V15_POKE_WINDOW = 24 * 60 * 60 * 1000;
+  var V15_POKE_SEEN_KEY = "mmmLastSeenPoke";
+  var V15_LINES = [
+    "지금 미라클 모닝 할 시간인가요? 👀",
+    "일어나요~ 오늘도 갓생 한 스푼! ☀️",
+    "콕! 나 지금 널 응원하고 있어 💪",
+    "이불 밖은 위험해… 아니, 갓생은 밖에 있어! 🏃"
+  ];
+  var v15Pending = null;    /* 아직 화면에 못 띄운 콕 (다른 모달이 열려 있을 때) */
+  var v15Showing = null;    /* 지금 떠 있는 팝업의 콕 */
+  var v15Retry = null;
+
+  /* ---------- 확인한 콕 기록 ---------- */
+  function v15SeenRead(){
+    var r = cRoom();
+    var rid = r ? String(r.id) : "";
+    var at = Number(state && state.pokeSeenAt) || 0;
+    var seq = Number(state && state.pokeSeenSeq) || 0;
+    try {
+      var rec = JSON.parse(localStorage.getItem(V15_POKE_SEEN_KEY) || "null");
+      if(rec && typeof rec === "object" && String(rec.roomId || "") === rid){
+        var rat = Number(rec.at) || 0, rseq = Number(rec.seq) || 0;
+        if(rat > at || (rat === at && rseq > seq)){ at = rat; seq = rseq; }
+      }
+    } catch(e){}
+    return { roomId: rid, at: at, seq: seq };
+  }
+
+  function v15MarkSeen(info){
+    if(!info) return;
+    var r = cRoom();
+    var rid = r ? String(r.id) : "";
+    var cur = v15SeenRead();
+    var cat = Number(cur.at) || 0, cseq = Number(cur.seq) || 0;
+    var iat = Number(info.at) || 0, iseq = Number(info.seq) || 0;
+    var at = Math.max(cat, iat), seq;
+    if(iat > cat) seq = iseq;
+    else if(iat === cat) seq = Math.max(cseq, iseq);
+    else seq = cseq;
+    state.pokeSeenAt = at;
+    state.pokeSeenSeq = seq;
+    try { rawSave(); } catch(e){}
+    try { localStorage.setItem(V15_POKE_SEEN_KEY, JSON.stringify({ roomId: rid, at: at, seq: seq })); } catch(e){}
+  }
+
+  /* ---------- 콕 정보 ---------- */
+  function v15PokeInfo(d){
+    var r = cRoom();
+    if(!r || !d) return null;
+    var at = Number(d.pokeAt) || 0;
+    if(!at) return null;
+    var now = Date.now();
+    if(at > now + 5 * 60 * 1000) return null;          /* 기기 시계가 앞선 경우 무시 */
+    if(now - at > V15_POKE_WINDOW) return null;         /* 24시간 지난 콕은 팝업하지 않음 */
+    var from = String(d.pokeFrom || d.nick || "파트너").slice(0, 10);
+    return { roomId: String(r.id), at: at, seq: Number(d.pokeSeq) || 0, from: from };
+  }
+
+  function v15Same(a, b){
+    return !!(a && b && a.roomId === b.roomId && a.at === b.at && a.seq === b.seq);
+  }
+
+  function v15IsNew(info){
+    if(!info) return false;
+    if(v15Same(info, v15Showing) || v15Same(info, v15Pending)) return false;
+    var seen = v15SeenRead();
+    if(info.at < (seen.at || 0)) return false;
+    if(info.at === (seen.at || 0) && info.seq <= (seen.seq || 0)) return false;
+    return true;
+  }
+
+  /* 파트너 기록을 받았을 때 (party.js applyPartner 에서 호출)
+     → 새 콕이면 팝업 예약/갱신하고 true (응원 토스트와 겹치지 않게) */
+  function v15OnPartner(d){
+    var info = v15PokeInfo(d);
+    if(!info) return false;
+    if(v15Same(info, v15Showing)) return true;      /* 이미 떠 있는 같은 콕 */
+    if(!v15IsNew(info)) return false;
+    if(v15Showing){                                  /* 더 새로운 콕 → 떠 있는 팝업 내용 갱신 */
+      v15Showing = info;
+      v15Fill(info);
+      return true;
+    }
+    v15Pending = info;
+    v15TryShow();
+    return true;
+  }
+
+  /* ---------- 다른 모달과 겹치지 않게 ---------- */
+  function v15Conflict(){
+    var nodes = document.querySelectorAll(".overlay.on, .sheet-wrap.on, .picker.on");
+    for(var i = 0; i < nodes.length; i++){
+      if(nodes[i].id !== "pokeOverlay") return true;
+    }
+    var ids = ["pickWrap", "restoreWrap", "restoreOkWrap", "rejoinWrap", "joinWrap"];
+    for(var j = 0; j < ids.length; j++){
+      var n = $(ids[j]);
+      if(n && !n.hidden) return true;
+    }
+    return false;
+  }
+
+  function v15TryShow(){
+    if(v15Retry){ clearTimeout(v15Retry); v15Retry = null; }
+    if(!v15Pending || v15Showing) return;
+    if(!state || !state.character){ v15Retry = setTimeout(v15TryShow, 1200); return; }
+    if(v15Conflict()){ v15Retry = setTimeout(v15TryShow, 900); return; }   /* 닫힌 뒤 표시 */
+    v15Show(v15Pending);
+  }
+
+  /* ---------- 팝업 내용 ---------- */
+  function v15AgoText(at){
+    var diff = Math.max(0, Date.now() - (Number(at) || 0));
+    if(diff < 60 * 1000) return "방금 전 콕!";
+    if(diff < 60 * 60 * 1000) return Math.max(1, Math.round(diff / 60000)) + "분 전 콕!";
+    return Math.max(1, Math.round(diff / 3600000)) + "시간 전 콕!";
+  }
+
+  function v15Fill(info){
+    if(!info) return;
+    var from = info.from || "파트너";
+    var t = $("pokeTitle");
+    if(t) t.innerHTML = '<span class="v15-e">👉</span> <b>' + esc(from) + '</b> 님이 콕 찔렀어요!';
+    var m = $("pokeMsg");
+    if(m){
+      var idx = Math.abs(Math.floor((info.at || 0) / 60000) + (info.seq || 0)) % V15_LINES.length;
+      m.textContent = "\u201C" + V15_LINES[idx] + "\u201D";
+    }
+    var tm = $("pokeTime");
+    if(tm) tm.textContent = v15AgoText(info.at);
+
+    /* 파트너 캐릭터를 그대로 보여 준다 (없으면 손가락만) */
+    var img = $("pokeImg");
+    if(img){
+      var P = state.partner || {};
+      var C = CHARS[P.char] || CHARS.cat;
+      var st7 = (typeof P.stage7 === "number") ? P.stage7 : Math.min(2, P.stage || 0);
+      var idx2 = C.imgOffset + Math.max(0, Math.min(6, st7)) + (P.strKey === "slim" ? 7 : 0);
+      var src = (window.IMAGES && window.IMAGES[idx2]) ? window.IMAGES[idx2] : "";
+      if(src){
+        if(img.getAttribute("data-idx") !== String(idx2)){ img.src = src; img.setAttribute("data-idx", String(idx2)); }
+        img.alt = from + " 캐릭터";
+        img.hidden = false;
+      } else {
+        img.hidden = true;
+      }
+    }
+
+    var pop = document.querySelector("#pokeOverlay .v15-pop");
+    if(pop && $("pokeOverlay") && $("pokeOverlay").classList.contains("on")){
+      pop.classList.remove("bump");
+      void pop.offsetWidth;
+      pop.classList.add("bump");
+    }
+  }
+
+  function v15Show(info){
+    var o = $("pokeOverlay");
+    if(!o) return false;
+    v15Showing = info;
+    v15Pending = null;
+    v15Fill(info);
+    o.classList.add("on");
+    try { document.body.style.overflow = "hidden"; } catch(e){}
+    if(navigator.vibrate){ try { navigator.vibrate([0, 16, 26, 16]); } catch(e){} }
+    return true;
+  }
+
+  function v15Close(){
+    var o = $("pokeOverlay");
+    if(o) o.classList.remove("on");
+    try { document.body.style.overflow = ""; } catch(e){}
+    v15Showing = null;
+    v15Pending = null;
+    if(v15Retry){ clearTimeout(v15Retry); v15Retry = null; }
+  }
+
+  /* 확인! → 닫고 이 콕은 다시 안 뜨게 / 나도 콕 찌르기! → 닫고 즉시 맞찌르기 */
+  function v15Ack(reply){
+    var info = v15Showing || v15Pending;
+    if(!info) return;
+    v15MarkSeen(info);
+    v15Close();
+    if(reply){
+      var ok = false;
+      try { ok = pokePartner({ quiet: true }); } catch(e){ ok = false; }
+      toast('<span class="v15-e">👉</span> 맞찌르기 완료!',
+        ok ? (info.from || "파트너") + "님에게 콕을 보냈어요!" : "파트너와 다시 연결되면 콕이 전해져요.",
+        null, 4200);
+    }
+  }
+
+  /* ---------- wire ---------- */
+  function v15Boot(){
+    var o = $("pokeOverlay");
+    if(!o) return;
+    var okB = $("pokeOk");
+    if(okB) okB.addEventListener("click", function(){ v15Ack(false); });
+    var backB = $("pokeBack");
+    if(backB) backB.addEventListener("click", function(){ v15Ack(true); });
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape" && o.classList.contains("on")) v15Ack(false);
+    });
+  }
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -7833,6 +8222,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   renderParty();
   try { wireV12(); v12Boot(); } catch(e){}
   try { v13Boot(); } catch(e){}
+  try { v15Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
