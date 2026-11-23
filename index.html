@@ -1910,6 +1910,191 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   #qeStats .chip small{font-size:7px}
 }
 
+/* v17.0 partner status styles */
+/* ==========================================================
+   v17.0 — 📊 파트너 상대방 스테이터스 (능력치 · HP · EXP ·
+           다마고치 · 오늘 진행률 · 출근) 카드 요약 + 상세 모달
+   ========================================================== */
+
+/* ---------- 파트너 카드 · 프로필 영역 탭 ---------- */
+.p-top{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.p-top:active{transform:scale(.995)}
+
+/* ---------- 카드 안 스테이터스 요약 ---------- */
+.p-status{
+  margin-top:10px;padding:9px 10px 8px;border-radius:15px;
+  background:rgba(255,255,255,.78);border:1.5px solid #F1E4F2;
+  box-shadow:0 8px 16px -18px rgba(150,110,140,.9);
+}
+.p-gauge{display:grid;grid-template-columns:44px 1fr 60px;align-items:center;gap:7px;margin:0 0 5px}
+.p-gauge:last-child{margin-bottom:0}
+.p-gl{font-family:var(--mono);font-size:8.5px;font-weight:800;color:#8B7A94;white-space:nowrap;letter-spacing:.02em}
+.p-gbar{
+  display:block;position:relative;height:9px;border-radius:99px;overflow:hidden;
+  background:#F2E8F4;box-shadow:inset 0 1px 3px rgba(140,110,140,.16);
+}
+.p-gbar em{
+  display:block;height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,#FFB9D2,#C9B6FF);
+  transition:width .55s cubic-bezier(.2,.8,.2,1);
+}
+.p-gauge.hp .p-gbar em{background:linear-gradient(90deg,#FF9FB8,#FFC58A)}
+.p-gbar.warn em{background:linear-gradient(90deg,#F2BB3F,#FFDA7E)!important}
+.p-gbar.danger em{background:linear-gradient(90deg,#F05B78,#FF9CB0)!important}
+.p-gbar.empty em{width:0!important}
+.p-gauge .p-gv{
+  font-family:var(--mono);font-size:8.5px;font-weight:800;color:#6E5B7C;
+  text-align:right;white-space:nowrap;
+}
+.p-gv.na{color:#BCAAC0}
+.p-abils{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}
+.p-abil{
+  display:flex;align-items:center;gap:4px;min-width:0;
+  font-family:var(--mono);font-size:8.5px;font-weight:800;color:#7A6688;
+  background:#fff;border:1px solid #EFE2F0;border-radius:9px;padding:5px 7px;
+}
+.p-abil i{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;font-style:normal;font-size:10px;line-height:1}
+.p-abil b{margin-left:auto;font-family:var(--mono);font-size:10px;font-weight:800;color:#5C4870}
+.p-abil.na b{color:#BCAAC0;font-weight:800}
+.p-abil.str{background:#FFF6F9;border-color:#FCE3EC}
+.p-abil.int{background:#F8F4FF;border-color:#EADFFB}
+.p-abil.agi{background:#F2FCF8;border-color:#D9F2E8}
+.p-abil.wil{background:#FFFAF0;border-color:#F8EACC}
+
+/* 파트너 카드 — 📊 상세 스테이터스 버튼 */
+.p-detail{
+  width:100%;margin-top:9px;font-family:inherit;font-size:11.5px;font-weight:800;
+  color:#6D53A8;background:linear-gradient(135deg,#F7F2FF,#FFF0F7);
+  border:1.5px solid #E2D2F7;border-radius:13px;padding:10px 8px;cursor:pointer;
+  letter-spacing:-.01em;
+}
+.p-detail:active{transform:scale(.98)}
+
+/* ==========================================================
+   📊 상대방 상세 스테이터스 모달 (바텀 시트)
+   ========================================================== */
+#pStatWrap{z-index:115}   /* 토스트(120)는 모달 위에, 콕 팝업(140)은 더 위에 */
+.pstat-sheet .pstat-scroll{
+  max-height:64vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding-bottom:2px;overscroll-behavior:contain;
+}
+.pstat-hero{display:flex;gap:11px;align-items:center;margin:0 0 4px}
+.pstat-art{
+  position:relative;flex:0 0 88px;width:88px;height:88px;border-radius:22px;
+  display:grid;place-items:center;overflow:hidden;border:2px solid #fff;
+  background:radial-gradient(circle at 50% 62%,#FFF8E2 0%,#FCEAF3 66%,#F1E9FF 100%);
+  box-shadow:0 12px 22px -16px rgba(150,110,130,.95);
+}
+.pstat-art img{
+  position:relative;z-index:2;width:92%;height:92%;object-fit:contain;display:block;
+  filter:drop-shadow(0 6px 8px rgba(150,110,120,.2));
+}
+.pstat-aura{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .3s}
+.pstat-art.flame .pstat-aura{
+  opacity:1;
+  background:radial-gradient(circle at 50% 72%,rgba(255,190,90,.75) 0%,rgba(255,110,70,.36) 46%,rgba(255,80,60,0) 72%);
+  animation:pstatFlame 1.9s ease-in-out infinite;
+}
+.pstat-art.rainbow .pstat-aura{
+  opacity:1;
+  background:conic-gradient(from 0deg,#FF9BBE,#FFD27A,#9BE8C4,#8FC4FF,#C9A6FF,#FF9BBE);
+  filter:blur(7px);transform:scale(1.12);
+  animation:pstatRainbow 6s linear infinite;
+}
+@keyframes pstatFlame{0%,100%{transform:scale(1) translateY(0);opacity:.85}50%{transform:scale(1.08) translateY(-2px);opacity:1}}
+@keyframes pstatRainbow{0%{transform:scale(1.12) rotate(0)}100%{transform:scale(1.12) rotate(360deg)}}
+.pstat-info{min-width:0;flex:1}
+.pstat-info > b{display:block;font-size:17px;font-weight:850;letter-spacing:-.02em;line-height:1.2;word-break:keep-all}
+.pstat-rank{display:block;margin-top:3px;font-size:10px;line-height:1.4;color:#8C7A96;font-weight:700;word-break:keep-all}
+.pstat-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.pstat-badge{
+  font-family:var(--mono);font-size:8px;font-weight:800;color:#8A6420;
+  background:#FFF6DC;border:1px solid #FFE6AE;border-radius:7px;padding:2px 6px;white-space:nowrap;
+}
+.pstat-badge.slim{color:#2F8465;background:#EFFAF5;border-color:#CFF0E3}
+.pstat-badge.skin{color:#A5527D;background:#FFF0F7;border-color:#FFD6E7}
+.pstat-badge.luck{color:#5E8A34;background:#F4FBEA;border-color:#DCEFC4}
+.pstat-badge.na{color:#A99BB0;background:#F7F3F9;border-color:#EDE3F0}
+
+.pstat-sec{margin-top:13px}
+.pstat-h{
+  display:flex;align-items:center;gap:6px;margin:0 0 7px;
+  font-family:var(--mono);font-size:8px;font-weight:800;letter-spacing:.18em;color:#A98BDF;
+}
+.pstat-h::after{content:"";flex:1;height:1px;background:#F0E6F3}
+
+/* 능력치 · 게이지 줄 */
+.pstat-rows{display:grid;gap:6px}
+.pstat-row{display:grid;grid-template-columns:62px 1fr 58px;align-items:center;gap:7px}
+.pstat-row > span{
+  font-family:var(--mono);font-size:8.5px;font-weight:800;color:#7A6688;white-space:nowrap;
+  display:flex;align-items:center;gap:3px;
+}
+.pstat-row > span i{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;font-style:normal;font-size:10px;line-height:1}
+.pstat-row > b{
+  font-family:var(--mono);font-size:9px;font-weight:800;color:#6E5B7C;text-align:right;white-space:nowrap;
+}
+.pstat-row > b.na{color:#BCAAC0}
+.pstat-bar{
+  display:block;position:relative;height:10px;border-radius:99px;overflow:hidden;
+  background:#F2E8F4;box-shadow:inset 0 1px 3px rgba(140,110,140,.16);
+}
+.pstat-bar em{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#FFB9D2,#C9B6FF);transition:width .55s cubic-bezier(.2,.8,.2,1)}
+.pstat-row.str .pstat-bar em{background:linear-gradient(90deg,#FFB6C9,#FF94B4)}
+.pstat-row.int .pstat-bar em{background:linear-gradient(90deg,#C6B2FF,#A88BF2)}
+.pstat-row.agi .pstat-bar em{background:linear-gradient(90deg,#B4EBD7,#6FD3B0)}
+.pstat-row.wil .pstat-bar em{background:linear-gradient(90deg,#FFE3A3,#F0B84E)}
+.pstat-row.hp .pstat-bar em{background:linear-gradient(90deg,#FF9FB8,#FFC58A)}
+.pstat-row.exp .pstat-bar em{background:linear-gradient(90deg,#FFD27A,#FFA9C8,#C8B4FF)}
+.pstat-row.hunger .pstat-bar em{background:linear-gradient(90deg,#FFC48A,#FF9F6E)}
+.pstat-row.happy .pstat-bar em{background:linear-gradient(90deg,#FFA9C7,#C79BFF)}
+.pstat-bar.warn em{background:linear-gradient(90deg,#F2BB3F,#FFDA7E)!important}
+.pstat-bar.danger em{background:linear-gradient(90deg,#F05B78,#FF9CB0)!important}
+.pstat-bar.empty em{width:0!important}
+
+/* 오늘의 퀘스트 · 출근 */
+.pstat-work{
+  display:flex;align-items:center;gap:6px;margin:0 0 8px;
+  font-size:10px;font-weight:800;color:#7C6A8A;background:#FFFCF5;
+  border:1.5px solid #F1E4E8;border-radius:11px;padding:8px 10px;word-break:keep-all;
+}
+.pstat-work b{font-weight:850}
+.pstat-work.worked{color:#2F8465;background:#F1FBF6;border-color:#CFEFE1}
+.pstat-work.rest{color:#A06C30;background:#FFF9EC;border-color:#F7E7C6}
+.pstat-work.na{color:#A99BB0;background:#F8F5F9;border-color:#EDE3F0}
+.pstat-quests{display:grid;gap:4px}
+.pstat-q{
+  display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:11px;
+  background:#fff;border:1.5px solid #F4EAF5;font-size:10.5px;line-height:1.35;
+  color:#6E5B7C;font-weight:700;word-break:keep-all;
+}
+.pstat-q .qmk{
+  flex:0 0 16px;width:16px;height:16px;display:grid;place-items:center;border-radius:6px;
+  font-size:9px;line-height:1;background:#F4EDF6;color:#B9A9C0;border:1px solid #EADFF0;
+}
+.pstat-q .q-ico{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;font-size:11px;line-height:1}
+.pstat-q .q-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pstat-q.done{background:#F5FBF7;border-color:#DCF0E4;color:#4C8168}
+.pstat-q.done .qmk{background:#46BE8C;border-color:#46BE8C;color:#fff}
+.pstat-q.na{justify-content:center;color:#A99BB0;background:#F9F6FA;border-style:dashed}
+.pstat-empty{
+  text-align:center;font-size:10px;line-height:1.6;font-weight:700;color:#A08E9E;
+  background:#FFFCF5;border:1.5px dashed #EADCCB;border-radius:12px;padding:12px 9px;
+}
+.pstat-foot-note{margin:9px 0 0;font-size:8px;line-height:1.5;color:#B4A4C0;font-weight:700;text-align:center}
+.pstat-actions{display:flex;gap:7px;margin-top:12px}
+.pstat-actions .btn-primary{flex:1.15;font-size:12px;padding:12px 8px}
+.pstat-actions .btn-ghost{flex:1;font-size:11.5px;padding:12px 8px}
+
+@media (max-width:340px){
+  .p-gauge{grid-template-columns:40px 1fr 52px}
+  .pstat-row{grid-template-columns:54px 1fr 52px}
+  .pstat-art{flex:0 0 78px;width:78px;height:78px}
+  .pstat-info > b{font-size:15.5px}
+  .pstat-sheet .pstat-scroll{max-height:58vh}
+  .pstat-q{font-size:10px;padding:6px 8px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -2255,15 +2440,14 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     </div>
 
     <div id="partnerBox" hidden>
-      <div class="p-top">
+      <div class="p-top" id="pTopBtn" role="button" tabindex="0" aria-label="파트너 상세 스테이터스 열기" title="눌러서 상세 스테이터스 보기">
         <div class="p-avatar"><img id="pImg" alt="파트너 캐릭터"></div>
         <div class="p-id">
           <b id="pNick">파트너</b>
           <span class="p-rank" id="pRank">불러오는 중…</span>
           <div class="p-chips">
-            <span class="p-chip" id="pQuestChip">✅ 0/4</span>
-            <span class="p-chip hp" id="pHpChip">❤️ HP 100/100</span>
-            <span class="p-chip fire" id="pStreakChip">🔥 0일</span>
+            <span class="p-chip" id="pQuestChip">✅ 오늘 0/4</span>
+            <span class="p-chip fire" id="pStreakChip">🔥 0일 연속</span>
             <span class="p-chip game" id="pGameChip">🎮 0점</span>
             <span class="p-chip money" id="pMoneyChip">💰 🌱 소박한 갓생러</span>
             <span class="p-chip gold" id="pGoldChip">🪙 0 G</span>
@@ -2272,6 +2456,25 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
           </div>
         </div>
       </div>
+      <div class="p-status" id="pStatBox">
+        <div class="p-gauge hp" id="pStatHpRow">
+          <span class="p-gl">❤️ HP</span>
+          <span class="p-gbar" id="pStatHpBar"><em id="pStatHpFill"></em></span>
+          <b class="p-gv" id="pStatHpText">–</b>
+        </div>
+        <div class="p-gauge exp" id="pStatExpRow">
+          <span class="p-gl">✨ EXP</span>
+          <span class="p-gbar" id="pStatExpBar"><em id="pStatExpFill"></em></span>
+          <b class="p-gv" id="pStatExpText">–</b>
+        </div>
+        <div class="p-abils" id="pAbils">
+          <span class="p-abil str"><i>💪</i>STR<b id="pStatStr">–</b></span>
+          <span class="p-abil int"><i>📚</i>INT<b id="pStatInt">–</b></span>
+          <span class="p-abil agi"><i>⚡</i>AGI<b id="pStatAgi">–</b></span>
+          <span class="p-abil wil"><i>🛡️</i>WIL<b id="pStatWil">–</b></span>
+        </div>
+      </div>
+      <button class="p-detail" id="pDetailBtn" type="button">📊 상세 스테이터스</button>
       <p class="p-line" id="pLine">한마디를 기다리는 중…</p>
       <div class="p-actions">
         <button class="p-btn" id="syncBtn" type="button">🔄 지금 동기화</button>
@@ -2337,7 +2540,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v16.0 (5탭 내비 · 2인 공유 · 🪙상점·스킨 · 💼출근·일급 · ✏️퀘스트 편집)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v17.0 (5탭 내비 · 2인 공유 · 🪙상점·스킨 · 💼출근·일급 · 📊파트너 스테이터스)</p>
 </div>
 
 <div id="toasts"></div>
@@ -2585,6 +2788,52 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <button class="btn-primary" id="qeSave">저장하기</button>
     </div>
     <button class="qe-delete" id="qeDelete" type="button">🗑️ 이 퀘스트 삭제</button>
+  </div>
+</div>
+<div class="sheet-wrap" id="pStatWrap">
+  <div class="sheet pstat-sheet" role="dialog" aria-modal="true" aria-labelledby="pStatTitle">
+    <div class="grab"></div>
+    <p class="sheet-sys">[ STATUS ] 파트너</p>
+    <h3 id="pStatTitle">📊 상대방 스테이터스</h3>
+    <div class="pstat-scroll">
+      <div class="pstat-hero">
+        <div class="pstat-art" id="pStatArt">
+          <span class="pstat-aura" aria-hidden="true"></span>
+          <img id="pStatImg" alt="파트너 캐릭터">
+        </div>
+        <div class="pstat-info">
+          <b id="pStatNick">파트너</b>
+          <span class="pstat-rank" id="pStatRank">불러오는 중…</span>
+          <div class="pstat-badges" id="pStatBadges"></div>
+        </div>
+      </div>
+
+      <div class="pstat-sec">
+        <p class="pstat-h">[ ABILITY ] 4대 능력치</p>
+        <div class="pstat-rows" id="pStatAbil"></div>
+      </div>
+
+      <div class="pstat-sec">
+        <p class="pstat-h">[ VITALS ] HP · EXP</p>
+        <div class="pstat-rows" id="pStatVitals"></div>
+      </div>
+
+      <div class="pstat-sec">
+        <p class="pstat-h">[ CARE ] 다마고치</p>
+        <div class="pstat-rows" id="pStatPet"></div>
+      </div>
+
+      <div class="pstat-sec">
+        <p class="pstat-h">[ TODAY ] 오늘의 기록</p>
+        <div class="pstat-work" id="pStatWork">💼 출근 여부 미집계</div>
+        <div class="pstat-quests" id="pStatQuests"></div>
+        <p class="pstat-foot-note" id="pStatNote"></p>
+      </div>
+    </div>
+    <div class="pstat-actions">
+      <button class="btn-ghost" id="pStatClose" type="button">닫기</button>
+      <button class="btn-primary" id="pStatPoke" type="button"><span class="v15-e">👉</span> 콕 찌르기</button>
+    </div>
   </div>
 </div>
 <div class="overlay" id="luOverlay">
@@ -3925,6 +4174,36 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       skin: (state.shop && state.shop.wear) || "",
       couponSeq: (state.shop && state.shop.couponSeq) || 0,
       couponAt: (state.shop && state.shop.couponAt) || 0,
+      /* v17.0 — 상대방 상세 스테이터스 (능력치 · HP · EXP · 다마고치 · 오늘 진행률 · 출근)
+         · 현물 자산 금액은 위 moneyHide 규칙을 그대로 따른다 (숨김이면 금액 없이 등급만) */
+      stats: {
+        str: Math.round(state.stats.str || 0),
+        int: Math.round(state.stats.int || 0),
+        agi: Math.round(state.stats.agi || 0),
+        wil: Math.round(state.stats.wil || 0)
+      },
+      maxHp: 100,
+      totalExp: state.totalExp,
+      exp: li.maxed ? 0 : li.into,      /* 현재 레벨에서 모은 EXP */
+      nextExp: li.maxed ? 0 : li.need,  /* 다음 레벨까지 필요 EXP (0 = MAX) */
+      tamagotchi: (function(){
+        try {
+          const pt = petNow();
+          return { hunger: Math.round(pt.hunger || 0), happy: Math.round(pt.happy || 0) };
+        } catch(e){ return null; }
+      })(),
+      dailyProgress: {
+        done: state.quests.filter(function(q){ return q.done; }).length,
+        total: state.quests.length,
+        titles: state.quests.slice(0, 12).map(function(q){
+          return {
+            t: String(q.title || "퀘스트").slice(0, 26),
+            d: q.done ? 1 : 0,
+            i: String(q.icon || "").slice(0, 4)
+          };
+        })
+      },
+      workStatus: (typeof v13Status === "function") ? (v13Status() || "") : "",
       at: Date.now()
     };
   }
@@ -4312,6 +4591,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       }
       const t = $("pSyncTime");
       if(t) t.textContent = syncTimeText();
+      try { if(typeof v17RenderPartner === "function") v17RenderPartner(); } catch(e){}
       return;
     }
 
@@ -4331,19 +4611,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         $("pRank").textContent = "기록을 불러오는 중…";
       }
     }
-    if($("pQuestChip")) $("pQuestChip").textContent = "✅ " + (P.qDone || 0) + "/" + (P.qTotal || 4);
-    if($("pHpChip")){
-      const chip = $("pHpChip");
-      if(typeof P.hp === "number" && isFinite(P.hp)){
-        const hv = Math.max(0, Math.min(100, Math.round(P.hp)));
-        chip.hidden = false;
-        chip.textContent = "❤️ HP " + hv + "/100" + (hv <= 30 ? " ⚠️ 빈사" : "");
-        chip.classList.toggle("crit", hv <= 30);
-      } else {
-        chip.hidden = true;
-      }
-    }
-    if($("pStreakChip")) $("pStreakChip").textContent = "🔥 " + (P.streak || 0) + "일";
+    if($("pQuestChip")) $("pQuestChip").textContent = "✅ 오늘 " + (P.qDone || 0) + "/" + (P.qTotal || 4);
+    if($("pStreakChip")) $("pStreakChip").textContent = "🔥 " + (P.streak || 0) + "일 연속";
     if($("pGameChip")) $("pGameChip").textContent = "🎮 최고 " + (P.mg || 0) + "점";
     if($("pMoneyChip")){
       const em = P.moneyTierEmoji || "🌱";
@@ -4374,6 +4643,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     }
     const t = $("pSyncTime");
     if(t) t.textContent = syncTimeText();
+    try { if(typeof v17RenderPartner === "function") v17RenderPartner(); } catch(e){}
   }
 
   /* ---------- 초대 링크로 들어온 파트너 ---------- */
@@ -8301,7 +8571,9 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     v15Fill(info);
     o.classList.add("on");
     try { document.body.style.overflow = "hidden"; } catch(e){}
-    if(navigator.vibrate){ try { navigator.vibrate([0, 16, 26, 16]); } catch(e){} }
+    try {
+      if(navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate([0, 16, 26, 16]);
+    } catch(e){}
     return true;
   }
 
@@ -8716,6 +8988,319 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   function v16Boot(){
     v16Wire();
   }
+  /* ===================================================================
+     v17.0 — 📊 파트너 상대방 스테이터스
+     · 파트너 카드 안에 HP · EXP 게이지 + 4대 능력치 칩 요약
+     · 📊 상세 스테이터스 모달 — 일러스트(오라 스킨·슬림 반영) · 등급/칭호
+       · 4대 능력치 게이지 · HP · EXP · 다마고치 · 오늘 퀘스트 달성 내역 · 출근/휴무
+       · 모달 하단에서 바로 👉 콕 찌르기
+     · 구버전 파트너가 새 필드를 보내지 않아도 - / 미집계 로 안전하게 표시
+     =================================================================== */
+  var v17Open = false;
+  var V17_ABIL = [
+    {key:"str", name:"STR", ico:"💪", cls:"str", id:"pStatStr"},
+    {key:"int", name:"INT", ico:"📚", cls:"int", id:"pStatInt"},
+    {key:"agi", name:"AGI", ico:"⚡", cls:"agi", id:"pStatAgi"},
+    {key:"wil", name:"WIL", ico:"🛡️", cls:"wil", id:"pStatWil"}
+  ];
+  var V17_STAT_MAX = 60;   /* 메인 화면 능력치 바와 같은 60 기준 */
+
+  function v17Num(v){
+    var n = Number(v);
+    return isFinite(n) ? Math.round(n) : null;
+  }
+  function v17P(){
+    return (state && state.partner && typeof state.partner === "object") ? state.partner : null;
+  }
+  function v17Ready(){
+    return !!(cRoom() && cRoom().partnerId && v17P());
+  }
+  function v17Stats(P){
+    var out = {str:null, int:null, agi:null, wil:null};
+    if(P && P.stats && typeof P.stats === "object"){
+      V17_ABIL.forEach(function(a){
+        var n = v17Num(P.stats[a.key]);
+        if(n !== null) out[a.key] = Math.max(0, n);
+      });
+    } else if(P){
+      var only = v17Num(P.str);           /* 구버전 파트너는 STR 만 보낸다 */
+      if(only !== null) out.str = Math.max(0, only);
+    }
+    return out;
+  }
+  function v17Hp(P){
+    var v = v17Num(P && P.hp);
+    if(v === null) return null;
+    var max = v17Num(P && P.maxHp);
+    if(max === null || max <= 0) max = 100;
+    v = Math.max(0, Math.min(max, v));
+    return { v:v, max:max, pct:Math.round(v / max * 100) };
+  }
+  function v17Exp(P){
+    if(!P) return null;
+    var now = v17Num(P.exp);
+    if(now === null) return null;
+    var need = v17Num(P.nextExp);
+    if(need === null) return { na:true, now:now };          /* 구버전: totalExp 만 온다 */
+    if(need <= 0) return { maxed:true, now:0, need:0, pct:100 };
+    if(now < 0) now = 0;
+    return { now:now, need:need, pct:Math.min(100, Math.round(now / need * 100)) };
+  }
+  function v17Pet(P){
+    if(!P) return { hunger:null, happy:null };
+    var t = (P.tamagotchi && typeof P.tamagotchi === "object") ? P.tamagotchi : null;
+    return {
+      hunger: t ? v17Num(t.hunger) : null,
+      happy: t ? v17Num(t.happy) : v17Num(P.petHappy)
+    };
+  }
+  function v17Daily(P){
+    if(!P) return { done:0, total:0, titles:null, known:false };
+    var dp = (P.dailyProgress && typeof P.dailyProgress === "object") ? P.dailyProgress : null;
+    var done = dp ? v17Num(dp.done) : v17Num(P.qDone);
+    var total = dp ? v17Num(dp.total) : v17Num(P.qTotal);
+    var titles = (dp && Array.isArray(dp.titles)) ? dp.titles : null;
+    return {
+      done: done === null ? 0 : Math.max(0, done),
+      total: total === null ? 0 : Math.max(0, total),
+      titles: titles,
+      known: !!(dp || total !== null)
+    };
+  }
+  function v17Work(P){
+    var w = (P && typeof P.workStatus === "string") ? P.workStatus : "";
+    if(w === "worked") return { key:"worked", text:"💼 오늘 출근 완료" };
+    if(w === "rest") return { key:"rest", text:"🏠 오늘 휴무" };
+    return { key:"na", text:"💼 출근 여부 미집계" };
+  }
+  function v17HpTone(pct){
+    if(pct < 30) return "danger";
+    if(pct < 60) return "warn";
+    return "";
+  }
+  function v17BarCls(base, pct, tone){
+    var c = base;
+    if(pct <= 0) c += " empty";
+    else if(tone) c += " " + tone;
+    return c;
+  }
+  function v17CharIdx(P){
+    var C = CHARS[P && P.char] || CHARS.cat;
+    var st7 = (P && typeof P.stage7 === "number") ? P.stage7 : Math.min(2, (P && P.stage) || 0);
+    return C.imgOffset + Math.max(0, Math.min(6, st7)) + (P && P.strKey === "slim" ? 7 : 0);
+  }
+
+  /* ---------- 파트너 카드 요약 ---------- */
+  function v17FillCard(){
+    var P = v17P();
+    var hp = v17Hp(P), ex = v17Exp(P), s = v17Stats(P);
+
+    var hpFill = $("pStatHpFill"), hpBar = $("pStatHpBar"), hpText = $("pStatHpText");
+    if(hpFill) hpFill.style.width = (hp ? hp.pct : 0) + "%";
+    if(hpBar) hpBar.className = v17BarCls("p-gbar", hp ? hp.pct : 0, hp ? v17HpTone(hp.pct) : "");
+    if(hpText){
+      hpText.className = "p-gv" + (hp ? "" : " na");
+      hpText.textContent = hp ? (hp.v + "/" + hp.max) : "-";
+    }
+
+    var eFill = $("pStatExpFill"), eBar = $("pStatExpBar"), eText = $("pStatExpText");
+    var eKnown = !!(ex && !ex.na);
+    if(eFill) eFill.style.width = (eKnown ? ex.pct : 0) + "%";
+    if(eBar) eBar.className = v17BarCls("p-gbar", eKnown ? ex.pct : 0, "");
+    if(eText){
+      eText.className = "p-gv" + (eKnown ? "" : " na");
+      eText.textContent = eKnown ? (ex.maxed ? "MAX" : (ex.now + "/" + ex.need)) : "-";
+    }
+
+    V17_ABIL.forEach(function(a){
+      var b = $(a.id);
+      var v = s[a.key];
+      if(!b) return;
+      b.textContent = (v === null) ? "-" : String(v);
+      var wrap = b.parentNode;
+      if(wrap) wrap.className = "p-abil " + a.cls + (v === null ? " na" : "");
+    });
+  }
+
+  /* ---------- 상세 모달 ---------- */
+  function v17Row(kind, label, ico, pct, valText, tone, na){
+    var w = na ? 0 : Math.max(0, Math.min(100, pct));
+    return '<div class="pstat-row ' + kind + '">'
+      + '<span>' + (ico ? '<i>' + ico + '</i>' : '') + esc(label) + '</span>'
+      + '<span class="pstat-bar' + (na ? " empty" : (tone ? " " + tone : "")) + '"><em style="width:' + w + '%"></em></span>'
+      + '<b class="' + (na ? "na" : "") + '">' + esc(valText) + '</b>'
+      + '</div>';
+  }
+
+  function v17FillModal(){
+    var P = v17P() || {};
+    var nick = P.nick || (cRoom() && cRoom().partnerNick) || "파트너";
+
+    if($("pStatNick")) $("pStatNick").textContent = nick;
+    if($("pStatTitle")) $("pStatTitle").textContent = "📊 " + nick + "님 스테이터스";
+
+    /* 등급 · 레벨 · 칭호 */
+    var parts = [];
+    if(P.rankName) parts.push(P.rankName);
+    if(typeof P.lv === "number") parts.push("Lv." + P.lv);
+    if($("pStatRank")) $("pStatRank").textContent = parts.length ? parts.join(" · ") : "기록을 불러오는 중…";
+
+    /* 배지 — 슬림 · 오라 스킨 · 재물운 */
+    var badges = [];
+    if(!P.nick) badges.push('<span class="pstat-badge na">기록 불러오는 중…</span>');
+    if(P.strKey === "slim") badges.push('<span class="pstat-badge slim">✨ 살 빠짐</span>');
+    if(P.skin === "flame") badges.push('<span class="pstat-badge skin">🔥 불꽃 오라</span>');
+    else if(P.skin === "rainbow") badges.push('<span class="pstat-badge skin">🌈 무지개 오라</span>');
+    if(P.luck) badges.push('<span class="pstat-badge luck">🍀 재물운</span>');
+    if($("pStatBadges")) $("pStatBadges").innerHTML = badges.join("");
+
+    /* 일러스트 (슬림·오라 반영) */
+    var art = $("pStatArt"), img = $("pStatImg");
+    if(img && window.IMAGES){
+      var idx = v17CharIdx(P);
+      if(img.getAttribute("data-idx") !== String(idx)){
+        img.src = window.IMAGES[idx];
+        img.setAttribute("data-idx", String(idx));
+      }
+      img.alt = nick + " 캐릭터";
+    }
+    if(art) art.className = "pstat-art" + (P.skin === "flame" ? " flame" : (P.skin === "rainbow" ? " rainbow" : ""));
+
+    /* 4대 능력치 */
+    var s = v17Stats(P);
+    if($("pStatAbil")){
+      $("pStatAbil").innerHTML = V17_ABIL.map(function(a){
+        var v = s[a.key];
+        if(v === null) return v17Row(a.cls, a.name, a.ico, 0, "미집계", "", true);
+        return v17Row(a.cls, a.name, a.ico, Math.min(100, Math.max(6, Math.round(v / V17_STAT_MAX * 100))), String(v), "", false);
+      }).join("");
+    }
+
+    /* HP · EXP */
+    var hp = v17Hp(P), ex = v17Exp(P);
+    var vit = [];
+    if(hp) vit.push(v17Row("hp", "HP", "❤️", hp.pct, hp.v + " / " + hp.max, v17HpTone(hp.pct), false));
+    else vit.push(v17Row("hp", "HP", "❤️", 0, "미집계", "", true));
+    if(ex && !ex.na){
+      vit.push(v17Row("exp", "EXP", "✨", ex.pct, ex.maxed ? "MAX" : (ex.now + " / " + ex.need), "", false));
+    } else {
+      vit.push(v17Row("exp", "EXP", "✨", 0, "미집계", "", true));
+    }
+    if($("pStatVitals")) $("pStatVitals").innerHTML = vit.join("");
+
+    /* 다마고치 */
+    var pet = v17Pet(P);
+    if($("pStatPet")){
+      $("pStatPet").innerHTML = v17Row("hunger", "배고픔", "🍙", pet.hunger === null ? 0 : pet.hunger,
+          pet.hunger === null ? "미집계" : String(pet.hunger) + "%", "", pet.hunger === null)
+        + v17Row("happy", "행복도", "💖", pet.happy === null ? 0 : pet.happy,
+          pet.happy === null ? "미집계" : String(pet.happy) + "%", "", pet.happy === null);
+    }
+
+    /* 출근 / 휴무 */
+    var work = v17Work(P);
+    if($("pStatWork")){
+      $("pStatWork").className = "pstat-work " + work.key;
+      $("pStatWork").innerHTML = '<b>' + esc(work.text) + '</b>';
+    }
+
+    /* 오늘의 퀘스트 달성 내역 */
+    var daily = v17Daily(P);
+    var qEl = $("pStatQuests");
+    if(qEl){
+      var list = "";
+      if(daily.titles && daily.titles.length){
+        daily.titles.forEach(function(q){
+          var done = !!(q && (q.d === 1 || q.d === true));
+          var ico = (q && q.i) ? String(q.i).slice(0, 4) : "";
+          list += '<div class="pstat-q' + (done ? " done" : "") + '">'
+            + '<span class="qmk">' + (done ? "✓" : "") + '</span>'
+            + (ico ? '<span class="q-ico">' + esc(ico) + '</span>' : '')
+            + '<span class="q-t">' + esc((q && q.t) || "퀘스트") + '</span>'
+            + '</div>';
+        });
+      } else if(daily.titles && !daily.titles.length){
+        list = '<div class="pstat-empty">오늘 등록된 퀘스트가 없어요.</div>';
+      } else if(daily.known){
+        list = '<div class="pstat-empty">오늘 <b>' + daily.done + ' / ' + daily.total + '</b> 완료<br>'
+          + '구버전 파트너라 퀘스트 이름은 아직 못 받아요.</div>';
+      } else {
+        list = '<div class="pstat-empty">오늘의 퀘스트 기록이 아직 없어요.</div>';
+      }
+      qEl.innerHTML = list;
+    }
+
+    if($("pStatNote")){
+      var moneyTxt;
+      if(!P.nick){
+        moneyTxt = "파트너 기록을 불러오는 중";
+      } else if(P.moneyHide === false && typeof P.money === "number"){
+        moneyTxt = "현물 자산 " + fmtWon(P.money);
+      } else {
+        moneyTxt = (P.moneyTierEmoji || "🌱") + " " + (P.moneyTierName || "소박한 갓생러") + " · 금액 비공개";
+      }
+      var goldN = v17Num(P.gold);
+      $("pStatNote").textContent = "오늘 퀘스트 " + daily.done + " / " + daily.total + " 완료 · 골드 "
+        + (goldN === null ? 0 : goldN) + " G · " + moneyTxt;
+    }
+  }
+
+  /* 파트너 카드 + (열려 있으면) 모달을 함께 갱신 */
+  function v17RenderPartner(){
+    if(!$("pDetailBtn") && !$("pStatWrap")) return;
+    v17FillCard();
+    if(v17Open) v17FillModal();
+  }
+
+  function v17OpenModal(){
+    var w = $("pStatWrap");
+    if(!w) return;
+    if(!cRoom() || !cRoom().partnerId){
+      toast("아직 파트너가 없어요.", "초대 링크를 먼저 보내 주세요.");
+      return;
+    }
+    v17Open = true;
+    v17FillModal();
+    w.classList.add("on");
+    try { document.body.style.overflow = "hidden"; } catch(e){}
+  }
+  function v17CloseModal(){
+    var w = $("pStatWrap");
+    if(w) w.classList.remove("on");
+    v17Open = false;
+    try { document.body.style.overflow = ""; } catch(e){}
+  }
+
+  /* ---------- wire ---------- */
+  function v17Boot(){
+    var w = $("pStatWrap");
+    if(!w) return;
+    var openers = [$("pDetailBtn"), $("pTopBtn")];
+    openers.forEach(function(b){
+      if(!b) return;
+      b.addEventListener("click", function(e){
+        if(e && e.preventDefault) e.preventDefault();
+        v17OpenModal();
+      });
+      b.addEventListener("keydown", function(e){
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); v17OpenModal(); }
+      });
+    });
+    var cl = $("pStatClose");
+    if(cl) cl.addEventListener("click", v17CloseModal);
+    w.addEventListener("click", function(e){ if(e.target === w) v17CloseModal(); });
+
+    var poke = $("pStatPoke");
+    if(poke) poke.addEventListener("click", function(){
+      pokePartner();
+    });
+
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape" && w.classList.contains("on")) v17CloseModal();
+    });
+
+    v17RenderPartner();
+  }
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -8730,6 +9315,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   try { v13Boot(); } catch(e){}
   try { v15Boot(); } catch(e){}
   try { v16Boot(); } catch(e){}
+  try { v17Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
