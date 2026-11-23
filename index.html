@@ -2525,6 +2525,48 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 @keyframes v20RecPop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 .mg-start .mg-bests{margin-top:6px}
 
+/* v21.0 hp auto decay styles */
+/* ---------- v21.0 · ❤️ 시간 경과 · 퀘스트 미완료 HP 자동 감소 ---------- */
+.hp-guide-card{padding-bottom:11px}
+.hp-guide-card .card-head .hint.hot{
+  color:#BE3552;background:#FFEBEF;border-color:#F7C3D0;
+}
+.hp-guide{
+  margin:2px 0 0;font-size:11px;line-height:1.62;font-weight:650;color:#6E5570;
+  word-break:keep-all;
+}
+.hp-guide b{color:#C4526E;font-weight:850}
+.hp-guide-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:9px 0 0;
+}
+.hp-guide-grid .hg{
+  display:flex;flex-direction:column;gap:2px;padding:8px 9px;border-radius:13px;
+  background:linear-gradient(140deg,#FFF8F9,#FFF1F4);border:1.5px solid #FBDDE4;
+  box-shadow:0 8px 16px -18px rgba(180,80,110,.9);
+}
+.hp-guide-grid .hg b{
+  font-family:var(--mono);font-size:8.5px;font-weight:850;letter-spacing:.02em;color:#A8566E;
+}
+.hp-guide-grid .hg span{
+  font-size:9.5px;line-height:1.45;font-weight:700;color:#7C6378;word-break:keep-all;
+}
+.hp-guide-grid .hg span i{font-style:normal;color:#B393A8}
+.hp-guide-grid .hg span em{font-style:normal;font-weight:900;color:#C2385A;white-space:nowrap}
+.hp-guide-grid .hg.both{background:linear-gradient(140deg,#FFF3F5,#FFE9EE);border-color:#F8CBD6}
+.hp-guide-grid .hg.day{background:linear-gradient(140deg,#F7F3FF,#F1ECFF);border-color:#DFD4FB}
+.hp-guide-grid .hg.day b{color:#6E58B4}
+.hp-guide-grid .hg.day span em{color:#6A4FC0}
+.hp-guide-grid .hg.safe{background:linear-gradient(140deg,#F3FBF5,#EAF8EF);border-color:#C9EBD5}
+.hp-guide-grid .hg.safe b{color:#2E8B57}
+.hp-guide-grid .hg.safe span em{color:#2E8B57}
+.hp-guide-foot{
+  margin:9px 0 0;font-size:9px;line-height:1.55;font-weight:700;color:#A08AA4;word-break:keep-all;
+}
+.hp-guide-foot b{color:#8A6B92;font-weight:850}
+@media (max-width:360px){
+  .hp-guide-grid{grid-template-columns:1fr}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -2785,6 +2827,34 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 
   </section>
 
+  <section class="card hp-guide-card pane" data-pane="care" id="hpGuideCard">
+    <div class="card-head">
+      <span class="sys">[ HP AUTO ]</span>
+      <h3>❤️ HP 자동 감소</h3>
+      <span class="hint" id="hpDecayHint">오늘 감소 없음</span>
+    </div>
+    <p class="hp-guide">유혹 체크 외에도 <b>배고픔·서운함 방치</b>나 <b>전날 퀘스트 0개</b>면 HP가 자동으로 줄어들어요.</p>
+    <div class="hp-guide-grid">
+      <div class="hg">
+        <b>🕒 2시간</b>
+        <span>배고픔 <i>또는</i> 행복도 35 이하 → <em>-3 HP</em></span>
+      </div>
+      <div class="hg both">
+        <b>🕒 2시간</b>
+        <span>배고픔·행복도 둘 다 35 이하 → <em>-5 HP</em></span>
+      </div>
+      <div class="hg day">
+        <b>📅 자정</b>
+        <span>전날 퀘스트 0개 → <em>-15 HP</em></span>
+      </div>
+      <div class="hg safe">
+        <b>🍙 케어</b>
+        <span>배고픔·행복도 50 이상이면 <em>감소 없음</em></span>
+      </div>
+    </div>
+    <p class="hp-guide-foot">한 번에 무너지지 않게 <b>1회 최소 HP 5</b>는 남기고 <b>하루 최대 -35 HP</b>까지만 줄어요. 🛡️ 나태 면제권이 있으면 자정 HP 차감도 면제됩니다.</p>
+  </section>
+
   <section class="card hazard pane" data-pane="care" id="hazardCard">
     <div class="card-head">
       <span class="sys hazard">[ HAZARD ]</span>
@@ -2853,6 +2923,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <button class="tool danger" id="penTest">💀 방치 -1일 테스트</button>
     <button class="tool" id="workTest">💼 출근 팝업 테스트</button>
     <button class="tool" id="careTest">🐣 배고픔/호감도 알림 테스트</button>
+    <button class="tool" id="hpDecayTest">❤️ 시간경과 HP 감소 테스트</button>
   </div>
 
   <section class="card party pane" data-pane="party" id="coupleCard">
@@ -2974,7 +3045,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v20.0 (5탭 내비 · 2인 공유 · 🌅오전/☀️오후 퀘스트 · 🎮미니게임 행복도·골드)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v21.0 (5탭 내비 · 2인 공유 · 🌅오전/☀️오후 퀘스트 · ❤️HP 자동 감소)</p>
 </div>
 
 <div id="toasts"></div>
@@ -3828,6 +3899,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v16Normalize(s); } catch(e){}
     try { v19Normalize(s); } catch(e){}
     try { v20Normalize(s); } catch(e){}
+    try { v21Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
@@ -4020,6 +4092,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v18RenderMood(); } catch(e){}
     renderParty();
     try { v20AfterRender(); } catch(e){}
+    try { v21AfterRender(); } catch(e){}
   }
 
 /* ---------- toast ---------- */
@@ -6671,6 +6744,10 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     s.pen.streak = streak;
     if(!days.length || total <= 0) return null;
 
+    /* v21.0 — 전날 퀘스트 0개(면제권이 막은 날 제외) → HP -15 도 함께 차감 */
+    var hpLoss = 0;
+    if(typeof v21PenaltyHp === "function"){ try { hpLoss = v21PenaltyHp(days); } catch(e){ hpLoss = 0; } }
+
     const before = levelInfo(s.totalExp);
     const applied = Math.min(total, s.totalExp);
     s.totalExp = Math.max(0, s.totalExp - total);
@@ -6679,7 +6756,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     s.pen.lastAt = Date.now();
     penaltyReport = {
       total: applied, nominal: total, streak: streak, days: days.length,
-      from: before.level, to: after.level, detail: days
+      from: before.level, to: after.level, detail: days, hpLoss: hpLoss
     };
     return penaltyReport;
   }
@@ -6924,19 +7001,22 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     state.totalExp = Math.max(0, state.totalExp - amt);
     state.pen.lastAmt = applied;
     state.pen.lastAt = Date.now();
+    /* v21.0 — 전날 퀘스트 0개 → HP -15 함께 차감 */
+    var hpLoss = 0;
+    if(typeof v21PenaltyHpTest === "function"){ try { hpLoss = v21PenaltyHpTest(); } catch(e){ hpLoss = 0; } }
     save();
     render();
     const after = levelInfo(state.totalExp);
     toast("⚠️ 나태 페널티 발동",
       "어제 퀘스트를 안 깨서 -" + amt + " EXP 하락! (연속 " + state.pen.streak + "일째)"
-        + v9ClampNote(applied, amt), null, 5200);
+        + v9ClampNote(applied, amt) + (hpLoss > 0 ? " · ❤️ HP -" + hpLoss : ""), null, 5200);
     if(after.level < before.level){
       setTimeout(function(){
         toast("💀 레벨 강등", "Lv." + before.level + " → Lv." + after.level + " · 진화 단계도 내려갔습니다.", null, 5200);
       }, 520);
     }
     setTimeout(function(){
-      showPenaltyModal({total: applied, nominal: amt, streak: state.pen.streak, from: before.level, to: after.level, days: 1});
+      showPenaltyModal({total: applied, nominal: amt, streak: state.pen.streak, from: before.level, to: after.level, days: 1, hpLoss: hpLoss});
     }, 260);
   }
 
@@ -11098,6 +11178,321 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       split: v20SplitQuests
     };
   }
+  /* ===================================================================
+     v21.0 — ❤️ 시간 경과 · 퀘스트 미완료 시 HP 자동 감소
+     · 다마고치 시간 감쇠(petNow)에 연동 — 배고픔 또는 행복도가 35 이하인 채로
+       시간이 지나면 2시간당 -3 HP, 둘 다 35 이하면 2시간당 -5 HP.
+       (배고픔 -1/30분 · 행복도 -1/45분 곡선을 그대로 따라 "낮았던 시간"만 계산)
+     · 50 이상으로 잘 챙긴 상태에서는 시간이 지나도 HP가 깎이지 않는다.
+     · 한 번의 계산에서 HP 5 미만으로 떨어지지 않고, 하루 합계 -35 HP 까지만.
+     · 자정 롤오버 — 전날 퀘스트를 1개도 못 깼으면 HP -15
+       (🛡️ 나태 면제권이 방어한 날은 EXP 와 함께 HP 차감도 면제)
+     =================================================================== */
+  var V21_LOW = 35;          /* 이 값 이하 = 방치 (배고픔·행복도) */
+  var V21_SAFE = 50;         /* 이 값 이상이면 시간 경과 감소 없음 */
+  var V21_H2_ONE = 3;        /* 2시간당 -3 (하나만 낮음) */
+  var V21_H2_BOTH = 5;       /* 2시간당 -5 (둘 다 낮음) */
+  var V21_MIN_LEFT = 5;      /* 한 번 계산 후 남길 최소 HP */
+  var V21_DAY_CAP = 35;      /* 하루 자동 감소 총량 캡 */
+  var V21_ROLLOVER = 15;     /* 전날 퀘스트 0개 → -15 HP */
+
+  var v21PenPending = 0;     /* 자정 롤오버 대기 중인 HP 차감량 */
+  var v21PenApplied = 0;     /* 실제 적용된 롤오버 HP 차감량 */
+  var v21PenBefore = 0;
+  var v21PenAfter = 0;
+  var v21ToastAt = 0;
+
+  function v21HpNow(){
+    if(typeof hpVal === "function"){
+      try { return hpVal(); } catch(e){}
+    }
+    var v = Number(state && state.hp);
+    if(!isFinite(v)) return 100;
+    return Math.max(0, Math.min(100, Math.round(v)));
+  }
+
+  function v21Yesterday(){
+    if(typeof yesterday === "function"){ try { return yesterday(); } catch(e){} }
+    var d = new Date();
+    d.setDate(d.getDate() - 1);
+    var p = function(n){ return (n < 10 ? "0" : "") + n; };
+    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
+  }
+
+  /* ---------- 정규화 (load() 안에서 호출) ---------- */
+  function v21Normalize(s){
+    if(!s || typeof s !== "object") return;
+    var t = today();
+    if(!s.hpDecay || typeof s.hpDecay !== "object") s.hpDecay = {at:0, day:t, loss:0, rem:0};
+    var d = s.hpDecay;
+    var at = Number(d.at);
+    d.at = (isFinite(at) && at > 0) ? at : Date.now();
+    d.day = (typeof d.day === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d.day)) ? d.day : t;
+    d.loss = Math.max(0, Math.min(V21_DAY_CAP, Math.round(Number(d.loss) || 0)));
+    var rem = Number(d.rem);
+    d.rem = isFinite(rem) ? Math.max(0, Math.min(0.9999, rem)) : 0;
+    if(d.day !== t){ d.day = t; d.loss = 0; d.rem = 0; }
+  }
+
+  function v21DecayState(){
+    var t = today();
+    if(!state.hpDecay || typeof state.hpDecay !== "object"){
+      state.hpDecay = {at:Date.now(), day:t, loss:0, rem:0};
+    }
+    var d = state.hpDecay;
+    if(d.day !== t){ d.day = t; d.loss = 0; d.rem = 0; }
+    return d;
+  }
+
+  /* ---------- "낮았던 시간" 계산 ----------
+     hunger 는 분당 1/30, happy 는 분당 1/45 씩 줄어든다.
+     구간 시작 값(v0)에서 35 아래로 내려가기까지 걸리는 시간을 빼면
+     그 구간 중 실제로 방치된 분(minutes)이 나온다. */
+  function v21DropMinutes(v0, perMin, elMin){
+    var v = Number(v0);
+    if(!isFinite(v)) v = 60;
+    if(v <= V21_LOW) return elMin;
+    var cut = (v - V21_LOW) / perMin;
+    if(!isFinite(cut) || cut >= elMin) return 0;
+    return elMin - cut;
+  }
+  function v21CutMinutes(v0, perMin){
+    var v = Number(v0);
+    if(!isFinite(v)) v = 60;
+    if(v <= V21_LOW) return 0;
+    return Math.max(0, (v - V21_LOW) / perMin);
+  }
+
+  /* ---------- 감소 적용 ---------- */
+  function v21Apply(elMin, h0, a0, opts){
+    opts = opts || {};
+    var el = Number(elMin);
+    if(!isFinite(el) || el <= 0) return 0;
+    var d = v21DecayState();
+
+    var lowH = v21DropMinutes(h0, 1 / 30, el);
+    var lowA = v21DropMinutes(a0, 1 / 45, el);
+    var both = Math.max(0, el - Math.max(v21CutMinutes(h0, 1 / 30), v21CutMinutes(a0, 1 / 45)));
+    var union = Math.max(0, lowH + lowA - both);
+    var one = Math.max(0, union - both);
+
+    /* 2시간(120분)당 -3 / -5 */
+    var raw = (one / 120) * V21_H2_ONE + (both / 120) * V21_H2_BOTH;
+    if(raw <= 0){
+      if(opts.keepRem !== true) d.rem = 0;
+      return 0;
+    }
+
+    var total = (Number(d.rem) || 0) + raw;
+    var whole = Math.floor(total + 1e-9);
+    d.rem = Math.max(0, Math.min(0.9999, total - whole));
+    if(whole <= 0) return 0;
+
+    var before = v21HpNow();
+    var dayRoom = Math.max(0, V21_DAY_CAP - (Number(d.loss) || 0));
+    var hpRoom = Math.max(0, before - V21_MIN_LEFT);
+    var allowed = Math.min(whole, dayRoom, hpRoom);
+    if(allowed <= 0){
+      d.rem = 0;
+      return 0;
+    }
+
+    state.hp = before - allowed;
+    state.hpDate = today();
+    d.loss = (Number(d.loss) || 0) + allowed;
+    save();
+    try { if(typeof renderHp === "function") renderHp(); } catch(e){}
+    try { v21RenderHint(); } catch(e){}
+
+    if(!opts.silent){
+      var now = Date.now();
+      if(now - v21ToastAt > 6000 || allowed >= 3){
+        v21ToastAt = now;
+        try {
+          toast("❤️ 방치로 HP -" + allowed,
+            "배고픔·행복도가 낮아 컨디션이 떨어졌어요 · HP " + before + " → " + state.hp
+            + (allowed < whole ? " (오늘 감소 캡 -" + V21_DAY_CAP + " HP)" : ""), null, 5600);
+        } catch(e){}
+        try { if(typeof hpFx === "function") hpFx(); } catch(e){}
+      }
+    }
+    return allowed;
+  }
+
+  /* ---------- petNow 연동 (시간 경과 감쇠 직후) ---------- */
+  function v21Tick(p, h0, a0){
+    if(!p || !state) return;
+    var d = v21DecayState();
+    var now = Date.now();
+    var el = (now - (Number(d.at) || now)) / 60000;
+    if(!isFinite(el) || el < 0.2){ return; }          /* 12초 미만은 다음 호출로 */
+    d.at = now;
+    var h = isFinite(Number(h0)) ? Number(h0) : Number(p.hunger);
+    var a = isFinite(Number(a0)) ? Number(a0) : Number(p.happy);
+    v21Apply(el, h, a, {});
+  }
+
+  function v21WrapPet(){
+    if(typeof petNow !== "function") return;
+    var base = petNow;
+    petNow = function(){
+      var p = (state && state.pet) ? state.pet : null;
+      var h0 = p ? Number(p.hunger) : NaN;
+      var a0 = p ? Number(p.happy) : NaN;
+      var out = base.apply(null, arguments);
+      try { v21Tick(p, h0, a0); } catch(e){}
+      return out;
+    };
+  }
+
+  /* ---------- 자정 롤오버 — 전날 퀘스트 0개 → HP -15 ---------- */
+  function v21PenaltyHp(days){
+    var n = Array.isArray(days) ? days.length : 0;
+    v21PenPending = Math.max(0, n) * V21_ROLLOVER;
+    return v21PenPending;
+  }
+  function v21ApplyRollover(s){
+    if(!v21PenPending || !s) return 0;
+    var before = Math.max(0, Math.min(100, Math.round(Number(s.hp) || 0)));
+    var applied = Math.min(v21PenPending, Math.max(0, before - 1));
+    s.hp = before - applied;
+    s.hpDate = today();
+    v21PenApplied = applied;
+    v21PenBefore = before;
+    v21PenAfter = s.hp;
+    v21PenPending = 0;
+    return applied;
+  }
+  function v21WrapRollover(){
+    if(typeof v10DayRollover !== "function") return;
+    var base = v10DayRollover;
+    v10DayRollover = function(s){
+      var out = base.apply(null, arguments);
+      try { v21ApplyRollover(s); } catch(e){}
+      return out;
+    };
+  }
+
+  /* 💀 방치 -1일 테스트에서도 HP -15 를 함께 보여 준다 */
+  function v21PenaltyHpTest(){
+    if(!state) return 0;
+    var before = v21HpNow();
+    var applied = Math.min(V21_ROLLOVER, Math.max(0, before - 1));
+    state.hp = before - applied;
+    state.hpDate = today();
+    v21PenApplied = applied;
+    v21PenBefore = before;
+    v21PenAfter = state.hp;
+    return applied;
+  }
+
+  /* ---------- [ SYSTEM ] 페널티 모달에 ❤️ HP -15 표시 ---------- */
+  function v21PenaltyFigures(rep){
+    if(!rep) return;
+    var loss = Math.round(Number(rep.hpLoss) || 0) || v21PenApplied;
+    if(!loss) return;
+    var line = $("penLine");
+    if(line && String(line.textContent).indexOf("❤️ HP") < 0){
+      line.textContent = String(line.textContent) + " · ❤️ HP -" + loss;
+    }
+    var figs = $("penFigures");
+    if(figs && !figs.querySelector(".pf-hp")){
+      var div = document.createElement("div");
+      div.className = "pf pf-hp";
+      div.innerHTML = '<span>❤️ HP</span><b class="down">-' + loss + '</b>';
+      figs.appendChild(div);
+    }
+  }
+  function v21WrapPenaltyModal(){
+    if(typeof showPenaltyModal !== "function") return;
+    var base = showPenaltyModal;
+    showPenaltyModal = function(rep){
+      var out = base.apply(null, arguments);
+      try { v21PenaltyFigures(rep); } catch(e){}
+      return out;
+    };
+  }
+
+  /* ---------- 안내 문구 · 오늘 감소량 ---------- */
+  function v21RenderHint(){
+    var el = $("hpDecayHint");
+    if(!el) return;
+    var d = state.hpDecay || {};
+    var same = (d.day === today());
+    var loss = same ? Math.max(0, Math.round(Number(d.loss) || 0)) : 0;
+    el.textContent = loss > 0 ? ("오늘 -" + loss + " HP") : "오늘 감소 없음";
+    el.classList.toggle("hot", loss > 0);
+  }
+
+  /* ---------- 🧪 시간경과 HP 감소 테스트 ---------- */
+  function v21DecayTest(){
+    var p = state && state.pet;
+    if(!p){
+      try { toast("테스트할 다마고치가 없어요.", "먼저 캐릭터를 골라 주세요."); } catch(e){}
+      return 0;
+    }
+    var d = v21DecayState();
+    /* 방치 4시간 — 배고픔·행복도가 28 인 채로 4시간이 흐른 상황 */
+    p.hunger = Math.min(isFinite(Number(p.hunger)) ? Number(p.hunger) : 60, 28);
+    p.happy = Math.min(isFinite(Number(p.happy)) ? Number(p.happy) : 55, 28);
+    p.at = Date.now();
+    d.at = Date.now();
+    var before = v21HpNow();
+    var applied = v21Apply(240, p.hunger, p.happy, {silent:true});
+    save();
+    try { render(); } catch(e){}
+    try { v21RenderHint(); } catch(e){}
+
+    if(applied > 0){
+      try { if(typeof hpShake === "function") hpShake(); } catch(e){}
+      try {
+        toast("🧪 시간경과 HP 감소 테스트",
+          "방치 4시간 시뮬레이션(배고픔·행복도 28) · HP " + before + " → " + state.hp, null, 4200);
+      } catch(e){}
+      setTimeout(function(){
+        try {
+          toast("❤️ HP -" + applied + " 자동 감소",
+            "배고픔·행복도를 50 이상으로 챙기면 시간이 지나도 HP는 그대로예요.", null, 6200);
+        } catch(e){}
+      }, 560);
+    } else {
+      try {
+        toast("🧪 시간경과 HP 감소 테스트",
+          "지금은 감소하지 않아요 · 오늘 자동 감소 -" + (Number(d.loss) || 0) + "/" + V21_DAY_CAP
+          + " HP · HP " + before + (before <= V21_MIN_LEFT ? " (최소 HP 5 보호)" : ""), null, 5200);
+      } catch(e){}
+    }
+    return applied;
+  }
+
+  /* ---------- render() 뒤처리 ---------- */
+  function v21AfterRender(){
+    try { v21RenderHint(); } catch(e){}
+  }
+
+  /* ---------- boot ---------- */
+  function v21Boot(){
+    try { v21Normalize(state); } catch(e){}
+
+    var btn = $("hpDecayTest");
+    if(btn) btn.addEventListener("click", function(){ try { v21DecayTest(); } catch(e){} });
+    try { v21RenderHint(); } catch(e){}
+
+    /* QA/검증용 — 시간 경과 계산을 직접 돌려 볼 수 있게 열어 둔다 */
+    window.__v21Test = {
+      apply: v21Apply,
+      tick: function(min, hunger, happy){ return v21Apply(min, hunger, happy, {silent:true}); },
+      hp: v21HpNow,
+      hint: v21RenderHint,
+      decayState: function(){ return state.hpDecay; },
+      simulate: v21DecayTest,
+      rollover: v21PenaltyHpTest
+    };
+  }
+
+  try { v21WrapPet(); } catch(e){}
+  try { v21WrapRollover(); } catch(e){}
+  try { v21WrapPenaltyModal(); } catch(e){}
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -11116,6 +11511,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   try { v18Boot(); } catch(e){}
   try { v19Boot(); } catch(e){}
   try { v20Boot(); } catch(e){}
+  try { v21Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
@@ -11159,7 +11555,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 (function(){
   if(!("serviceWorker" in navigator) || !window.isSecureContext) return;
 
-  var APP_SW = "mmm-2026-11-23-16";
+  var APP_SW = "mmm-2026-11-23-17";
   var GUARD = "mmm-auto-reload";
   var reg = null, reloading = false, checking = false;
 
