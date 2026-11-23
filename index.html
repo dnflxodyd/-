@@ -2742,10 +2742,12 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 /* v23.0 version bar styles */
 /* v23.0 — 📊 스탯·도감 하단 버전 바 + 🔄 업데이트 확인 */
 .verbars{
-  display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+  display:none;            /* .pane 규칙을 이기지 않도록 기본은 숨김 — 활성 탭에서만 flex */
+  align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
   margin:14px 2px 4px;padding:8px 12px;
   background:rgba(255,255,255,.62);border:1px solid #EADDD0;border-radius:12px;
 }
+.verbars.on{display:flex}
 .verbars .ver-lbl{font-size:9px;font-weight:700;color:#A99BB0;letter-spacing:.02em}
 .verbars .ver-num{font-family:var(--mono);font-size:10px;font-weight:800;color:#6C5A88;letter-spacing:-.01em}
 .verbars .ver-btn{
@@ -12274,7 +12276,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
    · 📊 스탯·도감 하단 버전 바: 현재 버전 표시 + 🔄 업데이트 확인 (이미 최신이면 토스트, 4초 안에 한 번 더 누르면 강제 새로고침)
    · 업데이트로 다시 뜬 화면(URL 에 _v=)은 주소를 깨끗하게 되돌리고 짧은 토스트로 알려 준다. */
 (function(){
-  var APP_SW  = "mmm-2026-11-23-19";
+  var APP_SW  = "mmm-2026-11-23-20";
   var APP_VER = "23.0";
   var GUARD = "mmm-auto-reload";
   var MAX_TRY = 2;
