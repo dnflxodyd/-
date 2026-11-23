@@ -7,7 +7,7 @@
  *     (파티/파트너 동기화가 옛 응답을 받는 일이 없도록)
  *  3) GET 이외(POST/PUT 등)는 손대지 않고 통과.
  */
-const VERSION = "mmm-2026-11-23-12";
+const VERSION = "mmm-2026-11-23-13";
 const CACHE = "miracle-morning-" + VERSION;
 const CORE = [
   "./",
