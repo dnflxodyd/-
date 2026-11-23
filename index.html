@@ -10532,12 +10532,14 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     var r = cRoom();
     if(!r || !d) return false;
     var seen = v19SeenRead();
+    var info = v19Info(d);
     if(!seen.base){
       /* 처음 파트너와 연결된 순간 — 이때까지의 기록은 기준점만 잡고 넘어간다 */
-      v19SetBase(String(r.id), Number(d.at) || Date.now());
+      var base = Number(d.at) || Date.now();
+      v19SetBase(String(r.id), base);
       seen = v19SeenRead();
+      if(!info || info.at <= base){ if(info) v19MarkSeen(info); return false; }
     }
-    var info = v19Info(d);
     if(!info) return false;
     if(v19Same(info, v19Showing) || v19Same(info, v19Pending)) return true;
     if(info.id === seen.id) return false;
