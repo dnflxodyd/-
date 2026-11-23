@@ -1839,6 +1839,77 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   .v15-msg{font-size:10px}
 }
 
+/* v16.0 quest edit styles */
+/* ---------- v16.0 — ✏️ 퀘스트 전체 수정 · 삭제 · 기본 복구 ---------- */
+.q-edit{
+  flex:0 0 25px;width:25px;height:25px;display:grid;place-items:center;
+  font-size:11px;line-height:1;border-radius:9px;background:#FFF8EC;border:1.5px solid #F2E3D0;
+  color:#A98C6B;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;
+  transition:transform .12s,background .2s;
+}
+.q-edit:hover{background:#FFF0DA}
+.q-edit:active{transform:scale(.9)}
+.quest.done .q-edit{opacity:.5}
+.q-empty{
+  text-align:center;font-size:11px;line-height:1.65;font-weight:700;color:#A08E9E;
+  background:#FFFCF5;border:1.5px dashed #EADCCB;border-radius:15px;padding:15px 10px;
+}
+.q-empty b{color:#8C6FD1}
+.q-empty.small{font-size:10px;padding:11px 8px}
+.add-row{display:flex;gap:7px;margin-top:11px}
+.add-row .add-btn{flex:1;width:auto;margin-top:0}
+.restore-btn{
+  flex:0 0 auto;font-family:inherit;font-size:10.5px;font-weight:800;color:#8C7A96;background:#fff;
+  border:1.5px solid #EADCCB;border-radius:14px;padding:0 11px;cursor:pointer;white-space:nowrap;
+}
+.restore-btn:active{transform:scale(.98)}
+.qe-sheet .qe-scroll{max-height:62vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.qe-emoji-row{display:flex;align-items:center;gap:8px}
+.qe-preview{
+  flex:0 0 46px;width:46px;height:46px;display:grid;place-items:center;font-size:24px;
+  background:#fff;border:1.5px solid #EADCCB;border-radius:14px;
+}
+.qe-emoji-input{
+  flex:1;min-width:0;padding:11px 12px;border-radius:13px;border:1.5px solid #EADCCB;background:#fff;
+  font-family:inherit;font-size:15px;color:var(--ink);outline:none;
+}
+.qe-emoji-chips{margin-top:7px}
+.qe-emoji-chip{
+  width:34px;height:34px;display:grid;place-items:center;font-size:16px;background:#fff;
+  border:1.5px solid #EADCCB;border-radius:11px;cursor:pointer;line-height:1;
+}
+.qe-emoji-chip.on{background:#3F3049;border-color:#3F3049;box-shadow:0 0 0 3px rgba(63,48,73,.1)}
+.qe-input{
+  width:100%;padding:12px 13px;border-radius:14px;border:1.5px solid #EADCCB;background:#fff;
+  font-family:inherit;font-size:16px;color:var(--ink);outline:none;transition:.15s;
+}
+.qe-input::placeholder{color:#C7B7C6}
+.qe-input:focus,.qe-emoji-input:focus{border-color:#C3AAF5;box-shadow:0 0 0 3px rgba(195,170,245,.22)}
+.qe-input.shake{animation:shake .35s}
+.qe-rewards{display:flex;gap:8px;margin-top:8px}
+.qe-field{
+  flex:1;display:flex;align-items:center;gap:7px;background:#fff;border:1.5px solid #EADCCB;
+  border-radius:13px;padding:8px 11px;
+}
+.qe-field span{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;color:#A3909F;font-weight:700;white-space:nowrap}
+.qe-field input{
+  flex:1;min-width:0;border:0;background:transparent;font-family:var(--mono);font-size:15px;font-weight:800;
+  color:var(--ink);outline:none;text-align:right;
+}
+.qe-note{margin:10px 2px 0;font-size:9.5px;line-height:1.55;color:#A99AA4;font-weight:600;word-break:keep-all}
+.qe-delete{
+  width:100%;margin-top:9px;padding:12px;border-radius:14px;border:1.5px solid #F3D2D9;background:#FFF7F8;
+  color:#C56A80;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;
+}
+.qe-delete:active{transform:scale(.99)}
+@media (max-width:359px){
+  .restore-btn{padding:0 8px;font-size:9.5px}
+  .q-edit{flex:0 0 22px;width:22px;height:22px;font-size:10px}
+  .qe-sheet .qe-scroll{max-height:60vh}
+  #qeStats .chip{padding:7px 8px;font-size:10px}
+  #qeStats .chip small{font-size:7px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -2071,7 +2142,10 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   </div>
 
     <div id="questList"></div>
-    <button class="add-btn" id="addBtn">＋ 일일 퀘스트 추가</button>
+    <div class="add-row">
+      <button class="add-btn" id="addBtn">＋ 일일 퀘스트 추가</button>
+      <button class="restore-btn" id="baseRestore" type="button" title="기본 퀘스트 복구">↺ 기본 복구</button>
+    </div>
 
     <div class="bonus-sec">
       <div class="bonus-head">
@@ -2263,7 +2337,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v15.0 (5탭 내비 · 2인 공유 · 🪙상점·스킨 · 💼출근·일급 · 👉콕 찌르기)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v16.0 (5탭 내비 · 2인 공유 · 🪙상점·스킨 · 💼출근·일급 · ✏️퀘스트 편집)</p>
 </div>
 
 <div id="toasts"></div>
@@ -2480,6 +2554,37 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <button class="btn-primary v15-back" id="pokeBack" type="button"><span class="v15-e">👉</span> 나도 콕 찌르기!</button>
     </div>
     <p class="v15-note">최근 24시간 안에 온 콕만 보여드려요 · 확인하면 다시 뜨지 않아요</p>
+  </div>
+</div>
+<div class="sheet-wrap" id="qeWrap">
+  <div class="sheet qe-sheet" role="dialog" aria-modal="true" aria-label="퀘스트 수정">
+    <div class="grab"></div>
+    <p class="sheet-sys">[ SYSTEM ] 퀘스트 편집</p>
+    <h3 id="qeTitle">✏️ 퀘스트 수정</h3>
+    <div class="qe-scroll">
+      <label class="lbl">이모지</label>
+      <div class="qe-emoji-row">
+        <span class="qe-preview" id="qePreview" aria-hidden="true">⭐</span>
+        <input class="qe-emoji-input" id="qeEmoji" maxlength="4" placeholder="이모지 직접 입력" autocomplete="off" aria-label="퀘스트 이모지">
+      </div>
+      <div class="chips qe-emoji-chips" id="qeEmojiChips"></div>
+      <label class="lbl" for="qeName">퀘스트 이름</label>
+      <input id="qeName" class="qe-input" maxlength="26" placeholder="예) 기상 후 물 한 잔 마시기" autocomplete="off">
+      <label class="lbl">올려줄 스탯</label>
+      <div class="chips" id="qeStats"></div>
+      <label class="lbl">보상</label>
+      <div class="chips" id="qePresets"></div>
+      <div class="qe-rewards">
+        <label class="qe-field"><span>EXP</span><input id="qeExp" type="number" min="5" max="100" step="5" inputmode="numeric" aria-label="보상 EXP"></label>
+        <label class="qe-field"><span>골드 G</span><input id="qeGold" type="number" min="5" max="100" step="5" inputmode="numeric" aria-label="보상 골드"></label>
+      </div>
+      <p class="qe-note" id="qeNote"></p>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn-ghost" id="qeCancel">취소</button>
+      <button class="btn-primary" id="qeSave">저장하기</button>
+    </div>
+    <button class="qe-delete" id="qeDelete" type="button">🗑️ 이 퀘스트 삭제</button>
   </div>
 </div>
 <div class="overlay" id="luOverlay">
@@ -2911,7 +3016,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     s.quests = Array.isArray(s.quests) ? s.quests : [];
     // base quests are always present (in case of an update)
     BASE_QUESTS.forEach(bq => {
-      if(!s.quests.some(q => q.id === bq.id)){
+      if(!s.quests.some(q => q.id === bq.id) && !(Array.isArray(s.baseRemoved) && s.baseRemoved.indexOf(bq.id) >= 0)){
         s.quests.unshift(Object.assign({}, bq, {gain:Object.assign({},bq.gain), done:false, custom:false}));
       }
     });
@@ -2950,6 +3055,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v10Normalize(s); } catch(e){}
     try { v12Normalize(s); } catch(e){}
     try { v13Normalize(s); } catch(e){}
+    try { v16Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
@@ -3083,7 +3189,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     const done = state.quests.filter(q => q.done).length;
     el.doneCount.textContent = done;
     el.totalCount.textContent = state.quests.length;
-    el.questList.innerHTML = state.quests.map(q => {
+    el.questList.innerHTML = (state.quests.length ? state.quests.map(q => {
       const gains = Object.keys(q.gain || {}).map(k =>
         (STATS[k] ? STATS[k].short : k) + " +" + q.gain[k]
       ).join(" · ");
@@ -3092,15 +3198,15 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         + '<span class="q-main">'
         +   '<span class="q-title">'+esc(q.icon)+" "+esc(q.title)+'</span>'
         +   '<span class="q-sub">'
-        +     '<span class="tag">'+gains+'</span>'
+        +     '<span class="tag">'+(gains || (q.luck ? "🍀 LUCK" : "퀘스트"))+'</span>'
         +     (q.custom ? '<span class="tag custom">내 퀘스트</span>' : '')
         +     (q.done ? '' : diffTag())
         +   '</span>'
         + '</span>'
-        + '<span class="exp-chip">+'+q.exp+' EXP<small>+'+v12GoldForQuest()+' G</small></span>'
-        + (q.custom ? '<span class="del" data-del="'+esc(q.id)+'" title="퀘스트 삭제">✕</span>' : '')
+        + '<span class="exp-chip">+'+q.exp+' EXP<small>+'+v12GoldForQuest(q)+' G</small></span>'
+        + '<span class="q-edit" data-edit="'+esc(q.id)+'" role="button" tabindex="0" title="퀘스트 수정" aria-label="퀘스트 수정">✏️</span>'
         + '</button>';
-    }).join("");
+    }).join("") : '<div class="q-empty">아직 퀘스트가 없어요.<br>새 퀘스트를 추가하거나 <b>↺ 기본 퀘스트 복구</b>를 눌러 주세요.</div>');
 
     // cleared banner
     const all = state.quests.length > 0 && state.quests.every(q => q.done);
@@ -3365,7 +3471,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     const v12g = Math.max(0, Math.round(q.v12gold || 0));
     toast(
       gainedExp > 0 ? "퀘스트 완료! +"+gainedExp+" EXP · 🪙 +"+v12g+" G" : "퀘스트 완료! 🪙 +"+v12g+" G",
-      "'"+esc(q.title)+"' · "+statGainText(q.gain)+(q.v12buf ? " · ⚡ EXP 2배!" : ""),
+      "'"+esc(q.title)+"' · "+(statGainText(q.gain) || (q.luck ? "🍀 LUCK" : ""))+(q.v12buf ? " · ⚡ EXP 2배!" : ""),
       leveled ? null : function(){ undoQuest(id, gainedExp); }
     );
 
@@ -3570,6 +3676,13 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   });
 
   el.questList.addEventListener("click", function(e){
+    const edit = e.target.closest ? e.target.closest("[data-edit]") : null;
+    if(edit){
+      e.preventDefault();
+      e.stopPropagation();
+      try { v16OpenEdit("daily", edit.getAttribute("data-edit")); } catch(err){}
+      return;
+    }
     const del = e.target.closest ? e.target.closest("[data-del]") : null;
     if(del){
       e.preventDefault();
@@ -4673,7 +4786,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     return (h >>> 0) || 1;
   }
   function rollBonus(){
-    const pool = BONUS_POOL.slice();
+    const pool = BONUS_POOL.filter(function(b){ return !(state && Array.isArray(state.bonusHidden) && state.bonusHidden.indexOf(b.id) >= 0); });
     let seed = bonusSeed();
     const rnd = function(){
       seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
@@ -4696,6 +4809,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       out.push({ id:b.id, icon:b.icon, title:b.title, exp:b.exp,
         gain:Object.assign({}, b.gain), luck:!!b.luck, done:false, custom:false });
     }
+    out.forEach(function(q){ try { v16BonusApply(q); } catch(e){} });
     return out;
   }
 
@@ -4710,6 +4824,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         list.push({
           id: "bc-" + c.id, icon: c.icon || "⭐", title: c.title,
           exp: c.exp || 15, gain: Object.assign({}, c.gain || {}),
+          gold: (c.gold === undefined || c.gold === null) ? null : c.gold,
           luck: !!c.luck, done: false, custom: true, tid: c.id
         });
       });
@@ -4785,7 +4900,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       card.appendChild(f);
       setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, 1000);
     }
-    toast(gainedExp > 0 ? "보너스 퀘스트 완료! +" + gainedExp + " EXP · 🪙 +" + V12_BONUS_GOLD + " G" : "보너스 퀘스트 완료! 🪙 +" + V12_BONUS_GOLD + " G",
+    toast(gainedExp > 0 ? "보너스 퀘스트 완료! +" + gainedExp + " EXP · 🪙 +" + (q.v12gold || V12_BONUS_GOLD) + " G" : "보너스 퀘스트 완료! 🪙 +" + (q.v12gold || V12_BONUS_GOLD) + " G",
       "'" + esc(q.title) + "' · " + statGainText(q.gain) + (q.luck ? " · 🍀 재물운" : "") + (q.v12buf ? " · ⚡ EXP 2배!" : ""));
     if(navigator.vibrate) navigator.vibrate(14);
 
@@ -5066,10 +5181,10 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         +     (q.done ? '' : diffTag())
         +   '</span>'
         + '</span>'
-        + '<span class="exp-chip">+' + q.exp + ' EXP<small>+' + V12_BONUS_GOLD + ' G</small></span>'
-        + (q.custom ? '<span class="del" data-bdel="' + esc(q.id) + '" title="보너스 퀘스트 삭제">✕</span>' : '')
+        + '<span class="exp-chip">+' + q.exp + ' EXP<small>+' + ((q.gold !== undefined && q.gold !== null) ? q.gold : V12_BONUS_GOLD) + ' G</small></span>'
+        + '<span class="q-edit" data-bedit="' + esc(q.id) + '" role="button" tabindex="0" title="퀘스트 수정" aria-label="보너스 퀘스트 수정">✏️</span>'
         + '</button>';
-    }).join("");
+    }).join("") || '<div class="q-empty small">보너스 퀘스트가 없어요. ＋ 보너스 퀘스트 추가로 만들어 보세요.</div>';
 
     const base = state.quests || [];
     const baseAll = base.length > 0 && base.every(function(q){ return q.done; });
@@ -5434,7 +5549,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       return {
         id: String(c.id), icon: String(c.icon || "⭐"), title: String(c.title),
         stat: c.stat || "wil", exp: Math.max(0, Math.round(Number(c.exp) || 15)),
-        gain: (c.gain && typeof c.gain === "object") ? c.gain : {}, luck: !!c.luck
+        gain: (c.gain && typeof c.gain === "object") ? c.gain : {}, luck: !!c.luck,
+        gold: (c.gold === undefined || c.gold === null) ? null : Math.max(0, Math.min(100, Math.round(Number(c.gold) || 0)))
       };
     }) : [];
 
@@ -5544,6 +5660,13 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     /* 보너스 퀘스트 */
     $("bonusAdd").addEventListener("click", function(){ openSheet("bonus"); });
     $("bonusList").addEventListener("click", function(e){
+      const edit = e.target.closest ? e.target.closest("[data-bedit]") : null;
+      if(edit){
+        e.preventDefault();
+        e.stopPropagation();
+        try { v16OpenEdit("bonus", edit.getAttribute("data-bedit")); } catch(err){}
+        return;
+      }
       const del = e.target.closest ? e.target.closest("[data-bdel]") : null;
       if(del){
         e.preventDefault();
@@ -5644,7 +5767,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   function syncQuestTitles(){
     const t = v9CurTier();
     (state.quests || []).forEach(function(q){
-      if(v9IsBaseQuest(q) && t.titles[q.id]) q.title = t.titles[q.id];
+      if(v9IsBaseQuest(q) && t.titles[q.id] && !q.edited) q.title = t.titles[q.id];
     });
   }
 
@@ -5887,7 +6010,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   function v9CardTarget(e){
     const t = e.target;
     if(!t || !t.closest) return null;
-    if(t.closest("[data-del],[data-bdel],.del")) return null;
+    if(t.closest("[data-del],[data-bdel],.del,[data-edit],[data-bedit],.q-edit")) return null;
     const card = t.closest("[data-id],[data-bid]");
     if(!card) return null;
     if(card.classList.contains("done")) return null;
@@ -7212,8 +7335,14 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     if(lv <= 12) return 30;
     return 40;
   }
-  function v12GoldForQuest(){
-    try { return v12TierGold(); } catch(e){ return 15; }
+  function v12GoldForQuest(q){
+    try {
+      if(q && q.gold !== undefined && q.gold !== null){
+        var qg = Math.round(Number(q.gold));
+        if(isFinite(qg)) return Math.max(0, Math.min(100, qg));
+      }
+      return v12TierGold();
+    } catch(e){ return 15; }
   }
 
   function v12GoldPop(){
@@ -7230,7 +7359,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   /* 일일 퀘스트 완료 — 티어 골드 */
   function v12OnDailyDone(q){
     if(!q) return 0;
-    var g = v12TierGold();
+    var g = v12GoldForQuest(q);
     q.v12gold = g;
     v12AddGold(g);
     v12GoldPop();
@@ -7253,10 +7382,13 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   /* 보너스 퀘스트 완료 — +25 G */
   function v12OnBonusDone(q){
     if(!q) return 0;
-    q.v12gold = V12_BONUS_GOLD;
-    v12AddGold(V12_BONUS_GOLD);
+    var g = (q.gold !== undefined && q.gold !== null)
+      ? Math.max(0, Math.min(100, Math.round(Number(q.gold)) || 0))
+      : V12_BONUS_GOLD;
+    q.v12gold = g;
+    v12AddGold(g);
     v12GoldPop();
-    return V12_BONUS_GOLD;
+    return g;
   }
   /* 오늘의 올클리어 — +100 G */
   function v12OnAllClear(){
@@ -8209,6 +8341,381 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       if(e.key === "Escape" && o.classList.contains("on")) v15Ack(false);
     });
   }
+  /* ===================================================================
+     v16.0 — ✏️ 일일·보너스 퀘스트 전체 수정 · 삭제 · 기본 퀘스트 복구
+     · 기본 제공 퀘스트까지 포함해 모든 퀘스트의 이모지·이름·스탯·보상을 고친다
+     · 수정 내용은 state(localStorage)에 저장되고 날짜가 바뀌어도 유지된다
+     · 기본 퀘스트를 지워도 load()가 되살리지 않고, ↺ 기본 복구로만 되돌린다
+     =================================================================== */
+  var V16_EMOJI = ["☀️","💧","🧘","📖","📝","🏃","💪","🍀","🚿","🛏️","🥗","📵"];
+  var V16_STATS = [
+    {key:"str",  name:"체력",   short:"STR",  ico:"💪"},
+    {key:"int",  name:"지력",   short:"INT",  ico:"📚"},
+    {key:"agi",  name:"민첩",   short:"AGI",  ico:"⚡"},
+    {key:"wil",  name:"의지",   short:"WIL",  ico:"🛡️"},
+    {key:"luck", name:"재테크", short:"LUCK", ico:"🍀"}
+  ];
+  var V16_PRESETS = [
+    {key:"light",  name:"가볍게", exp:10, gold:10, gain:1},
+    {key:"normal", name:"보통",   exp:25, gold:15, gain:2},
+    {key:"hard",   name:"빡세게", exp:40, gold:30, gain:3}
+  ];
+  var v16Kind = "daily", v16Id = null, v16Stat = "str", v16Icon = "⭐", v16Gain = 2;
+
+  function v16ClampInt(v, lo, hi, dflt){
+    var n = Math.round(Number(v));
+    if(!isFinite(n)) n = Math.round(Number(dflt));
+    if(!isFinite(n)) n = lo;
+    return Math.max(lo, Math.min(hi, n));
+  }
+  function v16HasStat(key){
+    for(var i=0;i<V16_STATS.length;i++){ if(V16_STATS[i].key === key) return true; }
+    return false;
+  }
+  function v16StatShort(key){
+    for(var i=0;i<V16_STATS.length;i++){ if(V16_STATS[i].key === key) return V16_STATS[i].short; }
+    return String(key || "").toUpperCase();
+  }
+  function v16IsBaseId(id){
+    for(var i=0;i<BASE_QUESTS.length;i++){ if(BASE_QUESTS[i].id === id) return true; }
+    return false;
+  }
+  function v16PoolItem(id){
+    try {
+      for(var i=0;i<BONUS_POOL.length;i++){ if(BONUS_POOL[i].id === id) return BONUS_POOL[i]; }
+    } catch(e){}
+    return null;
+  }
+  function v16IsPoolId(id){ return !!v16PoolItem(id); }
+
+  function v16Normalize(s){
+    if(!s || typeof s !== "object") return;
+    if(!Array.isArray(s.baseRemoved)) s.baseRemoved = [];
+    s.baseRemoved = s.baseRemoved.filter(function(id){ return typeof id === "string" && id; });
+    if(!Array.isArray(s.bonusHidden)) s.bonusHidden = [];
+    s.bonusHidden = s.bonusHidden.filter(function(id){ return typeof id === "string" && id; });
+    if(!s.bonusOverride || typeof s.bonusOverride !== "object" || Array.isArray(s.bonusOverride)) s.bonusOverride = {};
+
+    (s.quests || []).forEach(function(q){
+      if(!q || typeof q !== "object") return;
+      q.icon = String(q.icon || "⭐").slice(0, 4) || "⭐";
+      q.title = String(q.title || "퀘스트").slice(0, 26);
+      q.exp = v16ClampInt(q.exp, 5, 100, 25);
+      if(q.gold !== undefined && q.gold !== null) q.gold = v16ClampInt(q.gold, 5, 100, 15);
+      if(!q.gain || typeof q.gain !== "object") q.gain = {};
+      q.luck = !!q.luck;
+      q.edited = !!q.edited;
+    });
+    ((s.bonus && Array.isArray(s.bonus.list)) ? s.bonus.list : []).forEach(function(q){
+      if(!q || typeof q !== "object") return;
+      q.icon = String(q.icon || "⭐").slice(0, 4) || "⭐";
+      q.exp = v16ClampInt(q.exp, 5, 100, 15);
+      if(q.gold !== undefined && q.gold !== null) q.gold = v16ClampInt(q.gold, 5, 100, 25);
+      if(!q.gain || typeof q.gain !== "object") q.gain = {};
+    });
+    (Array.isArray(s.bonusCustom) ? s.bonusCustom : []).forEach(function(c){
+      if(!c || typeof c !== "object") return;
+      if(c.gold !== undefined && c.gold !== null) c.gold = v16ClampInt(c.gold, 5, 100, 25);
+    });
+  }
+
+  /* 오늘 뽑힌 기본 보너스 퀘스트에 저장된 수정본을 입힌다 (rollBonus 끝에서 호출) */
+  function v16BonusApply(q){
+    if(!q || !q.id) return q;
+    try {
+      var o = (state && state.bonusOverride) ? state.bonusOverride[q.id] : null;
+      if(!o || typeof o !== "object") return q;
+      if(o.icon) q.icon = String(o.icon).slice(0, 4);
+      if(o.title) q.title = String(o.title).slice(0, 26);
+      if(o.exp !== undefined && o.exp !== null) q.exp = v16ClampInt(o.exp, 5, 100, q.exp);
+      if(o.gold !== undefined && o.gold !== null) q.gold = v16ClampInt(o.gold, 5, 100, 25);
+      if(o.gain && typeof o.gain === "object") q.gain = Object.assign({}, o.gain);
+      q.stat = o.stat || q.stat || "wil";
+      q.luck = !!o.luck;
+    } catch(e){}
+    return q;
+  }
+
+  function v16Find(kind, id){
+    if(!state) return null;
+    if(kind === "daily") return (state.quests || []).find(function(x){ return x.id === id; }) || null;
+    return ((state.bonus && state.bonus.list) || []).find(function(x){ return x.id === id; }) || null;
+  }
+
+  function v16BuildEditor(){
+    var expEl = $("qeExp"), goldEl = $("qeGold");
+    var exp = v16ClampInt(expEl ? expEl.value : 25, 5, 100, 25);
+    var gold = v16ClampInt(goldEl ? goldEl.value : 15, 5, 100, 15);
+
+    var ec = $("qeEmojiChips");
+    if(ec){
+      ec.innerHTML = V16_EMOJI.map(function(e){
+        return '<button class="qe-emoji-chip' + (e === v16Icon ? " on" : "") + '" type="button" data-qemoji="' + esc(e) + '">' + esc(e) + '</button>';
+      }).join("");
+    }
+    var sc = $("qeStats");
+    if(sc){
+      sc.innerHTML = V16_STATS.map(function(s){
+        return '<button class="chip' + (s.key === v16Stat ? " on" : "") + '" type="button" data-qstat="' + s.key + '">'
+          + s.ico + " " + s.name + '<small>' + s.short + '</small></button>';
+      }).join("");
+    }
+    var pc = $("qePresets");
+    if(pc){
+      pc.innerHTML = V16_PRESETS.map(function(p){
+        var on = (p.exp === exp && p.gold === gold);
+        return '<button class="chip' + (on ? " on" : "") + '" type="button" data-qpreset="' + p.key + '">'
+          + p.name + '<small>+' + p.exp + ' EXP · +' + p.gold + ' G</small></button>';
+      }).join("");
+    }
+  }
+
+  function v16OpenEdit(kind, id){
+    var q = v16Find(kind, id);
+    if(!q || !$("qeWrap")) return;
+    v16Kind = (kind === "bonus") ? "bonus" : "daily";
+    v16Id = id;
+    v16Icon = q.icon || "⭐";
+    v16Stat = q.luck ? "luck" : (v16HasStat(q.stat) ? q.stat : "str");
+    if(q.luck) v16Gain = 0;
+    else v16Gain = v16ClampInt((q.gain && q.gain[v16Stat]) ? q.gain[v16Stat] : 2, 1, 5, 2);
+
+    $("qeTitle").textContent = (v16Kind === "daily") ? "✏️ 일일 퀘스트 수정" : "✏️ 보너스 퀘스트 수정";
+    $("qeName").value = q.title || "";
+    $("qeEmoji").value = v16Icon;
+    $("qePreview").textContent = v16Icon;
+    $("qeExp").value = v16ClampInt(q.exp, 5, 100, 25);
+    $("qeGold").value = (q.gold !== undefined && q.gold !== null)
+      ? v16ClampInt(q.gold, 5, 100, 15)
+      : (v16Kind === "bonus" ? (typeof V12_BONUS_GOLD === "number" ? V12_BONUS_GOLD : 25) : (typeof v12GoldForQuest === "function" ? v12GoldForQuest(q) : 15));
+    $("qeNote").innerHTML = (v16Kind === "daily")
+      ? "저장하면 오늘 화면에 바로 적용되고, 날마다 퀘스트가 새로 시작돼도 <b>수정한 이름·이모지·스탯·보상이 그대로</b> 유지돼요."
+      : "저장하면 오늘 보너스 목록에 바로 적용되고, 같은 퀘스트가 다시 뽑히면 <b>수정한 내용으로</b> 나와요.";
+    v16BuildEditor();
+    $("qeWrap").classList.add("on");
+    setTimeout(function(){ try { $("qeName").focus(); } catch(e){} }, 340);
+  }
+
+  function v16CloseEdit(){
+    var w = $("qeWrap");
+    if(w) w.classList.remove("on");
+    v16Id = null;
+  }
+
+  function v16SaveEdit(){
+    var q = v16Find(v16Kind, v16Id);
+    if(!q){ v16CloseEdit(); return; }
+    var nameEl = $("qeName");
+    var title = String((nameEl && nameEl.value) || "").trim().replace(/\s+/g, " ");
+    if(!title){
+      if(nameEl){
+        nameEl.classList.add("shake");
+        setTimeout(function(){ nameEl.classList.remove("shake"); }, 400);
+        nameEl.focus();
+      }
+      toast("퀘스트 이름을 적어 주세요", "이름은 비워 둘 수 없어요.");
+      return;
+    }
+    var icon = String((($("qeEmoji") && $("qeEmoji").value) || "")).trim().slice(0, 4) || "⭐";
+    var exp = v16ClampInt($("qeExp") && $("qeExp").value, 5, 100, q.exp || 25);
+    var gold = v16ClampInt($("qeGold") && $("qeGold").value, 5, 100, 15);
+    var stat = v16Stat || "str", luck = (stat === "luck");
+    var gain = {};
+    if(!luck) gain[stat] = v16ClampInt(v16Gain, 1, 5, 2);
+
+    q.icon = icon;
+    q.title = title;
+    q.exp = exp;
+    q.gold = gold;
+    q.stat = stat;
+    q.gain = gain;
+    q.luck = luck;
+    q.edited = true;
+
+    if(v16Kind === "bonus"){
+      if(q.tid){
+        (state.bonusCustom || []).forEach(function(c){
+          if(!c || c.id !== q.tid) return;
+          c.icon = icon; c.title = title; c.exp = exp; c.gold = gold;
+          c.gain = Object.assign({}, gain); c.stat = stat; c.luck = luck;
+        });
+      } else {
+        if(!state.bonusOverride || typeof state.bonusOverride !== "object") state.bonusOverride = {};
+        state.bonusOverride[q.id] = {
+          icon: icon, title: title, exp: exp, gold: gold,
+          gain: Object.assign({}, gain), stat: stat, luck: luck
+        };
+      }
+    }
+
+    save();
+    render();
+    v16CloseEdit();
+
+    var bits = [];
+    bits.push(luck ? "🍀 LUCK" : (v16StatShort(stat) + " +" + gain[stat]));
+    bits.push("+" + exp + " EXP");
+    bits.push("🪙 +" + gold + " G");
+    toast((v16Kind === "daily") ? "일일 퀘스트를 수정했어요" : "보너스 퀘스트를 수정했어요",
+      "'" + esc(title) + "' · " + bits.join(" · "), null, 4400);
+  }
+
+  function v16DeleteEdit(){
+    var q = v16Find(v16Kind, v16Id);
+    if(!q) return;
+    var isDaily = (v16Kind === "daily");
+    var label = isDaily ? "일일 퀘스트" : "보너스 퀘스트";
+    if(!confirm("'" + q.title + "' " + label + "를 삭제할까요?\n지금까지 얻은 EXP·스탯·골드는 그대로 남아요.")) return;
+
+    if(isDaily){
+      state.quests = (state.quests || []).filter(function(x){ return x.id !== q.id; });
+      if(v16IsBaseId(q.id) && (state.baseRemoved || []).indexOf(q.id) < 0){
+        if(!Array.isArray(state.baseRemoved)) state.baseRemoved = [];
+        state.baseRemoved.push(q.id);
+      }
+    } else {
+      state.bonus.list = ((state.bonus && state.bonus.list) || []).filter(function(x){ return x.id !== q.id; });
+      if(q.tid){
+        state.bonusCustom = (state.bonusCustom || []).filter(function(c){ return c.id !== q.tid; });
+      } else if(v16IsPoolId(q.id)){
+        if(!Array.isArray(state.bonusHidden)) state.bonusHidden = [];
+        if(state.bonusHidden.indexOf(q.id) < 0) state.bonusHidden.push(q.id);
+        if(state.bonusOverride) delete state.bonusOverride[q.id];
+      }
+      if(state.bonus){
+        var l = state.bonus.list || [];
+        state.bonus.cleared = l.length > 0 && l.every(function(x){ return x.done; });
+      }
+    }
+
+    save();
+    render();
+    v16CloseEdit();
+    toast(label + "를 삭제했어요",
+      "'" + esc(q.title) + "' · " + (isDaily ? "＋ 퀘스트 추가로 언제든 새로 만들 수 있어요." : "＋ 보너스 퀘스트 추가로 만들 수 있어요."),
+      null, 4600);
+  }
+
+  function v16RestoreBase(){
+    if(!confirm("기본 퀘스트를 복구할까요?\n삭제하거나 수정한 기본 퀘스트가 기본값으로 돌아오고, 직접 추가한 퀘스트는 그대로 남아요.")) return;
+
+    var doneMap = {};
+    (state.quests || []).forEach(function(q){ if(v16IsBaseId(q.id)) doneMap[q.id] = !!q.done; });
+    var keep = (state.quests || []).filter(function(q){ return !v16IsBaseId(q.id); });
+    state.quests = BASE_QUESTS.map(function(bq){
+      return Object.assign({}, bq, {gain: Object.assign({}, bq.gain), done: !!doneMap[bq.id], custom: false});
+    }).concat(keep);
+
+    state.baseRemoved = [];
+    state.bonusHidden = [];
+    state.bonusOverride = {};
+
+    /* 오늘 보너스 목록에 남아 있는 기본 퀘스트도 기본값으로 */
+    ((state.bonus && state.bonus.list) || []).forEach(function(q){
+      if(!q || q.custom) return;
+      var b = v16PoolItem(q.id);
+      if(!b) return;
+      q.icon = b.icon; q.title = b.title; q.exp = b.exp;
+      q.gain = Object.assign({}, b.gain); q.luck = !!b.luck;
+      delete q.gold;
+    });
+
+    save();
+    render();
+    toast("기본 퀘스트를 복구했어요",
+      "기본 " + BASE_QUESTS.length + "개가 기본값으로 돌아왔어요 · 직접 추가한 퀘스트는 그대로예요.", null, 4800);
+  }
+
+  function v16Wire(){
+    var wrap = $("qeWrap");
+    if(!wrap) return;
+
+    var cancel = $("qeCancel");
+    if(cancel) cancel.addEventListener("click", v16CloseEdit);
+
+    wrap.addEventListener("click", function(e){ if(e.target === wrap) v16CloseEdit(); });
+
+    var saveBtn = $("qeSave");
+    if(saveBtn) saveBtn.addEventListener("click", v16SaveEdit);
+
+    var delBtn = $("qeDelete");
+    if(delBtn) delBtn.addEventListener("click", v16DeleteEdit);
+
+    var rs = $("baseRestore");
+    if(rs) rs.addEventListener("click", function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      v16RestoreBase();
+    });
+
+    var ec = $("qeEmojiChips");
+    if(ec) ec.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest("[data-qemoji]") : null;
+      if(!b) return;
+      v16Icon = b.getAttribute("data-qemoji") || "⭐";
+      if($("qeEmoji")) $("qeEmoji").value = v16Icon;
+      if($("qePreview")) $("qePreview").textContent = v16Icon;
+      v16BuildEditor();
+    });
+
+    var em = $("qeEmoji");
+    if(em) em.addEventListener("input", function(){
+      var v = String(em.value || "").trim().slice(0, 4);
+      v16Icon = v || "⭐";
+      if($("qePreview")) $("qePreview").textContent = v16Icon;
+      v16BuildEditor();
+    });
+
+    var sc = $("qeStats");
+    if(sc) sc.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest("[data-qstat]") : null;
+      if(!b) return;
+      var next = b.getAttribute("data-qstat") || "str";
+      if(next !== "luck" && v16Stat === "luck" && !v16Gain) v16Gain = 2;
+      v16Stat = next;
+      v16BuildEditor();
+    });
+
+    var pc = $("qePresets");
+    if(pc) pc.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest("[data-qpreset]") : null;
+      if(!b) return;
+      var key = b.getAttribute("data-qpreset");
+      V16_PRESETS.forEach(function(p){
+        if(p.key !== key) return;
+        if($("qeExp")) $("qeExp").value = p.exp;
+        if($("qeGold")) $("qeGold").value = p.gold;
+        v16Gain = p.gain;
+      });
+      v16BuildEditor();
+    });
+
+    ["qeExp", "qeGold"].forEach(function(id){
+      var n = $(id);
+      if(n) n.addEventListener("input", v16BuildEditor);
+    });
+
+    var nameEl = $("qeName");
+    if(nameEl) nameEl.addEventListener("keydown", function(e){
+      if(e.key === "Enter"){ e.preventDefault(); v16SaveEdit(); }
+    });
+
+    /* ✏️ 버튼을 키보드로도 열 수 있게 */
+    document.addEventListener("keydown", function(e){
+      if(e.key !== "Enter" && e.key !== " ") return;
+      var t = e.target;
+      if(!t || !t.closest) return;
+      var ed = t.closest("[data-edit],[data-bedit]");
+      if(!ed) return;
+      e.preventDefault();
+      if(ed.hasAttribute("data-edit")) v16OpenEdit("daily", ed.getAttribute("data-edit"));
+      else v16OpenEdit("bonus", ed.getAttribute("data-bedit"));
+    });
+  }
+
+  function v16Boot(){
+    v16Wire();
+  }
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -8222,6 +8729,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   try { wireV12(); v12Boot(); } catch(e){}
   try { v13Boot(); } catch(e){}
   try { v15Boot(); } catch(e){}
+  try { v16Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
