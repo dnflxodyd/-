@@ -2472,6 +2472,59 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   .v19-sub{font-size:9.5px}
 }
 
+/* v20.0 am/pm quest sections · mini game rewards */
+/* ---------- v20.0 · 🌅 오전 / ☀️ 오후 퀘스트 분리 ---------- */
+#questList .v20-sec{margin:0 0 11px}
+#questList .v20-sec:last-child{margin-bottom:0}
+.v20-sec-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:8px 11px;border-radius:14px;border:1.5px solid #FFE2BE;
+  background:linear-gradient(120deg,#FFF8EA,#FFF1DC 60%,#FFEFE4);
+  box-shadow:0 8px 16px -16px rgba(160,110,40,.9);margin-bottom:8px;
+}
+.v20-sec-head .v20-sec-name{display:flex;align-items:center;gap:5px;min-width:0}
+.v20-sec-head b{font-size:11.5px;font-weight:850;letter-spacing:-.01em;color:#9A6720;white-space:nowrap}
+.v20-sec-head em{font-family:var(--mono);font-size:7px;font-style:normal;font-weight:800;letter-spacing:.12em;color:#B99360}
+.v20-sec-count{
+  font-family:var(--mono);font-size:9.5px;font-weight:800;color:#A5743A;
+  background:#fff;border:1px solid #FFE4C2;border-radius:9px;padding:3px 8px;white-space:nowrap;
+}
+.v20-sec-count i{font-style:normal;color:#C4A583}
+.v20-sec.pm .v20-sec-head{
+  border-color:#DCD4FF;background:linear-gradient(120deg,#F7F4FF,#F1EEFF 60%,#EDF3FF);
+  box-shadow:0 8px 16px -16px rgba(90,70,180,.9);
+}
+.v20-sec.pm .v20-sec-head b{color:#6152A8}
+.v20-sec.pm .v20-sec-head em{color:#9285C4}
+.v20-sec.pm .v20-sec-count{color:#6C5AB0;border-color:#DED6FF}
+.v20-sec.done-all .v20-sec-count{color:#2E8B57;border-color:#BFE6CC;background:#F1FBF4}
+.v20-sec-list{display:block}
+.v20-sec-empty{
+  font-size:10px;line-height:1.5;font-weight:700;color:#B4A6BC;text-align:center;
+  padding:12px 8px;border:1.5px dashed #E8DCEF;border-radius:14px;background:#FDFAFE;word-break:keep-all;
+}
+/* ＋ 추가 / ✏️ 수정 모달의 🌅 오전 / ☀️ 오후 토글 */
+.v20-when .chip{min-width:92px;text-align:left}
+.v20-when .chip.on[data-when="am"]{background:linear-gradient(135deg,#FFB36B,#FF8FAE);border-color:transparent;color:#fff;box-shadow:0 8px 16px -12px rgba(230,120,90,.9)}
+.v20-when .chip.on[data-when="pm"]{background:linear-gradient(135deg,#9B8BFF,#6FA8FF);border-color:transparent;color:#fff;box-shadow:0 8px 16px -12px rgba(90,90,220,.9)}
+.v20-when .chip.on[data-when="am"] small,.v20-when .chip.on[data-when="pm"] small{color:rgba(255,255,255,.82)}
+.v20-hide{display:none!important}
+
+/* ---------- v20.0 · 🎮 미니게임 보상 UI ---------- */
+.mg-bests{
+  display:block;margin:2px 0 0;font-family:var(--mono);font-size:8.5px;font-weight:800;
+  color:#8C7AB0;letter-spacing:-.01em;line-height:1.5;
+}
+.mg-bests b{color:#B4507A}
+.mg-rec{
+  display:inline-flex;align-items:center;gap:4px;margin:2px 0 0;padding:4px 9px;border-radius:10px;
+  font-family:var(--mono);font-size:9px;font-weight:900;letter-spacing:.02em;color:#8A5514;
+  background:linear-gradient(135deg,#FFF3C4,#FFE1A8);border:1.5px solid #FFD98A;
+  box-shadow:0 8px 18px -14px rgba(190,140,30,.95);animation:v20RecPop .5s cubic-bezier(.2,.9,.3,1.5);
+}
+@keyframes v20RecPop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+.mg-start .mg-bests{margin-top:6px}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -2921,7 +2974,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v19.0 (5탭 내비 · 2인 공유 · 🪙상점·스킨 · 💼출근·일급 · 🎉퀘스트완료 알림)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v20.0 (5탭 내비 · 2인 공유 · 🌅오전/☀️오후 퀘스트 · 🎮미니게임 행복도·골드)</p>
 </div>
 
 <div id="toasts"></div>
@@ -2976,19 +3029,22 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         <span class="big">🧺 준비됐나요?</span>
         <p>화면을 좌우로 문질러 바구니를 움직여요.<br>떨어지는 간식을 받으면 점수!</p>
         <button class="go" id="mgStartBtn" type="button">시작!</button>
+        <span class="mg-bests" id="mgStartBests">🎮 내 최고 0점</span>
       </div>
       <div class="mg-result" id="mgResult" hidden>
+        <span class="mg-rec" id="mgRecBadge" hidden>🏆 신기록 달성! +10 G</span>
         <span class="big" id="mgResultTitle">끝!</span>
         <span class="score" id="mgResultScore">0점</span>
-        <span class="rs-best" id="mgResultBest">최고 0점</span>
-        <p id="mgResultReward">+0 EXP · 행복도 +0</p>
+        <span class="rs-best" id="mgResultBest">내 최고 0점</span>
+        <p id="mgResultReward">+0 EXP · 💕 행복도 +15 · 🪙 +5 G</p>
+        <span class="mg-bests" id="mgBests">🎮 내 최고 0점</span>
       </div>
     </div>
     <div class="mg-foot">
       <button class="btn-ghost" id="mgClose" type="button">닫기</button>
       <button class="btn-primary" id="mgAgain" type="button" hidden>한 번 더</button>
     </div>
-    <p class="mg-tip">최고 점수는 파트너 카드에도 공유돼요 🎮</p>
+    <p class="mg-tip">🏆 최고 점수는 파트너와 함께 경쟁 · 새 기록마다 +10 G 보너스! (EXP 는 퀘스트로만)</p>
   </div>
 </div>
 
@@ -3156,6 +3212,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <input id="qeName" class="qe-input" maxlength="26" placeholder="예) 기상 후 물 한 잔 마시기" autocomplete="off">
       <label class="lbl">올려줄 스탯</label>
       <div class="chips" id="qeStats"></div>
+      <label class="lbl" id="qeWhenLabel">시간대</label>
+      <div class="chips v20-when" id="qeWhen">
+        <button class="chip" type="button" data-when="am">🌅 오전<small>AM</small></button>
+        <button class="chip" type="button" data-when="pm">☀️ 오후<small>PM</small></button>
+      </div>
       <label class="lbl">보상</label>
       <div class="chips" id="qePresets"></div>
       <div class="qe-rewards">
@@ -3321,6 +3382,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <div class="chips" id="statChips"></div>
     <label class="lbl">난이도</label>
     <div class="chips" id="diffChips"></div>
+    <label class="lbl" id="newWhenLabel">시간대</label>
+    <div class="chips v20-when" id="newWhen">
+      <button class="chip" type="button" data-when="am">🌅 오전<small>AM</small></button>
+      <button class="chip" type="button" data-when="pm">☀️ 오후<small>PM</small></button>
+    </div>
     <div class="sheet-actions">
       <button class="btn-ghost" id="sheetCancel">취소</button>
       <button class="btn-primary" id="sheetSave">퀘스트 받기</button>
@@ -3386,10 +3452,10 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     wil:{name:"의지", short:"WIL", ico:"🔥", cls:"wil"}
   };
   const BASE_QUESTS = [
-    {id:"q-water",   icon:"☀️", title:"기상 후 물 한 잔 마시기",        stat:"str", exp:20, gain:{str:2}},
-    {id:"q-stretch", icon:"🧘", title:"스트레칭 · 가벼운 운동 15분",     stat:"str", exp:30, gain:{str:3,agi:1}},
-    {id:"q-read",    icon:"📖", title:"영어 한 줄 외우기 / 독서 10분",  stat:"int", exp:25, gain:{int:3}},
-    {id:"q-goal",    icon:"📝", title:"오늘의 목표 3줄 적기",           stat:"wil", exp:25, gain:{wil:3}}
+    {id:"q-water",   icon:"☀️", title:"기상 후 물 한 잔 마시기",        stat:"str", exp:20, gain:{str:2}, am:true},
+    {id:"q-stretch", icon:"🧘", title:"스트레칭 · 가벼운 운동 15분",     stat:"str", exp:30, gain:{str:3,agi:1}, am:false},
+    {id:"q-read",    icon:"📖", title:"영어 한 줄 외우기 / 독서 10분",  stat:"int", exp:25, gain:{int:3}, am:false},
+    {id:"q-goal",    icon:"📝", title:"오늘의 목표 3줄 적기",           stat:"wil", exp:25, gain:{wil:3}, am:true}
   ];
   /* 체형(살 빠짐) — STR 기준. 통통 모찌 → 슬림해지는 중 → 살 빠짐 */
   const SLIM_AT = 15;
@@ -3761,6 +3827,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v13Normalize(s); } catch(e){}
     try { v16Normalize(s); } catch(e){}
     try { v19Normalize(s); } catch(e){}
+    try { v20Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
@@ -3952,6 +4019,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v13Render(); } catch(e){}
     try { v18RenderMood(); } catch(e){}
     renderParty();
+    try { v20AfterRender(); } catch(e){}
   }
 
 /* ---------- toast ---------- */
@@ -4267,13 +4335,14 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         exp: sheetExp,
         gain: {[sheetStat]: sheetGain},
         done: false,
-        custom: true
+        custom: true,
+        am: (typeof v20NewWhenAm === "function") ? v20NewWhenAm() : true
       });
     }
     save();
     render();
     closeSheet();
-    toast("새 퀘스트가 등록되었습니다.", "'"+esc(title)+"' · "+STATS[sheetStat].name+" +"+sheetGain+" · +"+sheetExp+" EXP");
+    toast("새 퀘스트가 등록되었습니다.", "'"+esc(title)+"' · "+(sheetKind === "bonus" ? "⭐ 보너스" : ((typeof v20NewWhenAm === "function" && v20NewWhenAm()) ? "🌅 오전" : "☀️ 오후"))+" · "+STATS[sheetStat].name+" +"+sheetGain+" · +"+sheetExp+" EXP");
   }
 
   function deleteQuest(id){
@@ -4650,17 +4719,27 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
           return { hunger: Math.round(pt.hunger || 0), happy: Math.round(pt.happy || 0) };
         } catch(e){ return null; }
       })(),
-      dailyProgress: {
-        done: state.quests.filter(function(q){ return q.done; }).length,
-        total: state.quests.length,
-        titles: state.quests.slice(0, 12).map(function(q){
-          return {
-            t: String(q.title || "퀘스트").slice(0, 26),
-            d: q.done ? 1 : 0,
-            i: String(q.icon || "").slice(0, 4)
-          };
-        })
-      },
+      dailyProgress: (function(){
+        var qs = state.quests || [];
+        var am = qs.filter(function(q){ return (typeof v20IsAm === "function") ? v20IsAm(q) : true; });
+        var pm = qs.filter(function(q){ return !((typeof v20IsAm === "function") ? v20IsAm(q) : true); });
+        return {
+          done: qs.filter(function(q){ return q.done; }).length,
+          total: qs.length,
+          amDone: am.filter(function(q){ return q.done; }).length,
+          amTotal: am.length,
+          pmDone: pm.filter(function(q){ return q.done; }).length,
+          pmTotal: pm.length,
+          titles: qs.slice(0, 24).map(function(q){
+            return {
+              t: String(q.title || "퀘스트").slice(0, 26),
+              d: q.done ? 1 : 0,
+              i: String(q.icon || "").slice(0, 4),
+              am: ((typeof v20IsAm === "function") ? v20IsAm(q) : true) ? 1 : 0
+            };
+          })
+        };
+      })(),
       workStatus: (typeof v13Status === "function") ? (v13Status() || "") : "",
       /* v19 — 🎉 마지막으로 깬 퀘스트 (상대 화면에 실시간 팝업) */
       lastQuestClear: (function(){
@@ -6062,6 +6141,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     MG.raf = requestAnimationFrame(mgLoop);
   }
   function mgSpawn(prog){
+    if(typeof v20Spawn === "function"){ v20Spawn(prog); return; }
     const roll = Math.random();
     let emoji = mgItemEmoji(), pt = 1, size = 44;
     if(roll > 0.94){ emoji = "💎"; pt = 5; size = 38; }
@@ -6100,7 +6180,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       const it = MG.items[i];
       it.y += it.vy * dt;
       it.rot += it.vr * dt;
-      if(!it.got && it.y > MG_H - 178 && it.y < MG_H - 52 && Math.abs(it.x - MG.basket) < 82){
+      if(!it.got && it.y > MG_H - 190 && it.y < MG_H - 44 && Math.abs(it.x - MG.basket) < 100){
         it.got = true;
         MG.score += it.pt;
         mgPop("+" + it.pt);
@@ -6160,15 +6240,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    for(let i=0;i<MG.items.length;i++){
-      const it = MG.items[i];
-      ctx.save();
-      ctx.translate(it.x, it.y);
-      ctx.rotate(it.rot);
-      ctx.font = it.size + 'px "Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif';
-      ctx.fillText(it.emoji, 0, 0);
-      ctx.restore();
-    }
+    if(typeof v20DrawItems === "function") v20DrawItems(ctx);
 
     const bx = MG.basket, by = MG_H - 96, bw = 168, bh = 58;
     ctx.save();
@@ -6202,6 +6274,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     ctx.fillText("🧺", bx, by - 6);
   }
   function mgFinish(){
+    if(typeof v20MgFinish === "function"){ v20MgFinish(); return; }
     MG.running = false;
     MG.ended = true;
     if(MG.raf) cancelAnimationFrame(MG.raf);
@@ -9225,6 +9298,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     if(!q || !$("qeWrap")) return;
     v16Kind = (kind === "bonus") ? "bonus" : "daily";
     v16Id = id;
+    try { v20SetEditWhen(v16Kind === "daily" ? v20IsAm(q) : null); } catch(e){}
     v16Icon = q.icon || "⭐";
     v16Stat = q.luck ? "luck" : (v16HasStat(q.stat) ? q.stat : "str");
     if(q.luck) v16Gain = 0;
@@ -9281,6 +9355,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     q.gain = gain;
     q.luck = luck;
     q.edited = true;
+    if(v16Kind === "daily"){ try { q.am = v20EditWhenAm(); } catch(e){} }
 
     if(v16Kind === "bonus"){
       if(q.tid){
@@ -9306,6 +9381,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     bits.push(luck ? "🍀 LUCK" : (v16StatShort(stat) + " +" + gain[stat]));
     bits.push("+" + exp + " EXP");
     bits.push("🪙 +" + gold + " G");
+    if(v16Kind === "daily"){ try { bits.unshift(v20EditWhenAm() ? "🌅 오전" : "☀️ 오후"); } catch(e){} }
     toast((v16Kind === "daily") ? "일일 퀘스트를 수정했어요" : "보너스 퀘스트를 수정했어요",
       "'" + esc(title) + "' · " + bits.join(" · "), null, 4400);
   }
@@ -9691,8 +9767,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         daily.titles.forEach(function(q){
           var done = !!(q && (q.d === 1 || q.d === true));
           var ico = (q && q.i) ? String(q.i).slice(0, 4) : "";
+          var when = (q && (q.am === 1 || q.am === true || q.am === false || q.am === 0))
+            ? '<span class="q-when">' + ((q.am === 1 || q.am === true) ? "🌅" : "☀️") + '</span>' : '';
           list += '<div class="pstat-q' + (done ? " done" : "") + '">'
             + '<span class="qmk">' + (done ? "✓" : "") + '</span>'
+            + when
             + (ico ? '<span class="q-ico">' + esc(ico) + '</span>' : '')
             + '<span class="q-t">' + esc((q && q.t) || "퀘스트") + '</span>'
             + '</div>';
@@ -10674,6 +10753,351 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       if(e.key === "Escape" && o.classList.contains("on")) v19Ack(false);
     });
   }
+  /* ===================================================================
+     v20.0 — 🌅 오전 / ☀️ 오후 일일 퀘스트 분리
+             🎮 미니게임 낙하 아이템 시인성 개선 (아이폰 사파리 대응)
+             🎮 미니게임 보상 개편 (EXP 0 · 💕 행복도 · 🪙 골드 · 🏆 신기록)
+     =================================================================== */
+
+  /* ---------- 🌅 / ☀️ 기본 배치 ----------
+     기존 사용자 데이터는 잃지 않고, 기본 퀘스트 id 는 원래 자리로,
+     직접 만든·수정한 퀘스트는 안전하게 오전(am)으로 마이그레이션한다. */
+  var V20_AM_BY_ID = { "q-water": 1, "q-goal": 1, "q-stretch": 0, "q-read": 0 };
+  var v20NewAm = true;      /* ＋ 일일 퀘스트 추가 — 기본값 오전 */
+  var v20EditAm = true;     /* ✏️ 퀘스트 수정 — 현재 퀘스트 값 */
+
+  function v20Has(o, k){ return Object.prototype.hasOwnProperty.call(o, k); }
+
+  function v20IsAm(q){
+    if(!q || typeof q !== "object") return true;
+    if(q.am === true || q.am === 1) return true;
+    if(q.am === false || q.am === 0) return false;
+    return v20Has(V20_AM_BY_ID, String(q.id)) ? !!V20_AM_BY_ID[q.id] : true;
+  }
+
+  function v20Normalize(s){
+    if(!s || typeof s !== "object") return;
+    (Array.isArray(s.quests) ? s.quests : []).forEach(function(q){
+      if(!q || typeof q !== "object") return;
+      if(q.am === true || q.am === false) return;         /* 이미 정해짐 */
+      if(q.am === 1 || q.am === 0){ q.am = !!q.am; return; }
+      q.am = v20Has(V20_AM_BY_ID, String(q.id)) ? !!V20_AM_BY_ID[q.id] : true;
+    });
+  }
+
+  /* ---------- 섹션 렌더 (render() 끝에서 호출) ---------- */
+  function v20Section(kind, cards){
+    var wrap = document.createElement("div");
+    wrap.className = "v20-sec " + kind;
+    wrap.setAttribute("data-sec", kind);
+
+    var done = 0;
+    cards.forEach(function(c){ if(c.classList && c.classList.contains("done")) done++; });
+    var isAm = (kind === "am");
+    if(cards.length && done === cards.length) wrap.classList.add("done-all");
+
+    var head = document.createElement("div");
+    head.className = "v20-sec-head";
+    head.innerHTML = '<span class="v20-sec-name"><b>' + (isAm ? "🌅 오전 퀘스트" : "☀️ 오후 퀘스트") + '</b>'
+      + '<em>' + (isAm ? "AM" : "PM") + '</em></span>'
+      + '<span class="v20-sec-count">' + done + '<i> / </i>' + cards.length + '</span>';
+
+    var list = document.createElement("div");
+    list.className = "v20-sec-list";
+    if(cards.length){
+      cards.forEach(function(c){ list.appendChild(c); });
+    } else {
+      var empty = document.createElement("div");
+      empty.className = "v20-sec-empty";
+      empty.innerHTML = isAm
+        ? "오전 퀘스트가 비어 있어요 · <b>＋ 일일 퀘스트 추가</b>에서 🌅 오전을 골라 보세요."
+        : "오후 퀘스트가 비어 있어요 · <b>＋ 일일 퀘스트 추가</b>에서 ☀️ 오후를 골라 보세요.";
+      list.appendChild(empty);
+    }
+
+    wrap.appendChild(head);
+    wrap.appendChild(list);
+    return wrap;
+  }
+
+  function v20SplitQuests(){
+    var host = $("questList");
+    if(!host) return;
+    var cards = [], empty = null, i, ch;
+    for(i = 0; i < host.children.length; i++){
+      ch = host.children[i];
+      if(!ch || !ch.classList) continue;
+      if(ch.classList.contains("quest")) cards.push(ch);
+      else if(ch.classList.contains("q-empty")) empty = ch;
+    }
+    if(!cards.length && !empty) return;
+
+    var am = [], pm = [];
+    cards.forEach(function(card){
+      var id = card.getAttribute("data-id");
+      var q = null;
+      for(var k = 0; k < (state.quests || []).length; k++){
+        if(state.quests[k] && state.quests[k].id === id){ q = state.quests[k]; break; }
+      }
+      (v20IsAm(q) ? am : pm).push(card);
+    });
+
+    host.innerHTML = "";
+    host.appendChild(v20Section("am", am));
+    host.appendChild(v20Section("pm", pm));
+    if(empty) host.appendChild(empty);
+  }
+
+  /* ---------- ＋ 추가 모달 · ✏️ 수정 모달의 🌅/☀️ 토글 ---------- */
+  function v20PaintWhen(row, am){
+    if(!row) return;
+    var btns = row.querySelectorAll("[data-when]");
+    for(var i = 0; i < btns.length; i++){
+      var on = (btns[i].getAttribute("data-when") === (am ? "am" : "pm"));
+      btns[i].classList.toggle("on", on);
+      btns[i].setAttribute("aria-pressed", on ? "true" : "false");
+    }
+  }
+  function v20NewWhenAm(){ return !!v20NewAm; }
+  function v20EditWhenAm(){ return !!v20EditAm; }
+
+  function v20SyncNewWhen(){
+    var row = $("newWhen"), lbl = $("newWhenLabel");
+    if(!row) return;
+    var isBonus = (typeof sheetKind !== "undefined" && sheetKind === "bonus");
+    row.classList.toggle("v20-hide", isBonus);
+    if(lbl) lbl.classList.toggle("v20-hide", isBonus);
+    v20NewAm = true;
+    v20PaintWhen(row, v20NewAm);
+  }
+
+  function v20SetEditWhen(am){
+    var row = $("qeWhen"), lbl = $("qeWhenLabel");
+    var isBonus = (typeof v16Kind !== "undefined" && v16Kind === "bonus");
+    var hide = (isBonus || am === null || am === undefined);
+    if(row) row.classList.toggle("v20-hide", hide);
+    if(lbl) lbl.classList.toggle("v20-hide", hide);
+    v20EditAm = (am === null || am === undefined) ? true : !!am;
+    v20PaintWhen(row, v20EditAm);
+  }
+
+  function v20WireWhen(){
+    var nw = $("newWhen");
+    if(nw) nw.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest("[data-when]") : null;
+      if(!b) return;
+      e.preventDefault(); e.stopPropagation();
+      v20NewAm = (b.getAttribute("data-when") !== "pm");
+      v20PaintWhen(nw, v20NewAm);
+    });
+    var qw = $("qeWhen");
+    if(qw) qw.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest("[data-when]") : null;
+      if(!b) return;
+      e.preventDefault(); e.stopPropagation();
+      v20EditAm = (b.getAttribute("data-when") !== "pm");
+      v20PaintWhen(qw, v20EditAm);
+    });
+  }
+
+  /* ---------- 🎮 파트너 최고점 ---------- */
+  function v20PartnerBest(){
+    try {
+      var P = state && state.partner;
+      if(!P || typeof P !== "object") return 0;
+      var v = Math.round(Number(P.mg) || 0);
+      return (isFinite(v) && v > 0) ? v : 0;
+    } catch(e){ return 0; }
+  }
+  function v20HasPartner(){
+    try { return !!(state && state.partner && state.partner.nick); } catch(e){ return false; }
+  }
+
+  function v20RefreshBests(){
+    var p = null;
+    try { p = petNow(); } catch(e){ p = null; }
+    var mine = (p && p.best) || 0;
+    var pb = v20PartnerBest();
+    var txt = "🎮 내 최고 " + mine + "점";
+    if(pb > 0 || v20HasPartner()) txt += " · 💑 파트너 최고 " + pb + "점";
+    if($("mgStartBests")) $("mgStartBests").textContent = txt;
+    if($("mgBests")) $("mgBests").textContent = txt;
+    if($("mgBest")){
+      $("mgBest").innerHTML = "🎮 내 최고 <b>" + mine + "</b>점" + ((pb > 0 || v20HasPartner()) ? " · 💑 " + pb + "점" : "");
+    }
+  }
+
+  /* ---------- 🎮 낙하 아이템 — 크게 · 밝은 글로우 배지 ---------- */
+  var V20_MG_R = 50;          /* 배지 반지름(캔버스 단위) — 실제 화면 약 49px */
+  function v20Spawn(prog){
+    var roll = Math.random();
+    var emoji = mgItemEmoji(), pt = 1, ring = "#FF9CC2", r = V20_MG_R;
+    if(roll > 0.94){ emoji = "💎"; pt = 5; ring = "#7ED0FF"; r = 52; }
+    else if(roll > 0.82){ emoji = "⭐"; pt = 3; ring = "#FFC64A"; r = 52; }
+    MG.items.push({
+      x: 72 + Math.random() * (MG_W - 144),
+      y: -8,
+      vy: 240 + Math.random() * 105 + prog * 205,
+      rot: 0, vr: 0,
+      emoji: emoji, pt: pt, size: 52, r: r, ring: ring, got: false
+    });
+  }
+
+  function v20DrawItems(ctx){
+    for(var i = 0; i < MG.items.length; i++){
+      var it = MG.items[i];
+      var r = it.r || V20_MG_R;
+      ctx.save();
+      ctx.translate(it.x, it.y);
+      /* 밝은 원형 배지 + 그림자 — 어떤 배경 위에서도 한눈에 띈다 */
+      ctx.shadowColor = "rgba(70,40,90,.32)";
+      ctx.shadowBlur = 22;
+      ctx.shadowOffsetY = 8;
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255,255,255,0.92)";
+      ctx.fill();
+      ctx.shadowColor = "transparent";
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.lineWidth = 6;
+      ctx.strokeStyle = it.ring || "#FF9CC2";
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(0, 0, r - 5.5, 0, Math.PI * 2);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(255,255,255,.95)";
+      ctx.stroke();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = Math.round(r * 1.05) + 'px "Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif';
+      ctx.fillText(it.emoji, 0, Math.round(r * 0.06));
+      ctx.restore();
+    }
+  }
+
+  /* ---------- 🎮 보상 — EXP 0 · 행복도 +15~25 · 골드 5~25 · 신기록 +10 ---------- */
+  var V20_MG_GAMES = 3, V20_MG_GOLD_CAP = 75, V20_MG_REC_GOLD = 10;
+  function v20MgGold(score){
+    var sh = shopNow();
+    var t = today();
+    if(sh.mg.date !== t) sh.mg = { date: t, n: 0, gold: 0 };
+    var g = Math.max(5, Math.min(25, 5 + Math.round((Number(score) || 0) * 0.8)));
+    if(sh.mg.n >= V20_MG_GAMES || sh.mg.gold >= V20_MG_GOLD_CAP) return 0;
+    g = Math.min(g, V20_MG_GOLD_CAP - sh.mg.gold);
+    if(g <= 0) return 0;
+    sh.mg.n += 1;
+    sh.mg.gold += g;
+    try { v12AddGold(g); } catch(e){ return 0; }
+    try { v12GoldPop(); } catch(e){}
+    return g;
+  }
+
+  function v20MgFinish(){
+    MG.running = false;
+    MG.ended = true;
+    if(MG.raf) cancelAnimationFrame(MG.raf);
+    MG.raf = 0;
+
+    var score = MG.score || 0;
+    var p = petNow();
+    var bestBefore = Math.round(p.best || 0);
+    var partnerBest = v20PartnerBest();
+    p.best = Math.max(bestBefore, score);
+    p.games = (p.games || 0) + 1;
+
+    /* 💕 행복도 — 기본 +15, 점수에 따라 최대 +25 */
+    var happyAdd = Math.max(15, Math.min(25, 15 + Math.round(score * 0.7)));
+    p.happy = Math.max(0, Math.min(100, Math.round((Number(p.happy) || 0) + happyAdd)));
+    p.at = Date.now();
+
+    /* ✨ EXP 는 오르지 않는다 — EXP 는 오직 현실 퀘스트로만 */
+    var gold = 0;
+    try { gold = v20MgGold(score); } catch(e){}
+
+    /* 🏆 신기록 — 내 최고점 / 파트너 최고점 돌파 */
+    var recMine = (score > 0 && score > bestBefore);
+    var recPartner = (score > 0 && score > partnerBest);
+    var recBonus = 0;
+    if(recMine || recPartner){
+      recBonus = V20_MG_REC_GOLD;
+      try { v12AddGold(recBonus); } catch(e){ recBonus = 0; }
+      gold += recBonus;
+    }
+
+    save();
+    render();
+
+    var title = "끝!";
+    if(recMine) title = "신기록 달성!";
+    else if(recPartner) title = "파트너 최고점 돌파!";
+    if($("mgResultTitle")) $("mgResultTitle").textContent = title;
+    if($("mgResultScore")) $("mgResultScore").textContent = score + "점";
+    if($("mgResultBest")) $("mgResultBest").textContent = "내 최고 " + p.best + "점 · " + (p.games || 1) + "번째 도전";
+
+    var reward = "+0 EXP · 💕 행복도 +" + happyAdd
+      + (gold > 0 ? " · 🪙 +" + gold + " G" : "");
+    if($("mgResultReward")) $("mgResultReward").textContent = reward;
+    v20RefreshBests();
+    if($("mgResultBestNote")){
+      $("mgResultBestNote").textContent = "💑 파트너 최고 " + partnerBest + "점";
+    }
+    if($("mgRecBadge")){
+      var hasPartner = (partnerBest > 0 || v20HasPartner());
+      $("mgRecBadge").hidden = !(recMine || recPartner);
+      $("mgRecBadge").textContent = recMine
+        ? "🏆 신기록 달성! +" + V20_MG_REC_GOLD + " G"
+        : ("🏆 파트너 최고점 돌파! +" + V20_MG_REC_GOLD + " G");
+      if(hasPartner && recMine && !recPartner && partnerBest > 0) $("mgRecBadge").textContent = "🏆 신기록 달성! +" + V20_MG_REC_GOLD + " G";
+    }
+    if($("mgResult")) $("mgResult").hidden = false;
+    if($("mgAgain")) $("mgAgain").hidden = false;
+    if($("mgClose")) $("mgClose").textContent = "닫기";
+
+    if(navigator.vibrate) navigator.vibrate(score > 0 ? [10, 30, 14] : 8);
+    try {
+      toast("미니게임 종료! " + score + "점",
+        "+0 EXP · 행복도 +" + happyAdd + (gold > 0 ? " · 🪙 +" + gold + " G" : "")
+        + (recBonus ? " · 🏆 신기록 보너스 +" + recBonus + " G" : "")
+        + " · 내 최고 " + p.best + "점", null, 5200);
+    } catch(e){}
+
+    try {
+      if(score >= 12) speak("이 정도면 …나도 꽤 하는 " + curChar().nick + "다. 🎮", 6500);
+      else if(score > 0) speak("나쁘지 않다. 한 번 더? 🎮", 5200);
+      else speak("…바구니가 비었다. 다시 하자. 🧺", 5200);
+    } catch(e){}
+  }
+
+  /* ---------- render() 뒤처리 ---------- */
+  function v20AfterRender(){
+    try { v20SplitQuests(); } catch(e){}
+    try { v20RefreshBests(); } catch(e){}
+  }
+
+  function v20Boot(){
+    try { v20Normalize(state); } catch(e){}
+    v20WireWhen();
+    /* ＋ 추가 모달이 열릴 때마다 시간대 토글 초기화 (보너스 모달에서는 숨김) */
+    if(typeof openSheet === "function"){
+      var v20OpenSheetBase = openSheet;
+      openSheet = function(){
+        v20OpenSheetBase.apply(null, arguments);
+        try { v20SyncNewWhen(); } catch(e){}
+      };
+    }
+    var gb = $("gameBtn");
+    if(gb) gb.addEventListener("click", function(){ setTimeout(function(){ try { v20RefreshBests(); } catch(e){} }, 60); });
+    setTimeout(function(){ try { v20RefreshBests(); } catch(e){} }, 400);
+
+    /* QA/검증용 — 게임을 실제로 12초 돌리지 않고도 보상 계산을 확인 */
+    window.__v20Test = {
+      setScore: function(n){ MG.score = Math.max(0, Math.round(Number(n) || 0)); },
+      finish: function(n){ if(typeof n === "number") MG.score = Math.max(0, Math.round(n)); v20MgFinish(); },
+      partnerBest: v20PartnerBest,
+      split: v20SplitQuests
+    };
+  }
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -10691,6 +11115,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   try { v17Boot(); } catch(e){}
   try { v18Boot(); } catch(e){}
   try { v19Boot(); } catch(e){}
+  try { v20Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
@@ -10726,12 +11151,85 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 })();
 </script>
 <script>
-/* PWA — 서비스 워커 등록 (안드로이드 크롬 홈 화면에 추가 / 앱 설치 조건) */
-if ("serviceWorker" in navigator && window.isSecureContext) {
-  window.addEventListener("load", function(){
-    navigator.serviceWorker.register("./sw.js").catch(function(){});
+/* PWA — 서비스 워커 등록 + 새 버전 즉시 자동 업데이트 (v20.0)
+   · 부팅 / 앱 복귀(visibilitychange) / pageshow / focus / 60초 주기마다
+     reg.update() + version.json?t=… (cache: no-store) 확인
+   · 서버 버전이 지금 실행 중인 버전보다 높으면 사용자 조작 없이 즉시 리로드
+   · 무한 리로드 방지 — sessionStorage 에 방금 리로드한 버전을 기록 */
+(function(){
+  if(!("serviceWorker" in navigator) || !window.isSecureContext) return;
+
+  var APP_SW = "mmm-2026-11-23-16";
+  var GUARD = "mmm-auto-reload";
+  var reg = null, reloading = false, checking = false;
+
+  function guardGet(){
+    try { return sessionStorage.getItem(GUARD) || ""; } catch(e){ return ""; }
+  }
+  function guardSet(v){
+    try { sessionStorage.setItem(GUARD, v); } catch(e){}
+  }
+  function guardClear(){
+    try { sessionStorage.removeItem(GUARD); } catch(e){}
+  }
+
+  function reloadFor(ver){
+    if(reloading) return false;
+    if(guardGet() === ver) return false;     /* 이미 이 버전으로 한 번 리로드함 */
+    guardSet(ver);
+    reloading = true;
+    try { location.reload(); } catch(e){ reloading = false; return false; }
+    return true;
+  }
+
+  function checkVersion(){
+    if(reloading || checking) return;
+    checking = true;
+    var url = "./version.json?t=" + Date.now();
+    var opts = { cache: "no-store" };
+    fetch(url, opts).then(function(r){
+      return r && r.ok ? r.json() : null;
+    }).then(function(j){
+      checking = false;
+      if(!j || !j.sw) return;
+      var server = String(j.sw);
+      if(server === APP_SW){ guardClear(); return; }   /* 최신 — 가드 해제 */
+      try { if(reg && reg.waiting) reg.waiting.postMessage("SKIP_WAITING"); } catch(e){}
+      var upd = (reg && typeof reg.update === "function") ? reg.update() : null;
+      Promise.resolve(upd).catch(function(){}).then(function(){
+        if(reg && reg.waiting){ try { reg.waiting.postMessage("SKIP_WAITING"); } catch(e){} }
+        reloadFor(server);
+      });
+    }).catch(function(){ checking = false; });
+  }
+
+  function poke(){
+    try { if(reg && typeof reg.update === "function") reg.update(); } catch(e){}
+    checkVersion();
+  }
+
+  if("serviceWorker" in navigator){
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" }).then(function(r){
+        reg = r;
+        try { reg.update(); } catch(e){}
+        setTimeout(checkVersion, 700);
+      }).catch(function(){});
+    });
+  }
+
+  document.addEventListener("visibilitychange", function(){
+    if(document.visibilityState === "visible") poke();
   });
-}
+  window.addEventListener("pageshow", function(){ poke(); });
+  window.addEventListener("focus", function(){ poke(); });
+  setInterval(poke, 60000);
+
+  navigator.serviceWorker && navigator.serviceWorker.addEventListener("controllerchange", function(){
+    /* 새 서비스 워커가 제어를 넘겨받음 — 다음 버전 확인에서 리로드 판단 */
+    try { if(reg && reg.waiting) reg.waiting.postMessage("SKIP_WAITING"); } catch(e){}
+  });
+})();
 </script>
 </body>
 </html>
