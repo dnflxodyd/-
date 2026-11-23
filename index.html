@@ -12937,32 +12937,33 @@ window.IMAGES_CLEAN=[
 
     /* 🧣 소품 / 목 -------------------------------------------------- */
     scarf: function(a){
-      var nw = Math.min(a.neckW * 0.80, a.sep * 2.85), pen = v24pen(a);
-      var th = Math.max(a.sep*0.36, nw*0.17), x = a.cx - nw/2, y = a.neckY - th*0.30;
-      var g = '';
-      /* 목을 감싸는 두툼한 띠 — 아래는 물결, 양 끝은 둥글게 */
-      var d = 'M' + v24f(x + th*0.30) + ' ' + v24f(y - th*0.16)
-        + ' Q' + v24f(x) + ' ' + v24f(y + th*0.20) + ' ' + v24f(x + th*0.22) + ' ' + v24f(y + th*0.52)
-        + ' L' + v24f(x + nw - th*0.22) + ' ' + v24f(y + th*0.62)
-        + ' Q' + v24f(x + nw + th*0.06) + ' ' + v24f(y + th*0.24) + ' ' + v24f(x + nw - th*0.26) + ' ' + v24f(y - th*0.10)
-        + ' L' + v24f(x + th*0.30) + ' ' + v24f(y - th*0.16) + ' Z';
+      var nw = Math.min(a.neckW * 0.66, a.sep * 2.30), pen = v24pen(a);
+      var th = Math.max(a.sep*0.40, nw*0.20), x = a.cx - nw/2, y = a.neckY - th*1.05;
+      var cx = a.cx, g = '';
+      var topY = y - th*0.28, botY = y + th*0.78;
+      /* 목을 감싸는 두툼한 띠 — 턱 아래로 살짝 휘는 곡선 */
+      var d = 'M' + v24f(x) + ' ' + v24f(y + th*0.10)
+        + ' Q' + v24f(cx) + ' ' + v24f(topY) + ' ' + v24f(x + nw) + ' ' + v24f(y + th*0.10)
+        + ' L' + v24f(x + nw) + ' ' + v24f(botY - th*0.10)
+        + ' Q' + v24f(cx) + ' ' + v24f(botY + th*0.26) + ' ' + v24f(x) + ' ' + v24f(botY - th*0.10)
+        + ' Z';
       g += v24ink(d, "#E8463C", a, pen + 0.3);
-      /* 접힌 결 */
-      g += '<path d="M' + v24f(x + nw*0.10) + ' ' + v24f(y + th*0.16) + ' Q' + v24f(x + nw*0.50) + ' '
-        + v24f(y + th*0.02) + ' ' + v24f(x + nw*0.90) + ' ' + v24f(y + th*0.20) + '" fill="none" stroke="#FF9C8E" stroke-width="'
-        + v24f(pen*0.9) + '" stroke-linecap="round" opacity=".95"/>';
-      g += '<path d="M' + v24f(x + nw*0.16) + ' ' + v24f(y + th*0.40) + ' L' + v24f(x + nw*0.86) + ' '
-        + v24f(y + th*0.50) + '" fill="none" stroke="#C4362E" stroke-width="' + v24f(pen*0.55)
-        + '" stroke-linecap="round" opacity=".8"/>';
+      /* 천 결 */
+      g += '<path d="M' + v24f(x + nw*0.10) + ' ' + v24f(y + th*0.02) + ' Q' + v24f(cx) + ' '
+        + v24f(topY + th*0.30) + ' ' + v24f(x + nw*0.90) + ' ' + v24f(y + th*0.04)
+        + '" fill="none" stroke="#FF9C8E" stroke-width="' + v24f(pen*0.9) + '" stroke-linecap="round" opacity=".95"/>';
+      g += '<path d="M' + v24f(x + nw*0.16) + ' ' + v24f(y + th*0.52) + ' Q' + v24f(cx) + ' '
+        + v24f(botY - th*0.16) + ' ' + v24f(x + nw*0.84) + ' ' + v24f(y + th*0.52)
+        + '" fill="none" stroke="#C4362E" stroke-width="' + v24f(pen*0.55) + '" stroke-linecap="round" opacity=".75"/>';
       /* 옆 매듭 + 늘어뜨린 끝 */
-      var kx = x + nw*0.84;
-      g += v24rr(kx - th*0.26, y + th*0.04, th*0.70, th*0.56, th*0.24, "#F0594B", V24_INK, pen*0.85);
-      g += v24ink('M' + v24f(kx - th*0.18) + ' ' + v24f(y + th*0.50)
-        + ' L' + v24f(kx - th*0.30) + ' ' + v24f(y + th*1.50)
-        + ' Q' + v24f(kx + th*0.02) + ' ' + v24f(y + th*1.62) + ' ' + v24f(kx + th*0.22) + ' ' + v24f(y + th*1.44)
-        + ' L' + v24f(kx + th*0.26) + ' ' + v24f(y + th*0.52) + ' Z', "#E8463C", a, pen*0.85);
-      for(var j=0;j<3;j++){
-        g += v24rod(kx - th*0.10 + j*th*0.14, y + th*1.52, kx - th*0.10 + j*th*0.14, y + th*1.72, a, V24_INK, pen*0.5);
+      var kx = x + nw*0.86, ky = y + th*0.20;
+      g += v24rr(kx - th*0.28, ky - th*0.20, th*0.74, th*0.62, th*0.24, "#F0594B", V24_INK, pen*0.85);
+      g += v24ink('M' + v24f(kx - th*0.20) + ' ' + v24f(ky + th*0.34)
+        + ' L' + v24f(kx - th*0.34) + ' ' + v24f(ky + th*1.52)
+        + ' Q' + v24f(kx - th*0.02) + ' ' + v24f(ky + th*1.66) + ' ' + v24f(kx + th*0.20) + ' ' + v24f(ky + th*1.46)
+        + ' L' + v24f(kx + th*0.26) + ' ' + v24f(ky + th*0.36) + ' Z', "#E8463C", a, pen*0.85);
+      for(var j2=0;j2<3;j2++){
+        g += v24rod(kx - th*0.14 + j2*th*0.15, ky + th*1.54, kx - th*0.14 + j2*th*0.15, ky + th*1.76, a, V24_INK, pen*0.5);
       }
       return g;
     },
