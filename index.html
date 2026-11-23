@@ -1603,6 +1603,116 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 }
 .v12-pop .btn-primary{width:100%}
 
+/* v9.0 daily wage / work prompt styles */
+/* ==========================================================
+   v9.0 — 💼 일급 자동 입력 · 날짜가 바뀌면 출근 여부 팝업
+   ========================================================== */
+
+/* ---------- 현물 자산 카드 안 · 일급 줄 ---------- */
+.wage-row{
+  margin-top:11px;padding:10px 10px 9px;border-radius:15px;
+  background:linear-gradient(160deg,rgba(255,255,255,.92),rgba(255,251,240,.88));
+  border:1.5px solid #F2E4CE;
+  box-shadow:0 10px 20px -18px rgba(150,110,60,.9);
+}
+.wage-head{display:flex;align-items:center;gap:6px;min-width:0}
+.wage-title{font-size:11px;font-weight:900;letter-spacing:-.01em;color:#7A5A16;white-space:nowrap}
+.wage-chip{
+  margin-left:auto;flex:0 0 auto;font-size:8.5px;font-weight:900;letter-spacing:-.01em;
+  padding:3px 8px;border-radius:99px;background:#F3EDE3;color:#9C8D7C;border:1px solid #EADFCB;
+  white-space:nowrap;
+}
+.wage-chip.worked{background:linear-gradient(135deg,#E9F9EE,#D3F1DE);color:#1E7A47;border-color:#B9E6C9}
+.wage-chip.rest{background:linear-gradient(135deg,#F2EEFF,#E4DCFF);color:#6B4FB0;border-color:#D6C8FA}
+.wage-pick{display:flex;gap:6px;margin-top:8px}
+#wageInput{
+  flex:1;min-width:0;padding:9px 11px;border-radius:12px;border:1.5px solid #EFE0C9;background:#fff;
+  font-family:inherit;font-size:14px;color:var(--ink);outline:none;transition:.15s;
+}
+#wageInput::placeholder{color:#C9BBA8;font-size:11px}
+#wageInput:focus{border-color:#FFCF7E;box-shadow:0 0 0 3px rgba(255,207,126,.22)}
+#wageInput::-webkit-outer-spin-button,#wageInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#wageInput{-moz-appearance:textfield;appearance:textfield}
+.wage-save{flex:0 0 58px;color:#fff;background:linear-gradient(135deg,#FFC46B,#FF9BBE);border:0;font-size:11px}
+.wage-foot{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
+.wage-now{flex:1 1 120px;min-width:0;font-size:8.5px;line-height:1.4;color:#A5968A;font-weight:700}
+.wage-now b{color:#8A6420}
+.wage-retry{
+  flex:0 0 auto;font-family:inherit;font-size:8.5px;font-weight:800;color:#8B78A6;
+  background:#fff;border:1px solid #E7DCF2;border-radius:99px;padding:5px 9px;cursor:pointer;white-space:nowrap;
+}
+.wage-retry:active{transform:scale(.97)}
+.wage-save:active,.mbtn:active{transform:scale(.97)}
+
+/* ---------- 💼 오늘 일하러 가시나요? 팝업 ---------- */
+.v13-pop{
+  position:relative;width:100%;max-width:326px;overflow:hidden;text-align:center;
+  background:linear-gradient(180deg,#FFFCF0 0%,#FFF4F7 50%,#F2ECFF 100%);
+  border:2px solid #fff;border-radius:28px;padding:20px 17px 16px;
+  box-shadow:0 30px 60px -22px rgba(70,40,90,.6);
+  transform:scale(.92) translateY(12px);transition:transform .3s cubic-bezier(.2,.9,.3,1.25);
+}
+.overlay.on .v13-pop{transform:none}
+.v13-pop h2{
+  margin:2px 0 0;font-size:22px;font-weight:400;letter-spacing:-.02em;
+  background:linear-gradient(100deg,#E08A2E,#DB7CAB 70%,#9B7BFF);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.v13-desc{margin:6px 0 13px;font-size:10.5px;line-height:1.6;color:#8C7A96;font-weight:600;word-break:keep-all}
+.v13-wage-box{
+  margin:0 0 11px;padding:11px 11px 9px;border-radius:16px;text-align:left;
+  background:rgba(255,255,255,.9);border:1.5px solid #F0E2F4;
+}
+.v13-lbl{display:block;font-size:8.5px;font-weight:900;letter-spacing:.14em;color:#A98BDF;margin-bottom:6px}
+.v13-wage-input{display:flex;align-items:center;gap:6px}
+#workWage{
+  flex:1;min-width:0;padding:11px 12px;border-radius:13px;border:1.5px solid #EDDFF5;background:#fff;
+  font-family:var(--mono,'Jua',sans-serif);font-size:20px;font-weight:900;letter-spacing:-.02em;
+  color:#5C4870;text-align:right;outline:none;transition:.15s;
+}
+#workWage:focus{border-color:#C9A6F5;box-shadow:0 0 0 3px rgba(190,150,245,.22)}
+#workWage::placeholder{color:#CFC2DA;font-size:14px;font-weight:700}
+#workWage::-webkit-outer-spin-button,#workWage::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#workWage{-moz-appearance:textfield;appearance:textfield}
+.v13-unit{flex:0 0 auto;font-size:12px;font-weight:900;color:#8B78A6}
+.v13-wage-preview{margin:7px 0 0;font-size:9px;line-height:1.5;color:#9A8BAD;font-weight:700}
+.v13-wage-preview b{color:#7A5A16}
+.v13-figures{display:flex;gap:6px;justify-content:center;margin:0 0 12px}
+.v13-fig{
+  flex:1 1 0;min-width:0;padding:8px 6px;border-radius:12px;
+  background:rgba(255,255,255,.86);border:1.5px solid #F0E2F4;
+}
+.v13-fig span{display:block;font-size:8px;font-weight:800;letter-spacing:.04em;color:#A091AC}
+.v13-fig b{display:block;margin-top:2px;font-family:var(--mono);font-size:13px;font-weight:900;color:#5C4870;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v13-fig b.good{color:#1E7A47}
+.v13-pop .btn-primary{width:100%;font-size:12.5px;padding:13px 10px}
+.v13-pop .v13-rest{width:100%;margin-top:7px;padding:11px;font-size:11.5px}
+.v13-note{margin:9px 0 0;font-size:8px;line-height:1.5;color:#B0A1BC;font-weight:700}
+.v13-pop.shake{animation:v13shake .42s}
+#workWage.shake{animation:v13shake .42s}
+@keyframes v13shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(5px)}
+  60%{transform:translateX(-3px)}
+  80%{transform:translateX(2px)}
+}
+.v13-coin{
+  position:absolute;left:50%;top:44%;font-size:19px;pointer-events:none;opacity:0;
+  animation:v13Coin 1.15s ease-out forwards;
+}
+@keyframes v13Coin{
+  0%{opacity:0;transform:translate(-50%,0) scale(.6)}
+  22%{opacity:1}
+  100%{opacity:0;transform:translate(calc(-50% + var(--dx,0px)),-120px) scale(1.15) rotate(18deg)}
+}
+@media (max-width:340px){
+  .v13-pop h2{font-size:19px}
+  #workWage{font-size:17px;padding:10px}
+  .v13-fig span{font-size:7.5px}
+  .v13-fig b{font-size:11.5px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -1761,7 +1871,22 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     </div>
     <div class="luck-row">
       <span class="luck-badge" id="luckBadge">🍀 재물운 LUCK</span>
-      <span class="luck-hint" id="luckHint">재테크 퀘스트를 깨면 재물운이 켜져요</span>
+      <span class="luck-hint" id="luckHint">재테크 퀘스트를 꺠면 재물운이 켜져요</span>
+    </div>
+
+    <div class="wage-row" id="wageRow">
+      <div class="wage-head">
+        <span class="wage-title">💼 일급 자동 입력</span>
+        <span class="wage-chip" id="wageChip">대기 중</span>
+      </div>
+      <div class="wage-pick">
+        <input id="wageInput" type="number" inputmode="decimal" min="0" step="1" placeholder="일급 (만원)" autocomplete="off">
+        <button class="mbtn wage-save" id="wageSave" type="button">저장</button>
+      </div>
+      <div class="wage-foot">
+        <span class="wage-now" id="wageNow">미설정 · 출근할 때 일급을 정해 주세요</span>
+        <button class="wage-retry" id="wageReopen" type="button">팝업 다시 열기</button>
+      </div>
     </div>
   </section>
 
@@ -1908,6 +2033,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <button class="tool" id="cheatStr">🏃 테스트 STR +5</button>
     <button class="tool" id="cheatInt">📚 테스트 INT +5</button>
     <button class="tool danger" id="penTest">💀 방치 -1일 테스트</button>
+    <button class="tool" id="workTest">💼 출근 팝업 테스트</button>
   </div>
 
   <section class="card party pane" data-pane="party" id="coupleCard">
@@ -2011,7 +2137,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v8.0 (5탭 내비 · 다마고치 · 2인 공유 · HP·유혹 · 🪙골드·상점·스킨)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v9.0 (5탭 내비 · 2인 공유 · HP·유혹 · 🪙상점·스킨 · 💼출근·일급)</p>
 </div>
 
 <div id="toasts"></div>
@@ -2186,6 +2312,29 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <div class="v12-fig"><span>남은 면제권</span><b class="gold" id="shLeft">0장</b></div>
     </div>
     <button class="btn-primary" id="shieldClose" type="button">확인</button>
+  </div>
+</div>
+
+<div class="overlay" id="workOverlay">
+  <div class="v13-pop" id="workPop" role="dialog" aria-modal="true" aria-labelledby="workTitle">
+    <p class="lu-sys">[ DAILY WORK ]</p>
+    <h2 id="workTitle">💼 오늘 일하러 가시나요?</h2>
+    <p class="v13-desc">출근을 누르면 설정한 일급이 내 현물 자산에 바로 더해져요.</p>
+    <div class="v13-wage-box">
+      <label class="v13-lbl" for="workWage">오늘 일급</label>
+      <div class="v13-wage-input">
+        <input id="workWage" type="number" inputmode="decimal" min="0" step="1" placeholder="0" autocomplete="off">
+        <span class="v13-unit">만원</span>
+      </div>
+      <p class="v13-wage-preview" id="workPreview">일급을 적으면 현물 자산에 바로 더해져요.</p>
+    </div>
+    <div class="v13-figures">
+      <div class="v13-fig"><span>현재 현물 자산</span><b id="workNowCash">0원</b></div>
+      <div class="v13-fig"><span>출근하면</span><b class="good" id="workPlus">+0원</b></div>
+    </div>
+    <button class="btn-primary" id="workYes" type="button">💼 네, 출근해요!</button>
+    <button class="btn-ghost v13-rest" id="workRest" type="button">🏠 오늘은 쉬는 날</button>
+    <p class="v13-note">내일 또 물어볼게요 · 일급은 언제든 💰 자산 탭에서 바꿀 수 있어요</p>
   </div>
 </div>
 <div class="overlay" id="luOverlay">
@@ -2595,6 +2744,9 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         mg: {date:"", n:0, gold:0}
       },
       partnerCouponSeen: 0,
+      dailyWage: 0,
+      workPromptDate: "",
+      workStatusToday: {date:"", status:""},
       born: today()
     };
   }
@@ -2642,6 +2794,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v9Normalize(s); } catch(e){}
     try { v10Normalize(s); } catch(e){}
     try { v12Normalize(s); } catch(e){}
+    try { v13Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
@@ -2830,6 +2983,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v11RenderMini(); } catch(e){}
     try { v11RenderCash(); } catch(e){}
     try { renderV12(); } catch(e){}
+    try { v13Render(); } catch(e){}
     renderParty();
   }
 
@@ -7388,6 +7542,285 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     var so = $("shieldOverlay");
     if(so) so.addEventListener("click", function(e){ if(e.target === so) closeShieldPopup(); });
   }
+  /* ===================================================================
+     v9.0 — 💼 날짜가 바뀌면 출근 여부 팝업 · 출근하면 일급이 현물 자산에 자동 반영
+     · state.dailyWage       : 일급 (원 단위, 0 = 미설정)
+     · state.workPromptDate  : 마지막으로 출근/휴무 팝업에 답한 날짜 (YYYY-MM-DD)
+     · state.workStatusToday : { date, status: "worked" | "rest" | "" }
+     =================================================================== */
+  var V13_WAGE_MAX = 100000000;   /* 1억 원 — 오타로 자산이 폭발하지 않게 */
+  var v13PopupShown = false;      /* 이번 로드에서 이미 띄웠는지 (닫아도 하루 동안 다시 안 띄움) */
+  var v13Tick = null;
+  var v13Day = "";                /* 날짜가 바뀌면 팝업을 다시 띄우기 위한 기준일 */
+
+  function v13NormWage(v){
+    var n = Number(v);
+    if(!isFinite(n) || n <= 0) return 0;
+    return Math.min(V13_WAGE_MAX, Math.round(n));
+  }
+  function v13Wage(){ return v13NormWage(state && state.dailyWage); }
+  function v13WageText(won){
+    var v = Math.max(0, Math.round(Number(won) || 0));
+    if(!v) return "0원";
+    if(v % 10000 === 0) return (v / 10000) + "만 원";
+    return v.toLocaleString("ko-KR") + "원";
+  }
+  function v13ManText(won){   /* 만원 입력칸에 채울 값 (15, 9.2) */
+    var v = Math.max(0, Math.round(Number(won) || 0));
+    if(!v) return "";
+    return String(Math.round(v / 1000) / 10);
+  }
+  function v13Status(){
+    var st = (state && state.workStatusToday) || null;
+    if(!st || typeof st !== "object") return "";
+    if(st.date !== today()) return "";
+    return (st.status === "worked" || st.status === "rest") ? st.status : "";
+  }
+
+  /* ---------- 정규화 ---------- */
+  function v13Normalize(s){
+    s.dailyWage = v13NormWage(s.dailyWage);
+    s.workPromptDate = (typeof s.workPromptDate === "string") ? s.workPromptDate : "";
+    var st = s.workStatusToday;
+    if(!st || typeof st !== "object"){
+      s.workStatusToday = {date:"", status:""};
+    } else {
+      s.workStatusToday = {
+        date: (typeof st.date === "string") ? st.date : "",
+        status: (st.status === "worked" || st.status === "rest") ? st.status : ""
+      };
+    }
+    if(s.workStatusToday.date !== today()) s.workStatusToday = {date:"", status:""};
+  }
+
+  /* ---------- 현물 자산 카드 · 일급 줄 ---------- */
+  function v13Render(){
+    var chip = $("wageChip"), now = $("wageNow"), inp = $("wageInput");
+    if(!chip || !now) return;
+    var w = v13Wage();
+    now.innerHTML = w
+      ? "일급 <b>" + esc(v13WageText(w)) + "</b> · 매일 출근 시 자동 추가"
+      : "미설정 · 출근할 때 일급을 정해 주세요";
+    var key = v13Status();
+    chip.className = "wage-chip" + (key === "worked" ? " worked" : (key === "rest" ? " rest" : ""));
+    chip.textContent = key === "worked" ? "오늘 출근 반영됨" : (key === "rest" ? "오늘 쉬는 날" : "대기 중");
+    if(inp && document.activeElement !== inp) inp.value = v13ManText(w);
+  }
+
+  /* ---------- 팝업 표시 값 갱신 ---------- */
+  function v13PromptWage(){
+    var el2 = $("workWage");
+    var raw = String((el2 && el2.value) || "").replace(/[^0-9.]/g, "");
+    var man = parseFloat(raw);
+    if(!isFinite(man) || man <= 0) return 0;
+    return Math.min(V13_WAGE_MAX, Math.round(man * 10000));
+  }
+  function v13SyncPrompt(){
+    var wage = v13PromptWage();
+    var cur = moneyVal();
+    if($("workNowCash")) $("workNowCash").textContent = fmtWon(cur);
+    if($("workPlus")) $("workPlus").textContent = wage > 0 ? "+" + v13WageText(wage) : "+0원";
+    if($("workPreview")){
+      $("workPreview").innerHTML = wage > 0
+        ? "<b>" + esc(fmtWon(cur)) + "</b> → <b>" + esc(fmtWon(cur + wage)) + "</b> 으로 늘어나요"
+        : "일급(만원)을 적으면 현물 자산에 바로 더해져요.";
+    }
+    var yes = $("workYes");
+    if(yes) yes.textContent = wage > 0 ? "💼 네, 출근해요! (+" + v13WageText(wage) + ")" : "💼 네, 출근해요!";
+  }
+
+  function v13OpenPrompt(){
+    var o = $("workOverlay");
+    if(!o || !state || !state.character) return false;
+    var w = v13Wage();
+    var inp = $("workWage");
+    if(inp) inp.value = v13ManText(w);
+    v13SyncPrompt();
+    o.classList.add("on");
+    v13PopupShown = true;
+    if(inp && !w) setTimeout(function(){ try { inp.focus(); } catch(e){} }, 380);
+    return true;
+  }
+  function v13ClosePrompt(){
+    var o = $("workOverlay");
+    if(o) o.classList.remove("on");
+  }
+
+  function v13CoinBurst(){
+    var pop = $("workPop");
+    if(!pop) return;
+    for(var i = 0; i < 7; i++){
+      (function(i){
+        var s = document.createElement("span");
+        s.className = "v13-coin";
+        s.textContent = i % 3 === 0 ? "💵" : "🪙";
+        s.style.setProperty("--dx", ((i - 3) * 22) + "px");
+        s.style.animationDelay = (i * 60) + "ms";
+        pop.appendChild(s);
+        setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 1400);
+      })(i);
+    }
+  }
+
+  /* ---------- 출근 / 휴무 ---------- */
+  function v13Worked(){
+    var wage = v13PromptWage();
+    if(!wage){
+      var inp = $("workWage");
+      if(inp){
+        inp.classList.remove("shake"); void inp.offsetWidth; inp.classList.add("shake");
+        try { inp.focus(); } catch(e){}
+      }
+      toast("일급(만원)을 입력해 주세요", "예) 15 → 오늘 15만 원이 현물 자산에 더해져요.");
+      return;
+    }
+    var before = moneyVal();
+    var beforeTier = moneyTier(before);
+    var next = before + wage;
+    state.dailyWage = wage;
+    state.money.total = next;
+    state.money.last = before;
+    state.workPromptDate = today();
+    state.workStatusToday = {date: today(), status: "worked"};
+    save();
+    v13CoinBurst();
+    v13ClosePrompt();
+    render();
+    toast("💼 오늘도 화이팅! +" + v13WageText(wage) + " 현물 자산에 추가됐어요!",
+      fmtWon(before) + " → " + fmtWon(next) + " · " + moneyTier(next).emoji + " " + moneyTier(next).name,
+      null, 5200);
+    var afterTier = moneyTier(next);
+    if(afterTier.idx > beforeTier.idx){
+      setTimeout(function(){
+        toast("💰 " + afterTier.name + " 달성!", afterTier.emoji + " " + fmtWon(next) + " · " + afterTier.tip, null, 5600);
+      }, 720);
+    }
+    if(navigator.vibrate) navigator.vibrate([10, 30, 14]);
+  }
+
+  function v13Rest(){
+    state.workPromptDate = today();
+    state.workStatusToday = {date: today(), status: "rest"};
+    save();
+    v13ClosePrompt();
+    render();
+    toast("🏠 오늘은 쉬는 날로 기록했어요.", "현물 자산은 그대로예요. 내일 다시 여쭤볼게요!", null, 4400);
+  }
+
+  /* ---------- 자산 탭 · 일급 저장 ---------- */
+  function v13SaveWage(){
+    var inp = $("wageInput");
+    var raw = String((inp && inp.value) || "").replace(/[^0-9.]/g, "");
+    var man = parseFloat(raw);
+    if(!raw || !isFinite(man) || man < 0){
+      toast("일급을 만원 단위 숫자로 적어 주세요.", "예) 15 → 일급 15만 원");
+      if(inp) try { inp.focus(); } catch(e){}
+      return;
+    }
+    var wage = v13NormWage(Math.round(man * 10000));
+    state.dailyWage = wage;
+    save();
+    render();
+    if(inp) try { inp.blur(); } catch(e){}
+    toast(wage > 0 ? "💼 일급 " + v13WageText(wage) + " 저장했어요" : "💼 일급 자동 입력을 비웠어요",
+      wage > 0
+        ? "날짜가 바뀌면 출근 여부를 여쭤보고, 출근하면 이 금액이 현물 자산에 더해져요."
+        : "다음 출근 팝업에서 다시 정할 수 있어요.",
+      null, 4600);
+  }
+
+  /* ---------- 테스트 도구 ---------- */
+  function v13Test(){
+    state.workPromptDate = yesterday();
+    state.workStatusToday = {date:"", status:""};
+    save();
+    v13PopupShown = false;
+    v13CloseOthers();
+    setTimeout(function(){ v13OpenPrompt(); }, 120);
+    toast("💼 출근 팝업 테스트", "어제 날짜로 되돌렸어요. 오늘 아침처럼 팝업이 떠요!", null, 3600);
+  }
+
+  /* ---------- 다른 모달과 겹치지 않게 ---------- */
+  function v13CloseOthers(){
+    var nodes = document.querySelectorAll(".overlay.on, .sheet-wrap.on, .picker.on");
+    for(var i = 0; i < nodes.length; i++){
+      if(nodes[i].id !== "workOverlay") nodes[i].classList.remove("on");
+    }
+    ["pickWrap", "restoreWrap", "restoreOkWrap", "rejoinWrap"].forEach(function(id){
+      var n = $(id);
+      if(n && !n.hidden && !n.classList.contains("on")) n.hidden = true;
+    });
+  }
+  function v13Conflicts(){
+    var nodes = document.querySelectorAll(".overlay.on, .sheet-wrap.on, .picker.on");
+    for(var i = 0; i < nodes.length; i++){
+      if(nodes[i].id !== "workOverlay") return true;
+    }
+    var pick = $("pickWrap");
+    if(pick && !pick.hidden) return true;
+    var ids = ["restoreWrap", "restoreOkWrap", "rejoinWrap"];
+    for(var j = 0; j < ids.length; j++){
+      var n = $(ids[j]);
+      if(n && !n.hidden) return true;
+    }
+    var a = document.activeElement;
+    if(a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA") && a.id !== "workWage") return true;
+    return false;
+  }
+
+  function v13MaybePrompt(){
+    if(v13PopupShown) return false;
+    if(!state || !state.character) return false;
+    if(state.workPromptDate === today()) return false;
+    if(!$("workOverlay")) return false;
+    if(v13Conflicts()) return false;
+    return v13OpenPrompt();
+  }
+
+  /* ---------- wire ---------- */
+  function v13Boot(){
+    var o = $("workOverlay");
+    if(!o) return;
+    var yes = $("workYes");
+    if(yes) yes.addEventListener("click", v13Worked);
+    var rest = $("workRest");
+    if(rest) rest.addEventListener("click", v13Rest);
+    o.addEventListener("click", function(e){ if(e.target === o) v13ClosePrompt(); });
+
+    var wInp = $("workWage");
+    if(wInp){
+      wInp.addEventListener("input", v13SyncPrompt);
+      wInp.addEventListener("keydown", function(e){
+        if(e.key === "Enter"){ e.preventDefault(); v13Worked(); }
+      });
+    }
+
+    var saveB = $("wageSave");
+    if(saveB) saveB.addEventListener("click", v13SaveWage);
+    var wageInp = $("wageInput");
+    if(wageInp) wageInp.addEventListener("keydown", function(e){
+      if(e.key === "Enter"){ e.preventDefault(); v13SaveWage(); }
+    });
+    var again = $("wageReopen");
+    if(again) again.addEventListener("click", function(){ v13OpenPrompt(); });
+    var test = $("workTest");
+    if(test) test.addEventListener("click", v13Test);
+
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape" && o.classList.contains("on")) v13ClosePrompt();
+    });
+
+    v13Render();
+    v13Day = today();
+
+    /* 첫 로드 — 나태 페널티·레벨업·캐릭터 선택 창이 먼저 떠 있으면 끝난 뒤에 뜨도록 계속 확인 */
+    setTimeout(v13MaybePrompt, 1600);
+    if(v13Tick) clearInterval(v13Tick);
+    v13Tick = setInterval(function(){
+      if(v13Day !== today()){ v13Day = today(); v13PopupShown = false; }   /* 자정이 지나 날짜가 바뀌면 다시 */
+      if(!v13PopupShown) v13MaybePrompt();
+    }, 4000);
+  }
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -7399,6 +7832,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   wireV11();
   renderParty();
   try { wireV12(); v12Boot(); } catch(e){}
+  try { v13Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
