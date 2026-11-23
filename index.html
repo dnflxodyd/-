@@ -2915,14 +2915,21 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 /* 슬롯 카탈로그 */
 .dress-slot + .dress-slot{ margin-top:11px; }
 .ds-head{
-  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  display:flex; align-items:center; justify-content:space-between; gap:6px;
   margin:0 0 6px; padding-left:1px;
 }
 .ds-head b{ font-size:10.5px; font-weight:850; letter-spacing:-.02em; color:#5A4A66; }
 .ds-cur{
+  flex:1 1 auto; min-width:0; text-align:right;
   font-size:8.5px; font-weight:800; color:#A08BB4;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:52%;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:56%;
 }
+.ds-off{
+  flex:0 0 auto; font-family:inherit; font-size:8px; font-weight:850; letter-spacing:-.02em;
+  color:#9B6BC8; background:#FBF5FF; border:1.2px solid #E6D8F6;
+  border-radius:8px; padding:3px 6px; cursor:pointer; white-space:nowrap;
+}
+.ds-off:active{ transform:scale(.95); }
 .dress-grid{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
 .dress-item{
   position:relative; display:flex; align-items:center; gap:7px;
@@ -13077,11 +13084,16 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         }).join("");
         return '<section class="dress-slot">'
           + '<div class="ds-head"><b><span class="v18-e">' + sl.emoji + "</span> " + esc(sl.label) + '</b>'
-          + '<span class="ds-cur">' + (curIt ? '<span class="v18-e">' + curIt.emoji + "</span> " + esc(curIt.name) : "착용 없음") + '</span></div>'
+          + '<span class="ds-cur">' + (curIt ? '<span class="v18-e">' + curIt.emoji + "</span> " + esc(curIt.name) : "착용 없음") + '</span>'
+          + (curIt ? '<button class="ds-off" type="button" data-v24offslot="' + sl.key + '">착용 해제</button>' : "")
+          + '</div>'
           + '<div class="dress-grid">' + cards + '</div></section>';
       }).join("");
       Array.prototype.forEach.call(wrap.querySelectorAll("[data-v24id]"), function(b){
         b.addEventListener("click", function(){ v24Click(b.getAttribute("data-v24id")); });
+      });
+      Array.prototype.forEach.call(wrap.querySelectorAll("[data-v24offslot]"), function(b){
+        b.addEventListener("click", function(){ v24Unequip(b.getAttribute("data-v24offslot")); });
       });
     }
     v24RenderStage();
