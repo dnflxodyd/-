@@ -2567,6 +2567,13 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   .hp-guide-grid{grid-template-columns:1fr}
 }
 
+/* 나태 페널티 [ SYSTEM ] 창 — ❤️ HP 카드가 붙으면 2×2 로 정돈 */
+.pen-figures.has-hp{grid-template-columns:repeat(2,1fr)}
+.pen-figures .pf.pf-hp{background:rgba(255,120,150,.12);border-color:rgba(255,150,175,.32)}
+@media (max-width:330px){
+  .pen-figures.has-hp{grid-template-columns:1fr 1fr;gap:5px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -11396,11 +11403,14 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       line.textContent = String(line.textContent) + " · ❤️ HP -" + loss;
     }
     var figs = $("penFigures");
-    if(figs && !figs.querySelector(".pf-hp")){
-      var div = document.createElement("div");
-      div.className = "pf pf-hp";
-      div.innerHTML = '<span>❤️ HP</span><b class="down">-' + loss + '</b>';
-      figs.appendChild(div);
+    if(figs){
+      figs.classList.add("has-hp");
+      if(!figs.querySelector(".pf-hp")){
+        var div = document.createElement("div");
+        div.className = "pf pf-hp";
+        div.innerHTML = '<span>❤️ HP</span><b class="down">-' + loss + '</b>';
+        figs.appendChild(div);
+      }
     }
   }
   function v21WrapPenaltyModal(){
