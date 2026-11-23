@@ -3000,6 +3000,66 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   text-align:center; word-break:keep-all;
 }
 
+/* v26.0 quest sync · undo · luck gold buff */
+/* ==========================================================
+   v26.0 — 👑 기준 퀘스트 동기화 · ↩️ 완료 취소 · 🍀 LUCK 재물운 +25%
+   ========================================================== */
+.v26-sync{
+  margin:11px 0 12px;padding:10px 11px 9px;border-radius:15px;
+  background:linear-gradient(160deg,#FFF9EE,#FBF1FF 78%);
+  border:1.5px solid #EADCCB;box-shadow:0 1px 0 #FFF inset,0 2px 6px rgba(120,90,60,.05);
+}
+.v26-sync[hidden]{display:none}
+.v26-sync.off{background:#F8F5F1;border-color:#E6DED4;opacity:.92}
+.v26-sync-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.v26-sync-sys{font-size:8px;font-weight:850;letter-spacing:.09em;color:#B08A5E}
+.v26-sync-owner{
+  font-size:9px;font-weight:850;color:#7B5EA7;background:#F3ECFF;border:1px solid #E4D8FA;
+  border-radius:9px;padding:2px 7px;max-width:62%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.v26-sync.off .v26-sync-owner{color:#8E8378;background:#F2EEE9;border-color:#E4DCD3}
+.v26-sync-up{
+  display:block;width:100%;margin-top:8px;padding:10px 8px;border-radius:12px;
+  border:1.5px solid #E5D3B6;background:#FFFDF6;color:#8A6A3B;
+  font-family:inherit;font-size:11px;font-weight:850;line-height:1.35;cursor:pointer;
+  transition:transform .12s,background .2s;
+}
+.v26-sync-up:hover{background:#FFF6E2}
+.v26-sync-up:active{transform:scale(.985)}
+.v26-sync-up.mine{background:#F5ECFF;border-color:#DCC8F7;color:#6F4FA8}
+.v26-sync-toggle{
+  display:flex;align-items:center;gap:6px;margin-top:8px;
+  font-size:10px;font-weight:800;color:#7C6B7E;cursor:pointer;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.v26-sync-toggle input{
+  appearance:none;-webkit-appearance:none;width:30px;height:17px;border-radius:999px;
+  background:#DDD3E6;position:relative;transition:background .18s;cursor:pointer;flex:0 0 auto;margin:0;
+}
+.v26-sync-toggle input::after{
+  content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;
+  background:#FFF;box-shadow:0 1px 2px rgba(0,0,0,.18);transition:transform .18s;
+}
+.v26-sync-toggle input:checked{background:#A98BE0}
+.v26-sync-toggle input:checked::after{transform:translateX(13px)}
+.v26-sync-note{font-size:8.5px;line-height:1.45;color:#A596AF;font-weight:700;margin-top:6px}
+
+/* ↩️ 완료 취소 버튼 */
+.q-undo{
+  flex:0 0 auto;display:inline-flex;align-items:center;gap:2px;
+  padding:4px 7px;border-radius:9px;border:1.5px solid #D9E8CF;background:#F6FCF0;
+  color:#5C8A44;font-size:9px;font-weight:850;line-height:1;cursor:pointer;user-select:none;
+  -webkit-tap-highlight-color:transparent;transition:transform .12s,background .2s;
+}
+.q-undo:hover{background:#EDF9E2}
+.q-undo:active{transform:scale(.94)}
+.bonus-q .q-undo{border-color:#EBD9BC;background:#FFFBEE;color:#9A7638}
+.quest.done{position:relative}
+@media (max-width:359px){
+  .q-undo{padding:3px 5px;font-size:8px}
+  .v26-sync-up{font-size:10px;padding:9px 6px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -3269,6 +3329,15 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <div class="q-count"><b id="doneCount">0</b>/<span id="totalCount">4</span></div>
     </div>
     <p class="q-desc">전부 깨면 오늘의 생존 신고 완료. 보상은 즉시 지급된다.</p>
+    <div class="v26-sync" id="v26SyncBar" hidden>
+      <div class="v26-sync-top">
+        <span class="v26-sync-sys">[ 👑 QUEST SYNC ]</span>
+        <span class="v26-sync-owner" id="v26SyncOwner">지금 기준: 나</span>
+      </div>
+      <button class="v26-sync-up" id="v26SyncUp" type="button">👑 내 퀘스트 목록을 방 기준으로 올리기</button>
+      <label class="v26-sync-toggle"><input type="checkbox" id="v26SyncOn" checked><span>🔄 기준 퀘스트 자동 동기화</span></label>
+      <p class="v26-sync-note" id="v26SyncNote">기준 목록을 자동으로 맞춰요.</p>
+    </div>
   <div class="diff-row">
     <span class="diff-badge t1" id="diffBadge">⚔️ 난이도 Lv.1 입문</span>
     <span class="diff-defense" id="diffDefense">오늘 1개 이상 깨면 EXP 하락 방어!</span>
@@ -3545,7 +3614,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v25.0 (✨꾸미기 12종 굵은 펜선 · 😴기본 안대·선글라스 숨기기)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v26.0 (👑기준 퀘스트 동기화 · ↩️완료 취소 · 🍀LUCK 재물운 +25%)</p>
 </div>
 
 <div id="toasts"></div>
@@ -4462,6 +4531,7 @@ window.IMAGES_CLEAN=[
     try { v21Normalize(s); } catch(e){}
     try { v22Normalize(s); } catch(e){}
     try { v24Normalize(s); } catch(e){}
+    try { v26Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
@@ -4606,13 +4676,14 @@ window.IMAGES_CLEAN=[
         + '<span class="q-main">'
         +   '<span class="q-title">'+esc(q.icon)+" "+esc(q.title)+'</span>'
         +   '<span class="q-sub">'
-        +     '<span class="tag">'+(gains || (q.luck ? "🍀 LUCK" : "퀘스트"))+'</span>'
+        +     '<span class="tag">'+(gains || (q.luck ? "🍀 LUCK (재테크)" : "퀘스트"))+'</span>'
         +     (q.custom ? '<span class="tag custom">내 퀘스트</span>' : '')
         +     (q.done ? '' : diffTag())
         +   '</span>'
         + '</span>'
-        + '<span class="exp-chip">+'+q.exp+' EXP<small>+'+v12GoldForQuest(q)+' G</small></span>'
+        + '<span class="exp-chip">+'+q.exp+' EXP<small>+'+((typeof v26Gold === "function") ? v26Gold(v12GoldForQuest(q)) : v12GoldForQuest(q))+' G</small></span>'
         + '<span class="q-edit" data-edit="'+esc(q.id)+'" role="button" tabindex="0" title="퀘스트 수정" aria-label="퀘스트 수정">✏️</span>'
+        + (q.done ? '<span class="q-undo" data-undo="'+esc(q.id)+'" role="button" tabindex="0" title="완료 취소" aria-label="퀘스트 완료 취소">↩️ 취소</span>' : '')
         + '</button>';
     }).join("") : '<div class="q-empty">아직 퀘스트가 없어요.<br>새 퀘스트를 추가하거나 <b>↺ 기본 퀘스트 복구</b>를 눌러 주세요.</div>');
 
@@ -4659,6 +4730,7 @@ window.IMAGES_CLEAN=[
     try { v21AfterRender(); } catch(e){}
     try { v22AfterRender(); } catch(e){}
     try { v24AfterRender(); } catch(e){}
+    try { v26AfterRender(); } catch(e){}
   }
 
 /* ---------- toast ---------- */
@@ -4886,7 +4958,7 @@ window.IMAGES_CLEAN=[
     toast(
       gainedExp > 0 ? "퀘스트 완료! +"+gainedExp+" EXP · 🪙 +"+v12g+" G" : "퀘스트 완료! 🪙 +"+v12g+" G",
       "'"+esc(q.title)+"' · "+(statGainText(q.gain) || (q.luck ? "🍀 LUCK" : ""))+(q.v12buf ? " · ⚡ EXP 2배!" : ""),
-      leveled ? null : function(){ undoQuest(id, gainedExp); }
+      (typeof v26UndoDaily === "function") ? function(){ v26UndoDaily(id); } : (leveled ? null : function(){ undoQuest(id, gainedExp); })
     );
 
     if(navigator.vibrate) navigator.vibrate(14);
@@ -4929,8 +5001,10 @@ window.IMAGES_CLEAN=[
   let sheetGain = 2;
 
   function buildChips(){
-    el.statChips.innerHTML = Object.keys(STATS).map(k =>
-      '<button class="chip'+(k===sheetStat?" on":"")+'" data-stat="'+k+'">'+STATS[k].name+'<small>'+STATS[k].short+'</small></button>'
+    const chipDefs = Object.keys(STATS).map(k => ({key:k, label:STATS[k].name, small:STATS[k].short}));
+    chipDefs.push({key:"luck", label:"🍀 LUCK", small:"(재테크)"});
+    el.statChips.innerHTML = chipDefs.map(c =>
+      '<button class="chip'+(c.key===sheetStat?" on":"")+'" data-stat="'+c.key+'">'+c.label+'<small>'+c.small+'</small></button>'
     ).join("");
     const diffs = [
       {exp:10, gain:1, name:"가벼움"},
@@ -4963,16 +5037,19 @@ window.IMAGES_CLEAN=[
       el.newTitle.focus();
       return;
     }
+    const isLuck = (sheetStat === "luck");
+    const gain = isLuck ? {} : {[sheetStat]: sheetGain};
     if(sheetKind === "bonus"){
-      addBonusQuest(title, sheetStat, sheetExp, {[sheetStat]: sheetGain});
+      addBonusQuest(title, isLuck ? "luck" : sheetStat, sheetExp, gain, isLuck);
     } else {
       state.quests.push({
         id: "c"+Date.now().toString(36),
-        icon: "⭐",
+        icon: isLuck ? "🍀" : "⭐",
         title: title,
-        stat: sheetStat,
+        stat: isLuck ? "luck" : sheetStat,
         exp: sheetExp,
-        gain: {[sheetStat]: sheetGain},
+        gain: gain,
+        luck: isLuck,
         done: false,
         custom: true,
         am: (typeof v20NewWhenAm === "function") ? v20NewWhenAm() : true
@@ -4981,7 +5058,8 @@ window.IMAGES_CLEAN=[
     save();
     render();
     closeSheet();
-    toast("새 퀘스트가 등록되었습니다.", "'"+esc(title)+"' · "+(sheetKind === "bonus" ? "⭐ 보너스" : ((typeof v20NewWhenAm === "function" && v20NewWhenAm()) ? "🌅 오전" : "☀️ 오후"))+" · "+STATS[sheetStat].name+" +"+sheetGain+" · +"+sheetExp+" EXP");
+    const reward = isLuck ? "🍀 LUCK (재테크) · 재물운 +25%" : (STATS[sheetStat].name+" +"+sheetGain);
+    toast("새 퀘스트가 등록되었습니다.", "'"+esc(title)+"' · "+(sheetKind === "bonus" ? "⭐ 보너스" : ((typeof v20NewWhenAm === "function" && v20NewWhenAm()) ? "🌅 오전" : "☀️ 오후"))+" · "+reward+" · +"+sheetExp+" EXP");
   }
 
   function deleteQuest(id){
@@ -5098,6 +5176,13 @@ window.IMAGES_CLEAN=[
       try { v16OpenEdit("daily", edit.getAttribute("data-edit")); } catch(err){}
       return;
     }
+    const undoBtn = e.target.closest ? e.target.closest("[data-undo]") : null;
+    if(undoBtn){
+      e.preventDefault();
+      e.stopPropagation();
+      try { v26UndoDaily(undoBtn.getAttribute("data-undo")); } catch(err){}
+      return;
+    }
     const del = e.target.closest ? e.target.closest("[data-del]") : null;
     if(del){
       e.preventDefault();
@@ -5111,6 +5196,7 @@ window.IMAGES_CLEAN=[
     const q = state.quests.find(x => x.id === id);
     if(!q) return;
     if(q.done){
+      if(typeof v26UndoDaily === "function"){ v26UndoDaily(id); return; }
       if(v9SkipDoneToast()) return;
       toast("이미 완료한 퀘스트입니다.", "초기화하면 다시 도전할 수 있어요. (아래 ⟳ 버튼)");
       return;
@@ -6302,16 +6388,16 @@ window.IMAGES_CLEAN=[
     }
   }
 
-  function addBonusQuest(title, stat, exp, gain){
+  function addBonusQuest(title, stat, exp, gain, luck){
     const tid = "b" + Date.now().toString(36);
     state.bonusCustom.push({
-      id: tid, icon: "⭐", title: title, stat: stat, exp: exp,
-      gain: Object.assign({}, gain || {}), luck: false
+      id: tid, icon: luck ? "🍀" : "⭐", title: title, stat: luck ? "luck" : stat, exp: exp,
+      gain: Object.assign({}, gain || {}), luck: !!luck
     });
     normBonus();
     state.bonus.list.push({
-      id: "bc-" + tid, icon: "⭐", title: title, exp: exp,
-      gain: Object.assign({}, gain || {}), luck: false, done: false, custom: true, tid: tid
+      id: "bc-" + tid, icon: luck ? "🍀" : "⭐", title: title, exp: exp,
+      gain: Object.assign({}, gain || {}), luck: !!luck, done: false, custom: true, tid: tid
     });
   }
 
@@ -6421,6 +6507,7 @@ window.IMAGES_CLEAN=[
     const add = v7AddExp(40);
     let v12acGold = 0;
     try { v12acGold = v12OnAllClear(); } catch(e){}
+    try { state.v26AllclearExp = add; state.v26AllclearGold = v12acGold; } catch(e){}
     try { v19OnAllClear(add, v12acGold, list.length); } catch(e){}
     save();
     setTimeout(function(){
@@ -6624,11 +6711,11 @@ window.IMAGES_CLEAN=[
     b.classList.toggle("on", on);
     if(on){
       const mins = Math.max(1, Math.ceil((state.luck.until - Date.now()) / 60000));
-      b.textContent = "🍀 재물운 LUCK +" + mins + "분";
-      hint.textContent = "재테크 퀘스트 완료 · 누적 " + (state.luck.n || 0) + "회";
+      b.textContent = "🍀 재물운 +25% · " + mins + "분";
+      hint.textContent = "모든 골드 보상 +25% · LUCK 누적 " + (state.luck.n || 0) + "회";
     } else {
       b.textContent = "🍀 재물운 LUCK";
-      hint.textContent = "재테크 퀘스트를 깨면 재물운이 켜져요";
+      hint.textContent = "LUCK 퀘스트를 깨면 1시간 골드 +25%";
     }
   }
 
@@ -6652,8 +6739,9 @@ window.IMAGES_CLEAN=[
         +     (q.done ? '' : diffTag())
         +   '</span>'
         + '</span>'
-        + '<span class="exp-chip">+' + q.exp + ' EXP<small>+' + ((q.gold !== undefined && q.gold !== null) ? q.gold : V12_BONUS_GOLD) + ' G</small></span>'
+        + '<span class="exp-chip">+' + q.exp + ' EXP<small>+' + ((typeof v26Gold === "function") ? v26Gold((q.gold !== undefined && q.gold !== null) ? q.gold : V12_BONUS_GOLD) : ((q.gold !== undefined && q.gold !== null) ? q.gold : V12_BONUS_GOLD)) + ' G</small></span>'
         + '<span class="q-edit" data-bedit="' + esc(q.id) + '" role="button" tabindex="0" title="퀘스트 수정" aria-label="보너스 퀘스트 수정">✏️</span>'
+        + (q.done ? '<span class="q-undo" data-bundo="' + esc(q.id) + '" role="button" tabindex="0" title="완료 취소" aria-label="보너스 퀘스트 완료 취소">↩️ 취소</span>' : '')
         + '</button>';
     }).join("") || '<div class="q-empty small">보너스 퀘스트가 없어요. ＋ 보너스 퀘스트 추가로 만들어 보세요.</div>';
 
@@ -7132,6 +7220,13 @@ window.IMAGES_CLEAN=[
         try { v16OpenEdit("bonus", edit.getAttribute("data-bedit")); } catch(err){}
         return;
       }
+      const undoBtn = e.target.closest ? e.target.closest("[data-bundo]") : null;
+      if(undoBtn){
+        e.preventDefault();
+        e.stopPropagation();
+        try { v26UndoBonus(undoBtn.getAttribute("data-bundo")); } catch(err){}
+        return;
+      }
       const del = e.target.closest ? e.target.closest("[data-bdel]") : null;
       if(del){
         e.preventDefault();
@@ -7145,6 +7240,7 @@ window.IMAGES_CLEAN=[
       const q = (state.bonus.list || []).find(function(x){ return x.id === id; });
       if(!q) return;
       if(q.done){
+        if(typeof v26UndoBonus === "function"){ v26UndoBonus(id); return; }
         if(v9SkipDoneToast()) return;
         toast("이미 완료한 보너스 퀘스트입니다.", "되돌리기는 완료 직후 토스트에서 누를 수 있어요.");
         return;
@@ -9830,7 +9926,7 @@ window.IMAGES_CLEAN=[
     {key:"int",  name:"지력",   short:"INT",  ico:"📚"},
     {key:"agi",  name:"민첩",   short:"AGI",  ico:"⚡"},
     {key:"wil",  name:"의지",   short:"WIL",  ico:"🛡️"},
-    {key:"luck", name:"재테크", short:"LUCK", ico:"🍀"}
+    {key:"luck", name:"LUCK", short:"재테크", ico:"🍀"}
   ];
   var V16_PRESETS = [
     {key:"light",  name:"가볍게", exp:10, gold:10, gain:1},
@@ -11699,7 +11795,7 @@ window.IMAGES_CLEAN=[
     var recPartner = (score > 0 && score > partnerBest);
     var recBonus = 0;
     if(recMine || recPartner){
-      recBonus = V20_MG_REC_GOLD;
+      recBonus = (typeof v26Gold === "function") ? v26Gold(V20_MG_REC_GOLD) : V20_MG_REC_GOLD;
       try { v12AddGold(recBonus); } catch(e){ recBonus = 0; }
       gold += recBonus;
     }
@@ -13446,6 +13542,670 @@ window.IMAGES_CLEAN=[
     buy: v24Buy,
     takeOffAll: v24TakeOffAll
   };
+  /* ===================================================================
+     v26.0 — 👑 기준(호스트) 퀘스트 목록 실시간 동기화
+              ↩️ 실수로 완료한 퀘스트 완료 취소(보상 정확 원복)
+              🍀 LUCK (재테크) 선택지 · 재물운 골드 +25% 버프
+     · 방(jsonstorage)의 sharedQuestTemplate 하나를 기준 목록으로 쓴다
+     · 기준자(방장/올린 사람)만 자동 업로드, 상대는 최신 기준을 따라간다
+     · 동기화해도 같은 ID 의 오늘 완료 체크는 절대 풀리지 않는다
+     =================================================================== */
+  var V26_GOLD_BUFF = 1.25;
+  var v26PushTimer = null;
+  var v26Pushing = false;
+  var v26PollTimer = null;
+  var v26Polling = false;
+  var v26LastPullAt = 0;
+
+  function v26Clone(o){
+    try { return JSON.parse(JSON.stringify(o || {})); } catch(e){ return {}; }
+  }
+  function v26Int(v, lo, hi, dflt){
+    var n = Math.round(Number(v));
+    if(!isFinite(n)) n = Math.round(Number(dflt));
+    if(!isFinite(n)) n = lo;
+    return Math.max(lo, Math.min(hi, n));
+  }
+
+  /* ---------- 정규화 ---------- */
+  function v26Normalize(s){
+    if(!s || typeof s !== "object") return;
+    if(!s.questSync || typeof s.questSync !== "object" || Array.isArray(s.questSync)){
+      s.questSync = { on: true, ownerId: "", ownerName: "", appliedAt: 0 };
+    }
+    if(s.questSync.on !== false) s.questSync.on = true;
+    s.questSync.ownerId = String(s.questSync.ownerId || "");
+    s.questSync.ownerName = String(s.questSync.ownerName || "").slice(0, 10);
+    s.questSync.appliedAt = Math.max(0, Number(s.questSync.appliedAt) || 0);
+    (s.quests || []).forEach(function(q){
+      if(!q || typeof q !== "object") return;
+      if(q.luck){ q.stat = "luck"; if(!q.gain || typeof q.gain !== "object") q.gain = {}; }
+      if(!q.v26rec || typeof q.v26rec !== "object") q.v26rec = null;
+    });
+    ((s.bonus && Array.isArray(s.bonus.list)) ? s.bonus.list : []).forEach(function(q){
+      if(!q || typeof q !== "object") return;
+      if(!q.v26rec || typeof q.v26rec !== "object") q.v26rec = null;
+    });
+  }
+
+  /* ---------- 🍀 재물운 골드 +25% ---------- */
+  function v26Gold(n){
+    var base = Math.max(0, Math.round(Number(n) || 0));
+    if(!base) return 0;
+    try {
+      if(typeof luckOn === "function" && luckOn()) return Math.round(base * V26_GOLD_BUFF);
+    } catch(e){}
+    return base;
+  }
+  function v26GoldExtra(base){
+    var g = Math.max(0, Math.round(Number(base) || 0));
+    if(!g) return 0;
+    return Math.max(0, v26Gold(g) - g);
+  }
+
+  /* ---------- 보상 스냅샷 / 기록 ---------- */
+  function v26Snap(){
+    var hp = 0;
+    try { hp = (typeof hpVal === "function") ? hpVal() : (Number(state.hp) || 0); } catch(e){ hp = 0; }
+    return {
+      exp: Number(state.totalExp) || 0,
+      gold: (typeof goldVal === "function") ? goldVal() : (Number(state.gold) || 0),
+      hp: hp,
+      stats: {
+        str: Number(state.stats.str) || 0,
+        int: Number(state.stats.int) || 0,
+        agi: Number(state.stats.agi) || 0,
+        wil: Number(state.stats.wil) || 0
+      },
+      luckN: (state.luck && Number(state.luck.n)) || 0,
+      luckUntil: (state.luck && Number(state.luck.until)) || 0,
+      allclear: !!(state.allclear && state.allclear === today())
+    };
+  }
+  function v26Rec(b){
+    var now = v26Snap();
+    var r = {
+      exp: Math.max(0, now.exp - b.exp),
+      gold: Math.max(0, now.gold - b.gold),
+      hp: Math.max(0, now.hp - b.hp),
+      stats: {
+        str: Math.max(0, now.stats.str - b.stats.str),
+        int: Math.max(0, now.stats.int - b.stats.int),
+        agi: Math.max(0, now.stats.agi - b.stats.agi),
+        wil: Math.max(0, now.stats.wil - b.stats.wil)
+      },
+      luck: Math.max(0, now.luckN - b.luckN),
+      luckFrom: b.luckUntil,
+      luckTo: now.luckUntil,
+      allclearBefore: b.allclear,
+      /* 이 완료가 올클리어를 처음 만들었으면 올클리어 보너스가 rec 안에 포함돼 있다 */
+      allclearInRec: !!(now.allclear && !b.allclear),
+      at: Date.now()
+    };
+    return r;
+  }
+
+  /* ---------- 완료 기록기 · 골드 버프 설치 ---------- */
+  function v26InstallRecorder(){
+    if(typeof completeQuest === "function"){
+      var cq = completeQuest;
+      completeQuest = function(id){
+        var q = (state && Array.isArray(state.quests)) ? state.quests.find(function(x){ return x.id === id; }) : null;
+        var was = !!(q && q.done);
+        var b = v26Snap();
+        var out = cq(id);
+        try {
+          if(q && !was && q.done){ q.v26rec = v26Rec(b); rawSave(); }
+        } catch(e){}
+        return out;
+      };
+    }
+    if(typeof completeBonus === "function"){
+      var cb = completeBonus;
+      completeBonus = function(id){
+        var q = (state && state.bonus && Array.isArray(state.bonus.list))
+          ? state.bonus.list.find(function(x){ return x.id === id; }) : null;
+        var was = !!(q && q.done);
+        var b = v26Snap();
+        var out = cb(id);
+        try {
+          if(q && !was && q.done){ q.v26rec = v26Rec(b); rawSave(); }
+        } catch(e){}
+        return out;
+      };
+    }
+  }
+
+  function v26InstallGold(){
+    if(typeof v12OnDailyDone === "function"){
+      var d0 = v12OnDailyDone;
+      v12OnDailyDone = function(q){
+        var g = d0(q) || 0;
+        var ex = v26GoldExtra(g);
+        if(ex > 0){
+          try { v12AddGold(ex); } catch(e){ ex = 0; }
+          g += ex;
+        }
+        if(q) q.v12gold = g;
+        try { v12GoldPop(); } catch(e){}
+        return g;
+      };
+    }
+    if(typeof v12OnBonusDone === "function"){
+      var b0 = v12OnBonusDone;
+      v12OnBonusDone = function(q){
+        var g = b0(q) || 0;
+        var ex = v26GoldExtra(g);
+        if(ex > 0){
+          try { v12AddGold(ex); } catch(e){ ex = 0; }
+          g += ex;
+        }
+        if(q) q.v12gold = g;
+        try { v12GoldPop(); } catch(e){}
+        return g;
+      };
+    }
+    if(typeof v12OnAllClear === "function"){
+      var a0 = v12OnAllClear;
+      v12OnAllClear = function(){
+        var g = a0() || 0;
+        var ex = v26GoldExtra(g);
+        if(ex > 0){
+          try { v12AddGold(ex); } catch(e){ ex = 0; }
+          g += ex;
+        }
+        return g;
+      };
+    }
+    if(typeof v20MgGold === "function"){
+      var m0 = v20MgGold;
+      v20MgGold = function(score){
+        var g = m0(score) || 0;
+        if(!g) return 0;
+        var ex = v26GoldExtra(g);
+        if(ex > 0){
+          try { v12AddGold(ex); } catch(e){ ex = 0; }
+          g += ex;
+        }
+        try { v12GoldPop(); } catch(e){}
+        return g;
+      };
+    }
+  }
+
+  /* ---------- ↩️ 완료 취소 ---------- */
+  function v26AllDone(){
+    var baseAll = (state.quests || []).length > 0 && state.quests.every(function(q){ return q.done; });
+    var list = (state.bonus && state.bonus.list) || [];
+    var bonusAll = list.length > 0 && list.every(function(q){ return q.done; });
+    return baseAll && bonusAll;
+  }
+
+  function v26UndoDaily(id){
+    var q = (state.quests || []).find(function(x){ return x.id === id; });
+    if(!q || !q.done) return false;
+    return v26UndoApply(q, "daily");
+  }
+  function v26UndoBonus(id){
+    var q = ((state.bonus && state.bonus.list) || []).find(function(x){ return x.id === id; });
+    if(!q || !q.done) return false;
+    return v26UndoApply(q, "bonus");
+  }
+
+  function v26UndoApply(q, kind){
+    var r = (q && q.v26rec && typeof q.v26rec === "object") ? q.v26rec : null;
+    var exp = r ? Math.max(0, Math.round(r.exp)) : Math.max(0, Math.round(Number(q.exp) || 0));
+    var gold = r ? Math.max(0, Math.round(r.gold)) : Math.max(0, Math.round(Number(q.v12gold) || 0));
+    var hp = r ? Math.max(0, Math.round(r.hp)) : 0;
+    var stats = r ? r.stats : (q.gain || {});
+    var noteBits = [];
+
+    q.done = false;
+    if(kind === "bonus" && state.bonus) state.bonus.cleared = false;
+
+    state.totalExp = Math.max(0, (Number(state.totalExp) || 0) - exp);
+    if(exp > 0) noteBits.push("-" + exp + " EXP");
+
+    if(gold > 0){
+      try { v12AddGold(-gold); } catch(e){ state.gold = Math.max(0, (Number(state.gold) || 0) - gold); }
+      noteBits.push("🪙 -" + gold + " G");
+    }
+
+    ["str","int","agi","wil"].forEach(function(k){
+      var d = Math.max(0, Math.round(Number(stats && stats[k]) || 0));
+      if(!d) return;
+      state.stats[k] = Math.max(10, Math.round((Number(state.stats[k]) || 0) - d));
+      noteBits.push((STATS[k] ? STATS[k].short : k.toUpperCase()) + " -" + d);
+    });
+
+    if(hp > 0){
+      try {
+        var cur = (typeof hpVal === "function") ? hpVal() : (Number(state.hp) || 0);
+        state.hp = Math.max(0, Math.min(100, Math.round(cur - hp)));
+        state.hpDate = today();
+        noteBits.push("❤️ -" + hp);
+      } catch(e){}
+    }
+
+    state.totalQuests = Math.max(0, (Number(state.totalQuests) || 0) - 1);
+
+    /* 🍀 LUCK 누적 · 재물운 버프 되돌리기 */
+    if(state.luck){
+      if(r && r.luck > 0){
+        state.luck.n = Math.max(0, (Number(state.luck.n) || 0) - r.luck);
+        if(Number(state.luck.until) === Number(r.luckTo)){
+          state.luck.until = (Number(r.luckFrom) > Date.now()) ? Number(r.luckFrom) : 0;
+        }
+        noteBits.push("🍀 LUCK -" + r.luck);
+      } else if(q.luck && !r){
+        state.luck.n = Math.max(0, (Number(state.luck.n) || 0) - 1);
+      }
+    }
+
+    /* ⚡ EXP 2배 부적 1회 복구 */
+    if(q.v12buf){
+      q.v12buf = 0;
+      try { var sh = shopNow(); sh.exp2 = Math.min(99, (Number(sh.exp2) || 0) + 1); } catch(e){}
+    }
+
+    /* 🏆 올클리어 해제 — 조건이 깨지면 올클리어 보너스도 원복 */
+    if(state.allclear === today() && !v26AllDone()){
+      var acInRec = !!(r && r.allclearInRec);
+      var acExp = acInRec ? 0 : Math.max(0, Math.round(Number(state.v26AllclearExp) || 0));
+      var acGold = acInRec ? 0 : Math.max(0, Math.round(Number(state.v26AllclearGold) || 0));
+      if(acExp > 0){
+        state.totalExp = Math.max(0, (Number(state.totalExp) || 0) - acExp);
+        noteBits.push("🏆 -" + acExp + " EXP");
+      }
+      if(acGold > 0){
+        try { v12AddGold(-acGold); } catch(e){ state.gold = Math.max(0, (Number(state.gold) || 0) - acGold); }
+        noteBits.push("🏆 🪙 -" + acGold + " G");
+      }
+      state.allclear = null;
+      if(state.bonus) state.bonus.cleared = false;
+      state.v26AllclearExp = 0;
+      state.v26AllclearGold = 0;
+    }
+
+    if(state.lastQuestClear && state.lastQuestClear.id === q.id) state.lastQuestClear = null;
+
+    q.v26rec = null;
+    q.v12gold = 0;
+
+    save();
+    render();
+
+    var head = "↩️ '" + esc(q.title) + "' 완료를 취소했어요";
+    toast(head, (noteBits.length ? noteBits.join(" · ") + " · " : "") + "다시 도전할 수 있어요", null, 4600);
+    try { if(typeof v12GoldPop === "function") v12GoldPop(); } catch(e){}
+    if(navigator.vibrate) navigator.vibrate(10);
+    return true;
+  }
+
+  /* ===================================================================
+     👑 기준 퀘스트 목록 동기화
+     =================================================================== */
+  function v26IsOwner(){
+    var r = cRoom();
+    if(!r) return false;
+    var oid = state.questSync && state.questSync.ownerId;
+    if(oid) return String(oid) === String(r.myId);
+    return r.side === "p1";
+  }
+
+  function v26BuildTemplate(){
+    var r = cRoom();
+    var tpl = {
+      updatedAt: Date.now(),
+      ownerId: r ? String(r.myId) : "",
+      ownerName: String(state.nick || "나").slice(0, 10),
+      quests: [],
+      bonusQuests: [],
+      baseRemoved: (state.baseRemoved || []).slice(0, 40),
+      bonusHidden: (state.bonusHidden || []).slice(0, 40),
+      bonusOverride: v26Clone(state.bonusOverride || {}),
+      bonusCustom: []
+    };
+    (state.quests || []).forEach(function(q){
+      if(!q || !q.id) return;
+      tpl.quests.push({
+        id: String(q.id).slice(0, 40),
+        icon: String(q.icon || "⭐").slice(0, 4),
+        title: String(q.title || "퀘스트").slice(0, 26),
+        stat: q.luck ? "luck" : String(q.stat || ""),
+        exp: v26Int(q.exp, 5, 100, 25),
+        gold: (q.gold === undefined || q.gold === null) ? null : v26Int(q.gold, 5, 100, 15),
+        gain: v26Clone(q.gain || {}),
+        luck: !!q.luck,
+        edited: !!q.edited,
+        am: (typeof v20IsAm === "function") ? (v20IsAm(q) ? 1 : 0) : 1,
+        custom: !!q.custom
+      });
+    });
+    ((state.bonus && state.bonus.list) || []).forEach(function(q){
+      if(!q || !q.id) return;
+      tpl.bonusQuests.push({
+        id: String(q.id).slice(0, 40),
+        icon: String(q.icon || "⭐").slice(0, 4),
+        title: String(q.title || "보너스").slice(0, 26),
+        exp: v26Int(q.exp, 5, 100, 15),
+        gold: (q.gold === undefined || q.gold === null) ? null : v26Int(q.gold, 5, 100, 25),
+        gain: v26Clone(q.gain || {}),
+        luck: !!q.luck,
+        custom: !!q.custom,
+        tid: String(q.tid || "")
+      });
+    });
+    (state.bonusCustom || []).forEach(function(c){
+      if(!c || !c.id) return;
+      tpl.bonusCustom.push(v26Clone(c));
+    });
+    return tpl;
+  }
+
+  function v26Push(manual){
+    var r = cRoom();
+    if(!r){
+      if(manual) toast("아직 방이 없어요", "파트너를 초대하면 내 퀘스트 목록을 방 기준으로 올릴 수 있어요.");
+      return Promise.resolve(false);
+    }
+    if(v26Pushing) return Promise.resolve(false);
+    v26Pushing = true;
+    try { normBonus(); } catch(e){}
+    var tpl = v26BuildTemplate();
+
+    return cGet(r.id).then(function(res){
+      if(!res.ok || !res.body || !res.body.v) throw new Error("room " + res.status);
+      var d = res.body;
+      d.sharedQuestTemplate = tpl;
+      d.updatedAt = Date.now();
+      return cPut(r.id, r.key, d).then(function(ur){
+        if(!ur.ok) throw new Error("put " + ur.status);
+        return true;
+      });
+    }).then(function(){
+      state.questSync.ownerId = String(r.myId);
+      state.questSync.ownerName = String(state.nick || "나").slice(0, 10);
+      state.questSync.appliedAt = tpl.updatedAt;
+      state.questSync.pushedAt = tpl.updatedAt;
+      state.questSync.lastSig = v26DefSig();
+      rawSave();
+      try { v26RenderSync(); } catch(e){}
+      if(manual){
+        toast("👑 내 퀘스트 목록을 방 기준으로 올렸어요!",
+          "파트너 화면이 이 목록으로 맞춰져요 · 일일 " + tpl.quests.length + "개 · 보너스 " + tpl.bonusQuests.length + "개", null, 5200);
+      }
+      return true;
+    }).catch(function(){
+      if(manual) toast("목록을 올리지 못했어요", "연결을 확인하고 다시 시도해 주세요. 내 기록은 안전해요.");
+      return false;
+    }).then(function(v){
+      v26Pushing = false;
+      return v;
+    });
+  }
+
+  function v26SchedulePush(){
+    if(!cRoom()) return;
+    if(state.questSync && state.questSync.on === false) return;
+    if(!v26IsOwner()) return;
+    if(v26PushTimer) clearTimeout(v26PushTimer);
+    v26PushTimer = setTimeout(function(){ v26PushTimer = null; v26Push(false); }, 900);
+  }
+
+  function v26ApplyTemplate(tpl){
+    if(!tpl || !Array.isArray(tpl.quests) || !tpl.quests.length) return false;
+    var r = cRoom();
+    var oldDone = {}, oldRec = {}, oldGold = {}, oldBuf = {};
+    (state.quests || []).forEach(function(q){
+      if(!q || !q.done) return;
+      oldDone[q.id] = 1;
+      oldRec[q.id] = q.v26rec || null;
+      oldGold[q.id] = Number(q.v12gold) || 0;
+      oldBuf[q.id] = q.v12buf ? 1 : 0;
+    });
+
+    var out = [];
+    var seen = {};
+    tpl.quests.forEach(function(t){
+      if(!t || !t.id) return;
+      var id = String(t.id).slice(0, 40);
+      if(seen[id]) return;
+      seen[id] = 1;
+      var q = {
+        id: id,
+        icon: String(t.icon || "⭐").slice(0, 4),
+        title: String(t.title || "퀘스트").slice(0, 26),
+        stat: String(t.stat || (t.luck ? "luck" : "")),
+        exp: v26Int(t.exp, 5, 100, 25),
+        gain: v26Clone(t.gain || {}),
+        luck: !!t.luck,
+        done: !!oldDone[id],
+        custom: !!t.custom,
+        edited: (typeof v16IsBaseId === "function" && v16IsBaseId(id)) ? true : !!t.edited,
+        am: (t.am === 0 || t.am === false) ? false : true
+      };
+      if(t.gold !== undefined && t.gold !== null) q.gold = v26Int(t.gold, 5, 100, 15);
+      if(q.done){
+        q.v26rec = oldRec[id] || null;
+        if(oldGold[id]) q.v12gold = oldGold[id];
+        if(oldBuf[id]) q.v12buf = 1;
+      }
+      out.push(q);
+    });
+    if(!out.length) return false;
+
+    /* 오늘 보너스 — 같은 ID 의 완료 체크는 유지 */
+    var bDone = {}, bRec = {}, bGold = {};
+    ((state.bonus && state.bonus.list) || []).forEach(function(q){
+      if(!q || !q.done) return;
+      bDone[q.id] = 1; bRec[q.id] = q.v26rec || null; bGold[q.id] = Number(q.v12gold) || 0;
+    });
+    var blist = [];
+    var bseen = {};
+    (Array.isArray(tpl.bonusQuests) ? tpl.bonusQuests : []).forEach(function(t){
+      if(!t || !t.id) return;
+      var id = String(t.id).slice(0, 40);
+      if(bseen[id]) return;
+      bseen[id] = 1;
+      var q = {
+        id: id,
+        icon: String(t.icon || "⭐").slice(0, 4),
+        title: String(t.title || "보너스").slice(0, 26),
+        exp: v26Int(t.exp, 5, 100, 15),
+        gain: v26Clone(t.gain || {}),
+        luck: !!t.luck,
+        done: !!bDone[id],
+        custom: !!t.custom
+      };
+      if(t.gold !== undefined && t.gold !== null) q.gold = v26Int(t.gold, 5, 100, 25);
+      if(t.tid) q.tid = String(t.tid);
+      if(q.done){ q.v26rec = bRec[id] || null; if(bGold[id]) q.v12gold = bGold[id]; }
+      blist.push(q);
+    });
+    if(!blist.length) blist = ((state.bonus && state.bonus.list) || []).slice();
+
+    state.quests = out;
+    state.baseRemoved = Array.isArray(tpl.baseRemoved) ? tpl.baseRemoved.slice(0, 40) : [];
+    state.bonusHidden = Array.isArray(tpl.bonusHidden) ? tpl.bonusHidden.slice(0, 40) : [];
+    state.bonusOverride = (tpl.bonusOverride && typeof tpl.bonusOverride === "object" && !Array.isArray(tpl.bonusOverride))
+      ? v26Clone(tpl.bonusOverride) : {};
+    state.bonusCustom = Array.isArray(tpl.bonusCustom) ? tpl.bonusCustom.map(function(c){ return v26Clone(c); }) : [];
+    state.bonus = {
+      date: today(),
+      list: blist,
+      cleared: blist.length > 0 && blist.every(function(q){ return q.done; })
+    };
+    state.questSync.ownerId = String(tpl.ownerId || "");
+    state.questSync.ownerName = String(tpl.ownerName || "파트너").slice(0, 10);
+    state.questSync.appliedAt = Math.max(0, Number(tpl.updatedAt) || Date.now());
+    rawSave();
+    try { render(); } catch(e){}
+    try { v26RenderSync(); } catch(e){}
+
+    var owner = state.questSync.ownerName || "파트너";
+    toast("🔄 파트너 기준 퀘스트 목록이 동기화되었어요!",
+      owner + "님 목록이 기준이에요 · 오늘 완료 체크는 그대로 · 일일 " + out.length + "개", null, 4800);
+    return true;
+  }
+
+  function v26OnRoom(d){
+    var r = cRoom();
+    if(!r) return false;
+    var tpl = d && d.sharedQuestTemplate;
+    if(!tpl || !Array.isArray(tpl.quests)) return false;
+    if(!state.questSync || state.questSync.on === false) return false;
+    if(tpl.ownerId && String(tpl.ownerId) === String(r.myId)) return false;
+    var at = Math.max(0, Number(tpl.updatedAt) || 0);
+    if(at && at <= (Number(state.questSync.appliedAt) || 0)) return false;
+    return v26ApplyTemplate(tpl);
+  }
+
+  function v26PollSync(){
+    var r = cRoom();
+    if(!r || v26Polling) return;
+    if(!state.questSync || state.questSync.on === false) return;
+    v26Polling = true;
+    v26LastPullAt = Date.now();
+    cGet(r.id).then(function(res){
+      if(res && res.ok && res.body){
+        try { v26OnRoom(res.body); } catch(e){}
+      }
+    }).catch(function(){}).then(function(){
+      v26Polling = false;
+    });
+  }
+
+  function v26StartSync(){
+    if(v26PollTimer) clearInterval(v26PollTimer);
+    v26PollTimer = setInterval(v26PollSync, 15000);
+    setTimeout(v26PollSync, 2500);
+    document.addEventListener("visibilitychange", function(){
+      if(!document.hidden) setTimeout(v26PollSync, 400);
+    });
+  }
+
+  /* ---------- 동기화 바 ---------- */
+  function v26RenderSync(){
+    var bar = $("v26SyncBar");
+    if(!bar) return;
+    var r = cRoom();
+    bar.hidden = !r;
+    if(!r) return;
+    var on = !(state.questSync && state.questSync.on === false);
+    bar.classList.toggle("off", !on);
+    var t = $("v26SyncOn");
+    if(t) t.checked = on;
+    var me = v26IsOwner();
+    var owner = "";
+    if(state.questSync && state.questSync.ownerName) owner = state.questSync.ownerName;
+    if(!owner) owner = me ? (state.nick || "나") : (r.partnerNick || "파트너");
+    var lab = $("v26SyncOwner");
+    if(lab) lab.textContent = "지금 기준: " + (me ? "나 · " + (state.nick || "나") : owner + "님");
+    var up = $("v26SyncUp");
+    if(up) up.classList.toggle("mine", me);
+    var note = $("v26SyncNote");
+    if(note){
+      note.textContent = on
+        ? (me ? "내가 목록을 고치면 자동으로 방 기준이 올라가요." : owner + "님 목록을 자동으로 따라가요. 내가 기준이 되려면 위 버튼을 눌러 주세요.")
+        : "자동 동기화가 꺼져 있어 이 기기 목록을 그대로 써요.";
+    }
+  }
+
+  function v26Wire(){
+    var up = $("v26SyncUp");
+    if(up) up.addEventListener("click", function(){ v26Push(true); });
+    var sw = $("v26SyncOn");
+    if(sw) sw.addEventListener("change", function(){
+      if(!state.questSync) state.questSync = { on: true, ownerId: "", ownerName: "", appliedAt: 0 };
+      state.questSync.on = !!sw.checked;
+      rawSave();
+      v26RenderSync();
+      toast(sw.checked ? "🔄 기준 퀘스트 자동 동기화 켜짐" : "자동 동기화를 껐어요",
+        sw.checked ? "파트너 기준 목록을 15초마다 확인해 맞춰요." : "이 기기의 목록을 그대로 써요.",
+        null, 3600);
+      if(sw.checked) v26PollSync();
+      if(navigator.vibrate) navigator.vibrate(8);
+    });
+  }
+
+  /* 퀘스트 정의(이름·이모지·스탯·EXP·골드·시간대) 서명
+     — 완료 체크만 바뀐 저장은 서명이 같아서 업로드하지 않는다 */
+  function v26DefSig(){
+    try {
+      var t = v26BuildTemplate();
+      return JSON.stringify({
+        q: t.quests, b: t.bonusQuests, br: t.baseRemoved, bh: t.bonusHidden,
+        bo: t.bonusOverride, bc: t.bonusCustom
+      });
+    } catch(e){ return ""; }
+  }
+  function v26CheckDefinitionChange(){
+    if(!cRoom()) return;
+    if(state.questSync && state.questSync.on === false) return;
+    if(!v26IsOwner()) return;
+    var sig = v26DefSig();
+    if(!sig) return;
+    if(!state.questSync.lastSig){ state.questSync.lastSig = sig; return; }
+    if(sig === state.questSync.lastSig) return;
+    state.questSync.lastSig = sig;
+    v26SchedulePush();
+  }
+  /* 모든 편집 경로(추가·수정·삭제·복구)가 save() 를 거치므로 여기서 감지한다 */
+  function v26InstallSaveHook(){
+    if(typeof save !== "function") return;
+    var s0 = save;
+    save = function(){
+      var out = s0.apply(null, arguments);
+      try { v26CheckDefinitionChange(); } catch(e){}
+      return out;
+    };
+  }
+
+  function v26AfterRender(){
+    try { v26RenderSync(); } catch(e){}
+  }
+
+  /* 방이 새로 만들어지거나 파트너가 들어와도 동기화 바가 바로 보이도록 */
+  function v26WrapParty(){
+    if(typeof renderParty === "function"){
+      var rp = renderParty;
+      renderParty = function(){
+        var out = rp.apply(null, arguments);
+        try { v26RenderSync(); } catch(e){}
+        return out;
+      };
+    }
+  }
+
+  function v26Boot(){
+    try { v26Normalize(state); } catch(e){}
+    try { v26InstallRecorder(); } catch(e){}
+    try { v26InstallGold(); } catch(e){}
+    try { v26InstallSaveHook(); } catch(e){}
+    try { if(cRoom()) state.questSync.lastSig = v26DefSig(); } catch(e){}
+    try { v26WrapParty(); } catch(e){}
+    try { v26Wire(); } catch(e){}
+    try { v26RenderSync(); } catch(e){}
+    try { setTimeout(v26RenderSync, 1200); } catch(e){}
+    try { v26StartSync(); } catch(e){}
+  }
+
+  window.__v26 = {
+    template: v26BuildTemplate,
+    push: v26Push,
+    poll: v26PollSync,
+    apply: v26ApplyTemplate,
+    undoDaily: v26UndoDaily,
+    undoBonus: v26UndoBonus,
+    gold: v26Gold,
+    isOwner: v26IsOwner,
+    rec: function(id){
+      var q = (state.quests || []).find(function(x){ return x.id === id; })
+        || ((state.bonus && state.bonus.list) || []).find(function(x){ return x.id === id; });
+      return q ? (q.v26rec || null) : null;
+    }
+  };
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -13467,6 +14227,7 @@ window.IMAGES_CLEAN=[
   try { v21Boot(); } catch(e){}
   try { v22Boot(); } catch(e){}
   try { v24Boot(); } catch(e){}
+  try { v26Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
@@ -13514,8 +14275,8 @@ window.IMAGES_CLEAN=[
    · 📊 스탯·도감 하단 버전 바: 현재 버전 표시 + 🔄 업데이트 확인 (이미 최신이면 토스트, 4초 안에 한 번 더 누르면 강제 새로고침)
    · 업데이트로 다시 뜬 화면(URL 에 _v=)은 주소를 깨끗하게 되돌리고 짧은 토스트로 알려 준다. */
 (function(){
-  var APP_SW  = "mmm-2026-11-23-22";
-  var APP_VER = "25.0";
+  var APP_SW  = "mmm-2026-11-24-01";
+  var APP_VER = "26.0";
   var GUARD = "mmm-auto-reload";
   var MAX_TRY = 2;
   var reg = null, reloading = false, checking = false, manualBusy = false, forceUntil = 0;
