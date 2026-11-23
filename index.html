@@ -12972,7 +12972,7 @@ window.IMAGES_CLEAN=[
       var pen = v24pen(a);
       /* 머리 꼭대기(귀 사이 두상 꼭짓점)에 얹는다 — 캔버스 위로 잘리지 않게 높이를 맞춘다 */
       var base = a.headTop + Math.max(4, a.headW * 0.075);
-      var room = Math.max(16, base - 2);
+      var room = Math.max(16, base - 8);   /* 위쪽 8px 여유 — 카드에서 잘리지 않게 */
       var bw0 = Math.min(a.headW * 0.42, a.sep * 2.45, 168);
       var bw = Math.min(bw0, room * 2.2);
       var total = Math.min(bw * 0.62, room);
