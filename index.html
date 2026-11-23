@@ -1316,7 +1316,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 
 /* v8.0 gold / shop / skin styles */
 /* ==========================================================
-   v8.0 — 🪙 골드 보상 · 🛒 헌터 상점 · 🎒 인벤토리 / 스킨
+   v8.0 — 🪙 골드 보상 · 🛒 갓생 상점 · 🎒 인벤토리 / 스킨
    ========================================================== */
 
 /* ---------- 골드 칩 (히어로 · 미니바 · 상점) ---------- */
@@ -1371,7 +1371,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 }
 .quest.done .exp-chip small{color:#8C74C9;opacity:.85}
 
-/* ---------- 🛒 헌터 상점 ---------- */
+/* ---------- 🛒 갓생 상점 ---------- */
 .card.shop{background:linear-gradient(160deg,#FFFCF2 0%,#FFF6DF 54%,#F4F0FF 100%)}
 .card.shop .card-head h3{flex:1 1 auto;min-width:0}
 .shop-desc{
@@ -1726,7 +1726,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <div class="logo" id="logoEmoji">😼</div>
       <div>
         <h1>미라클 모닝</h1>
-        <p>둘이 함께 레벨업 · 헌터 육성</p>
+        <p>둘이 함께 레벨업 · 갓생러 육성</p>
       </div>
     </div>
     <div class="top-side">
@@ -1750,7 +1750,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   <section class="hero pane on" data-pane="quest">
     <div class="skin-fx" id="skinFx" aria-hidden="true"></div>
     <div class="hero-top">
-      <span class="rank"><i>✦</i><span id="rankKey">E급</span> 헌터</span>
+      <span class="rank"><i>✦</i><span id="rankKey">E급</span> 갓생러</span>
       <span class="ht-chips">
         <span class="exp2-chip" id="heroExp2" hidden>⚡ 2× EXP 3</span>
         <span class="gold-chip" id="heroGold">🪙 0 G</span>
@@ -1767,7 +1767,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <span class="spark b">✧</span>
       <span class="spark c">✦</span>
       <div class="fx-layer" id="charFx" aria-hidden="true"></div>
-      <img class="char" id="charImg" alt="냥이 헌터 캐릭터">
+      <img class="char" id="charImg" alt="냥이 갓생러 캐릭터">
     </div>
 
     <div class="name-row">
@@ -1841,7 +1841,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <div class="card-head">
       <span class="sys">[ CASH ]</span>
       <h3>💰 내 현물 자산</h3>
-      <span class="hint" id="moneyTierName">🌱 소박한 헌터</span>
+      <span class="hint" id="moneyTierName">🌱 소박한 갓생러</span>
     </div>
     <div class="money-top">
       <div class="money-amt">
@@ -1894,10 +1894,10 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   <section class="card shop pane" data-pane="cash" id="shopCard">
     <div class="card-head">
       <span class="sys">[ SHOP ]</span>
-      <h3>🛒 헌터 상점</h3>
+      <h3>🛒 갓생 상점</h3>
       <span class="hint gold-hint" id="shopGold">🪙 0 G</span>
     </div>
-    <p class="shop-desc">퀘스트로 모은 <b>골드(G)</b>로 사는 헌터 물약·부적·스킨. 사면 바로 내 캐릭터에 적용돼요.</p>
+    <p class="shop-desc">퀘스트로 모은 <b>골드(G)</b>로 사는 갓생러 물약·부적·스킨. 사면 바로 내 캐릭터에 적용돼요.</p>
     <div class="shop-grid" id="shopGrid"></div>
     <p class="shop-foot" id="shopFoot">골드 버는 법 — 일일 퀘스트 · 보너스 퀘스트 · 오늘의 올클리어 · 다마고치 미니게임</p>
   </section>
@@ -1917,7 +1917,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <div class="card-head">
       <span class="sys">[ TIER ]</span>
       <h3>👑 부자 변신 등급</h3>
-      <span class="hint" id="richNow">🌱 소박한 헌터</span>
+      <span class="hint" id="richNow">🌱 소박한 갓생러</span>
     </div>
     <p class="rich-desc">현물 자산이 쌓이면 캐릭터의 부자 변신이 한 단계씩 올라가요. 파트너에게는 숨겨도 등급은 함께 보여요.</p>
     <div class="rich-list" id="richList"></div>
@@ -2011,8 +2011,8 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         <b>킹받는 기사</b><small>Lv.6 · B</small>
       </div>
       <div class="evo-item" data-stage="4">
-        <div class="thumb"><img class="evo-img" alt="A급 다크 헌터 냥이"><span class="lock-icon">🔒</span></div>
-        <b>다크 헌터</b><small>Lv.9 · A</small>
+        <div class="thumb"><img class="evo-img" alt="A급 다크 갓생러 냥이"><span class="lock-icon">🔒</span></div>
+        <b>다크 갓생러</b><small>Lv.9 · A</small>
       </div>
       <div class="evo-item" data-stage="5">
         <div class="thumb"><img class="evo-img" alt="S급 그림자 군주 냥이"><span class="lock-icon">🔒</span></div>
@@ -2065,7 +2065,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
             <span class="p-chip hp" id="pHpChip">❤️ HP 100/100</span>
             <span class="p-chip fire" id="pStreakChip">🔥 0일</span>
             <span class="p-chip game" id="pGameChip">🎮 0점</span>
-            <span class="p-chip money" id="pMoneyChip">💰 🌱 소박한 헌터</span>
+            <span class="p-chip money" id="pMoneyChip">💰 🌱 소박한 갓생러</span>
             <span class="p-chip gold" id="pGoldChip">🪙 0 G</span>
             <span class="p-chip coupon" id="pCouponChip" hidden>🎟️ 쿠폰 사용!</span>
             <span class="p-chip clear" id="pClearChip" hidden>🏆 오늘 올클리어!</span>
@@ -2465,13 +2465,13 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       itemTopic:"대파는", itemUnit:"대파 한 단", itemUnitSubj:"대파 한 단이",
       itemLine:"대파 한 줄기", itemAlso:"대파도",
       imgOffset:0,
-      evo:["하찮은 냥이", "견습 냥이", "탐험 냥이", "킹받는 기사", "다크 헌터", "그림자 군주", "냥신"],
+      evo:["하찮은 냥이", "견습 냥이", "탐험 냥이", "킹받는 기사", "다크 갓생러", "그림자 군주", "냥신"],
       ranks:[
         {lv:1,  key:"E",  name:"E급 하찮은 냥이",           stage:0, desc:"바닥이 제일 편하다. 대파는 덤이다."},
         {lv:2,  key:"D",  name:"D급 갓 일어난 견습 냥이",   stage:1, desc:"수면안대를 이마에 올리고 커피를 들었다. 일단 일어났다."},
         {lv:4,  key:"C",  name:"C급 동네 탐험 냥이",        stage:2, desc:"노란 모자에 배낭, 대파까지. 어설퍼도 출발은 했다."},
         {lv:6,  key:"B",  name:"B급 킹받는 기사 냥이",      stage:3, desc:"선글라스 하나로 세상을 다 가진 척한다."},
-        {lv:9,  key:"A",  name:"A급 다크 헌터 냥이",        stage:4, desc:"검은 후드에 그림자 한 마리. 폼은 확실히 A급이다."},
+        {lv:9,  key:"A",  name:"A급 다크 갓생러 냥이",        stage:4, desc:"검은 후드에 그림자 한 마리. 폼은 확실히 A급이다."},
         {lv:13, key:"S",  name:"S급 그림자 군주 냥이",      stage:5, desc:"부하 두 마리가 생겼다. 별로 안 센데 거만하다."},
         {lv:18, key:"SS", name:"SS급 국가권력급 냥신",      stage:6, desc:"황금 왕관과 후광, 그림자 셋. 아침을 정복하고 신이 되었다."}
       ],
@@ -2480,7 +2480,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         ["수면안대는 이마로 올렸다. 이제 진짜다.","커피를 들었다. 이 정도면 견습 졸업이다.","눈은 떴고 몸도 일어났다. 오늘은 진짜다.","아직 비몽사몽이지만 견습은 견습이다.","한 모금 마시고 다시 누울까 고민 중이다."],
         ["모자 쓰고 배낭 멨다. 동네 한 바퀴면 C급이다.","출발은 했다. 방향은 아직 모른다.","대파 들고 나가면 왠지 모험 같다.","어설퍼도 탐험은 탐험이다.","오늘은 집 앞까지 정복했다. 위대하다."],
         ["선글라스는 폼이다. 퀘스트나 해라.","삿대질 한 번이면 네가 알아서 일어나지.","이 배는 근육이 아니다. 그냥 배다.","대파 들고 이 정도면 대단한 거다.","봐라, 이 여유. 이게 B급이다."],
-        ["후드 망토는 폼이 아니다. 진짜다. 아마.","그림자 한 마리가 따라온다. 내 팬이다.","선글라스 안에서 눈은 감고 있다.","다크 헌터는 원래 말이 적다.","그림자들아, 오늘은 집 앞까지만 간다."],
+        ["후드 망토는 폼이 아니다. 진짜다. 아마.","그림자 한 마리가 따라온다. 내 팬이다.","선글라스 안에서 눈은 감고 있다.","다크 갓생러는 원래 말이 적다.","그림자들아, 오늘은 집 앞까지만 간다."],
         ["일어나라, 그림자들. 나도 일어나겠다.","왕관은 비뚤어졌지만 실력은 S급이다. 아마.","부하들아, 배는 내가 지킨다.","아침을 정복했다. 표정은 못 바꿨다.","충성은 됐고, 그냥 따라와라."],
         ["황금 왕관이 무겁지만 후광이 받쳐 준다.","그림자 셋. 이제 나는 국가권력급이다.","대파를 성검처럼 들었다. 신은 대파를 쓴다.","아침의 신이 되었다. 표정은 그대로다.","숭배는 됐고, 물 한 잔만 가져와라."]
       ],
@@ -2489,7 +2489,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         ["안대가 헐렁하다. 얼굴이 가벼워졌다.","커피잔이 가볍다. 손목이 편하다.","일어나는 속도가 빨라졌다. 견습의 성과다.","몸이 가볍다. 이러면 두 잔은 마시겠다."],
         ["배낭이 몸에 붙는다. 날렵한 탐험가다.","모자가 잘 어울린다. 발걸음도 가볍다.","살이 빠지니 백팩이 두 배로 가볍다.","이 정도면 골목 정복은 끝났다."],
         ["몸이 홀쭉해졌다. 선글라스가 더 잘 어울린다.","삿대질이 한결 가볍다. 기분은 좋다.","배는 이제 그냥 없다. 근육은 아니다.","이 정도면 B급이 아니라 슬림급이다."],
-        ["망토가 펄럭인다. 몸이 가벼워서다.","후드 안이 넓어졌다. 얼굴이 작아 보인다.","그림자도 놀랐다. 헌터가 날렵해졌다.","다크 헌터도 살은 뺀다. 이게 A급이다."],
+        ["망토가 펄럭인다. 몸이 가벼워서다.","후드 안이 넓어졌다. 얼굴이 작아 보인다.","그림자도 놀랐다. 갓생러가 날렵해졌다.","다크 갓생러도 살은 뺀다. 이게 A급이다."],
         ["그림자들도 놀랐다. 군주가 날렵해졌다.","왕관은 무겁지만 몸은 가볍다.","아침을 정복하고 살까지 뺐다. 완벽하다.","부하들아, 따라오너라. 몸이 가볍다."],
         ["신의 몸은 가볍다. 왕관만 무겁다.","후광이 두 배로 밝다. 살이 빠져서다.","그림자 셋이 날렵한 신을 따라온다.","국가권력급인데 몸매는 슬림급이다."]
       ],
@@ -2507,13 +2507,13 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       itemTopic:"뼈다귀는", itemUnit:"뼈다귀 한 개", itemUnitSubj:"뼈다귀 한 개가",
       itemLine:"뼈다귀 한 조각", itemAlso:"뼈다귀도",
       imgOffset:14,
-      evo:["하찮은 댕댕이", "견습 댕댕이", "탐험 댕댕이", "킹받는 기사", "다크 헌터", "그림자 군주", "댕신"],
+      evo:["하찮은 댕댕이", "견습 댕댕이", "탐험 댕댕이", "킹받는 기사", "다크 갓생러", "그림자 군주", "댕신"],
       ranks:[
         {lv:1,  key:"E",  name:"E급 하찮은 댕댕이",          stage:0, desc:"바닥이 제일 편하다. 뼈다귀는 덤이다."},
         {lv:2,  key:"D",  name:"D급 갓 일어난 견습 댕댕이",  stage:1, desc:"수면안대를 이마에 올리고 커피잔을 쥐었다. 꼬리는 아직 바닥이다."},
         {lv:4,  key:"C",  name:"C급 동네 탐험 댕댕이",       stage:2, desc:"노란 모자에 배낭, 뼈다귀까지. 냄새 따라 동네 한 바퀴."},
         {lv:6,  key:"B",  name:"B급 킹받는 댕댕 기사",       stage:3, desc:"선글라스 하나로 세상을 다 가진 척한다."},
-        {lv:9,  key:"A",  name:"A급 다크 헌터 댕댕이",       stage:4, desc:"검은 후드에 그림자 한 마리. 냄새는 여전히 잘 맡는다."},
+        {lv:9,  key:"A",  name:"A급 다크 갓생러 댕댕이",       stage:4, desc:"검은 후드에 그림자 한 마리. 냄새는 여전히 잘 맡는다."},
         {lv:13, key:"S",  name:"S급 그림자 군주 댕댕이",     stage:5, desc:"발밑에 그림자 두 마리가 생겼다. 별로 안 센데 거만하다."},
         {lv:18, key:"SS", name:"SS급 국가권력급 댕신",       stage:6, desc:"황금 왕관과 후광, 그림자 셋. 아침을 정복하고 신이 되었다."}
       ],
@@ -2522,7 +2522,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         ["안대를 이마에 올렸다. 꼬리는 아직 바닥이다.","커피 한 모금. 이게 아침의 맛이다.","일어났다. 칭찬은 두 번 해도 된다.","눈은 떴고 다리도 폈다. 견습의 하루다.","산책은 아직 무섭지만 커피는 마셨다."],
         ["모자 쓰고 배낭 멨다. 오늘은 동네까지다.","냄새가 난다. 모험 냄새… 아니 간식 냄새다.","뼈다귀 챙겼다. 완벽한 준비다.","꼬리가 흔들린다. 탐험은 신난다.","어설퍼도 두 발로 걸었다. C급이다."],
         ["선글라스는 폼이다. 퀘스트나 해라.","삿대질 한 번이면 네가 알아서 일어난다.","이 배는 근육이 아니다. 그냥 배다.","뼈다귀 들고 이 정도면 대단한 거다.","봐라, 이 여유. 이게 B급 댕댕이다."],
-        ["후드 망토. 이제 나도 다크한 댕댕이다.","그림자 한 마리가 따라온다. 친구인가.","선글라스 안에서도 코는 낸다.","말수 적은 헌터. 냄새는 많이 맡는다.","다크 헌터도 간식은 챙긴다."],
+        ["후드 망토. 이제 나도 다크한 댕댕이다.","그림자 한 마리가 따라온다. 친구인가.","선글라스 안에서도 코는 낸다.","말수 적은 갓생러. 냄새는 많이 맡는다.","다크 갓생러도 간식은 챙긴다."],
         ["일어나라, 그림자들. 나도 일어나겠다.","왕관은 비뚤어졌지만 실력은 S급이다. 아마.","부하들아, 뼈다귀는 내가 지킨다.","아침을 정복했다. 꼬리는 못 폈다.","충성은 됐고, 그냥 따라와라. 멍."],
         ["황금 왕관에 후광. 댕댕이 신이다.","그림자 셋이 내 뒤를 따른다. 든든하다.","뼈다귀를 성검처럼 들었다. 신의 뼈다귀다.","아침의 신이 되었다. 꼬리는 못 말린다.","숭배보다 산책이 좋다. 둘 다 해라."]
       ],
@@ -2531,7 +2531,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         ["안대가 헐렁하다. 머리가 가볍다.","커피잔이 가볍다. 꼬리가 먼저 흔들린다.","일어나는 속도가 빨라졌다. 견습의 성과다.","몸이 가볍다. 이 정도면 산책도 가능하다."],
         ["배낭이 몸에 붙는다. 날렵한 탐험견이다.","모자가 잘 어울린다. 꼬리도 가볍다.","살이 빠지니 백팩이 두 배로 가볍다.","이 정도면 동네 탐험은 끝났다."],
         ["몸이 홀쭉해졌다. 선글라스가 더 잘 어울린다.","삿대질이 한결 가볍다. 기분은 좋다.","배는 이제 그냥 없다. 근육은 아니다.","이 정도면 B급이 아니라 슬림급 댕댕이다."],
-        ["망토가 펄럭인다. 몸이 가벼워서다.","후드 안이 넓어졌다. 귀가 작아 보인다.","그림자도 놀랐다. 헌터가 날렵해졌다.","다크 헌터도 살은 뺀다. 이게 A급이다."],
+        ["망토가 펄럭인다. 몸이 가벼워서다.","후드 안이 넓어졌다. 귀가 작아 보인다.","그림자도 놀랐다. 갓생러가 날렵해졌다.","다크 갓생러도 살은 뺀다. 이게 A급이다."],
         ["그림자들도 놀랐다. 군주가 날렵해졌다.","왕관은 무겁지만 몸은 가볍다.","아침을 정복하고 살까지 뺐다. 완벽하다.","부하들아, 따라오너라. 몸이 가볍다. 멍."],
         ["신의 몸은 가볍다. 왕관만 무겁다.","후광이 두 배로 밝다. 살이 빠져서다.","그림자 셋이 날렵한 신을 따라온다.","국가권력급인데 몸매는 슬림급이다."]
       ],
@@ -2549,13 +2549,13 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       itemTopic:"당근은", itemUnit:"당근 한 개", itemUnitSubj:"당근 한 개가",
       itemLine:"당근 한 조각", itemAlso:"당근도",
       imgOffset:28,
-      evo:["하찮은 토끼", "견습 토끼", "탐험 토끼", "킹받는 기사", "다크 헌터", "그림자 군주", "토신"],
+      evo:["하찮은 토끼", "견습 토끼", "탐험 토끼", "킹받는 기사", "다크 갓생러", "그림자 군주", "토신"],
       ranks:[
         {lv:1,  key:"E",  name:"E급 하찮은 토끼",           stage:0, desc:"바닥이 제일 편하다. 당근은 덤이다."},
         {lv:2,  key:"D",  name:"D급 갓 일어난 견습 토끼",   stage:1, desc:"파란 수면안대를 이마에 올리고 커피잔을 들었다. 귀는 먼저 깼다."},
         {lv:4,  key:"C",  name:"C급 동네 탐험 토끼",        stage:2, desc:"노란 모자에 나무색 배낭, 당근까지. 어설퍼도 출발은 했다."},
         {lv:6,  key:"B",  name:"B급 킹받는 토끼 기사",      stage:3, desc:"선글라스 하나로 세상을 다 가진 척한다."},
-        {lv:9,  key:"A",  name:"A급 다크 헌터 토끼",        stage:4, desc:"후드 망토를 뚫고 귀가 나왔다. 그림자 한 마리 동행."},
+        {lv:9,  key:"A",  name:"A급 다크 갓생러 토끼",        stage:4, desc:"후드 망토를 뚫고 귀가 나왔다. 그림자 한 마리 동행."},
         {lv:13, key:"S",  name:"S급 그림자 군주 토끼",      stage:5, desc:"발밑에 그림자 두 마리가 생겼다. 별로 안 센데 거만하다."},
         {lv:18, key:"SS", name:"SS급 국가권력급 토신",      stage:6, desc:"황금 왕관과 후광, 그림자 셋. 아침을 정복하고 신이 되었다."}
       ],
@@ -2564,7 +2564,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         ["안대를 이마에 올렸다. 귀는 먼저 깼다.","커피잔을 들었다. 두 귀로 균형을 잡는다.","일어났다. 깡총 준비 완료다.","비몽사몽이지만 견습은 견습이다.","한 모금이면 한 번은 깡총 뛸 수 있다."],
         ["노란 모자에 배낭. 동네 탐험 나간다.","당근 하나 들고 집 앞까지 정복했다.","귀 두 개로 방향을 잰다. 대충 맞다.","어설퍼도 탐험은 탐험이다.","오늘은 공원까지. 귀가 아파도 간다."],
         ["선글라스는 폼이다. 퀘스트나 해라.","깡총 한 번이면 네가 알아서 일어난다.","이 배는 근육이 아니다. 그냥 배다.","당근 들고 이 정도면 대단한 거다.","봐라, 이 여유. 이게 B급 토끼다."],
-        ["후드 망토. 귀는 뚫고 나왔다.","그림자 한 마리가 따라온다. 두 귀보다 조용하다.","선글라스 안에서도 귀는 다 들린다.","다크 헌터는 깡총을 아낀다.","조용히, 하지만 빠르게. A급이다."],
+        ["후드 망토. 귀는 뚫고 나왔다.","그림자 한 마리가 따라온다. 두 귀보다 조용하다.","선글라스 안에서도 귀는 다 들린다.","다크 갓생러는 깡총을 아낀다.","조용히, 하지만 빠르게. A급이다."],
         ["일어나라, 그림자들. 나도 일어나겠다.","왕관은 비뚤어졌지만 실력은 S급이다. 아마.","부하들아, 당근은 내가 지킨다.","아침을 정복했다. 귀는 못 세웠다.","충성은 됐고, 그냥 따라와라. 깡총."],
         ["황금 왕관과 후광. 토끼 신의 강림이다.","그림자 셋이 깡총깡총 따라온다.","당근을 성검처럼 치켜들었다. 신의 당근이다.","아침을 정복하고 신이 되었다. 귀는 한쪽이 접혀 있다.","숭배는 됐고 당근이나 가져와라."]
       ],
@@ -2573,7 +2573,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         ["안대가 헐렁하다. 귀가 더 가벼워졌다.","커피잔이 가볍다. 균형이 좋아졌다.","일어나는 속도가 빨라졌다. 견습의 성과다.","몸이 가볍다. 이러면 두 번은 깡총이다."],
         ["배낭이 몸에 붙는다. 날렵한 탐험가다.","모자가 잘 어울린다. 깡총도 가볍다.","살이 빠지니 백팩이 두 배로 가볍다.","이 정도면 공원 정복은 끝났다."],
         ["몸이 홀쭉해졌다. 선글라스가 더 잘 어울린다.","깡총이 한결 가볍다. 기분은 좋다.","배는 이제 그냥 없다. 근육은 아니다.","이 정도면 B급이 아니라 슬림급 토끼다."],
-        ["망토가 펄럭인다. 몸이 가벼워서다.","후드가 귀에 딱 맞는다. 날렵하다.","그림자도 놀랐다. 헌터가 가벼워졌다.","다크 헌터도 살은 뺀다. 이게 A급이다."],
+        ["망토가 펄럭인다. 몸이 가벼워서다.","후드가 귀에 딱 맞는다. 날렵하다.","그림자도 놀랐다. 갓생러가 가벼워졌다.","다크 갓생러도 살은 뺀다. 이게 A급이다."],
         ["그림자들도 놀랐다. 군주가 날렵해졌다.","왕관은 무겁지만 몸은 가볍다.","아침을 정복하고 살까지 뺐다. 완벽하다.","부하들아, 따라오너라. 몸이 가볍다. 깡총."],
         ["신의 몸은 가볍다. 왕관만 무겁다.","후광이 두 배로 밝다. 살이 빠져서다.","그림자 셋이 날렵한 신을 따라온다.","국가권력급인데 몸매는 슬림급이다."]
       ],
@@ -4059,7 +4059,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     if($("pGameChip")) $("pGameChip").textContent = "🎮 최고 " + (P.mg || 0) + "점";
     if($("pMoneyChip")){
       const em = P.moneyTierEmoji || "🌱";
-      const nm = P.moneyTierName || "소박한 헌터";
+      const nm = P.moneyTierName || "소박한 갓생러";
       const showAmount = (!P.moneyHide && typeof P.money === "number");
       $("pMoneyChip").textContent = showAmount
         ? "💰 " + fmtWon(P.money)
@@ -4354,7 +4354,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 
   /* ---------- 현금 등급 ---------- */
   const MONEY_TIERS = [
-    {idx:0, key:"starter", name:"소박한 헌터", emoji:"🌱", min:0,        next:1000000,  tip:"아직은 소박한 헌터"},
+    {idx:0, key:"starter", name:"소박한 갓생러", emoji:"🌱", min:0,        next:1000000,  tip:"아직은 소박한 갓생러"},
     {idx:1, key:"saver",   name:"소소한 저축가", emoji:"🪙", min:1000000,  next:10000000, tip:"반짝이는 동전 + 저금통"},
     {idx:2, key:"club",    name:"천만 클럽",     emoji:"💰", min:10000000, next:50000000, tip:"지폐·금괴 + 황금 테두리"},
     {idx:3, key:"tycoon",  name:"현물 재벌",     emoji:"👑", min:50000000, next:null,     tip:"왕금괴·돈방석 + 재벌 오라"}
@@ -6923,7 +6923,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     try { v11Wire(); } catch(e){}
   }
   /* ===================================================================
-     v8.0 — 🪙 골드 보상 · 🛒 헌터 상점 · 🎒 인벤토리 / 스킨
+     v8.0 — 🪙 골드 보상 · 🛒 갓생 상점 · 🎒 인벤토리 / 스킨
      · 퀘스트·올클리어·미니게임으로 골드(G)를 모으고, 상점에서 물약·부적·스킨·쿠폰을 산다
      · 골드·인벤토리는 localStorage(state)에 저장되고 파트너와 조용히 공유된다
      =================================================================== */
