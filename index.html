@@ -3328,6 +3328,60 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   .v29wn-item b{font-size:11px}
 }
 
+/* v29.1 gpu-only character motion */
+
+/* ==========================================================
+   v29.1 — ⚡ 체감 속도: 캐릭터 · 표정 · 치장 레이어를 한 래퍼에서 함께 움직인다
+   · #charImg 의 floaty(둥실둥실)를 .char-wrap 으로 옮겨 transform 한 번으로
+     v18 표정 · v29 말풍선 표정 · v24 치장템이 0px 오차로 같이 움직인다
+   · JS 는 매 프레임 requestAnimationFrame + getBoundingClientRect 를 쓰지 않는다
+   ========================================================== */
+.char-wrap{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  flex:0 0 auto;
+  transform-origin:50% 92%;
+  animation:floaty 4.6s ease-in-out infinite;
+  will-change:transform;
+}
+/* 그림 자체는 더 이상 움직이지 않는다 (모션은 래퍼가 담당) */
+.stage .char-wrap > .char{
+  position:relative;z-index:2;
+  animation:none;
+}
+.stage .char-wrap > .cosmo,
+.stage .char-wrap > .mood{ position:absolute;inset:0; }
+.char-wrap .mood-face{ left:0;top:0;width:100%;height:100%; }
+
+/* 몸동작 모션도 래퍼가 재생 — 그림과 표정이 같이 흔들린다 */
+.stage .char-wrap:has(> .char.jump){ animation:petJump .78s cubic-bezier(.3,.7,.4,1); }
+.stage .char-wrap:has(> .char.wiggle){ animation:petWiggle .72s cubic-bezier(.3,.6,.4,1); }
+.stage .char-wrap:has(> .char.hop){ animation:hop .66s cubic-bezier(.3,.7,.4,1); }
+.stage .char-wrap:has(> .char.hazard-hit){ animation:hazardShake .5s cubic-bezier(.36,.07,.19,.97); }
+.stage .char-wrap:has(> .char.mood-hungry){ animation:v18Droop 3.6s ease-in-out infinite; }
+.stage .char-wrap:has(> .char.mood-sad){ animation:v18Sulk 3s ease-in-out infinite; }
+.stage .char-wrap:has(> .char.mood-cry){ animation:v18Sob 1.7s ease-in-out infinite; }
+.stage .char-wrap:has(> .char.mood-great){ animation:v18Bounce 1.9s ease-in-out infinite; }
+.stage .char-wrap:has(> .char.mood-yum){ animation:v18Yum .72s cubic-bezier(.3,.7,.4,1) 4; }
+.stage .char-wrap:has(> .char.mood-pat){ animation:v18Yum .68s cubic-bezier(.3,.7,.4,1) 4; }
+.stage .char-wrap:has(> .char.v29-hype){ animation:v29Hop 1.9s cubic-bezier(.3,.7,.4,1) infinite; }
+.stage .char-wrap:has(> .char.v29-sleepy){ animation:v29Sway 3.4s ease-in-out infinite; }
+.stage .char-wrap:has(> .char.v29-hungry){ animation:v29Wobble 2.6s ease-in-out infinite; }
+.stage .char-wrap:has(> .char.v29-brain){ animation:v29Nod 2.8s ease-in-out infinite; }
+.stage .char-wrap:has(> .char.v29-pout){ animation:v29Sad 3s ease-in-out infinite; }
+
+/* 치장템 레이어가 캐릭터 그림 상자를 그대로 채우는 모드 (측정 불필요) */
+[data-fill] .cosmo-box{ width:100%;height:100%; }
+
+/* ✨ 꾸미기 무대도 같은 구조 — 미리보기 높이 전환(196↔164px)도 자동으로 따라간다 */
+.dress-wrap{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  flex:0 0 auto;
+}
+.dress-wrap > .dress-char{ position:relative;z-index:2;display:block; }
+.dress-wrap > .cosmo{ position:absolute;inset:0; }
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -3351,7 +3405,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   </header>
   <div class="ministat" id="miniStat" hidden>
     <button class="ms-in" id="msJump" type="button" aria-label="퀘스트 탭으로 이동 — 레벨·HP·EXP 요약">
-      <span class="ms-charwrap"><img class="ms-char" id="msChar" alt=""><span class="ms-cosmo" id="msCosmo" aria-hidden="true"></span></span>
+      <span class="ms-charwrap"><img class="ms-char" id="msChar" alt=""><span class="ms-cosmo" id="msCosmo" aria-hidden="true" data-fill="1"></span></span>
       <span class="ms-id"><b id="msLv">Lv.1</b><span id="msRank">E급 · 하찮은 냥이</span></span>
       <span class="ms-bars">
         <span class="ms-b hp"><em>HP</em><span class="bar"><i id="msHpFill"></i></span><b id="msHpNum">100</b></span>
@@ -3384,14 +3438,16 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <span class="spark b">✧</span>
       <span class="spark c">✦</span>
       <div class="fx-layer" id="charFx" aria-hidden="true"></div>
-      <div class="mood" id="moodLayer" aria-hidden="true">
-        <div class="mood-face" id="moodFace"></div>
-      </div>
-      <div class="cosmo back" id="heroCosmoBack" aria-hidden="true"></div>
-      <img class="char" id="charImg" alt="냥이 갓생러 캐릭터">
-      <div class="cosmo front" id="heroCosmoFront" aria-hidden="true"></div>
-      <div class="mood v29mood" id="v29MoodLayer" aria-hidden="true">
-        <div class="mood-face v29-face" id="v29MoodFace"></div>
+      <div class="char-wrap" id="charWrap">
+        <div class="cosmo back" id="heroCosmoBack" aria-hidden="true" data-fill="1"></div>
+        <img class="char" id="charImg" alt="냥이 갓생러 캐릭터">
+        <div class="cosmo front" id="heroCosmoFront" aria-hidden="true" data-fill="1"></div>
+        <div class="mood" id="moodLayer" aria-hidden="true">
+          <div class="mood-face" id="moodFace"></div>
+        </div>
+        <div class="mood v29mood" id="v29MoodLayer" aria-hidden="true">
+          <div class="mood-face v29-face" id="v29MoodFace"></div>
+        </div>
       </div>
     </div>
 
@@ -3484,9 +3540,11 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 
     <div class="dress-stage" id="dressStage">
       <div class="dress-plate" aria-hidden="true"></div>
-      <div class="cosmo back" id="dressBack" aria-hidden="true"></div>
-      <img class="dress-char" id="dressImg" alt="꾸미기 미리보기 캐릭터">
-      <div class="cosmo front" id="dressFront" aria-hidden="true"></div>
+      <div class="dress-wrap" id="dressWrap">
+        <div class="cosmo back" id="dressBack" aria-hidden="true" data-fill="1"></div>
+        <img class="dress-char" id="dressImg" alt="꾸미기 미리보기 캐릭터">
+        <div class="cosmo front" id="dressFront" aria-hidden="true" data-fill="1"></div>
+      </div>
       <span class="dress-cap" id="dressCap">Lv.1</span>
       <span class="dress-hint">미리보기 무대</span>
       <div class="dress-pv" id="dressPv" hidden>
@@ -3888,7 +3946,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v29.0 (🎲매일 랜덤 보너스 · 😊대사별 표정 · 📋업데이트 내역 · 🧣목도리 슬림)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v29.1 (⚡캐릭터 모션·표정 0px 최적화 · 🎲매일 랜덤 보너스 · 😊대사별 표정 · 📋업데이트 내역)</p>
 </div>
 
 <div id="toasts"></div>
@@ -4306,6 +4364,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <div class="v29wn-prev">
       <b>최근 업데이트 요약</b>
       <div class="v29wn-chips">
+        <span class="v29wn-chip">⚡ 체감 속도·리플로우 최적화</span>
         <span class="v29wn-chip">🧣 꾸미기 12종 정렬·최적화</span>
         <span class="v29wn-chip">👉 콕 찌르기 멘트·랜덤</span>
         <span class="v29wn-chip">👑 기준 퀘스트 동기화</span>
@@ -11263,18 +11322,16 @@ window.IMAGES_CLEAN=[
   }
 
   /* ---------- 얼굴 레이어 위치 ----------
-     #charImg 가 실제로 그려지는 사각형(애니메이션 변형 포함)에 정확히 겹친다.
-     그림이 floaty/sob 로 떠 있거나 흔들려도 눈 위에 붙어 있도록 매 프레임 따라간다. */
+     v29.1 — #charImg · 표정 · 치장 레이어가 같은 .char-wrap 안에 들어가서
+     래퍼의 transform(둥실둥실·점프·표정 모션)을 한 몸으로 따라간다.
+     좌표는 CSS(inset:0)가 이미 맞추므로 매 프레임 측정(getBoundingClientRect)이 필요 없다. */
   function v18PlaceFace(){
-    var face = $("moodFace"), img = $("charImg"), layer = $("moodLayer");
-    if(!face || !img || !layer) return;
-    var ir = img.getBoundingClientRect();
-    if(!ir.width) return;
-    var lr = layer.getBoundingClientRect();
-    face.style.left = (ir.left - lr.left) + "px";
-    face.style.top  = (ir.top  - lr.top)  + "px";
-    face.style.width = ir.width + "px";
-    face.style.height = ir.height + "px";
+    var face = $("moodFace");
+    if(!face) return;
+    if(face.style.width !== "100%"){
+      face.style.left = "0"; face.style.top = "0";
+      face.style.width = "100%"; face.style.height = "100%";
+    }
   }
 
   function v18PlacePreview(){
@@ -11289,17 +11346,9 @@ window.IMAGES_CLEAN=[
     face.style.height = img.offsetHeight + "px";
   }
 
-  var v18FollowOn = false, v18FollowT = 0;
-  function v18Follow(ts){
-    if(!v18FollowOn) return;
-    if(!v18FollowT || ts - v18FollowT > 28){
-      v18FollowT = ts;
-      try { v18PlaceFace(); } catch(e){}
-    }
-    requestAnimationFrame(v18Follow);
-  }
-  function v18FollowStart(){ if(v18FollowOn) return; v18FollowOn = true; requestAnimationFrame(v18Follow); }
-  function v18FollowStop(){ v18FollowOn = false; }
+  /* v29.1 — 매 프레임 rAF 추적(v18Follow)은 완전히 제거. 필요할 때 1회만 맞춘다. */
+  function v18FollowStart(){ try { v18PlaceFace(); } catch(e){} }
+  function v18FollowStop(){}
 
   /* ---------- 표정 그리기 ---------- */
   function v18Paint(mode){
@@ -13087,7 +13136,6 @@ window.IMAGES_CLEAN=[
   ];
 
   var v24Preview = null;          /* {slot, id} — 미구매 미리보기 중인 아이템 */
-  var v24FollowOn = false, v24FollowT = 0;
   var v24LastSig = {};            /* 레이어별 마지막 서명 (불필요한 재조립 방지) */
 
   function v24Item(id){
@@ -13845,6 +13893,11 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
     box.style.height = d.h + "px";
   }
 
+  /* v29.1 — 레이어가 캐릭터와 같은 래퍼(칸)에 있으면 CSS 가 100% 로 채운다 */
+  function v24IsFill(layerEl){
+    return !!(layerEl && layerEl.getAttribute && layerEl.getAttribute("data-fill") === "1");
+  }
+
   /* 레이어 하나(=한 슬롯 묶음)를 그림 — back 은 날개만, front 는 나머지 */
   function v24PaintLayer(layerEl, imgEl, map){
     if(!layerEl || !imgEl) return;
@@ -13865,8 +13918,14 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
       box.innerHTML = svg;
       box.setAttribute("data-on", svg ? "1" : "0");
     }
-    if(box.getAttribute("data-on") === "1") v24Fit(box, img);
-    else box.style.display = "none";
+    if(box.getAttribute("data-on") === "1"){
+      if(v24IsFill(layerEl)){
+        /* 래퍼를 그대로 채우는 레이어 — 측정·리플로우 없음 */
+        if(box.style.display === "none") box.style.display = "";
+      } else {
+        v24Fit(box, img);
+      }
+    } else box.style.display = "none";
   }
 
   function v24PaintSet(backEl, frontEl, imgEl, map){
@@ -13874,10 +13933,10 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
     try { v24PaintLayer(frontEl, imgEl, map); } catch(e){}
   }
 
-  /* ---------- 위치 추적 (히어로의 floaty 애니메이션까지 따라간다) ---------- */
+  /* ---------- 위치 배치 (v29.1 — rAF 추적 제거, 필요할 때 1회만) ---------- */
   function v24PlaceAll(){
     if(!state) return;
-    if(document.hidden) return;   /* 백그라운드에서는 위치 추적을 쉰다 */
+    if(document.hidden) return;   /* 백그라운드에서는 다시 그리지 않는다 */
     var eq = v24EquippedMap();
     v24PaintSet($("heroCosmoBack"), $("heroCosmoFront"), $("charImg"), eq);
     v24PaintSet($("dressBack"), $("dressFront"), $("dressImg"), v24StageMap());
@@ -13887,15 +13946,10 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
       try { v24PaintSet($("pCosmoBack"), $("pCosmoFront"), $("pStatImg"), v24PartnerMap); } catch(e){}
     }
   }
-  function v24Follow(ts){
-    if(!v24FollowOn) return;
-    if(!v24FollowT || ts - v24FollowT > 30){
-      v24FollowT = ts;
-      try { v24PlaceAll(); } catch(e){}
-    }
-    requestAnimationFrame(v24Follow);
+  /* v29.1 — 매 프레임 루프(v24Follow)는 제거. 이벤트 시점(부팅·렌더·탭 이동·리사이즈)에 한 번만 배치한다. */
+  function v24FollowStart(){
+    try { v24PlaceAll(); } catch(e){}
   }
-  function v24FollowStart(){ if(v24FollowOn) return; v24FollowOn = true; requestAnimationFrame(v24Follow); }
 
   /* ---------- 파트너 모달용 (스냅샷의 equippedCosmetics 만) ---------- */
   var v24PartnerMap = { eyes:"", head:"", acc:"" };
@@ -14175,6 +14229,19 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
     v24FollowStart();
     try { v24RenderNow(); } catch(e){}
     try { v24PlaceAll(); } catch(e){}
+
+    /* v29.1 — 창 크기·그림 로드 때만 다시 맞춘다 (매 프레임 측정 없음) */
+    var v24FitT = null;
+    function v24Refit(){
+      if(v24FitT) clearTimeout(v24FitT);
+      v24FitT = setTimeout(function(){ v24FitT = null; try { v24PlaceAll(); } catch(e){} }, 140);
+    }
+    window.addEventListener("resize", v24Refit);
+    window.addEventListener("orientationchange", v24Refit);
+    ["charImg", "dressImg", "msChar"].forEach(function(id){
+      var el = $(id);
+      if(el) el.addEventListener("load", v24Refit);
+    });
   }
 
   window.__v24 = {
@@ -14989,7 +15056,7 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
        (신남 · 졸림 · 배고픔 · 진지 · 억울 — eyes2.json 실측 눈 좌표 기준)
      · 새 버전으로 처음 열면 [ WHAT'S NEW ] 팝업 1회 (다른 팝업과 겹치지 않게 대기)
      =================================================================== */
-  var V29_VER = "29.0";
+  var V29_VER = "29.1";
 
   /* ---------- 정규화 ---------- */
   function v29Normalize(s){
@@ -15102,7 +15169,6 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
     pout:   { emo:"🥺", txt:"억울해…" }
   };
   var v29MoodCat = "", v29MoodUntil = 0, v29Timer = null;
-  var v29FollowOn = false, v29FollowT = 0;
 
   function v29Flat(t){ return String(t == null ? "" : t).replace(/\s+/g, " ").trim(); }
   function v29Score(t, list){
@@ -15223,27 +15289,17 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
     return { svg: svg, marks: marks, chip: chip };
   }
 
+  /* v29.1 — 표정 레이어도 .char-wrap 안에 있어 CSS(inset:0)가 좌표를 맞춘다 */
   function v29PlaceFace(){
-    var face = $("v29MoodFace"), img = $("charImg"), layer = $("v29MoodLayer");
-    if(!face || !img || !layer) return;
-    var ir = img.getBoundingClientRect();
-    if(!ir.width) return;
-    var lr = layer.getBoundingClientRect();
-    face.style.left = (ir.left - lr.left) + "px";
-    face.style.top  = (ir.top  - lr.top)  + "px";
-    face.style.width = ir.width + "px";
-    face.style.height = ir.height + "px";
-  }
-  function v29Follow(ts){
-    if(!v29FollowOn) return;
-    if(!v29FollowT || ts - v29FollowT > 28){
-      v29FollowT = ts;
-      try { v29PlaceFace(); } catch(e){}
+    var face = $("v29MoodFace");
+    if(!face) return;
+    if(face.style.width !== "100%"){
+      face.style.left = "0"; face.style.top = "0";
+      face.style.width = "100%"; face.style.height = "100%";
     }
-    requestAnimationFrame(v29Follow);
   }
-  function v29FollowStart(){ if(v29FollowOn) return; v29FollowOn = true; requestAnimationFrame(v29Follow); }
-  function v29FollowStop(){ v29FollowOn = false; }
+  function v29FollowStart(){ try { v29PlaceFace(); } catch(e){} }
+  function v29FollowStop(){}
 
   function v29ClearImg(){
     var img = $("charImg");
@@ -15270,7 +15326,7 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
     var chip = face.querySelector(".v29-chip");
     if(chip){
       /* 머리 위 여백에 붙이되, 무대 위로 잘려 나가지 않게 최소한의 높이를 확보한다 */
-      var ih = img.getBoundingClientRect().height || face.clientHeight || 1;
+      var ih = face.clientHeight || 210;   /* v29.1 — 레이어가 캐릭터 상자와 같아 측정 없이 높이를 읽는다 */
       /* 캐릭터가 floaty 로 떠올라도(최대 6px) 무대 위로 잘리지 않게 여유를 14px 둔다 */
       var topPct = Math.max(a.by0 * 100, ((chip.offsetHeight || 16) + 14) / ih * 100);
       chip.style.left = v18F2(a.x*100) + "%";
@@ -15314,9 +15370,10 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
      📋 새 버전 업데이트 안내 (What's New)
      =================================================================== */
   var V29_NEW = [
-    { ico:"🎲", t:"기본 보너스 퀘스트가 매일 랜덤", d:"18종 풀에서 2~3개가 날마다 새로 뽑혀요 · 내가 추가한 보너스는 그대로 · 🔄 다시 뽑기 버튼 추가", isNew:true },
-    { ico:"😊", t:"말풍선 대사에 표정이 따라와요", d:"캐릭터나 말풍선을 누르면 신남 · 졸림 · 배고픔 · 진지 · 억울 표정이 눈 위에 나타나요", isNew:true },
-    { ico:"📋", t:"업데이트 내역 팝업", d:"새 버전으로 처음 열면 이 화면이 한 번 떠요 · 스탯·도감 맨 아래 📋 업데이트 내역에서 다시 볼 수 있어요", isNew:true }
+    { ico:"⚡", t:"캐릭터 움직임이 더 가벼워졌어요", d:"둥실둥실 모션을 GPU로 옮겨 표정·치장템이 한 몸으로 따라와요 · 화면이 더 부드럽고 배터리·발열도 줄었어요", isNew:true },
+    { ico:"🎲", t:"기본 보너스 퀘스트가 매일 랜덤", d:"18종 풀에서 2~3개가 날마다 새로 뽑혀요 · 내가 추가한 보너스는 그대로 · 🔄 다시 뽑기 버튼 추가", isNew:false },
+    { ico:"😊", t:"말풍선 대사에 표정이 따라와요", d:"캐릭터나 말풍선을 누르면 신남 · 졸림 · 배고픔 · 진지 · 억울 표정이 눈 위에 나타나요", isNew:false },
+    { ico:"📋", t:"업데이트 내역 팝업", d:"새 버전으로 처음 열면 이 화면이 한 번 떠요 · 스탯·도감 맨 아래 📋 업데이트 내역에서 다시 볼 수 있어요", isNew:false }
   ];
   var v29WnShown = false, v29WnTick = null;
 
@@ -15372,7 +15429,11 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
   function v29MaybeWhatsNew(){
     if(v29WnShown) return false;
     if(!state || !state.character) return false;
-    if(!V29_VER || state.lastSeenVer === V29_VER) return false;
+    if(!V29_VER || state.lastSeenVer === V29_VER){
+      /* v29.1 — 이 버전 안내를 이미 봤으면 확인 타이머를 바로 멈춘다 */
+      if(v29WnTick){ clearInterval(v29WnTick); v29WnTick = null; }
+      return false;
+    }
     var o = $("v29wnOverlay");
     if(!o) return false;
     if(o.classList.contains("on")) return false;
@@ -15419,7 +15480,9 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
     /* 새 버전 첫 접속 — 다른 팝업이 모두 닫힌 뒤 1회 */
     setTimeout(v29MaybeWhatsNew, 2400);
     if(v29WnTick) clearInterval(v29WnTick);
-    v29WnTick = setInterval(v29MaybeWhatsNew, 2200);
+    v29WnTick = null;
+    /* v29.1 — 이미 이 버전 안내를 본 상태면 2.2초짜리 확인 타이머를 아예 만들지 않는다 */
+    if(!(state && state.lastSeenVer === V29_VER)) v29WnTick = setInterval(v29MaybeWhatsNew, 2200);
   }
 
   window.__v29 = {
@@ -15504,8 +15567,8 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
    · 📊 스탯·도감 하단 버전 바: 현재 버전 표시 + 🔄 업데이트 확인 (이미 최신이면 토스트, 4초 안에 한 번 더 누르면 강제 새로고침)
    · 업데이트로 다시 뜬 화면(URL 에 _v=)은 주소를 깨끗하게 되돌리고 짧은 토스트로 알려 준다. */
 (function(){
-  var APP_SW  = "mmm-2026-11-24-04";
-  var APP_VER = "29.0";
+  var APP_SW  = "mmm-2026-11-24-05";
+  var APP_VER = "29.1";
   var GUARD = "mmm-auto-reload";
   var MAX_TRY = 2;
   var reg = null, reloading = false, checking = false, manualBusy = false, forceUntil = 0;
