@@ -3124,6 +3124,210 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
 /* 콕 보낸 뒤 토스트에 실린 멘트 */
 .toast .v28-toast-msg{display:inline-block;margin-left:4px;color:#E8463C;font-weight:900}
 
+/* v29.0 bonus reroll · speech mood · what's new styles */
+/* ==========================================================
+   v29.0 — 🎲 기본 보너스 매일 랜덤 · 😊 말풍선 대사별 표정
+           · 📋 업데이트 내역 팝업
+   ========================================================== */
+
+/* ---------- 🎲 보너스 다시 뽑기 버튼 ---------- */
+.bonus-reroll{
+  display:block;width:100%;margin-top:9px;padding:9px 10px;
+  font-family:inherit;font-size:10.5px;font-weight:800;letter-spacing:-.01em;
+  color:#9A6B2E;background:linear-gradient(120deg,#FFF9E8,#FFF2DD);
+  border:1.5px dashed #EBD9B6;border-radius:12px;cursor:pointer;line-height:1.3;
+  transition:transform .12s ease,background .2s ease;
+}
+.bonus-reroll:active{transform:scale(.985);background:#FFF3D6}
+.bonus-reroll.spin{animation:v29Spin .5s ease}
+@keyframes v29Spin{
+  0%{transform:rotate(0)}
+  50%{transform:rotate(-2.2deg) scale(.985)}
+  100%{transform:rotate(0)}
+}
+
+/* ---------- 😊 말풍선 대사별 감정 레이어 ---------- */
+.mood.v29mood{z-index:6;opacity:0;transition:opacity .16s ease}
+.mood.v29mood.on{opacity:1}
+.v29-face{position:absolute;left:0;top:0;width:0;height:0}
+.v29-face svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.v29-face .v29-blush ellipse{fill:#FF8FB0;opacity:0}
+.v29-face .v29-e{
+  position:absolute;translate:-50% -50%;line-height:1;opacity:0;
+  font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;
+  filter:drop-shadow(0 2px 3px rgba(150,110,140,.25));
+}
+.v29-chip{
+  position:absolute;left:0;top:0;translate:-50% -100%;margin-top:3px;line-height:1.15;white-space:nowrap;
+  font-family:inherit;font-size:9px;font-weight:800;letter-spacing:-.01em;color:#7B5567;
+  background:#fff;border:1.5px solid #FFE1EC;border-radius:11px;padding:2px 8px 2px;
+  box-shadow:0 8px 16px -12px rgba(150,90,130,.95);
+  opacity:0;transition:opacity .2s;
+}
+.v29-chip::after{
+  content:"";position:absolute;left:50%;bottom:-5px;width:8px;height:8px;background:#fff;
+  border-right:1.5px solid #FFE1EC;border-bottom:1.5px solid #FFE1EC;
+  transform:translateX(-50%) rotate(45deg);
+}
+.v29-face.has-chip .v29-chip{opacity:1;animation:v29ChipIn .45s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes v29ChipIn{0%{transform:scale(.62)}60%{transform:translateY(-3px) scale(1.06)}100%{transform:scale(1)}}
+
+/* ✨ 신남 · 파이팅 · 칭찬 */
+.v29-face .v29-star{fill:#FFD34D;stroke:#E39A12;stroke-width:1.6;stroke-linejoin:round}
+.v29-face .v29-star-core{fill:#FFFDF0}
+.v29-face .v29-star-glow{fill:#FFE680;opacity:.45}
+[data-v29="hype"] .v29-star{animation:v29Twinkle 1.5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
+[data-v29="hype"] .v29-star-core{animation:v29Twinkle 1.5s .25s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
+[data-v29="hype"] .v29-blush ellipse{opacity:.5;animation:v29Blush 1.8s ease-in-out infinite}
+[data-v29="hype"] .v29-e-spark{opacity:1;animation:v29Float 1.9s ease-in-out infinite}
+[data-v29="hype"] .v29-e-heart{opacity:1;animation:v29Float 2.3s .3s ease-in-out infinite}
+[data-v29="hype"] .v29-e-star{opacity:1;animation:v29Twinkle 1.3s .2s ease-in-out infinite}
+
+/* 😴 졸림 · 피로 · 이불 */
+.v29-face .v29-lid{fill:none;stroke:#4A3B55;stroke-width:2.6;stroke-linecap:round;opacity:0}
+[data-v29="sleepy"] .v29-lid{opacity:.9}
+[data-v29="sleepy"] .v29-e-zz{opacity:1;animation:v29Zz 2.4s ease-in-out infinite}
+[data-v29="sleepy"] .v29-e-zz2{opacity:1;animation:v29Zz 2.4s .8s ease-in-out infinite}
+[data-v29="sleepy"] .v29-blush ellipse{opacity:.28}
+
+/* 🤤 배고픔 · 간식 · 밥 */
+.v29-face .v29-tear{fill:#9ED7F7;stroke:#4FA8DC;stroke-width:1.6;stroke-linejoin:round;opacity:0;transform-box:fill-box;transform-origin:50% 10%}
+[data-v29="hungry"] .v29-tear{opacity:.95;animation:v29Drip 2.2s ease-in-out infinite}
+[data-v29="hungry"] .v29-tear:nth-of-type(2){animation-delay:.5s}
+[data-v29="hungry"] .v29-e-food{opacity:1;animation:v29Pop 1.6s ease-in-out infinite}
+[data-v29="hungry"] .v29-e-drool{opacity:1;animation:v29Float 2.1s ease-in-out infinite}
+
+/* 🧐 진지 · 지적 · 사자성어 — 눈 위 안경 반짝임 + 작은 별 */
+.v29-face .v29-glint{
+  fill:none;stroke:#FFFFFF;stroke-width:2.6;stroke-linecap:round;opacity:.95;
+  filter:drop-shadow(0 0 1.5px rgba(120,90,160,.55));
+}
+[data-v29="brain"] .v29-glint{animation:v29Glint 1.9s ease-in-out infinite}
+[data-v29="brain"] .v29-star{fill:#FFF3B0;stroke:#E7B93C;stroke-width:1.2;animation:v29Twinkle 1.7s .3s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 50%}
+[data-v29="brain"] .v29-star-core{fill:#FFFFFF}
+[data-v29="brain"] .v29-e-book{opacity:1;animation:v29Float 2.6s ease-in-out infinite}
+[data-v29="brain"] .v29-e-twinkle{opacity:1;animation:v29Twinkle 1.7s ease-in-out infinite}
+@keyframes v29Glint{
+  0%,100%{opacity:.35;transform:translateX(-1.5px)}
+  45%{opacity:1;transform:translateX(1.5px)}
+}
+
+/* 🥺 억울 · 투정 · 운동 싫어 */
+[data-v29="pout"] .v29-tear{opacity:.92;animation:v29Drip 1.9s ease-in-out infinite;fill:#8FD0F6;stroke:#57AEE0}
+[data-v29="pout"] .v29-e-pout{opacity:1;animation:v29Pop 1.4s ease-in-out infinite}
+[data-v29="pout"] .v29-e-sorry{opacity:1;animation:v29Float 2.4s .4s ease-in-out infinite}
+[data-v29="pout"] .v29-blush ellipse{opacity:.24}
+
+@keyframes v29Twinkle{
+  0%,100%{opacity:.35;transform:scale(.8) rotate(-8deg)}
+  50%{opacity:1;transform:scale(1.12) rotate(8deg)}
+}
+@keyframes v29Blush{0%,100%{opacity:.34}50%{opacity:.62}}
+@keyframes v29Float{
+  0%{opacity:0;transform:translateY(5px) scale(.72)}
+  30%{opacity:1;transform:translateY(-3px) scale(1.04)}
+  100%{opacity:0;transform:translateY(-15px) scale(.9)}
+}
+@keyframes v29Zz{
+  0%{opacity:0;transform:translateY(3px) scale(.7) rotate(-6deg)}
+  35%{opacity:1;transform:translateY(-6px) scale(1.05) rotate(4deg)}
+  100%{opacity:0;transform:translateY(-18px) scale(.95) rotate(-2deg)}
+}
+@keyframes v29Pop{0%,100%{opacity:.45;transform:scale(.86) rotate(-6deg)}45%{opacity:1;transform:scale(1.1) rotate(5deg)}}
+@keyframes v29Drip{
+  0%{opacity:.55;transform:translateY(-1px) scale(.9)}
+  45%{opacity:1;transform:translateY(2px) scale(1.02)}
+  100%{opacity:.5;transform:translateY(6px) scale(.94)}
+}
+
+/* 캐릭터 몸동작 (표정에 맞춰) */
+.char.v29-hype{animation:v29Hop 1.9s cubic-bezier(.3,.7,.4,1) infinite}
+.char.v29-sleepy{animation:v29Sway 3.4s ease-in-out infinite}
+.char.v29-hungry{animation:v29Wobble 2.6s ease-in-out infinite}
+.char.v29-brain{animation:v29Nod 2.8s ease-in-out infinite}
+.char.v29-pout{animation:v29Sad 3s ease-in-out infinite}
+@keyframes v29Hop{
+  0%,100%{transform:translateY(0) scale(1,1)}
+  28%{transform:translateY(-9px) scale(.975,1.03)}
+  52%{transform:translateY(0) scale(1.02,.975)}
+  68%{transform:translateY(-3px) scale(1,.998)}
+}
+@keyframes v29Sway{
+  0%,100%{transform:translateY(3px) rotate(-1.6deg) scale(1.005,.985)}
+  50%{transform:translateY(6px) rotate(1.4deg) scale(1.01,.97)}
+}
+@keyframes v29Wobble{
+  0%,100%{transform:translateY(2px) rotate(-1deg)}
+  50%{transform:translateY(4px) rotate(1.2deg)}
+}
+@keyframes v29Nod{
+  0%,100%{transform:translateY(0) rotate(0)}
+  40%{transform:translateY(2px) rotate(-.8deg)}
+  70%{transform:translateY(-2px) rotate(.6deg)}
+}
+@keyframes v29Sad{
+  0%,100%{transform:translateY(4px) scale(1.005,.985) rotate(-.8deg)}
+  50%{transform:translateY(6px) scale(1.01,.975) rotate(.8deg)}
+}
+
+/* ---------- 📋 업데이트 내역 버튼 (버전 바) ---------- */
+.verbars .ver-note{
+  font-family:inherit;font-size:9.5px;font-weight:800;color:#B0762A;background:#FFF6E2;
+  border:1px solid #FFE7B8;border-radius:9px;padding:5px 10px;cursor:pointer;line-height:1.3;
+  transition:transform .12s ease;
+}
+.verbars .ver-note:active{transform:scale(.96)}
+
+/* ---------- 🎉 업데이트 안내 팝업 ---------- */
+.v29wn-card{
+  position:relative;width:100%;max-width:334px;max-height:84vh;overflow-y:auto;
+  background:linear-gradient(180deg,#FFFDF4 0%,#FFF4F8 46%,#F3EDFF 100%);
+  border:2px solid #fff;border-radius:28px;padding:20px 18px 16px;
+  box-shadow:0 30px 60px -22px rgba(70,40,90,.6);
+  transform:scale(.94) translateY(8px);transition:transform .3s cubic-bezier(.2,.9,.3,1.25);
+  -webkit-overflow-scrolling:touch;
+}
+.overlay.on .v29wn-card{transform:none}
+.v29wn-badge{
+  margin:0 0 3px;font-family:var(--mono);font-size:8.5px;letter-spacing:.28em;
+  color:#A98BDF;font-weight:700;
+}
+.v29wn-title{margin:0;font-size:21px;font-weight:850;letter-spacing:-.03em;color:#4A3A57;line-height:1.22}
+.v29wn-title b{color:#8B5CF6}
+.v29wn-sub{margin:5px 0 12px;font-size:10.5px;font-weight:650;color:rgba(70,53,79,.62);line-height:1.45}
+.v29wn-list{display:flex;flex-direction:column;gap:7px}
+.v29wn-item{
+  display:flex;gap:9px;align-items:flex-start;
+  background:rgba(255,255,255,.86);border:1.5px solid #F1E4F6;border-radius:15px;padding:9px 10px;
+}
+.v29wn-item .ico{font-size:16px;line-height:1.15;flex:0 0 auto}
+.v29wn-item .txt{flex:1;min-width:0}
+.v29wn-item b{display:block;font-size:11.5px;font-weight:850;color:#4A3A57;letter-spacing:-.02em;line-height:1.3}
+.v29wn-item small{display:block;margin-top:2px;font-size:9.5px;font-weight:650;color:rgba(70,53,79,.6);line-height:1.42}
+.v29wn-new{
+  flex:0 0 auto;align-self:center;font-family:var(--mono);font-size:7.5px;font-weight:800;letter-spacing:.06em;
+  color:#fff;background:linear-gradient(135deg,#FF9BC0,#9B7BFF);border-radius:7px;padding:3px 5px;
+}
+.v29wn-prev{margin-top:12px;padding-top:10px;border-top:1.5px dashed #EBDCEF}
+.v29wn-prev > b{
+  display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;font-weight:800;
+  color:#A98BDF;margin-bottom:6px;
+}
+.v29wn-chips{display:flex;flex-wrap:wrap;gap:5px}
+.v29wn-chip{
+  font-size:9px;font-weight:750;color:#6E5A80;background:#F7F1FF;border:1px solid #EADDFF;
+  border-radius:8px;padding:3px 7px;line-height:1.35;
+}
+.v29wn-actions{margin-top:14px}
+.v29wn-actions .btn-primary{width:100%}
+.v29wn-note{margin:8px 0 0;text-align:center;font-size:9px;font-weight:650;color:rgba(70,53,79,.45)}
+@media (max-width:360px){
+  .v29wn-card{padding:17px 14px 13px;border-radius:24px}
+  .v29wn-title{font-size:19px}
+  .v29wn-item{padding:8px}
+  .v29wn-item b{font-size:11px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -3186,6 +3390,9 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <div class="cosmo back" id="heroCosmoBack" aria-hidden="true"></div>
       <img class="char" id="charImg" alt="냥이 갓생러 캐릭터">
       <div class="cosmo front" id="heroCosmoFront" aria-hidden="true"></div>
+      <div class="mood v29mood" id="v29MoodLayer" aria-hidden="true">
+        <div class="mood-face v29-face" id="v29MoodFace"></div>
+      </div>
     </div>
 
     <div class="name-row">
@@ -3425,6 +3632,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
         <span class="bonus-count" id="bonusCount">0/2</span>
       </div>
       <div id="bonusList"></div>
+      <button class="bonus-reroll" id="bonusReroll" type="button" title="직접 추가한 보너스는 그대로 두고 기본 보너스만 새로 뽑아요">🔄 오늘 기본 보너스 다시 뽑기</button>
       <button class="add-btn bonus" id="bonusAdd" type="button">＋ 보너스 퀘스트 추가</button>
       <div class="allclear-box" id="acBox">
         <span class="ac-badge">🏆</span>
@@ -3547,12 +3755,14 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
     <button class="tool" id="workTest">💼 출근 팝업 테스트</button>
     <button class="tool" id="careTest">🐣 배고픔/호감도 알림 테스트</button>
     <button class="tool" id="hpDecayTest">❤️ 시간경과 HP 감소 테스트</button>
+    <button class="tool" id="bonusRollTest">🎲 보너스 자정 롤오버 테스트</button>
   </div>
 
   <div class="verbars pane" data-pane="stats" id="verBar" role="status" aria-live="polite">
     <span class="ver-lbl">현재 버전</span>
     <b class="ver-num" id="verNum">v23.0</b>
     <button class="ver-btn" type="button" id="verCheckBtn" data-idle="🔄 업데이트 확인">🔄 업데이트 확인</button>
+    <button class="ver-note" type="button" id="verNoteBtn">📋 업데이트 내역</button>
   </div>
 
   <section class="card party pane" data-pane="party" id="coupleCard">
@@ -3678,7 +3888,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v28.0 (🧣빨간 목도리 리디자인 · 👉콕 찌르기 멘트·랜덤 멘트 · 👑기준 퀘스트 자동 업로드)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v29.0 (🎲매일 랜덤 보너스 · 😊대사별 표정 · 📋업데이트 내역 · 🧣목도리 슬림)</p>
 </div>
 
 <div id="toasts"></div>
@@ -4084,6 +4294,29 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       <button class="btn-ghost" id="v28PokeCancel" type="button">취소</button>
     </div>
     <p class="v28m-note">비워 두고 보내면 랜덤 멘트가 골라져요 · 최대 40자</p>
+  </div>
+</div>
+
+<div class="overlay v29wn" id="v29wnOverlay">
+  <div class="v29wn-card" role="dialog" aria-modal="true" aria-labelledby="v29wnTitle">
+    <p class="v29wn-badge">[ ✨ WHAT'S NEW ]</p>
+    <h3 class="v29wn-title" id="v29wnTitle">업데이트 <b>v29.0</b></h3>
+    <p class="v29wn-sub" id="v29wnSub">미라클 모닝 레벨업이 새로워졌어요 · 파트너도 같은 내용을 봐요</p>
+    <div class="v29wn-list" id="v29wnList"></div>
+    <div class="v29wn-prev">
+      <b>최근 업데이트 요약</b>
+      <div class="v29wn-chips">
+        <span class="v29wn-chip">🧣 꾸미기 12종 정렬·최적화</span>
+        <span class="v29wn-chip">👉 콕 찌르기 멘트·랜덤</span>
+        <span class="v29wn-chip">👑 기준 퀘스트 동기화</span>
+        <span class="v29wn-chip">↩️ 완료 취소</span>
+        <span class="v29wn-chip">🍀 LUCK 골드 +25%</span>
+      </div>
+    </div>
+    <div class="v29wn-actions">
+      <button class="btn-primary" id="v29wnOk" type="button">확인했어요!</button>
+    </div>
+    <p class="v29wn-note">📊 스탯·도감 맨 아래 <b>📋 업데이트 내역</b> 으로 언제든 다시 볼 수 있어요</p>
   </div>
 </div>
 <div class="overlay" id="luOverlay">
@@ -4615,6 +4848,7 @@ window.IMAGES_CLEAN=[
     try { v22Normalize(s); } catch(e){}
     try { v24Normalize(s); } catch(e){}
     try { v26Normalize(s); } catch(e){}
+    try { v29Normalize(s); } catch(e){}
 
     // v5.0 나태 페널티 — 날짜가 넘어오며 비어 있던 날들을 합산 차감
     try { v9PenaltyAtLoad(s); } catch(e){}
@@ -6417,20 +6651,45 @@ window.IMAGES_CLEAN=[
     return add;
   }
 
-  /* ---------- ⭐ 보너스 퀘스트 ---------- */
+  /* ---------- ⭐ 보너스 퀘스트 ----------
+     v29.0 — 기본 보너스는 날짜가 바뀔 때마다 풀(18종)에서 2~3개 새로 뽑힌다.
+       · 직접 추가한 보너스(state.bonusCustom)는 날이 바뀌어도 그대로 남는다
+       · 재테크(LUCK) 1개는 매일 반드시 포함 (재물운 버프 보장)
+       · 어제 나온 항목은 뒤로 미뤄서 매일 다른 조합이 되게 한다 */
   const BONUS_POOL = [
-    {id:"b-news",   icon:"💹", title:"경제 뉴스 1개 읽기",          exp:20, gain:{int:2},          luck:true},
-    {id:"b-nospend",icon:"🧾", title:"무지출 도전 (오늘 지출 0원)",  exp:20, gain:{wil:2},          luck:true},
-    {id:"b-ledger", icon:"📈", title:"가계부 한 줄 쓰기",            exp:15, gain:{int:1},          luck:true},
-    {id:"b-save",   icon:"🪙", title:"저축에 1만 원 넣기",           exp:20, gain:{wil:2},          luck:true},
-    {id:"b-water",  icon:"💧", title:"물 2L 마시기",                 exp:15, gain:{str:1}},
-    {id:"b-walk",   icon:"🚶", title:"햇빛 쬐며 10분 걷기",          exp:15, gain:{str:1, agi:1}},
-    {id:"b-desk",   icon:"🧹", title:"책상 위 5분 정리",             exp:15, gain:{agi:1, wil:1}},
-    {id:"b-thanks", icon:"💌", title:"고마운 사람에게 한마디",        exp:15, gain:{wil:1}}
+    /* 🍀 재테크 · LUCK */
+    {id:"b-news",    icon:"💹", title:"경제 뉴스 1개 읽기",            exp:20, gain:{int:2},        luck:true},
+    {id:"b-nospend", icon:"🧾", title:"무지출 도전 (오늘 지출 0원)",   exp:20, gain:{wil:2},        luck:true},
+    {id:"b-ledger",  icon:"📈", title:"가계부 한 줄 쓰기",              exp:15, gain:{int:1},        luck:true},
+    {id:"b-save",    icon:"🪙", title:"저축에 1만 원 넣기",             exp:20, gain:{wil:2},        luck:true},
+    {id:"b-luckidea",icon:"🍀", title:"재테크 아이디어 한 줄 적기",     exp:15, gain:{int:1, wil:1}, luck:true},
+    /* 💪 몸 · 건강 */
+    {id:"b-water",   icon:"💧", title:"물 2L 마시기",                   exp:15, gain:{str:1}},
+    {id:"b-walk",    icon:"🚶", title:"햇빛 쬐며 10분 걷기",            exp:15, gain:{str:1, agi:1}},
+    {id:"b-stretch", icon:"🤸", title:"전신 스트레칭 5분",              exp:15, gain:{str:1, agi:1}},
+    {id:"b-squat",   icon:"🦵", title:"스쿼트 20개",                    exp:20, gain:{str:2}},
+    {id:"b-sun",     icon:"🌞", title:"창문 열고 햇빛 5분 쬐기",        exp:10, gain:{wil:1}},
+    /* 🧠 머리 · 마음 */
+    {id:"b-word",    icon:"🔤", title:"영단어 3개 외우기",              exp:15, gain:{int:2}},
+    {id:"b-thanks",  icon:"💌", title:"감사일기 한 줄 쓰기",            exp:15, gain:{wil:1}},
+    {id:"b-tea",     icon:"🍵", title:"따뜻한 차 한 잔 마시기",         exp:10, gain:{wil:1}},
+    {id:"b-read",    icon:"📖", title:"책 3쪽 읽기",                    exp:15, gain:{int:1}},
+    {id:"b-breath",  icon:"🌬️", title:"심호흡 10번 · 1분 명상",         exp:10, gain:{wil:1}},
+    /* 🏠 집 · 정리 */
+    {id:"b-desk",    icon:"🧹", title:"책상 위 5분 정리",               exp:15, gain:{agi:1, wil:1}},
+    {id:"b-dish",    icon:"🍽️", title:"설거지 · 쓰레기 한 번에 비우기",  exp:15, gain:{agi:1, wil:1}},
+    {id:"b-laundry", icon:"🧺", title:"빨래 한 번 돌리기",              exp:15, gain:{agi:1, wil:1}}
   ];
 
   function bonusSeed(){
-    const s = today().replace(/-/g, "");
+    /* v29.0 — 날짜 + 이 기기의 시드 + 오늘 다시 뽑기 횟수
+       → 같은 날은 몇 번을 다시 열어도 같은 조합, 자정이 지나면 새 조합
+         (기기마다 다른 조합 · 방 동기화는 기준 목록을 따라간다) */
+    const t = today().replace(/-/g, "");
+    const own = Math.floor(Number(state && state.bonusSeed) || 0);
+    const rr = (state && state.bonusRoll && state.bonusRoll.date === today())
+      ? (Math.floor(Number(state.bonusRoll.n)) || 0) : 0;
+    const s = t + "#" + own + "#" + rr;
     let h = 2166136261;
     for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
     return (h >>> 0) || 1;
@@ -6442,20 +6701,29 @@ window.IMAGES_CLEAN=[
       seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
       return seed / 4294967296;
     };
+    const prev = (state && Array.isArray(state.bonusPrev)) ? state.bonusPrev : [];
+    const fresh = function(b){ return prev.indexOf(b.id) < 0; };
+    /* 오늘은 몇 개? 2~3개 (시드로 정해져 하루 동안 그대로) */
+    const want = 2 + (rnd() < 0.4 ? 1 : 0);
     const out = [];
     /* 1) 매일 재테크 퀘스트 1개는 반드시 포함 (재물운 버프 보장) */
-    const luckPool = pool.filter(function(b){ return b.luck; });
-    const first = luckPool[Math.floor(rnd() * luckPool.length) % luckPool.length];
-    if(first){
+    let luckPool = pool.filter(function(b){ return b.luck && fresh(b); });
+    if(!luckPool.length) luckPool = pool.filter(function(b){ return b.luck; });
+    if(luckPool.length){
+      const first = luckPool[Math.floor(rnd() * luckPool.length) % luckPool.length];
       out.push({ id:first.id, icon:first.icon, title:first.title, exp:first.exp,
         gain:Object.assign({}, first.gain), luck:true, done:false, custom:false });
-      const i = pool.indexOf(first);
-      if(i >= 0) pool.splice(i, 1);
     }
-    /* 2) 나머지 1개는 남은 풀에서 무작위 */
-    while(out.length < 2 && pool.length){
-      const i = Math.floor(rnd() * pool.length) % pool.length;
-      const b = pool.splice(i, 1)[0];
+    /* 2) 나머지 — 어제 나오지 않은 항목을 먼저, 모자라면 어제 것도 */
+    const rest = pool.filter(function(b){ return !out.some(function(o){ return o.id === b.id; }); });
+    const order = rest.filter(fresh).concat(rest.filter(function(b){ return !fresh(b); }));
+    /* 어제 나오지 않은 항목이 앞쪽에 모여 있으니, 그 구간에서만 뽑는다 (부족할 때만 어제 것도) */
+    let freshLeft = order.filter(fresh).length;
+    while(out.length < want && order.length){
+      const span = freshLeft > 0 ? freshLeft : order.length;
+      const i = Math.floor(rnd() * span) % span;
+      const b = order.splice(i, 1)[0];
+      if(fresh(b)) freshLeft--;
       out.push({ id:b.id, icon:b.icon, title:b.title, exp:b.exp,
         gain:Object.assign({}, b.gain), luck:!!b.luck, done:false, custom:false });
     }
@@ -6467,7 +6735,13 @@ window.IMAGES_CLEAN=[
     const t = today();
     if(!state.bonus || typeof state.bonus !== "object") state.bonus = {date:"", list:[], cleared:false};
     if(!Array.isArray(state.bonusCustom)) state.bonusCustom = [];
+    if(!Array.isArray(state.bonusPrev)) state.bonusPrev = [];
     if(state.bonus.date !== t || !Array.isArray(state.bonus.list) || !state.bonus.list.length){
+      /* v29.0 — 날짜가 넘어오면 어제 기본 보너스 id 를 기억해 두고 오늘은 다른 것부터 뽑는다 */
+      if(state.bonus.date !== t && Array.isArray(state.bonus.list)){
+        state.bonusPrev = state.bonus.list.filter(function(q){ return q && !q.custom; })
+          .map(function(q){ return q.id; }).slice(0, 12);
+      }
       const list = rollBonus();
       state.bonusCustom.forEach(function(c){
         if(!c || !c.id || !c.title) return;
@@ -6480,6 +6754,22 @@ window.IMAGES_CLEAN=[
       });
       state.bonus = { date: t, list: list, cleared: false };
       try { save(); } catch(e){}
+    }
+    /* v29.0 — 직접 추가한 보너스는 어떤 경로로 목록이 바뀌어도 하루 안에 사라지지 않는다 */
+    if(Array.isArray(state.bonus.list) && state.bonusCustom.length){
+      const have = {};
+      state.bonus.list.forEach(function(q){ if(q && q.tid) have[q.tid] = 1; });
+      let added = false;
+      state.bonusCustom.forEach(function(c){
+        if(!c || !c.id || !c.title || have[c.id]) return;
+        state.bonus.list.push({
+          id: "bc-" + c.id, icon: c.icon || "⭐", title: c.title,
+          exp: Math.max(0, Math.round(Number(c.exp) || 15)), gain: Object.assign({}, c.gain || {}),
+          luck: !!c.luck, done: false, custom: true, tid: c.id
+        });
+        added = true;
+      });
+      if(added){ try { save(); } catch(e){} }
     }
   }
 
@@ -12985,7 +13275,26 @@ window.IMAGES_CLEAN=[
    style 0(기본): 목을 감싸고 양 끝이 양옆으로 늘어지는 목도리
    style 1: 앞 가운데에서 매듭을 짓고 두 자락이 V자로 늘어지는 목도리
    배치표 V28_SCARF[idx] = [y, x0, x1, th, side, tilt, bend, style] */
-var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 135.0, 320.0, 40.0, 1, 0, -1, 1], [229.0, 146.4, 333.6, 34.4, 1, 0, -1, 1], [220.0, 150.9, 337.1, 34.3, 1, 0, -1, 1], [229.0, 140.0, 323.0, 33.6, 1, 0, -1, 1], [237.0, 166.4, 328.6, 29.8, 1, 0, -1, 1], [233.0, 178.0, 311.0, 24.4, 1, 0, -1, 1], [244.0, 132.0, 328.0, 40.3, 1, 0, -1, 1], [244.0, 136.0, 316.0, 38.0, 1, 0, -1, 1], [230.0, 147.8, 334.2, 34.3, 1, 0, -1, 1], [209.0, 151.6, 339.4, 34.5, 1, 0, -1, 1], [228.0, 146.1, 333.9, 34.5, 1, 0, -1, 1], [229.0, 169.7, 325.3, 28.6, 1, 0, -1, 1], [216.0, 176.5, 305.5, 23.7, 1, 0, -1, 1], [322.0, 70.0, 320.0, 49.3, 1, 0, -1, 1], [251.0, 130.8, 337.2, 43.0, 1, 0, -1, 1], [297.0, 155.7, 383.3, 41.8, 1, 0, -1, 1], [247.0, 128.2, 334.8, 38.0, 1, 0, -1, 1], [264.0, 141.7, 346.3, 37.6, 1, 0, -1, 1], [250.0, 148.6, 339.4, 35.1, 1, 0, -1, 1], [256.0, 175.3, 330.7, 28.6, 1, 0, -1, 1], [312.0, 70.0, 320.0, 49.3, 1, 0, -1, 1], [251.0, 130.7, 336.3, 42.9, 1, 0, -1, 1], [296.0, 155.1, 386.9, 42.6, 1, 0, -1, 1], [247.0, 127.5, 333.5, 37.9, 1, 0, -1, 1], [264.0, 145.9, 350.1, 37.5, 1, 0, -1, 1], [251.0, 148.4, 338.6, 34.9, 1, 0, -1, 1], [256.0, 175.5, 330.5, 28.4, 1, 0, -1, 1], [322.0, 140.0, 350.0, 40.3, 1, 0, -1, 1], [296.0, 158.7, 324.3, 34.7, 1, 0, -1, 1], [268.0, 148.8, 317.2, 30.9, 1, 0, -1, 1], [234.0, 158.5, 282.5, 22.8, 1, 0, -1, 1], [257.0, 128.9, 285.1, 28.7, 1, 0, -1, 1], [251.0, 191.1, 287.9, 22.4, 1, 0, -1, 1], [219.0, 171.3, 292.7, 22.4, 1, 0, -1, 1], [330.0, 150.0, 345.0, 40.3, 1, 0, -1, 1], [296.0, 165.0, 317.0, 34.6, 1, 0, -1, 1], [270.0, 156.5, 312.5, 30.7, 1, 0, -1, 1], [245.0, 157.0, 281.0, 22.8, 1, 0, -1, 1], [256.0, 142.4, 294.6, 28.0, 1, 0, -1, 1], [252.0, 195.6, 288.4, 22.4, 1, 0, -1, 1], [220.0, 169.8, 292.2, 22.5, 1, 0, -1, 1]];
+var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0, 43.0, 1, 0, -1, 1], [229.0, 146.4, 333.6, 34.4, 1, 0, -1, 1], [220.0, 150.9, 337.1, 34.3, 1, 0, -1, 1], [229.0, 140.0, 323.0, 33.6, 1, 0, -1, 1], [237.0, 166.4, 328.6, 29.8, 1, 0, -1, 1], [233.0, 178.0, 311.0, 24.4, 1, 0, -1, 1], [244.0, 132.0, 328.0, 40.3, 1, 0, -1, 1], [244.0, 136.0, 316.0, 38.0, 1, 0, -1, 1], [230.0, 147.8, 334.2, 34.3, 1, 0, -1, 1], [209.0, 151.6, 339.4, 34.5, 1, 0, -1, 1], [228.0, 146.1, 333.9, 34.5, 1, 0, -1, 1], [229.0, 169.7, 325.3, 28.6, 1, 0, -1, 1], [216.0, 176.5, 305.5, 23.7, 1, 0, -1, 1], [322.0, 70.0, 320.0, 49.3, 1, 0, -1, 1], [251.0, 130.8, 337.2, 43.0, 1, 0, -1, 1], [297.0, 155.7, 383.3, 41.8, 1, 0, -1, 1], [247.0, 128.2, 334.8, 38.0, 1, 0, -1, 1], [264.0, 141.7, 346.3, 37.6, 1, 0, -1, 1], [250.0, 148.6, 339.4, 35.1, 1, 0, -1, 1], [256.0, 175.3, 330.7, 28.6, 1, 0, -1, 1], [312.0, 70.0, 320.0, 49.3, 1, 0, -1, 1], [251.0, 130.7, 336.3, 42.9, 1, 0, -1, 1], [296.0, 155.1, 386.9, 42.6, 1, 0, -1, 1], [247.0, 127.5, 333.5, 37.9, 1, 0, -1, 1], [264.0, 145.9, 350.1, 37.5, 1, 0, -1, 1], [251.0, 148.4, 338.6, 34.9, 1, 0, -1, 1], [256.0, 175.5, 330.5, 28.4, 1, 0, -1, 1], [322.0, 140.0, 350.0, 40.3, 1, 0, -1, 1], [296.0, 158.7, 324.3, 34.7, 1, 0, -1, 1], [268.0, 148.8, 317.2, 30.9, 1, 0, -1, 1], [234.0, 158.5, 282.5, 22.8, 1, 0, -1, 1], [257.0, 128.9, 285.1, 28.7, 1, 0, -1, 1], [251.0, 191.1, 287.9, 22.4, 1, 0, -1, 1], [219.0, 171.3, 292.7, 22.4, 1, 0, -1, 1], [330.0, 150.0, 345.0, 40.3, 1, 0, -1, 1], [296.0, 165.0, 317.0, 34.6, 1, 0, -1, 1], [270.0, 156.5, 312.5, 30.7, 1, 0, -1, 1], [245.0, 157.0, 281.0, 22.8, 1, 0, -1, 1], [256.0, 142.4, 294.6, 28.0, 1, 0, -1, 1], [252.0, 195.6, 288.4, 22.4, 1, 0, -1, 1], [220.0, 169.8, 292.2, 22.5, 1, 0, -1, 1]];
+
+  /* v29.0 — 목도리를 더 슬림하게 + 눈/안경(모노클·선글라스)과 절대 겹치지 않게
+     · V29_SCARF_SLIM : 밴드 두께 비율 (기존 표 값에 곱해서 숨쉬는 느낌만 남긴다)
+     · v24EyesWorn    : 이번에 그리는 레이어에 눈/안경 치장템이 있으면 true (v24Svg 가 세팅)
+     · 밴드 윗선 ≈ y - 0.73*th 이므로, 렌즈 바닥(ry + r) + 여유보다 아래로 Y 를 내린다 */
+  var V29_SCARF_SLIM = 0.72;
+  var v24EyesWorn = false;
+  function v29EyeReach(a){
+    /* 눈/안경 계열 아이템 중 가장 크게 퍼지는 반지름 (모노클·별 안경 기준) */
+    return Math.min(Math.max(a.sep * 0.40, a.ew * 2.2), a.sep * 0.52);
+  }
+  function v29ScarfDrop(a, th, baseY){
+    if(!v24EyesWorn) return 0;
+    var eyeBottom = a.ry + v29EyeReach(a);
+    var need = eyeBottom + th * 0.73 + Math.max(3, a.H * 0.010) - baseY;
+    if(!(need > 0)) return 0;
+    /* 너무 많이 내려가 몸 밖으로 나가지 않도록 상한 */
+    return Math.min(need, a.H * 0.16);
+  }
 
   function v28f(n){ return Math.round(n*10)/10; }
   function v28pen(a){ return Math.max(4.4, Math.min(7.0, a.sep*0.060)); }
@@ -13089,8 +13398,11 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 135.0, 320.0,
 
   function v28Scarf(a, P0){
     var P = P0 || V28P(a);
-    var th = Math.max(14, P.th);
-    var x0 = P.x0, x1 = P.x1, y = P.y, side = P.side, tilt = P.tilt || 0, bend = P.bend;
+    /* v29.0 — 밴드를 더 슬림하게 (두께·곡률을 같은 비율로) */
+    var th = Math.max(12, P.th * V29_SCARF_SLIM);
+    var x0 = P.x0, x1 = P.x1, side = P.side, tilt = P.tilt || 0, bend = P.bend;
+    /* v29.0 — 눈/안경(모노클·선글라스)을 착용했으면 밴드 윗선이 렌즈 아래로 내려오게 Y 를 내린다 */
+    var y = P.y + v29ScarfDrop(a, th, P.y);
     var st = P.style || 0;
     var cx = (x0+x1)/2, nw = x1-x0;
     var pen = Math.min(v28pen(a), th*0.22);
@@ -13460,10 +13772,17 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 135.0, 320.0,
   /* ---------- 레이어 조립 ---------- */
   function v24IsBack(id){ return id === "wings"; }
 
+  /* v29.0 — 그리는 순서: 목/소품(acc) → 머리(head) → 눈/안경(eyes)
+     목도리 같은 소품이 눈·안경 위를 덮지 않도록, 눈/안경을 가장 나중에(맨 위에) 그린다. */
+  var V24_DRAW_ORDER = ["acc", "head", "eyes"];
+
   function v24Svg(a, map, back){
     var out = "";
-    for(var i=0;i<V24_SLOTS.length;i++){
-      var sl = V24_SLOTS[i], id = map && map[sl.key];
+    /* v29.0 — 눈/안경 착용 여부를 먼저 알려 준다 (목도리 Y 보정이 이 값을 본다) */
+    v24EyesWorn = !!(map && map.eyes);
+    for(var o=0;o<V24_DRAW_ORDER.length;o++){
+      var sk = V24_DRAW_ORDER[o];
+      var id = map && map[sk];
       if(!id) continue;
       if(v24IsBack(id) !== !!back) continue;
       var fn = V24_DRAW[id];
@@ -14188,7 +14507,9 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 135.0, 320.0,
       baseRemoved: (state.baseRemoved || []).slice(0, 40),
       bonusHidden: (state.bonusHidden || []).slice(0, 40),
       bonusOverride: v26Clone(state.bonusOverride || {}),
-      bonusCustom: []
+      bonusCustom: [],
+      /* v29.0 — 보너스 목록이 "어느 날" 것인지 함께 올린다 (어제 목록을 오늘 것으로 착각하지 않게) */
+      bonusDate: today()
     };
     (state.quests || []).forEach(function(q){
       if(!q || !q.id) return;
@@ -14349,17 +14670,27 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 135.0, 320.0,
     });
     if(!blist.length) blist = ((state.bonus && state.bonus.list) || []).slice();
 
+    /* v29.0 — 기준 목록의 보너스가 어제(또는 다른 날) 것이면 오늘 목록을 덮지 않는다.
+       자정을 넘겨 아직 기준자가 새 조합을 안 올렸을 때, 상대가 어제 목록을 오늘 것으로 받는 일을 막는다. */
+    var tplBonusDate = (typeof tpl.bonusDate === "string" && tpl.bonusDate) ? tpl.bonusDate : "";
+    var bonusFresh = (!tplBonusDate || tplBonusDate === today());
+
     state.quests = out;
     state.baseRemoved = Array.isArray(tpl.baseRemoved) ? tpl.baseRemoved.slice(0, 40) : [];
     state.bonusHidden = Array.isArray(tpl.bonusHidden) ? tpl.bonusHidden.slice(0, 40) : [];
     state.bonusOverride = (tpl.bonusOverride && typeof tpl.bonusOverride === "object" && !Array.isArray(tpl.bonusOverride))
       ? v26Clone(tpl.bonusOverride) : {};
     state.bonusCustom = Array.isArray(tpl.bonusCustom) ? tpl.bonusCustom.map(function(c){ return v26Clone(c); }) : [];
-    state.bonus = {
-      date: today(),
-      list: blist,
-      cleared: blist.length > 0 && blist.every(function(q){ return q.done; })
-    };
+    if(bonusFresh){
+      state.bonus = {
+        date: today(),
+        list: blist,
+        cleared: blist.length > 0 && blist.every(function(q){ return q.done; })
+      };
+    } else {
+      /* 오늘 내 목록을 그대로 두고(직접 추가한 보너스는 위에서 새로 받았다) 필요하면 새로 뽑는다 */
+      try { normBonus(); } catch(e){}
+    }
     state.questSync.ownerId = String(tpl.ownerId || "");
     state.questSync.ownerName = String(tpl.ownerName || "파트너").slice(0, 10);
     state.questSync.appliedAt = Math.max(0, Number(tpl.updatedAt) || Date.now());
@@ -14466,7 +14797,7 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 135.0, 320.0,
       var t = v26BuildTemplate();
       return JSON.stringify({
         q: t.quests, b: t.bonusQuests, br: t.baseRemoved, bh: t.bonusHidden,
-        bo: t.bonusOverride, bc: t.bonusCustom
+        bo: t.bonusOverride, bc: t.bonusCustom, bd: t.bonusDate
       });
     } catch(e){ return ""; }
   }
@@ -14649,6 +14980,454 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 135.0, 320.0,
     pick: v28PokePick,
     pool: V28_POKE_POOL
   };
+  /* ===================================================================
+     v29.0 — 🎲 기본 보너스 퀘스트 매일 랜덤 · 😊 말풍선 대사별 표정
+             · 📋 새 버전 업데이트 안내(What's New)
+     · 기본 보너스는 날짜가 바뀌면 18종 풀에서 2~3개 새로 뽑힌다 (직접 추가한 보너스는 그대로)
+       🔄 오늘 기본 보너스 다시 뽑기 버튼 + 📅 자정 롤오버 테스트
+     · 캐릭터/말풍선을 눌러 새 대사가 나오면 그 대사의 감정에 맞는 표정이 눈 위에 3.2초 뜬다
+       (신남 · 졸림 · 배고픔 · 진지 · 억울 — eyes2.json 실측 눈 좌표 기준)
+     · 새 버전으로 처음 열면 [ WHAT'S NEW ] 팝업 1회 (다른 팝업과 겹치지 않게 대기)
+     =================================================================== */
+  var V29_VER = "29.0";
+
+  /* ---------- 정규화 ---------- */
+  function v29Normalize(s){
+    if(!s || typeof s !== "object") return;
+    if(!s.bonusSeed || !isFinite(Number(s.bonusSeed))) s.bonusSeed = Math.floor(Math.random() * 2000000000) + 1;
+    if(!s.bonusRoll || typeof s.bonusRoll !== "object"){
+      s.bonusRoll = { date:"", n:0 };
+    } else {
+      s.bonusRoll = {
+        date: (typeof s.bonusRoll.date === "string") ? s.bonusRoll.date : "",
+        n: Math.max(0, Math.floor(Number(s.bonusRoll.n) || 0))
+      };
+      if(s.bonusRoll.date !== today()) s.bonusRoll = { date:"", n:0 };
+    }
+    if(!Array.isArray(s.bonusPrev)){
+      s.bonusPrev = [];
+    } else {
+      s.bonusPrev = s.bonusPrev.filter(function(x){ return typeof x === "string" && x; }).slice(0, 12);
+    }
+    if(typeof s.lastSeenVer !== "string") s.lastSeenVer = "";
+  }
+
+  /* ---------- 🎲 기본 보너스 다시 뽑기 ---------- */
+  function v29BaseIds(){
+    return ((state && state.bonus && Array.isArray(state.bonus.list)) ? state.bonus.list : [])
+      .filter(function(q){ return q && !q.custom; }).map(function(q){ return q.id; });
+  }
+  function v29RerollBonus(){
+    try { normBonus(); } catch(e){}
+    if(!state || !state.bonus || !Array.isArray(state.bonus.list)) return false;
+    var before = v29BaseIds().join(",");
+    var custom = state.bonus.list.filter(function(q){ return q && q.custom; })
+      .map(function(q){ return Object.assign({}, q); });
+    if(!state.bonusRoll || typeof state.bonusRoll !== "object" || state.bonusRoll.date !== today()){
+      state.bonusRoll = { date: today(), n: 0 };
+    }
+    var base = [];
+    for(var i=0;i<5;i++){
+      state.bonusRoll.n = Math.max(1, (Number(state.bonusRoll.n) || 0) + 1);
+      base = rollBonus();
+      if(base.map(function(q){ return q.id; }).join(",") !== before) break;
+    }
+    state.bonus = { date: today(), list: base.concat(custom), cleared: false };
+    try { save(); } catch(e){}
+    try { render(); } catch(e){}
+    var btn = $("bonusReroll");
+    if(btn){ btn.classList.remove("spin"); void btn.offsetWidth; btn.classList.add("spin"); }
+    try {
+      toast("🔄 오늘의 기본 보너스 퀘스트를 다시 뽑았어요!",
+        base.map(function(q){ return q.icon + " " + q.title; }).join(" · ")
+        + (custom.length ? " · 내가 추가한 보너스 " + custom.length + "개는 그대로" : ""), null, 5400);
+    } catch(e){}
+    if(navigator.vibrate) navigator.vibrate(10);
+    return true;
+  }
+
+  /* 📅 자정 롤오버 테스트 — 지금 목록을 "어제 것"으로 돌려 놓고 새 날짜로 다시 뽑는다 */
+  function v29TestRollover(){
+    try { normBonus(); } catch(e){}
+    if(!state.bonus || !Array.isArray(state.bonus.list)) return false;
+    var list = state.bonus.list;
+    var prevBase = list.filter(function(q){ return q && !q.custom; }).map(function(q){ return q.id; });
+    var prevCustom = list.filter(function(q){ return q && q.custom; }).length;
+    state.bonusPrev = prevBase.slice(0, 12);
+    state.bonusRoll = { date:"", n:0 };
+    state.bonus = { date: yesterday(), list: list, cleared: false };
+    try { save(); } catch(e){}
+    try { normBonus(); } catch(e){}
+    try { save(); render(); } catch(e){}
+    var now = state.bonus.list || [];
+    var base = now.filter(function(q){ return q && !q.custom; });
+    var custom = now.filter(function(q){ return q && q.custom; });
+    var kept = custom.length >= prevCustom && prevCustom > 0;
+    try {
+      toast("🎲 보너스 자정 롤오버 테스트",
+        "기본 " + base.length + "개 새로 뽑힘 (" + base.map(function(q){ return q.icon; }).join(" ") + ") · "
+        + "내가 추가한 보너스 " + custom.length + "개 " + (kept ? "그대로 유지" : "없음"), null, 6200);
+    } catch(e){}
+    return true;
+  }
+
+  /* ===================================================================
+     😊 말풍선 대사 → 표정
+     =================================================================== */
+  var V29_HOLD = 3200;          /* 표정이 떠 있는 시간 (3.2초) */
+  var V29_ORDER = ["hype", "sleepy", "hungry", "brain", "pout"];
+  var V29_WORDS = {
+    hype: ["칭찬","파이팅","화이팅","갓생","대박","최고","위대","대단","완벽","정복","최강","승리","성공","해냈",
+           "힘내","응원","자신","각오","만렙","근사","멋지","여유","폼","일어났","일어남","일어난다","가보자",
+           "할 수 있","출발","준비 완료","좋다","기분","자랑","신이다","신의 ","토신","냥신","댕신","든든","빠르게"],
+    sleepy: ["졸","이불","눕","잠","수면","하품","커피","피곤","나른","휴식","쉬자","안대","비몽사몽","5분",
+             "취침","방전","무겁","나태","충전","몽롱","자야","한 모금","재충전"],
+    hungry: ["배고","꼬르륵","밥","간식","식사","먹","냠","맛있","요리","군침","목말","물이 필요","물 한 잔",
+             "배가 고","충분하다","냄새"],
+    brain:  ["하도다","이니라","니라","사색","문명","조형","측량","인지","생산성","수행","명상","현대인","효율",
+             "백지","논리","지식","어휘","유식","심오","괄목","온고지신","사자성어","정좌","청명","천지개벽",
+             "유비무환","티끌","금상첨화","새옹지마","와신상담","고진감래","오매불망","교언영색","수주대토",
+             "동고동락","이심전심","호연지기","조삼모사","작심삼일","일취월장","갈등","표본","질이"],
+    pout:   ["힘들","근손실","억울","삐졌","서운","싫","무섭","아파","짜증","투정","불만","귀찮","눈물","엉엉",
+             "실패","망했","후회","슬퍼","지쳐","포기"]
+  };
+  var V29_CHIP = {
+    hype:   { emo:"✨", txt:"각오 만렙!" },
+    sleepy: { emo:"😴", txt:"졸려…" },
+    hungry: { emo:"🤤", txt:"꼬르륵" },
+    brain:  { emo:"🧐", txt:"지적 모드" },
+    pout:   { emo:"🥺", txt:"억울해…" }
+  };
+  var v29MoodCat = "", v29MoodUntil = 0, v29Timer = null;
+  var v29FollowOn = false, v29FollowT = 0;
+
+  function v29Flat(t){ return String(t == null ? "" : t).replace(/\s+/g, " ").trim(); }
+  function v29Score(t, list){
+    var n = 0;
+    for(var i=0;i<list.length;i++){ if(list[i] && t.indexOf(list[i]) >= 0) n++; }
+    return n;
+  }
+  /* 유식·사자성어 단계의 대사(INT_SPEECH · GREET)는 무조건 🧐 */
+  function v29IsBrainLine(t){
+    try {
+      var iv = intInfo(state.stats.int);
+      if(!iv || iv.key === "simple") return false;
+      var pools = [INT_SPEECH[iv.key] || [], GREET[iv.key] || []];
+      for(var p=0;p<pools.length;p++){
+        for(var i=0;i<pools[p].length;i++){
+          if(v29Flat(tx(pools[p][i])) === t) return true;
+        }
+      }
+    } catch(e){}
+    return false;
+  }
+  function v29Classify(text){
+    var t = v29Flat(text);
+    if(!t) return "";
+    if(v29IsBrainLine(t)) return "brain";
+    var best = "", bestN = 0;
+    for(var i=0;i<V29_ORDER.length;i++){
+      var k = V29_ORDER[i], n = v29Score(t, V29_WORDS[k] || []);
+      if(n > bestN){ bestN = n; best = k; }
+    }
+    return best;
+  }
+
+  /* ---------- 실측 눈 좌표로 표정 조각 만들기 ---------- */
+  function v29Anchor(img){
+    var a = (typeof v18Anchor === "function") ? v18Anchor(img) : null;
+    if(!a || !a.W) a = { i:-1, x:0.5, y:0.42, sep:0.20, ew:0.03, eh:0.03, bx0:0.05, by0:0.05, bx1:0.95, by1:0.95, W:480, H:480 };
+    return a;
+  }
+  function v29Clamp01(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
+
+  function v29Mk(a, mode){
+    var W = a.W, H = a.H, f = v18F2;
+    var cx = a.x * W, cy = a.y * H;
+    var sep = Math.max(16, a.sep * W), ew = Math.max(5, a.ew * W), eh = Math.max(5, a.eh * H);
+    var lx = cx - sep / 2, rx = cx + sep / 2;
+    var brx = Math.max(8, Math.min(sep * 0.21, W * 0.050)), bry = brx * 0.58;
+    var svg = "", marks = [], chip = V29_CHIP[mode] || V29_CHIP.hype;
+
+    function blush(){
+      var s = "";
+      for(var sg=-1;sg<=1;sg+=2){
+        var bx = cx + sg * (sep/2 + brx*0.92), by = cy + eh*1.35 + bry*0.8;
+        s += '<ellipse cx="'+f(bx)+'" cy="'+f(by)+'" rx="'+f(brx)+'" ry="'+f(bry)+'"/>';
+      }
+      return s;
+    }
+    function star(x, y, R){
+      var k = R * 0.34;
+      var d = 'M'+f(x)+' '+f(y-R)+'L'+f(x+k)+' '+f(y-k)+'L'+f(x+R)+' '+f(y)+'L'+f(x+k)+' '+f(y+k)
+        + 'L'+f(x)+' '+f(y+R)+'L'+f(x-k)+' '+f(y+k)+'L'+f(x-R)+' '+f(y)+'L'+f(x-k)+' '+f(y-k)+'Z';
+      return '<path class="v29-star" d="'+d+'"/>'
+        + '<circle class="v29-star-core" cx="'+f(x)+'" cy="'+f(y)+'" r="'+f(Math.max(2.2, R*0.26))+'"/>';
+    }
+    function tear(x, y, w, h){
+      var hw = w/2, hh = h/2, d = 'M'+f(x)+' '+f(y-hh)
+        + ' C'+f(x+hw*1.05)+' '+f(y-hh*0.16)+' '+f(x+hw)+' '+f(y+hh*0.46)+' '+f(x)+' '+f(y+hh)
+        + ' C'+f(x-hw)+' '+f(y+hh*0.46)+' '+f(x-hw*1.05)+' '+f(y-hh*0.16)+' '+f(x)+' '+f(y-hh)+'Z';
+      return '<path class="v29-tear" d="'+d+'"/>';
+    }
+    function mark(cls, ch, x, y, size){
+      marks.push({ cls:cls, ch:ch, x:v29Clamp01(x, 0.03, 0.97), y:v29Clamp01(y, 0.03, 0.97), size:size });
+    }
+
+    if(mode === "hype"){
+      var R = Math.min(Math.max(sep*0.19, 9), Math.max(ew*2.4, 12));
+      svg += '<g class="v29-blush">' + blush() + '</g>';
+      svg += star(lx, cy, R) + star(rx, cy, R);
+      mark("v29-e-spark", "✨", (cx + (a.bx1*W - cx)*0.54)/W, (cy - eh*3.6)/H, 44);
+      mark("v29-e-heart", "💕", (cx - (cx - a.bx0*W)*0.54)/W, (cy - eh*2.7)/H, 32);
+      mark("v29-e-star",  "⭐", (cx + (a.bx1*W - cx)*0.82)/W, (cy + eh*1.9)/H, 26);
+    } else if(mode === "sleepy"){
+      var lw = Math.max(sep*0.13, 9);
+      for(var s2=0;s2<2;s2++){
+        var ex = s2 ? rx : lx;
+        svg += '<path class="v29-lid" d="M'+f(ex-lw)+' '+f(cy+eh*0.25)
+          + ' Q'+f(ex)+' '+f(cy+eh*2.0)+' '+f(ex+lw)+' '+f(cy+eh*0.25)+'"/>';
+      }
+      svg += '<g class="v29-blush">' + blush() + '</g>';
+      mark("v29-e-zz",  "Z", (cx + (a.bx1*W - cx)*0.62)/W, (cy - eh*3.4)/H, 34);
+      mark("v29-e-zz2", "z", (cx + (a.bx1*W - cx)*0.46)/W, (cy - eh*1.9)/H, 24);
+    } else if(mode === "hungry"){
+      var dy = cy + (a.by1*H - cy)*0.34;
+      var dw = Math.max(sep*0.16, 9), dh = dw*1.7;
+      svg += tear(cx, dy, dw, dh);
+      svg += tear(cx + dw*1.05, dy + dh*0.42, dw*0.62, dh*0.62);
+      mark("v29-e-drool", "🤤", (cx + sep*0.92)/W, (cy + eh*0.9)/H, 40);
+      mark("v29-e-food",  "🍙", (cx - sep*0.92)/W, (cy + eh*1.2)/H, 28);
+    } else if(mode === "brain"){
+      /* 🧐 진지·지적 — 양쪽 눈에 안경 반짝임(글린트) + 작은 별 + 책/음표 (모노클 치장템과 겹쳐도 OK) */
+      var gw = Math.max(ew*2.1, sep*0.16, 9), gh2 = Math.max(eh*2.3, 10);
+      for(var s3=0;s3<2;s3++){
+        var ex3 = s3 ? rx : lx;
+        svg += '<path class="v29-glint" d="M'+f(ex3-gw)+' '+f(cy+gh2*0.55)
+          + ' L'+f(ex3+gw*0.92)+' '+f(cy-gh2*0.55)+'"/>';
+        svg += star(ex3 + gw*0.45, cy - gh2*0.95, Math.max(5, Math.min(ew, eh)*0.72));
+      }
+      mark("v29-e-book",    "📖", (cx - (cx - a.bx0*W)*0.62)/W, (cy - eh*2.6)/H, 32);
+      mark("v29-e-twinkle", "🎵", (cx + (a.bx1*W - cx)*0.84)/W, (cy - eh*2.0)/H, 26);
+    } else if(mode === "pout"){
+      var tw = Math.max(ew*1.5, 8), th2 = eh*2.1;
+      svg += tear(lx - ew*0.22, cy + eh*1.5, tw, th2);
+      svg += '<g class="v29-blush">' + blush() + '</g>';
+      mark("v29-e-pout",  "💢", (cx + (a.bx1*W - cx)*0.70)/W, (cy - eh*2.4)/H, 34);
+      mark("v29-e-sorry", "💧", (cx - (cx - a.bx0*W)*0.70)/W, (cy - eh*0.4)/H, 24);
+    }
+
+    return { svg: svg, marks: marks, chip: chip };
+  }
+
+  function v29PlaceFace(){
+    var face = $("v29MoodFace"), img = $("charImg"), layer = $("v29MoodLayer");
+    if(!face || !img || !layer) return;
+    var ir = img.getBoundingClientRect();
+    if(!ir.width) return;
+    var lr = layer.getBoundingClientRect();
+    face.style.left = (ir.left - lr.left) + "px";
+    face.style.top  = (ir.top  - lr.top)  + "px";
+    face.style.width = ir.width + "px";
+    face.style.height = ir.height + "px";
+  }
+  function v29Follow(ts){
+    if(!v29FollowOn) return;
+    if(!v29FollowT || ts - v29FollowT > 28){
+      v29FollowT = ts;
+      try { v29PlaceFace(); } catch(e){}
+    }
+    requestAnimationFrame(v29Follow);
+  }
+  function v29FollowStart(){ if(v29FollowOn) return; v29FollowOn = true; requestAnimationFrame(v29Follow); }
+  function v29FollowStop(){ v29FollowOn = false; }
+
+  function v29ClearImg(){
+    var img = $("charImg");
+    if(!img) return;
+    for(var i=0;i<V29_ORDER.length;i++) img.classList.remove("v29-" + V29_ORDER[i]);
+  }
+
+  function v29Paint(cat){
+    var layer = $("v29MoodLayer"), face = $("v29MoodFace"), img = $("charImg");
+    if(!layer || !face || !img || !cat) return false;
+    if(!V29_CHIP[cat]) return false;
+    var a = v29Anchor(img);
+    var m = v29Mk(a, cat);
+    var k = img.offsetWidth ? img.offsetWidth / a.W : 0.44;
+    var html = '<svg viewBox="0 0 ' + a.W + ' ' + a.H + '" preserveAspectRatio="none" aria-hidden="true">' + m.svg + '</svg>';
+    for(var i=0;i<m.marks.length;i++){
+      var mk = m.marks[i];
+      html += '<span class="v29-e ' + mk.cls + '" style="left:' + v18F2(mk.x*100) + '%;top:' + v18F2(mk.y*100)
+        + '%;font-size:' + Math.max(7, Math.round(mk.size*k*10)/10) + 'px">' + mk.ch + '</span>';
+    }
+    html += '<span class="v29-chip">' + m.chip.emo + ' ' + m.chip.txt + '</span>';
+    face.innerHTML = html;
+    face.classList.add("has-chip");
+    var chip = face.querySelector(".v29-chip");
+    if(chip){
+      /* 머리 위 여백에 붙이되, 무대 위로 잘려 나가지 않게 최소한의 높이를 확보한다 */
+      var ih = img.getBoundingClientRect().height || face.clientHeight || 1;
+      var topPct = Math.max(a.by0 * 100, ((chip.offsetHeight || 16) + 5) / ih * 100);
+      chip.style.left = v18F2(a.x*100) + "%";
+      chip.style.top  = v18F2(topPct) + "%";
+    }
+    layer.setAttribute("data-v29", cat);
+    layer.classList.add("on");
+    v29ClearImg();
+    img.classList.add("v29-" + cat);
+    v29PlaceFace();
+    v29FollowStart();
+    v29MoodCat = cat;
+    v29MoodUntil = Date.now() + V29_HOLD;
+    if(v29Timer) clearTimeout(v29Timer);
+    v29Timer = setTimeout(v29ClearEmote, V29_HOLD);
+    return true;
+  }
+
+  function v29ClearEmote(){
+    if(v29Timer){ clearTimeout(v29Timer); v29Timer = null; }
+    v29MoodCat = ""; v29MoodUntil = 0;
+    var layer = $("v29MoodLayer"), face = $("v29MoodFace");
+    if(layer){ layer.classList.remove("on"); layer.removeAttribute("data-v29"); }
+    if(face){ face.innerHTML = ""; face.classList.remove("has-chip"); }
+    v29ClearImg();
+    v29FollowStop();
+  }
+
+  /* 캐릭터 · 말풍선 탭 → 새 대사가 나온 직후에 그 대사의 표정을 띄운다 */
+  function v29OnTap(){
+    try {
+      var sp = $("speech");
+      var text = sp ? sp.textContent : "";
+      var cat = v29Classify(text);
+      if(cat) v29Paint(cat);
+    } catch(e){}
+  }
+
+  /* ===================================================================
+     📋 새 버전 업데이트 안내 (What's New)
+     =================================================================== */
+  var V29_NEW = [
+    { ico:"🎲", t:"기본 보너스 퀘스트가 매일 랜덤", d:"18종 풀에서 2~3개가 날마다 새로 뽑혀요 · 내가 추가한 보너스는 그대로 · 🔄 다시 뽑기 버튼 추가", isNew:true },
+    { ico:"😊", t:"말풍선 대사에 표정이 따라와요", d:"캐릭터나 말풍선을 누르면 신남 · 졸림 · 배고픔 · 진지 · 억울 표정이 눈 위에 나타나요", isNew:true },
+    { ico:"📋", t:"업데이트 내역 팝업", d:"새 버전으로 처음 열면 이 화면이 한 번 떠요 · 스탯·도감 맨 아래 📋 업데이트 내역에서 다시 볼 수 있어요", isNew:true }
+  ];
+  var v29WnShown = false, v29WnTick = null;
+
+  function v29RenderNew(){
+    var box = $("v29wnList");
+    if(box){
+      box.innerHTML = V29_NEW.map(function(it){
+        return '<div class="v29wn-item"><span class="ico">' + it.ico + '</span>'
+          + '<span class="txt"><b>' + it.t + '</b><small>' + it.d + '</small></span>'
+          + (it.isNew ? '<span class="v29wn-new">NEW</span>' : '') + '</div>';
+      }).join("");
+    }
+    var ti = $("v29wnTitle");
+    if(ti) ti.innerHTML = '업데이트 <b>v' + V29_VER + '</b>';
+    var su = $("v29wnSub");
+    if(su) su.textContent = "미라클 모닝 레벨업이 새로워졌어요 · 파트너도 같은 내용을 봐요";
+  }
+
+  function v29OpenWhatsNew(){
+    var o = $("v29wnOverlay");
+    if(!o) return false;
+    v29RenderNew();
+    o.classList.add("on");
+    try { document.body.style.overflow = "hidden"; } catch(e){}
+    if(navigator.vibrate) navigator.vibrate(8);
+    return true;
+  }
+  function v29CloseWhatsNew(mark){
+    var o = $("v29wnOverlay");
+    if(o) o.classList.remove("on");
+    try { if(!document.querySelector(".overlay.on, .sheet-wrap.on")) document.body.style.overflow = ""; } catch(e){}
+    if(mark !== false){
+      try {
+        state.lastSeenVer = V29_VER;
+        save();
+      } catch(e){}
+    }
+  }
+  function v29AnyModal(){
+    var nodes = document.querySelectorAll(".overlay.on, .sheet-wrap.on, .picker.on");
+    for(var i=0;i<nodes.length;i++){
+      if(nodes[i].id !== "v29wnOverlay") return true;
+    }
+    var pick = $("pickWrap");
+    if(pick && !pick.hidden && !pick.classList.contains("on")) return true;
+    var ids = ["restoreWrap", "restoreOkWrap", "rejoinWrap"];
+    for(var j=0;j<ids.length;j++){
+      var n = $(ids[j]);
+      if(n && !n.hidden) return true;
+    }
+    return false;
+  }
+  function v29MaybeWhatsNew(){
+    if(v29WnShown) return false;
+    if(!state || !state.character) return false;
+    if(!V29_VER || state.lastSeenVer === V29_VER) return false;
+    var o = $("v29wnOverlay");
+    if(!o) return false;
+    if(o.classList.contains("on")) return false;
+    if(v29AnyModal()) return false;      /* 출근·콕·레벨업 팝업이 끝난 뒤에 뜬다 */
+    v29WnShown = true;
+    return v29OpenWhatsNew();
+  }
+
+  /* ---------- wire ---------- */
+  function v29Boot(){
+    /* 🎲 보너스 다시 뽑기 */
+    var rr = $("bonusReroll");
+    if(rr) rr.addEventListener("click", function(e){ if(e && e.preventDefault) e.preventDefault(); v29RerollBonus(); });
+    var rt = $("bonusRollTest");
+    if(rt) rt.addEventListener("click", function(e){ if(e && e.preventDefault) e.preventDefault(); v29TestRollover(); });
+
+    /* 😊 캐릭터 · 말풍선 탭 → 대사에 맞는 표정 */
+    var sp = $("speech");
+    if(sp){
+      sp.addEventListener("click", function(){ setTimeout(v29OnTap, 0); });
+      sp.addEventListener("keydown", function(e){
+        if(e.key === "Enter" || e.key === " "){ setTimeout(v29OnTap, 0); }
+      });
+    }
+    var ci = $("charImg");
+    if(ci) ci.addEventListener("click", function(){ setTimeout(v29OnTap, 0); });
+
+    /* 📋 업데이트 내역 팝업 */
+    var o = $("v29wnOverlay");
+    if(o){
+      var ok = $("v29wnOk");
+      if(ok) ok.addEventListener("click", function(e){ if(e && e.preventDefault) e.preventDefault(); v29CloseWhatsNew(true); });
+      o.addEventListener("click", function(e){ if(e.target === o) v29CloseWhatsNew(true); });
+      document.addEventListener("keydown", function(e){
+        if(e.key === "Escape" && o.classList.contains("on")) v29CloseWhatsNew(true);
+      });
+    }
+    var note = $("verNoteBtn");
+    if(note) note.addEventListener("click", function(e){
+      if(e && e.preventDefault) e.preventDefault();
+      v29OpenWhatsNew();
+    });
+
+    /* 새 버전 첫 접속 — 다른 팝업이 모두 닫힌 뒤 1회 */
+    setTimeout(v29MaybeWhatsNew, 2400);
+    if(v29WnTick) clearInterval(v29WnTick);
+    v29WnTick = setInterval(v29MaybeWhatsNew, 2200);
+  }
+
+  window.__v29 = {
+    ver: V29_VER,
+    classify: v29Classify,
+    emote: function(cat){ return v29Paint(cat); },
+    emoteNow: function(){ return v29MoodCat; },
+    rerollBonus: v29RerollBonus,
+    testRollover: v29TestRollover,
+    baseIds: v29BaseIds,
+    pool: BONUS_POOL,
+    whatsnew: { open: v29OpenWhatsNew, close: v29CloseWhatsNew }
+  };
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -14672,6 +15451,7 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 135.0, 320.0,
   try { v24Boot(); } catch(e){}
   try { v26Boot(); } catch(e){}
   try { v28Boot(); } catch(e){}
+  try { v29Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
@@ -14719,8 +15499,8 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 135.0, 320.0,
    · 📊 스탯·도감 하단 버전 바: 현재 버전 표시 + 🔄 업데이트 확인 (이미 최신이면 토스트, 4초 안에 한 번 더 누르면 강제 새로고침)
    · 업데이트로 다시 뜬 화면(URL 에 _v=)은 주소를 깨끗하게 되돌리고 짧은 토스트로 알려 준다. */
 (function(){
-  var APP_SW  = "mmm-2026-11-24-03";
-  var APP_VER = "28.0";
+  var APP_SW  = "mmm-2026-11-24-04";
+  var APP_VER = "29.0";
   var GUARD = "mmm-auto-reload";
   var MAX_TRY = 2;
   var reg = null, reloading = false, checking = false, manualBusy = false, forceUntil = 0;
