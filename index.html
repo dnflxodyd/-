@@ -15268,7 +15268,8 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
     if(chip){
       /* 머리 위 여백에 붙이되, 무대 위로 잘려 나가지 않게 최소한의 높이를 확보한다 */
       var ih = img.getBoundingClientRect().height || face.clientHeight || 1;
-      var topPct = Math.max(a.by0 * 100, ((chip.offsetHeight || 16) + 5) / ih * 100);
+      /* 캐릭터가 floaty 로 떠올라도(최대 6px) 무대 위로 잘리지 않게 여유를 14px 둔다 */
+      var topPct = Math.max(a.by0 * 100, ((chip.offsetHeight || 16) + 14) / ih * 100);
       chip.style.left = v18F2(a.x*100) + "%";
       chip.style.top  = v18F2(topPct) + "%";
     }
