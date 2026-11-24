@@ -3060,6 +3060,70 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   .v26-sync-up{font-size:10px;padding:9px 6px}
 }
 
+/* v28.0 poke message input styles */
+
+/* ==========================================================
+   v28.0 — 👉 콕 찌르기 멘트 입력 팝업 + 받은 멘트 크게 보여 주기
+   ========================================================== */
+#pokeMsgOverlay{z-index:150;background:rgba(58,38,70,.46)}
+.v28m-card{
+  position:relative;width:100%;max-width:302px;overflow:hidden;text-align:center;
+  background:linear-gradient(180deg,#FFFCF2 0%,#FFF3F8 52%,#F3EDFF 100%);
+  border:2px solid #fff;border-radius:26px;padding:15px 15px 12px;
+  box-shadow:0 26px 54px -22px rgba(70,40,90,.6);
+  transform:scale(.9) translateY(14px);
+  transition:transform .3s cubic-bezier(.2,.9,.3,1.3);
+}
+.overlay.on .v28m-card{transform:none}
+.v28m-badge{
+  display:inline-block;margin:0 0 6px;font-family:var(--mono,'Jua',sans-serif);
+  font-size:9px;font-weight:900;letter-spacing:.22em;color:#fff;
+  padding:4px 11px 3px;border-radius:99px;
+  background:linear-gradient(135deg,#FF9BBE,#A98BF0);
+  box-shadow:0 6px 14px -8px rgba(180,110,190,.9);
+}
+.v28m-title{margin:2px 0 0;font-size:15px;font-weight:400;color:#5C4870;letter-spacing:-.02em}
+.v28m-title b{font-weight:400;background:linear-gradient(100deg,#E08A2E,#DB7CAB 68%,#9B7BFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.v28m-input{
+  width:100%;margin:9px 0 0;padding:11px 12px;border-radius:14px;
+  border:1.5px solid #EBDCF0;background:#fff;color:#5C4870;
+  font-family:inherit;font-size:12.5px;font-weight:700;text-align:center;
+  outline:none;box-shadow:inset 0 2px 6px rgba(150,110,160,.06);
+}
+.v28m-input::placeholder{color:#BBA8C6;font-weight:700;font-size:11px}
+.v28m-input:focus{border-color:#C9A6F0;box-shadow:0 0 0 3px rgba(190,150,240,.16)}
+.v28m-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:9px 0 0}
+.v28m-chip{
+  border:1.5px solid #E7DAF2;background:rgba(255,255,255,.92);color:#7C6A8A;
+  font-family:inherit;font-size:10.5px;font-weight:800;letter-spacing:-.01em;
+  padding:7px 10px;border-radius:99px;cursor:pointer;line-height:1.1;
+  transition:transform .12s ease,background .12s ease,border-color .12s ease;
+}
+.v28m-chip .v28m-e,.v28m-chip .v15-e{font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif}
+.v28m-chip:active{transform:scale(.96)}
+.v28m-chip.on{background:#FFF0F7;border-color:#F5B9D6;color:#C0568A}
+.v28m-actions{display:flex;flex-direction:column;gap:6px;margin-top:11px}
+.v28m-actions .btn-primary{width:100%;font-size:12.5px;padding:12px 10px}
+.v28m-actions .btn-ghost{width:100%;padding:10px;font-size:11px}
+.v28m-note{margin:7px 0 0;font-size:8px;line-height:1.5;color:#B4A4C0;font-weight:700}
+
+/* 받은 콕 팝업 — 실어 온 멘트를 큼직하게 */
+.v15-msg.v28-pmsg{
+  max-width:270px;padding:12px 12px 13px;
+  font-size:15px;line-height:1.42;font-weight:400;letter-spacing:-.02em;color:#C2384F;
+  background:linear-gradient(180deg,#FFF8F4,#FFF1F5);border:1.5px solid #FFD3DC;
+  box-shadow:0 10px 20px -16px rgba(200,90,120,.9);
+  word-break:keep-all;
+}
+.v15-msg.v28-pmsg .v28m-quote{font-size:20px;line-height:1;vertical-align:-3px;margin-right:2px}
+@media (max-width:340px){
+  .v28m-card{padding:13px 12px 10px}
+  .v15-msg.v28-pmsg{font-size:13.5px;padding:10px}
+}
+
+/* 콕 보낸 뒤 토스트에 실린 멘트 */
+.toast .v28-toast-msg{display:inline-block;margin-left:4px;color:#E8463C;font-weight:900}
+
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
 }
@@ -3614,7 +3678,7 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
       </button>
     </div>
   </nav>
-  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v27.0 (👓안경·소품 12종 실측 정렬 · 😴맨얼굴 정리 · 🏷무대 배지 겹침 수정)</p>
+  <p class="tiny pane" data-pane="stats">내 기록은 이 브라우저(localStorage)에 저장되고, 파트너와는 익명 방으로 동기화됩니다<br>인터넷이 끊겨도 내 기록은 그대로 · 미라클 모닝 레벨업 v28.0 (🧣빨간 목도리 리디자인 · 👉콕 찌르기 멘트·랜덤 멘트 · 👑기준 퀘스트 자동 업로드)</p>
 </div>
 
 <div id="toasts"></div>
@@ -4003,6 +4067,25 @@ html:not([data-tab="quest"]) #toasts{ top: calc(var(--v11-ms-h) + var(--v11-safe
   </div>
 </div>
 
+
+<div class="overlay poke" id="pokeMsgOverlay">
+  <div class="v28m-card" role="dialog" aria-modal="true" aria-labelledby="v28mTitle">
+    <p class="v28m-badge">[ 👉 POKE ]</p>
+    <h3 class="v28m-title" id="v28mTitle"><b>파트너</b>에게 한마디 콕</h3>
+    <input class="v28m-input" id="v28PokeInput" type="text" maxlength="40" autocomplete="off"
+      enterkeyhint="send" placeholder="보낼 멘트 입력 (비워 두면 랜덤 멘트!)">
+    <div class="v28m-chips" id="v28PokeChips">
+      <button class="v28m-chip" type="button" data-v28chip="💧 물 마셨어?">💧 물 마셨어?</button>
+      <button class="v28m-chip" type="button" data-v28chip="🔥 갓생 파이팅!">🔥 갓생 파이팅!</button>
+      <button class="v28m-chip" type="button" data-v28chip="☕ 잠깐 쉬자">☕ 잠깐 쉬자</button>
+    </div>
+    <div class="v28m-actions">
+      <button class="btn-primary" id="v28PokeSend" type="button"><span class="v15-e">👉</span> 콕 찌르기 보내기</button>
+      <button class="btn-ghost" id="v28PokeCancel" type="button">취소</button>
+    </div>
+    <p class="v28m-note">비워 두고 보내면 랜덤 멘트가 골라져요 · 최대 40자</p>
+  </div>
+</div>
 <div class="overlay" id="luOverlay">
   <div class="levelup" role="dialog" aria-modal="true" aria-labelledby="luTitle">
     <div class="confetti" id="luConfetti"></div>
@@ -5410,6 +5493,8 @@ window.IMAGES_CLEAN=[
       pokeSeq: state.pokeSeq || 0,
       pokeAt: state.pokeAt || 0,
       pokeFrom: String(state.pokeFrom || state.nick || "").slice(0, 10),
+      /* v28 — 콕에 실어 보낸 멘트 (없으면 빈 문자열) */
+      pokeMsg: String(state.pokeMsg || "").slice(0, 40),
       /* v3.0 — 다마고치 · 현물 자산 · 재물운 · 올클리어 */
       mg: (state.pet && state.pet.best) || 0,
       petHappy: Math.round((state.pet && state.pet.happy) || 0),
@@ -5784,10 +5869,15 @@ window.IMAGES_CLEAN=[
       if(!quiet) toast("아직 파트너가 없어요.", "초대 링크를 먼저 보내 주세요.");
       return false;
     }
+    /* v28.0 — 콕에 실어 보낼 멘트 (없으면 랜덤 멘트) */
+    let msg = (opt && opt.msg != null) ? String(opt.msg) : "";
+    msg = msg.replace(/\s+/g, " ").trim().slice(0, 40);
+    if(!msg && typeof v28PokePick === "function"){ try { msg = v28PokePick(""); } catch(e){ msg = ""; } }
     const t = Date.now();
     state.pokeSeq = (state.pokeSeq || 0) + 1;
     state.pokeAt = t;
     state.pokeFrom = String(state.nick || curChar().nick || "나").slice(0, 10);
+    state.pokeMsg = msg;
     /* 구버전 파트너도 알아보게 기존 응원 기록도 함께 올린다 */
     state.cheerSeq = (state.cheerSeq || 0) + 1;
     state.cheerAt = t;
@@ -5801,7 +5891,8 @@ window.IMAGES_CLEAN=[
       b.classList.add("pop");
     }
     if(!quiet){
-      toast('<span class="v15-e">👉</span> 콕 찌르기 완료!', (p.nick || "파트너") + "님 화면에 팝업이 떠요.", null, 3800);
+      toast('<span class="v15-e">👉</span> 콕 찌르기 완료!' + (msg ? ' <span class="v28-toast-msg">💬 ' + esc(msg) + '</span>' : ''),
+        (p.nick || "파트너") + "님 화면에 팝업이 떠요.", null, 4200);
     }
     return true;
   }
@@ -6155,7 +6246,11 @@ window.IMAGES_CLEAN=[
       });
     });
     const pb = $("pokeBtn");
-    if(pb) pb.addEventListener("click", function(){ pokePartner(); });
+    if(pb) pb.addEventListener("click", function(){
+      /* v28.0 — 멘트 입력 팝업 (비우면 랜덤 멘트) */
+      if(typeof v28OpenPoke === "function"){ v28OpenPoke(); return; }
+      pokePartner();
+    });
     const nb = $("nameBtn");
     if(nb) nb.addEventListener("click", function(){
       if(!state.character){ openPicker("start"); return; }
@@ -9763,7 +9858,8 @@ window.IMAGES_CLEAN=[
     if(at > now + 5 * 60 * 1000) return null;          /* 기기 시계가 앞선 경우 무시 */
     if(now - at > V15_POKE_WINDOW) return null;         /* 24시간 지난 콕은 팝업하지 않음 */
     var from = String(d.pokeFrom || d.nick || "파트너").slice(0, 10);
-    return { roomId: String(r.id), at: at, seq: Number(d.pokeSeq) || 0, from: from };
+    var msg = String(d.pokeMsg || "").replace(/\s+/g, " ").trim().slice(0, 40);
+    return { roomId: String(r.id), at: at, seq: Number(d.pokeSeq) || 0, from: from, msg: msg };
   }
 
   function v15Same(a, b){
@@ -9833,8 +9929,15 @@ window.IMAGES_CLEAN=[
     if(t) t.innerHTML = '<span class="v15-e">👉</span> <b>' + esc(from) + '</b> 님이 콕 찔렀어요!';
     var m = $("pokeMsg");
     if(m){
-      var idx = Math.abs(Math.floor((info.at || 0) / 60000) + (info.seq || 0)) % V15_LINES.length;
-      m.innerHTML = "\u201C" + V15_LINES[idx] + "\u201D";
+      if(info.msg){
+        /* v28.0 — 상대가 실어 보낸 멘트를 크게 */
+        m.className = "v15-msg v28-pmsg";
+        m.innerHTML = '<span class="v28m-quote v15-e">💬</span> ' + esc(info.msg);
+      } else {
+        m.className = "v15-msg";
+        var idx = Math.abs(Math.floor((info.at || 0) / 60000) + (info.seq || 0)) % V15_LINES.length;
+        m.innerHTML = "\u201C" + V15_LINES[idx] + "\u201D";
+      }
     }
     var tm = $("pokeTime");
     if(tm) tm.textContent = v15AgoText(info.at);
@@ -9894,6 +9997,8 @@ window.IMAGES_CLEAN=[
     v15MarkSeen(info);
     v15Close();
     if(reply){
+      /* v28.0 — 맞찌르기도 멘트를 골라 보낼 수 있게 입력 팝업을 연다 */
+      if(typeof v28OpenPoke === "function"){ v28OpenPoke(); return; }
       var ok = false;
       try { ok = pokePartner({ quiet: true }); } catch(e){ ok = false; }
       toast('<span class="v15-e">👉</span> 맞찌르기 완료!',
@@ -10624,6 +10729,8 @@ window.IMAGES_CLEAN=[
 
     var poke = $("pStatPoke");
     if(poke) poke.addEventListener("click", function(){
+      /* v28.0 — 멘트 입력 팝업 (비우면 랜덤 멘트) */
+      if(typeof v28OpenPoke === "function"){ v28OpenPoke(); return; }
       pokePartner();
     });
 
@@ -12874,6 +12981,215 @@ window.IMAGES_CLEAN=[
       + (op || .9) + '"/>';
   }
 
+/* v28.0 — 🧣 빨간 목도리 리디자인 (v6 · 두 가지 스타일 비교)
+   style 0(기본): 목을 감싸고 양 끝이 양옆으로 늘어지는 목도리
+   style 1: 앞 가운데에서 매듭을 짓고 두 자락이 V자로 늘어지는 목도리
+   배치표 V28_SCARF[idx] = [y, x0, x1, th, side, tilt, bend, style] */
+var V28_SCARF = [[252.0, 130.0, 330.0, 36.0, 1, 0, -1, 1], [250.0, 123.4, 332.6, 34.3, 1, 0, -1, 1], [229.0, 146.4, 333.6, 30.7, 1, 0, -1, 1], [220.0, 150.9, 337.1, 30.6, 1, 0, -1, 1], [229.0, 140.0, 323.0, 30.0, 1, 0, -1, 1], [237.0, 166.4, 328.6, 26.6, 1, 0, -1, 1], [233.0, 178.0, 311.0, 21.8, 1, 0, -1, 1], [244.0, 132.0, 328.0, 36.0, 1, 0, -1, 1], [248.0, 123.3, 322.7, 32.7, 1, 0, -1, 1], [230.0, 147.8, 334.2, 30.6, 1, 0, -1, 1], [209.0, 151.6, 339.4, 30.8, 1, 0, -1, 1], [228.0, 146.1, 333.9, 30.8, 1, 0, -1, 1], [229.0, 169.7, 325.3, 25.5, 1, 0, -1, 1], [216.0, 176.5, 305.5, 21.2, 1, 0, -1, 1], [322.0, 70.0, 320.0, 44.0, 1, 0, -1, 1], [251.0, 130.8, 337.2, 38.4, 1, 0, -1, 1], [297.0, 155.7, 383.3, 37.3, 1, 0, -1, 1], [247.0, 128.2, 334.8, 33.9, 1, 0, -1, 1], [264.0, 141.7, 346.3, 33.6, 1, 0, -1, 1], [250.0, 148.6, 339.4, 31.3, 1, 0, -1, 1], [256.0, 175.3, 330.7, 25.5, 1, 0, -1, 1], [312.0, 70.0, 320.0, 44.0, 1, 0, -1, 1], [251.0, 130.7, 336.3, 38.3, 1, 0, -1, 1], [296.0, 155.1, 386.9, 38.0, 1, 0, -1, 1], [247.0, 127.5, 333.5, 33.8, 1, 0, -1, 1], [264.0, 145.9, 350.1, 33.5, 1, 0, -1, 1], [251.0, 148.4, 338.6, 31.2, 1, 0, -1, 1], [256.0, 175.5, 330.5, 25.4, 1, 0, -1, 1], [322.0, 140.0, 350.0, 36.0, 1, 0, -1, 1], [296.0, 158.7, 324.3, 31.0, 1, 0, -1, 1], [268.0, 148.8, 317.2, 27.6, 1, 0, -1, 1], [234.0, 158.5, 282.5, 20.4, 1, 0, -1, 1], [257.0, 128.9, 285.1, 25.6, 1, 0, -1, 1], [251.0, 191.1, 287.9, 20.0, 1, 0, -1, 1], [219.0, 171.3, 292.7, 20.0, 1, 0, -1, 1], [330.0, 150.0, 345.0, 36.0, 1, 0, -1, 1], [296.0, 165.0, 317.0, 30.9, 1, 0, -1, 1], [270.0, 156.5, 312.5, 27.4, 1, 0, -1, 1], [245.0, 157.0, 281.0, 20.4, 1, 0, -1, 1], [256.0, 142.4, 294.6, 25.0, 1, 0, -1, 1], [252.0, 195.6, 288.4, 20.0, 1, 0, -1, 1], [220.0, 169.8, 292.2, 20.1, 1, 0, -1, 1]];
+
+  function v28f(n){ return Math.round(n*10)/10; }
+  function v28pen(a){ return Math.max(4.4, Math.min(7.0, a.sep*0.060)); }
+  function v28str(d, color, w, op){
+    return '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="'+v28f(w)
+      +'" stroke-linecap="round" stroke-linejoin="round"'+(op!=null?' opacity="'+op+'"':'')+'/>';
+  }
+  function v28fill(d, fill, sw){
+    return '<path d="'+d+'" fill="'+fill+'" stroke="#101014" stroke-width="'+v28f(sw)
+      +'" stroke-linejoin="round" stroke-linecap="round"/>';
+  }
+  function v28polyPts(pts, fill, sw){
+    var d = '';
+    for(var i=0;i<pts.length;i++){ d += (i ? ' L' : 'M') + v28f(pts[i][0]) + ' ' + v28f(pts[i][1]); }
+    return v28fill(d + ' Z', fill, sw);
+  }
+  function v28Blob(cx, cy, rx, ry, fill, sw){
+    var k = 0.60;
+    return v28fill('M'+v28f(cx-rx)+' '+v28f(cy)
+      + ' C'+v28f(cx-rx)+' '+v28f(cy-ry*k)+' '+v28f(cx-rx*k)+' '+v28f(cy-ry)+' '+v28f(cx)+' '+v28f(cy-ry)
+      + ' C'+v28f(cx+rx*k)+' '+v28f(cy-ry)+' '+v28f(cx+rx)+' '+v28f(cy-ry*k)+' '+v28f(cx+rx)+' '+v28f(cy)
+      + ' C'+v28f(cx+rx)+' '+v28f(cy+ry*k)+' '+v28f(cx+rx*k)+' '+v28f(cy+ry)+' '+v28f(cx)+' '+v28f(cy+ry)
+      + ' C'+v28f(cx-rx*k)+' '+v28f(cy+ry)+' '+v28f(cx-rx)+' '+v28f(cy+ry*k)+' '+v28f(cx-rx)+' '+v28f(cy)+' Z',
+      fill, sw);
+  }
+  function v28path(pts){ var d=''; for(var i=0;i<pts.length;i++){ d += (i?' L':'M')+v28f(pts[i][0])+' '+v28f(pts[i][1]); } return d; }
+
+  function V28P(a){
+    var t = (V28_SCARF && V28_SCARF[a.i]) ? V28_SCARF[a.i] : null;
+    if(t && t.length >= 5){
+      return { y:t[0], x0:t[1], x1:t[2], th:t[3], side:(t[4] >= 0 ? 1 : -1),
+               tilt:(t[5] || 0), bend:(t[6] != null ? t[6] : -1), style:(t[7] || 0) };
+    }
+    var nw0 = Math.min(a.neckW*0.62, a.headW*0.66, a.sep*1.70);
+    var th0 = Math.max(18, Math.min(a.sep*0.32, 44));
+    var cx0 = a.neckCx;
+    return { y:a.neckY, x0:cx0-nw0/2, x1:cx0+nw0/2, th:th0, side:1, tilt:0, bend:-1, style:0 };
+  }
+
+  function v28Surf(x0, x1, yEnd, yMid, th, thFn){
+    var cx = (x0+x1)/2;
+    function raw(u){
+      var iu = 1-u;
+      return [iu*iu*x0 + 2*iu*u*cx + u*u*x1, iu*iu*yEnd + 2*iu*u*yMid + u*u*yEnd];
+    }
+    function width(u){ return th * (thFn ? thFn(u) : 1); }
+    function pt(u, v){
+      var p = raw(u), p2 = raw(Math.min(1, u+0.004)), p1 = raw(Math.max(0, u-0.004));
+      var dx = p2[0]-p1[0], dy = p2[1]-p1[1];
+      var L = Math.sqrt(dx*dx+dy*dy) || 1;
+      var w = width(u);
+      return [p[0] - dy/L*w*(v-0.5), p[1] + dx/L*w*(v-0.5)];
+    }
+    return { pt:pt, width:width, raw:raw };
+  }
+
+  /* 밴드 폴리곤 */
+  function v28BandPts(S){
+    var pts = [], i, e, w1, a0, aa;
+    for(i=0;i<=30;i++){ pts.push(S.pt(i/30, 0)); }
+    e = S.pt(1, 0.5); w1 = S.width(1)/2;
+    a0 = Math.atan2(pts[pts.length-1][1]-e[1], pts[pts.length-1][0]-e[0]);
+    for(i=1;i<8;i++){ aa = a0 + Math.PI*i/8; pts.push([e[0]+Math.cos(aa)*w1, e[1]+Math.sin(aa)*w1]); }
+    for(i=30;i>=0;i--){ pts.push(S.pt(i/30, 1)); }
+    e = S.pt(0, 0.5); w1 = S.width(0)/2;
+    a0 = Math.atan2(S.pt(0,1)[1]-e[1], S.pt(0,1)[0]-e[0]);
+    for(i=1;i<8;i++){ aa = a0 + Math.PI*i/8; pts.push([e[0]+Math.cos(aa)*w1, e[1]+Math.sin(aa)*w1]); }
+    return pts;
+  }
+
+  /* 납작한 자락(리본) — 채운 도형 + 술 */
+  function v28FlatTail(kx, ky, ang, len, w0, w1v, curve, pen, fill){
+    var g = '', pts = [], n = 14, i, t;
+    for(i=0;i<=n;i++){
+      t = i/n;
+      var bend = curve * Math.sin(Math.PI*t) * len * 0.5;
+      var x = kx + Math.cos(ang)*len*t - Math.sin(ang)*bend;
+      var y = ky + Math.sin(ang)*len*t + Math.cos(ang)*bend;
+      var w = w0 + (w1v-w0)*t;
+      var nx = -Math.sin(ang), ny = Math.cos(ang);
+      pts.push([x,y,w,nx,ny]);
+    }
+    var left = [], right = [];
+    for(i=0;i<pts.length;i++){
+      left.push([pts[i][0]+pts[i][3]*pts[i][2]/2, pts[i][1]+pts[i][4]*pts[i][2]/2]);
+      right.push([pts[i][0]-pts[i][3]*pts[i][2]/2, pts[i][1]-pts[i][4]*pts[i][2]/2]);
+    }
+    var all = left.concat(right.reverse());
+    g += v28polyPts(all, fill || '#E8463C', pen);
+    /* 술 */
+    var e = pts[pts.length-1];
+    for(var k=0;k<3;k++){
+      var o = -e[2]*0.30 + k*e[2]*0.30;
+      var sx = e[0] + e[3]*o, sy = e[1] + e[4]*o;
+      var a2 = ang + (k-1)*0.12;
+      g += v28str('M'+v28f(sx)+' '+v28f(sy)+' L'+v28f(sx+Math.cos(a2)*e[2]*0.44)+' '+v28f(sy+Math.sin(a2)*e[2]*0.44),
+        '#B3352C', Math.max(2.2, pen*0.62), 1);
+    }
+    return g;
+  }
+
+  function v28Scarf(a, P0){
+    var P = P0 || V28P(a);
+    var th = Math.max(14, P.th);
+    var x0 = P.x0, x1 = P.x1, y = P.y, side = P.side, tilt = P.tilt || 0, bend = P.bend;
+    var st = P.style || 0;
+    var cx = (x0+x1)/2, nw = x1-x0;
+    var pen = Math.min(v28pen(a), th*0.22);
+    var yEnd = y + (bend < 0 ? th*0.30 : -th*0.10);
+    var yMid = y + (bend < 0 ? -th*0.16 : th*0.26);
+    var thFn = function(u){ return 0.84 + 0.30*Math.sin(Math.PI*u); };
+    var S = v28Surf(x0 + th*0.34, x1 - th*0.34, yEnd, yMid, th, thFn);
+    var g = '';
+    g += '<g transform="rotate('+v28f(tilt)+' '+v28f(cx)+' '+v28f(y)+')">';
+
+    /* 접촉 그림자 */
+    var shp = [];
+    for(var i=0;i<=16;i++){ shp.push(S.pt(0.02 + 0.96*i/16, 1.06)); }
+    g += v28str(v28path(shp), '#101014', th*0.46, .13);
+
+    /* ---- 스타일 1: 앞 가운데 매듭 + V자 두 자락 ---- */
+    if(st === 1){
+      /* 자락 두 개 (뒤에 깔리는 것부터) */
+      g += v28FlatTail(cx - th*0.20, y + th*0.52, Math.PI*0.63, th*1.95, th*0.60, th*0.56, -0.10, pen, '#DC4139');
+      g += v28FlatTail(cx + th*0.22, y + th*0.52, Math.PI*0.40, th*1.80, th*0.60, th*0.56, 0.10, pen, '#E8463C');
+      /* 밴드 */
+      g += v28polyPts(v28BandPts(S), '#E8463C', pen + 0.5);
+      var hi2 = [], sh2 = [];
+      for(i=0;i<=20;i++){ hi2.push(S.pt(0.05 + 0.90*i/20, 0.26)); sh2.push(S.pt(0.06 + 0.88*i/20, 0.84)); }
+      g += v28str(v28path(hi2), '#FFB0A2', Math.max(1.8, th*0.15), .9);
+      g += v28str(v28path(sh2), '#B3352C', Math.max(1.4, th*0.14), .45);
+      /* 가운데 매듭 — 밴드 위에 얹힌 작고 둥근 매듭 (한 번 꼬여 묶인 느낌) */
+      var kx0 = cx, ky0 = y + th*0.34;
+      g += '<g transform="rotate(-7 '+v28f(kx0)+' '+v28f(ky0)+')">';
+      g += v28Blob(kx0, ky0, th*0.62, th*0.44, '#E8463C', pen*0.9);
+      g += v28str('M'+v28f(kx0 - th*0.30)+' '+v28f(ky0 - th*0.22)
+        + ' Q'+v28f(kx0)+' '+v28f(ky0 - th*0.02)+' '+v28f(kx0 + th*0.32)+' '+v28f(ky0 + th*0.16),
+        '#B3352C', Math.max(1.5, pen*0.42), .50);
+      g += v28str('M'+v28f(kx0 - th*0.36)+' '+v28f(ky0 - th*0.16)
+        + ' Q'+v28f(kx0 - th*0.10)+' '+v28f(ky0 - th*0.34)+' '+v28f(kx0 + th*0.22)+' '+v28f(ky0 - th*0.30),
+        '#FFD3C9', Math.max(1.3, pen*0.38), .9);
+      g += '</g>';
+      g += '</g>';
+      return g;
+    }
+
+    /* ---- 스타일 0: 양옆으로 늘어지는 끝자락 ---- */
+    var bx = side > 0 ? x0 + th*0.44 : x1 - th*0.44;
+    var by = S.pt(side > 0 ? 0.06 : 0.94, 0.52)[1];
+    var bT = 'M'+v28f(bx)+' '+v28f(by)
+      + ' C'+v28f(bx + side*th*0.38)+' '+v28f(by + th*0.62)
+      + ' '+v28f(bx - side*th*0.34)+' '+v28f(by + th*1.02)
+      + ' '+v28f(bx + side*th*0.06)+' '+v28f(by + th*1.45);
+    var btw = th*0.46;
+    g += v28str(bT, '#101014', btw + pen*1.7, 1);
+    g += v28str(bT, '#D8433A', btw, 1);
+    for(var bb=0;bb<2;bb++){
+      g += v28str('M'+v28f(bx + side*th*0.05 + (bb?btw*0.28:-btw*0.28))+' '+v28f(by + th*1.42)
+        + ' L'+v28f(bx + side*th*0.05 + (bb?btw*0.28:-btw*0.28))+' '+v28f(by + th*1.62),
+        '#B3352C', Math.max(2.2, pen*0.6), 1);
+    }
+
+    g += v28polyPts(v28BandPts(S), '#E8463C', pen + 0.5);
+
+    var hi = [], sh = [];
+    for(i=0;i<=20;i++){ hi.push(S.pt(0.05 + 0.90*i/20, 0.26)); sh.push(S.pt(0.06 + 0.88*i/20, 0.84)); }
+    g += v28str(v28path(hi), '#FFB0A2', Math.max(1.8, th*0.15), .9);
+    g += v28str(v28path(sh), '#B3352C', Math.max(1.4, th*0.14), .45);
+
+    /* 니트 결 (밝은 셰브런) — 밴드 가운데에 규칙적으로 */
+    var cols = Math.max(3, Math.round(nw / Math.max(16, th*0.72)));
+    var du = 0.74 / cols;
+    for(var c=0;c<cols;c++){
+      var uu2 = 0.13 + du*(c+0.5);
+      var p1 = S.pt(uu2 - du*0.32, 0.33), p2 = S.pt(uu2, 0.60), p3 = S.pt(uu2 + du*0.32, 0.33);
+      g += v28str('M'+v28f(p1[0])+' '+v28f(p1[1])+' L'+v28f(p2[0])+' '+v28f(p2[1])
+        + ' L'+v28f(p3[0])+' '+v28f(p3[1]), '#FFA393', Math.max(1.4, th*0.07), .45);
+    }
+
+    /* 매듭 */
+    var kx = side > 0 ? x1 - th*0.34 : x0 + th*0.34;
+    var ky = S.pt(side > 0 ? 0.94 : 0.06, 0.52)[1] + th*0.06;
+    var kw2 = th*0.98, kh2 = th*0.80;
+    g += v28fill('M'+v28f(kx - kw2*0.54)+' '+v28f(ky - kh2*0.26)
+      + ' C'+v28f(kx - kw2*0.70)+' '+v28f(ky - kh2*0.92)+' '+v28f(kx + kw2*0.28)+' '+v28f(ky - kh2*1.00)
+      + ' '+v28f(kx + kw2*0.52)+' '+v28f(ky - kh2*0.30)
+      + ' C'+v28f(kx + kw2*0.74)+' '+v28f(ky + kh2*0.20)+' '+v28f(kx + kw2*0.34)+' '+v28f(ky + kh2*0.82)
+      + ' '+v28f(kx - kw2*0.16)+' '+v28f(ky + kh2*0.68)
+      + ' C'+v28f(kx - kw2*0.64)+' '+v28f(ky + kh2*0.56)+' '+v28f(kx - kw2*0.72)+' '+v28f(ky + kh2*0.12)
+      + ' '+v28f(kx - kw2*0.54)+' '+v28f(ky - kh2*0.26)+' Z', '#F0594B', pen*0.9);
+    g += v28str('M'+v28f(kx - kw2*0.14)+' '+v28f(ky - kh2*0.30)
+      + ' Q'+v28f(kx + kw2*0.12)+' '+v28f(ky)+' '+v28f(kx - kw2*0.02)+' '+v28f(ky + kh2*0.34),
+      '#B3352C', Math.max(1.4, pen*0.40), .60);
+    g += v28str('M'+v28f(kx - kw2*0.30)+' '+v28f(ky - kh2*0.34)
+      + ' Q'+v28f(kx - kw2*0.02)+' '+v28f(ky - kh2*0.56)+' '+v28f(kx + kw2*0.26)+' '+v28f(ky - kh2*0.36),
+      '#FFC2B6', Math.max(1.2, pen*0.34), .9);
+
+    /* 앞 자락 */
+    g += v28FlatTail(kx + side*th*0.04, ky + th*0.34, Math.PI/2 + side*0.20, th*2.0,
+      th*0.60, th*0.54, side*0.16, pen, '#E8463C');
+    g += '</g>';
+    return g;
+  }
+
   var V24_DRAW = {
     /* 😎 눈 / 안경 -------------------------------------------------- */
     hip: function(a){
@@ -13071,36 +13387,7 @@ window.IMAGES_CLEAN=[
       return g;
     },
     /* 🧣 소품 / 목 -------------------------------------------------- */
-    scarf: function(a){
-      /* 턱 바로 아래에서 목·어깨를 감싸는 두툼한 목도리 */
-      var nw = Math.min(a.neckW * 0.52, a.headW * 0.56, a.sep * 1.7), pen = v24pen(a);
-      var th = Math.max(a.sep * 0.34, nw * 0.30);
-      var x = a.neckCx - nw/2, cx = a.neckCx, top = a.neckY + a.sep * 0.02;
-      var g = '';
-      var d = 'M' + v24f(x) + ' ' + v24f(top + th*0.10)
-        + ' Q' + v24f(cx) + ' ' + v24f(top - th*0.16) + ' ' + v24f(x + nw) + ' ' + v24f(top + th*0.10)
-        + ' L' + v24f(x + nw) + ' ' + v24f(top + th*0.90)
-        + ' Q' + v24f(cx) + ' ' + v24f(top + th*1.20) + ' ' + v24f(x) + ' ' + v24f(top + th*0.90) + ' Z';
-      g += v24ink(d, "#E8463C", a, pen + 0.4);
-      /* 천 결 두 줄 */
-      g += '<path d="M' + v24f(x + nw*0.08) + ' ' + v24f(top + th*0.30) + ' Q' + v24f(cx) + ' '
-        + v24f(top + th*0.10) + ' ' + v24f(x + nw*0.92) + ' ' + v24f(top + th*0.30)
-        + '" fill="none" stroke="#FF9C8E" stroke-width="' + v24f(pen*0.9) + '" stroke-linecap="round" opacity=".95"/>';
-      g += '<path d="M' + v24f(x + nw*0.12) + ' ' + v24f(top + th*0.68) + ' Q' + v24f(cx) + ' '
-        + v24f(top + th*0.92) + ' ' + v24f(x + nw*0.88) + ' ' + v24f(top + th*0.68)
-        + '" fill="none" stroke="#C4362E" stroke-width="' + v24f(pen*0.55) + '" stroke-linecap="round" opacity=".7"/>';
-      /* 옆 매듭 + 늘어뜨린 끝 */
-      var kx = x + nw*0.86, ky = top + th*0.52;
-      g += v24rr(kx - th*0.24, ky - th*0.18, th*0.66, th*0.56, th*0.22, "#F0594B", V24_INK, pen*0.85);
-      g += v24ink('M' + v24f(kx - th*0.18) + ' ' + v24f(ky + th*0.30)
-        + ' L' + v24f(kx - th*0.30) + ' ' + v24f(ky + th*1.20)
-        + ' Q' + v24f(kx - th*0.02) + ' ' + v24f(ky + th*1.32) + ' ' + v24f(kx + th*0.18) + ' ' + v24f(ky + th*1.16)
-        + ' L' + v24f(kx + th*0.24) + ' ' + v24f(ky + th*0.32) + ' Z', "#E8463C", a, pen*0.85);
-      for(var j2=0;j2<3;j2++){
-        g += v24rod(kx - th*0.12 + j2*th*0.14, ky + th*1.22, kx - th*0.12 + j2*th*0.14, ky + th*1.38, a, V24_INK, pen*0.5);
-      }
-      return g;
-    },
+    scarf: function(a){ return v28Scarf(a); },
     bowtie: function(a){
       var bw = Math.min(a.neckW * 0.20, a.sep * 0.80, 78), bh = bw * 0.66, pen = v24pen(a);
       var x = a.neckCx - bw/2, y = a.neckY + a.sep * 0.10 + bh * 0.55;
@@ -14090,7 +14377,13 @@ window.IMAGES_CLEAN=[
     var r = cRoom();
     if(!r) return false;
     var tpl = d && d.sharedQuestTemplate;
-    if(!tpl || !Array.isArray(tpl.quests)) return false;
+    if(!tpl || !Array.isArray(tpl.quests)){
+      /* v28.0 — 방에 기준 목록이 아직 없으면 소유자가 자동으로 올린다 */
+      if((!state.questSync || state.questSync.on !== false) && v26IsOwner()){
+        try { v26SchedulePush(); } catch(e){}
+      }
+      return false;
+    }
     if(!state.questSync || state.questSync.on === false) return false;
     if(tpl.ownerId && String(tpl.ownerId) === String(r.myId)) return false;
     var at = Math.max(0, Number(tpl.updatedAt) || 0);
@@ -14243,6 +14536,119 @@ window.IMAGES_CLEAN=[
       return q ? (q.v26rec || null) : null;
     }
   };
+  /* ===================================================================
+     v28.0 — 👉 콕 찌르기 멘트 입력 + 빈칸이면 랜덤 멘트
+     · 파트너 카드 / 상세 스테이터스 모달의 [👉 콕 찌르기] → 작은 멘트 입력 팝업
+     · 받은 콕 팝업(v15)의 [👉 나도 콕 찌르기!] → 같은 입력 팝업(맞찌르기)
+     · 보낸 멘트는 state.pokeMsg 로 실려 상대 v15 팝업에 "💬 멘트"로 크게 뜬다
+     =================================================================== */
+  var V28_POKE_POOL = [
+    "💧 물 한 잔 마셨어?",
+    "🔥 오늘도 갓생 파이팅!",
+    "☕ 잠깐 쉬어 가자",
+    "☀️ 일어났으면 이미 반은 성공!",
+    "💪 넌 할 수 있어, 진짜로",
+    "🌿 창문 좀 열어 봐, 공기 좋아",
+    "🍀 오늘 운 좋은 날이래",
+    "📚 5분만 집중해 보자",
+    "🌙 어제 푹 잤어?",
+    "🫶 응원하고 있어",
+    "🏃 몸 좀 움직여 볼까?",
+    "🧣 감기 조심해!",
+    "🎧 좋아하는 노래 한 곡 어때?",
+    "🥗 밥은 챙겨 먹었지?",
+    "✨ 콕! 오늘도 잘하고 있어"
+  ];
+
+  function v28PokeNorm(s){
+    return String(s == null ? "" : s).replace(/\s+/g, " ").trim().slice(0, 40);
+  }
+  function v28PokeRandom(){
+    var i = Math.floor(Math.random() * V28_POKE_POOL.length);
+    return V28_POKE_POOL[Math.max(0, Math.min(V28_POKE_POOL.length - 1, i))];
+  }
+  /* 입력값 정리: 비어 있으면 풀에서 하나 고른다 */
+  function v28PokePick(raw){
+    var msg = v28PokeNorm(raw);
+    return msg || v28PokeRandom();
+  }
+  function v28ChipsClear(){
+    var chips = $("v28PokeChips");
+    if(!chips) return;
+    var all = chips.querySelectorAll("[data-v28chip]");
+    for(var i=0;i<all.length;i++) all[i].classList.remove("on");
+  }
+
+  function v28OpenPoke(){
+    var o = $("pokeMsgOverlay");
+    if(!o) return false;
+    var inp = $("v28PokeInput");
+    if(inp) inp.value = "";
+    v28ChipsClear();
+    o.classList.add("on");
+    try { document.body.style.overflow = "hidden"; } catch(e){}
+    if(inp) setTimeout(function(){ try { inp.focus(); } catch(e){} }, 80);
+    return true;
+  }
+
+  function v28ClosePoke(){
+    var o = $("pokeMsgOverlay");
+    if(o) o.classList.remove("on");
+    try { document.body.style.overflow = ""; } catch(e){}
+  }
+
+  function v28SendPoke(){
+    var inp = $("v28PokeInput");
+    var msg = v28PokePick(inp ? inp.value : "");
+    var ok = false;
+    try { ok = pokePartner({ msg: msg }); } catch(e){ ok = false; }
+    if(ok){
+      v28ClosePoke();
+      if(inp) inp.value = "";
+      v28ChipsClear();
+    }
+    return ok;
+  }
+
+  /* ---------- wire ---------- */
+  function v28Boot(){
+    var o = $("pokeMsgOverlay");
+    if(!o) return;
+    var send = $("v28PokeSend");
+    if(send) send.addEventListener("click", function(e){ if(e && e.preventDefault) e.preventDefault(); v28SendPoke(); });
+    var cancel = $("v28PokeCancel");
+    if(cancel) cancel.addEventListener("click", function(e){ if(e && e.preventDefault) e.preventDefault(); v28ClosePoke(); });
+    o.addEventListener("click", function(e){ if(e.target === o) v28ClosePoke(); });
+
+    var chips = $("v28PokeChips");
+    if(chips) chips.addEventListener("click", function(e){
+      var b = (e.target && e.target.closest) ? e.target.closest("[data-v28chip]") : null;
+      if(!b) return;
+      if(e.preventDefault) e.preventDefault();
+      var inp = $("v28PokeInput");
+      if(inp) inp.value = b.getAttribute("data-v28chip") || "";
+      var all = chips.querySelectorAll("[data-v28chip]");
+      for(var i=0;i<all.length;i++) all[i].classList.toggle("on", all[i] === b);
+      if(inp) try { inp.focus(); } catch(err){}
+    });
+
+    var inp2 = $("v28PokeInput");
+    if(inp2) inp2.addEventListener("keydown", function(e){
+      if(e.key === "Enter"){ if(e.preventDefault) e.preventDefault(); v28SendPoke(); }
+    });
+
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape" && o.classList.contains("on")) v28ClosePoke();
+    });
+  }
+
+  window.__v28 = {
+    open: v28OpenPoke,
+    close: v28ClosePoke,
+    send: v28SendPoke,
+    pick: v28PokePick,
+    pool: V28_POKE_POOL
+  };
   /* ---------- boot ---------- */
   state = load();
   save();
@@ -14265,6 +14671,7 @@ window.IMAGES_CLEAN=[
   try { v22Boot(); } catch(e){}
   try { v24Boot(); } catch(e){}
   try { v26Boot(); } catch(e){}
+  try { v28Boot(); } catch(e){}
 
   let inviteParam = null, inviteKey = null;
   try {
@@ -14312,8 +14719,8 @@ window.IMAGES_CLEAN=[
    · 📊 스탯·도감 하단 버전 바: 현재 버전 표시 + 🔄 업데이트 확인 (이미 최신이면 토스트, 4초 안에 한 번 더 누르면 강제 새로고침)
    · 업데이트로 다시 뜬 화면(URL 에 _v=)은 주소를 깨끗하게 되돌리고 짧은 토스트로 알려 준다. */
 (function(){
-  var APP_SW  = "mmm-2026-11-24-02";
-  var APP_VER = "27.0";
+  var APP_SW  = "mmm-2026-11-24-03";
+  var APP_VER = "28.0";
   var GUARD = "mmm-auto-reload";
   var MAX_TRY = 2;
   var reg = null, reloading = false, checking = false, manualBusy = false, forceUntil = 0;
