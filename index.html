@@ -15306,6 +15306,7 @@ var V28_SCARF = [[252.0, 130.0, 330.0, 40.3, 1, 0, -1, 1], [246.0, 172.0, 320.0,
       var text = sp ? sp.textContent : "";
       var cat = v29Classify(text);
       if(cat) v29Paint(cat);
+      else if(v29MoodCat) v29ClearEmote();   /* 분위기가 없는 대사면 직전 표정은 지운다 */
     } catch(e){}
   }
 
