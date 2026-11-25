@@ -2580,7 +2580,7 @@ let inviteParam=null,inviteKey=null;try{const qs=new URLSearchParams(location.se
 if(v11RestoreParam()){v11RestoreOnLoad(v11RestoreParam());}else if(inviteParam&&(!cRoom()||cRoom().id!==inviteParam)){joinByLink(inviteParam,inviteKey);}else{if(cRoom()){startPartyPolling();pullParty(false);touchRoom();}
 if(!state.character){openPicker("start");}else{setTimeout(()=>speak(greeting()),300);}}
 setInterval(function(){if(state.lastVisit!==today()){state.quests.forEach(q=>{q.done=false;});state.lastVisit=today();if(state.lastActive&&state.lastActive!==today()&&state.lastActive!==yesterday())state.streak=0;save();render();toast("새로운 아침이 밝았습니다.","일일 퀘스트가 초기화되었어요.");}},60000);})();</script>
-<script>(function(){var APP_SW="mmm-2026-11-26-01";var APP_VER="31.3";var GUARD="mmm-auto-reload";var MAX_TRY=2;var reg=null,reloading=false,checking=false,manualBusy=false,forceUntil=0;function guardRead(){try{var raw=sessionStorage.getItem(GUARD)||"";if(!raw)return{v:"",n:0};if(raw.charAt(0)==="{"){var o=JSON.parse(raw)||{};return{v:String(o.v||""),n:Number(o.n||0)||0};}
+<script>(function(){var APP_SW="mmm-2026-11-26-02";var APP_VER="31.3";var GUARD="mmm-auto-reload";var MAX_TRY=2;var reg=null,reloading=false,checking=false,manualBusy=false,forceUntil=0;function guardRead(){try{var raw=sessionStorage.getItem(GUARD)||"";if(!raw)return{v:"",n:0};if(raw.charAt(0)==="{"){var o=JSON.parse(raw)||{};return{v:String(o.v||""),n:Number(o.n||0)||0};}
 return{v:raw,n:1};}catch(e){return{v:"",n:0};}}
 function guardWrite(v,n){try{sessionStorage.setItem(GUARD,JSON.stringify({v:String(v),n:Number(n)||0}));}catch(e){}}
 function guardClear(){try{sessionStorage.removeItem(GUARD);}catch(e){}}
