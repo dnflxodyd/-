@@ -1,23 +1,27 @@
-/* 미라클 모닝 레벨업 — 서비스 워커 (v23.0)
+/* 미라클 모닝 레벨업 — 서비스 워커 (v30.0)
  *
  * 원칙
  *  1) 앱 파일(같은 출처)은 network-first — 새 버전을 배포하면 항상 최신판이 뜬다.
  *     네트워크가 끊겼을 때만 캐시본으로 실행한다.
+ *     · cache:'no-cache' 로 조건부 요청(ETag)을 보내 바뀐 게 없으면 304 로 본문을 아낀다.
  *  2) index.html · manifest.webmanifest · version.json 같은 "버전을 알려 주는 파일"은
- *     cache: 'no-store' 로 받아 구버전 HTML 이 캐시에 남지 않게 한다.
- *  3) jsonstorage.com 등 외부 API 요청은 절대 캐시하지 않고 브라우저 네트워크로 그대로 통과시킨다.
- *     (파티/파트너 동기화가 옛 응답을 받는 일이 없도록)
- *  4) GET 이외(POST/PUT 등)는 손대지 않고 통과.
- *  5) 새 버전은 install 에서 skipWaiting, activate 에서 clients.claim + 옛 캐시 삭제로
+ *     항상 서버에 재확인해 구버전 HTML 이 캐시에 남지 않게 한다.
+ *  3) assets/ 의 캐릭터 그림 · 썸네일 · 폰트는 내용이 바뀌지 않는 정적 파일이므로
+ *     cache-first — 두 번째 실행부터는 네트워크 없이 즉시 뜬다.
+ *     (파일 내용이 바뀌면 VERSION 이 올라가고 activate 에서 옛 캐시를 지운다)
+ *  4) jsonstorage.com 등 외부 API 요청은 절대 캐시하지 않고 브라우저 네트워크로 그대로 통과시킨다.
+ *  5) GET 이외(POST/PUT 등)는 손대지 않고 통과.
+ *  6) 새 버전은 install 에서 skipWaiting, activate 에서 clients.claim + 옛 캐시 삭제로
  *     바로 활성화된다. (iOS Safari 홈 화면 PWA 포함)
  */
-const VERSION = "mmm-2026-11-24-05";
+const VERSION = "mmm-2026-11-25-01";
 const CACHE = "miracle-morning-" + VERSION;
 const CORE = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
   "./version.json",
+  "./assets/Jua.woff2",
   "./icon-192.png",
   "./icon-512.png",
   "./icon-maskable-192.png",
@@ -25,12 +29,9 @@ const CORE = [
   "./apple-touch-icon.png"
 ];
 
-// 항상 네트워크에서 새로 받아야 하는 파일 (구버전 HTML 캐시 방지)
-function isFreshOnly(url) {
-  return url.pathname.endsWith("/") ||
-    url.pathname.endsWith("/index.html") ||
-    url.pathname.endsWith("/manifest.webmanifest") ||
-    url.pathname.endsWith("/version.json");
+// 내용이 변하지 않는 정적 자산 — cache-first
+function isAsset(url) {
+  return /\/assets\/[^/]+\.(webp|png|jpe?g|svg|woff2?|ttf|otf)$/i.test(url.pathname);
 }
 
 self.addEventListener("install", (event) => {
@@ -73,12 +74,31 @@ self.addEventListener("fetch", (event) => {
   if (url.protocol !== "https:" && url.protocol !== "http:") return;
 
   const isNavigation = req.mode === "navigate";
+  const asset = isAsset(url);
 
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
+
+    // 정적 자산 — 캐시 우선 (두 번째 실행부터 즉시)
+    if (asset) {
+      const hit = await cache.match(req);
+      if (hit) return hit;
+      try {
+        const fresh = await fetch(req);
+        if (fresh && fresh.ok && fresh.type === "basic") {
+          cache.put(req, fresh.clone()).catch(() => {});
+        }
+        return fresh;
+      } catch (e) {
+        const again = await cache.match(req, { ignoreSearch: true });
+        if (again) return again;
+        throw e;
+      }
+    }
+
     try {
-      // network-first — HTML/manifest/version.json 은 no-store 로 확실히 최신을 받는다
-      const opts = { cache: isNavigation || isFreshOnly(url) ? "no-store" : "no-cache" };
+      // network-first — HTML/manifest/version.json 은 재확인해서 항상 최신을 받는다
+      const opts = { cache: "no-cache" };
       const fresh = await fetch(req, opts);
       if (fresh && fresh.ok && fresh.type === "basic") {
         cache.put(req, fresh.clone()).catch(() => {});
