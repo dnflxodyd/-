@@ -1713,7 +1713,7 @@ function v13Test(){state.workPromptDate=yesterday();state.workStatusToday={date:
 function v13CloseOthers(){var nodes=document.querySelectorAll(".overlay.on, .sheet-wrap.on, .picker.on");for(var i=0;i<nodes.length;i++){if(nodes[i].id!=="workOverlay")nodes[i].classList.remove("on");}
 ["pickWrap","restoreWrap","restoreOkWrap","rejoinWrap"].forEach(function(id){var n=$(id);if(n&&!n.hidden&&!n.classList.contains("on"))n.hidden=true;});}
 function v13Conflicts(){var nodes=document.querySelectorAll(".overlay.on, .sheet-wrap.on, .picker.on");for(var i=0;i<nodes.length;i++){if(nodes[i].id!=="workOverlay")return true;}
-var pick=$("pickWrap");if(pick&&!pick.hidden)return true;var ids=["restoreWrap","restoreOkWrap","rejoinWrap"];for(var j=0;j<ids.length;j++){var n=$(ids[j]);if(n&&!n.hidden)return true;}
+var pick=$("pickWrap");if(pick&&!pick.hidden)return true;var ids=["restoreWrap","restoreOkWrap","rejoinWrap","joinWrap"];for(var j=0;j<ids.length;j++){var n=$(ids[j]);if(n&&!n.hidden)return true;}
 var a=document.activeElement;if(a&&(a.tagName==="INPUT"||a.tagName==="TEXTAREA")&&a.id!=="workWage")return true;return false;}
 function v13MaybePrompt(){if(v13PopupShown)return false;if(!state||!state.character)return false;if(state.workPromptDate===today())return false;if(!$("workOverlay"))return false;if(v13Conflicts())return false;return v13OpenPrompt();}
 function v13Boot(){var o=$("workOverlay");if(!o)return;var yes=$("workYes");if(yes)yes.addEventListener("click",v13Worked);var rest=$("workRest");if(rest)rest.addEventListener("click",v13Rest);o.addEventListener("click",function(e){if(e.target===o)v13ClosePrompt();});var wInp=$("workWage");if(wInp){wInp.addEventListener("input",v13SyncPrompt);wInp.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();v13Worked();}});}
@@ -2514,7 +2514,7 @@ if(navigator.vibrate)navigator.vibrate(8);return true;}
 function v29CloseWhatsNew(mark){var o=$("v29wnOverlay");if(o)o.classList.remove("on");try{if(!document.querySelector(".overlay.on, .sheet-wrap.on"))document.body.style.overflow="";}catch(e){}
 if(mark!==false){try{state.lastSeenVer=V29_VER;save();}catch(e){}}}
 function v29AnyModal(){var nodes=document.querySelectorAll(".overlay.on, .sheet-wrap.on, .picker.on");for(var i=0;i<nodes.length;i++){if(nodes[i].id!=="v29wnOverlay")return true;}
-var pick=$("pickWrap");if(pick&&!pick.hidden&&!pick.classList.contains("on"))return true;var ids=["restoreWrap","restoreOkWrap","rejoinWrap"];for(var j=0;j<ids.length;j++){var n=$(ids[j]);if(n&&!n.hidden)return true;}
+var pick=$("pickWrap");if(pick&&!pick.hidden&&!pick.classList.contains("on"))return true;var ids=["restoreWrap","restoreOkWrap","rejoinWrap","joinWrap"];for(var j=0;j<ids.length;j++){var n=$(ids[j]);if(n&&!n.hidden)return true;}
 return false;}
 function v29MaybeWhatsNew(){if(v29WnShown)return false;if(!state||!state.character)return false;if(!V29_VER||state.lastSeenVer===V29_VER){if(v29WnTick){clearInterval(v29WnTick);v29WnTick=null;}
 return false;}
@@ -2551,7 +2551,7 @@ try{v9Start=function(){return false;};}catch(e){v313Warn("v9Start",e);}
 try{diffTag=function(){return"";};}catch(e){v313Warn("diffTag",e);}
 try{v9SkipDoneToast=function(){return false;};}catch(e){v313Warn("v9SkipDoneToast",e);}
 var zTop=130;var observed=[];var tickTimer=null;function panels(){return document.querySelectorAll(".overlay, .sheet-wrap, .picker");}
-function syncPanels(){tickTimer=null;var list=panels();var anyOpen=false;for(var i=0;i<list.length;i++){var n=list[i];var open=n.classList.contains("on");if(open&&!n._v313on){n._v313on=true;zTop+=1;try{n.style.zIndex=String(zTop);}catch(e){}}else if(!open&&n._v313on){n._v313on=false;}
+function syncPanels(){tickTimer=null;var list=panels();var anyOpen=false;for(var i=0;i<list.length;i++){var n=list[i];var open=n.classList.contains("on");if(open&&!n._v313on){n._v313on=true;if(n.classList.contains("picker")){zTop=900;try{n.style.zIndex=String(900);}catch(e){}}else{zTop=Math.max(zTop,130)+1;if(zTop>=890)zTop=890;try{n.style.zIndex=String(zTop);}catch(e){}}}else if(!open&&n._v313on){n._v313on=false;}
 if(open)anyOpen=true;}
 if(!anyOpen&&document.body.style.overflow==="hidden"){try{document.body.style.overflow="";}catch(e){}}}
 function scheduleSync(){if(tickTimer)return;tickTimer=setTimeout(syncPanels,120);}
