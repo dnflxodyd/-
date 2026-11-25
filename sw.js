@@ -1,4 +1,4 @@
-/* 미라클 모닝 레벨업 — 서비스 워커 (v31.0)
+/* 미라클 모닝 레벨업 — 서비스 워커 (v30.0)
  *
  * 원칙
  *  1) 앱 파일(같은 출처)은 network-first — 새 버전을 배포하면 항상 최신판이 뜬다.
@@ -14,7 +14,7 @@
  *  6) 새 버전은 install 에서 skipWaiting, activate 에서 clients.claim + 옛 캐시 삭제로
  *     바로 활성화된다. (iOS Safari 홈 화면 PWA 포함)
  */
-const VERSION = "mmm-2026-11-25-03";
+const VERSION = "mmm-2026-11-25-01";
 const CACHE = "miracle-morning-" + VERSION;
 const CORE = [
   "./",
